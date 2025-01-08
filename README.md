@@ -1,3 +1,4 @@
+# MediSync
 # Dự Án Dịch Vụ Phòng Khám
 
 ## Giới Thiệu
@@ -14,6 +15,6 @@ Chào mừng bạn đến với dự án dịch vụ cho phòng khám của chú
 
 ## Công Nghệ Sử Dụng
 
-- **Frontend**: HTML, CSS, JavaScript
+- **Frontend**: HTML, CSS, JavaScript 
 - **Backend**: Servlet, RestFull API
 - **Cơ Sở Dữ Liệu**: SQL Server
