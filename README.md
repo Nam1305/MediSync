@@ -1,5 +1,5 @@
 # MediSync
-
+## Dịch vụ của chúng tôi vì sức khỏe của bạn
 ## Giới Thiệu
 
 Chào mừng bạn đến với dự án dịch vụ cho phòng khám của chúng tôi! Dự án này được thiết kế nhằm cung cấp giải pháp quản lý hiệu quả cho các hoạt động của phòng khám, từ việc đặt lịch hẹn, quản lý bệnh nhân, đến quản lý hồ sơ y tế.
