@@ -11,8 +11,8 @@ Chào mừng bạn đến với dự án dịch vụ cho phòng khám của chú
 
 ## Công Nghệ Sử Dụng
 
-- **Frontend**: HTML, CSS, JavaScript 
-- **Backend**: Servlet, RestFull API
+- **Frontend**: 
+- **Backend**: 
 - **Cơ Sở Dữ Liệu**: SQL Server
 
 ## Nhóm Phát Triển
