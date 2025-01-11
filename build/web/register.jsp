@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
 
     <head>
         <meta charset="utf-8" />
@@ -21,12 +21,17 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-
+        <style>
+            .error-message {
+                color: red;
+                display: none;
+            }
+        </style>
     </head>
 
     <body>
 
-        
+
         <div class="back-to-home rounded d-none d-sm-block">
             <a href="index.html" class="btn btn-icon btn-success"><i data-feather="home" class="icons"></i></a>
         </div>
@@ -39,7 +44,7 @@
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Register</h4>  
-                                <form action="doctor-dashboard.html" class="login-form mt-4">
+                                <form action="register" class="login-form mt-4" method="post" id="registration-form">
                                     <div class="row">
 
                                         <div class="col-md-12">
@@ -57,7 +62,7 @@
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label"> Confirm Password <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" placeholder="Password" required="" name="confirm password">
+                                                <input type="password" class="form-control" placeholder="Password" required="" name="confirm">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -68,14 +73,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-md-12">
+                                            <div style="display: flex; align-items: center; color: red;">${error}</div>
+                                            <div class="error-message" id="error-message">You must accept the Terms and Conditions to register.</div>
                                             <div class="d-grid">
                                                 <button class="btn btn-success">Register</button>
                                             </div>
                                         </div>
 
-                                      
+
                                         <div class="mx-auto">
                                             <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login.jsp" class="text-dark fw-bold">Sign in</a></p>
                                         </div>
@@ -88,14 +95,27 @@
             </div> <!--end container-->
         </section><!--end section-->
         <!-- Hero End -->
-        
+
         <!-- javascript -->
+        <script>
+            document.getElementById('registration-form').addEventListener('submit', function (event) {
+                const checkbox = document.getElementById('accept-tnc-check');
+                const errorMessage = document.getElementById('error-message');
+
+                if (!checkbox.checked) {
+                    event.preventDefault();
+                    errorMessage.style.display = 'block';
+                } else {
+                    errorMessage.style.display = 'none';
+                }
+            });
+        </script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <!-- Icons -->
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
-        
+
     </body>
 
 </html>

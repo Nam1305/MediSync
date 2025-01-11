@@ -55,12 +55,23 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
+    
+    public void insertAccount(Account accout){
+        String sql = "insert into Account(Email, PassWord, Status, Role) values (?,?,1,?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, accout.getEmail());
+            ps.setString(2, accout.getPassWord());
+            ps.setInt(3, accout.getRole());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+    
+    
     public static void main(String[] args) {
         AccountDAO account = new AccountDAO();
 
-        List<Account> list = account.getAll();
-        for (Account account1 : list) {
-            System.out.println(account1.toString());
-        }
+       
     }
 }
