@@ -58,6 +58,9 @@ public class AccountDAO extends DBContext {
     public static void main(String[] args) {
         AccountDAO account = new AccountDAO();
 
-        System.out.println(account.getAccountByEmail("user4@example.com"));
+        List<Account> list = account.getAll();
+        for (Account account1 : list) {
+            System.out.println(account1.toString());
+        }
     }
 }

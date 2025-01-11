@@ -1,10 +1,3 @@
-<%-- 
-    Document   : register
-    Created on : Jan 10, 2025, 10:07:44 PM
-    Author     : DIEN MAY XANH
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
     <html lang="en">
@@ -20,7 +13,6 @@
         <meta name="website" content="https://shreethemes.in" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->
@@ -33,19 +25,10 @@
     </head>
 
     <body>
-        <!-- Loader -->
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-                </div>
-            </div>
-        </div>
-        <!-- Loader -->
+
         
         <div class="back-to-home rounded d-none d-sm-block">
-            <a href="index.html" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
+            <a href="index.html" class="btn btn-icon btn-success"><i data-feather="home" class="icons"></i></a>
         </div>
 
         <!-- Hero Start -->
@@ -53,24 +36,12 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-8">
-                        <img src="assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
-                                <h4 class="text-center">Sign Up</h4>  
+                                <h4 class="text-center">Register</h4>  
                                 <form action="doctor-dashboard.html" class="login-form mt-4">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">                                               
-                                                <label class="form-label">First name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="First Name" name="s" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">                                                
-                                                <label class="form-label">Last name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Last Name" name="s" required="">
-                                            </div>
-                                        </div>
+
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Your Email <span class="text-danger">*</span></label>
@@ -80,41 +51,33 @@
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Password <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" placeholder="Password" required="">
+                                                <input type="password" class="form-control" placeholder="Password" required="" name="password">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label"> Confirm Password <span class="text-danger">*</span></label>
+                                                <input type="password" class="form-control" placeholder="Password" required="" name="confirm password">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <div class="form-check">
                                                     <input class="form-check-input align-middle" type="checkbox" value="" id="accept-tnc-check">
-                                                    <label class="form-check-label" for="accept-tnc-check">I Accept <a href="#" class="text-primary">Terms And Condition</a></label>
+                                                    <label class="form-check-label" for="accept-tnc-check">I Accept <a href="#" class="text-success">Terms And Condition</a></label>
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                         <div class="col-md-12">
                                             <div class="d-grid">
-                                                <button class="btn btn-primary">Register</button>
+                                                <button class="btn btn-success">Register</button>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12 mt-3 text-center">
-                                            <h6 class="text-muted">Or</h6>
-                                        </div><!--end col-->
-                                        
-                                        <div class="col-6 mt-3">
-                                            <div class="d-grid">
-                                                <a href="javascript:void(0)" class="btn btn-soft-primary"><i class="uil uil-facebook"></i> Facebook</a>
-                                            </div>
-                                        </div><!--end col-->
-                                        
-                                        <div class="col-6 mt-3">
-                                            <div class="d-grid">
-                                                <a href="javascript:void(0)" class="btn btn-soft-primary"><i class="uil uil-google"></i> Google</a>
-                                            </div>
-                                        </div><!--end col-->
-
+                                      
                                         <div class="mx-auto">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login.html" class="text-dark fw-bold">Sign in</a></p>
+                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login.jsp" class="text-dark fw-bold">Sign in</a></p>
                                         </div>
                                     </div>
                                 </form>

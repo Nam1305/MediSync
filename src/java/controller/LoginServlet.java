@@ -8,9 +8,11 @@ import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Account;
 
 /**
@@ -20,32 +22,6 @@ import model.Account;
 public class LoginServlet extends HttpServlet {
 
     AccountDAO accountDAO = new AccountDAO();
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -59,7 +35,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("login.jsp").forward(request, response);
+
     }
 
     /**
@@ -73,19 +50,51 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        Account account = accountDAO.getAccountByEmail(email);
-        if (account == null) {
-            request.setAttribute("error", "Email is not exist!");
+        String remember = request.getParameter("remember");
+        Cookie cEmail = new Cookie("cEmail", email);
+        Cookie cPassword = new Cookie("cPassword", password);
+        Cookie cRemember = new Cookie("cRemember", remember);
+
+        if (remember != null) {
+            cEmail.setMaxAge(60 * 60 * 24);
+            cPassword.setMaxAge(60 * 60 * 24);
+            cRemember.setMaxAge(60 * 60 * 24);
         } else {
+            cEmail.setMaxAge(0);
+            cPassword.setMaxAge(0);
+            cRemember.setMaxAge(0);
+        }
+        response.addCookie(cEmail);
+        response.addCookie(cPassword);
+        response.addCookie(cRemember);
+        Account account = accountDAO.getAccountByEmail(email);
+
+        if (account != null) {
+
             if (account.getPassWord().equals(password)) {
-                response.sendRedirect("home.jsp");
+                if (account.getStatus() == 0) {
+                    request.setAttribute("error", "This account is not active.");
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                } else {
+                    session.setAttribute("account", account);
+                    if (account.getStatus() == 3) {
+                        response.sendRedirect("home.jsp");
+                    } else {
+                        request.getRequestDispatcher("home.jsp").forward(request, response);
+                    }
+                }
             } else {
                 request.setAttribute("error", "Password is incorrect!");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+
             }
+        } else {
+            request.setAttribute("error", "Email is incorrect!");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
-       response.sendRedirect("register.jsp");
     }
 
     /**
