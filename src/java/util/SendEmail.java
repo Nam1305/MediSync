@@ -63,5 +63,5 @@ public class SendEmail {
         } catch (MessagingException e) {
         }
         return true;
-    }
+    }  
 }
