@@ -57,6 +57,24 @@ public class CustomerDAO extends DBContext {
         }
     }
     
+    public void addCustomer(Customer customer) {
+        String sql = "insert into Customer(name, email, password, phone, dateOfBirth) values (?,?,?,?,?)";
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, customer.getName());
+            ps.setString(2, customer.getEmail());
+            ps.setString(3, customer.getPassword());
+            ps.setString(4, customer.getPhone());
+            ps.setDate(5, customer.getDateOfBirth());
+            
+            ps.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.out.println("Loi roi!");
+        }
+    }
+    
     //list all customer
 public List<Customer> getAllCustomer() {
     List<Customer> listCustomer = new ArrayList<>();

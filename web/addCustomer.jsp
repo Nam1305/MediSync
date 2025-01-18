@@ -54,7 +54,7 @@
                             <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
                         </a>
                     </div>
-                    
+
                     <ul class="sidebar-menu pt-3">
                         <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                         <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
@@ -186,7 +186,7 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <ul class="list-unstyled mb-0">
                             <li class="list-inline-item mb-0">
                                 <div class="dropdown dropdown-primary">
@@ -198,28 +198,28 @@
                                                 <small class="text-dark mb-0">Chinese</small>
                                             </div>
                                         </a>
-        
+
                                         <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
                                             <img src="assets/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
                                             <div class="flex-1 text-left ms-2 overflow-hidden">
                                                 <small class="text-dark mb-0">European</small>
                                             </div>
                                         </a>
-        
+
                                         <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
                                             <img src="assets/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
                                             <div class="flex-1 text-left ms-2 overflow-hidden">
                                                 <small class="text-dark mb-0">Indian</small>
                                             </div>
                                         </a>
-        
+
                                         <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
                                             <img src="assets/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
                                             <div class="flex-1 text-left ms-2 overflow-hidden">
                                                 <small class="text-dark mb-0">Japanese</small>
                                             </div>
                                         </a>
-        
+
                                         <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
                                             <img src="assets/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
                                             <div class="flex-1 text-left ms-2 overflow-hidden">
@@ -240,7 +240,7 @@
                                 <div class="dropdown dropdown-primary">
                                     <button type="button" class="btn btn-icon btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="mail" class="fea icon-sm"></i></button>
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">4 <span class="visually-hidden">unread mail</span></span>
-                                    
+
                                     <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 px-2 py-2" data-simplebar style="height: 320px; width: 300px;">
                                         <a href="#" class="d-flex align-items-center justify-content-between py-2">
                                             <div class="d-inline-flex position-relative overflow-hidden">
@@ -322,7 +322,7 @@
                                 </ul>
                             </nav>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-lg-8 mt-4">
                                 <div class="card border-0 p-4 rounded shadow">
@@ -330,22 +330,22 @@
                                         <div class="col-lg-2 col-md-4">
                                             <img src="assets/images/client/01.jpg" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
                                         </div><!--end col-->
-            
+
                                         <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
                                             <h5 class="">Upload your picture</h5>
                                             <p class="text-muted mb-0">For best results, use an image at least 600px by 600px in either .jpg or .png format</p>
                                         </div><!--end col-->
-            
+
                                         <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
                                             <a href="#" class="btn btn-primary">Upload</a>
                                             <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
                                         </div><!--end col-->
                                     </div><!--end row-->
-                                    
+
                                     <!--form-start-->
                                     <!--form add customer-->
                                     <form class="mt-4" action="addCustomer" method="POST">
-<!--                                         <input type="hidden" name="action" value="addCustomer">-->
+
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
@@ -353,21 +353,21 @@
                                                     <input name="first-name" id="name" type="text" class="form-control" placeholder="First Name :">
                                                 </div>
                                             </div><!--end col-->
-            
+
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Last Name</label>
                                                     <input name="last-name" id="name2" type="text" class="form-control" placeholder="Last Name :">
                                                 </div>
                                             </div><!--end col-->
-            
+
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Your Email</label>
                                                     <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
                                                 </div> 
                                             </div><!--end col-->
-            
+
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Phone no.</label>
@@ -381,24 +381,27 @@
                                                     <input name="date" type="text" class="flatpickr flatpickr-input form-control" id="checkin-date">
                                                 </div>
                                             </div><!--end col-->
-            
+
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Departments</label>
-                                                    <select class="form-control department-name select2input">
-                                                        <option value="EY">Eye Care</option>
-                                                        <option value="GY">Gynecologist</option>
-                                                        <option value="PS">Psychotherapist</option>
-                                                        <option value="OR">Orthopedic</option>
-                                                        <option value="DE">Dentist</option>
-                                                        <option value="GA">Gastrologist</option>
-                                                        <option value="UR">Urologist</option>
-                                                        <option value="NE">Neurologist</option>
-                                                    </select>
+                                                    <label class="form-label"> Password : </label>
+                                                    <input name="password" type="text" class="form-control" placeholder="Your password :">
                                                 </div>
-                                            </div><!--end row-->
+                                            </div><!--end col-->
+
+                                            <!-- Error Message -->
+                                            <div>
+                                                <c:if test="${not empty error}">
+                                                    <div class="alert alert-danger mt-3">${error}</div>
+                                                </c:if>
+                                            </div>
+                                            <!-- End Error Message -->
+                                            <!-- Hiển thị thông báo thành công nếu có -->
+                                            <c:if test="${not empty success}">
+                                                <div class="alert alert-success mt-3">${success}</div>
+                                            </c:if>   
                                         </div><!--end row-->
-            
+
                                         <button type="submit" class="btn btn-primary">Add Patient</button>
                                     </form>
                                     <!--form-end-->
@@ -638,7 +641,7 @@
         </div>
         <!-- Cancel Appointment End -->
         <!-- Modal end -->
-        
+
         <!-- javascript -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
@@ -654,7 +657,7 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
-        
+
     </body>
 
 </html>
