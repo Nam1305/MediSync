@@ -40,9 +40,12 @@
                         <input type="text" class="form-control" placeholder="Verification Code" name="code" required>
                         <input type="hidden" name="email" value="${email}">
                         <input type="hidden" name="password" value="${password}">
+                        <input type="hidden" name="phone" value="${phone}">
+                        <input type="hidden" name="address" value="${address}">
+                        <input type="hidden" name="name" value="${name}">
                     </div>
                     <div class="error-message" id="error-message" style="color: red;">
-                      ${error}
+                        ${error}
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success" style="width: 100%;">Verify</button>

@@ -4,17 +4,18 @@
  */
 package controller;
 
-import dal.AccountDAO;
+import dal.CustomerDAO;
+import dal.StaffDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Account;
+import model.Customer;
+import model.Staff;
 import model.VerifyCode;
-import util.BCrypt;
-import util.SendEmail;
+import util.*;
 
 /**
  *
@@ -22,7 +23,9 @@ import util.SendEmail;
  */
 public class RegisterServlet extends HttpServlet {
 
-    AccountDAO accountDAO = new AccountDAO();
+    StaffDAO staffDao = new StaffDAO();
+    CustomerDAO customerDao = new CustomerDAO();
+    Validation valid = new Validation();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -39,19 +42,33 @@ public class RegisterServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         VerifyCode verifyCode = (VerifyCode) session.getAttribute("verifyCode");
+        String name = request.getParameter("name");
+        request.setAttribute("name", name);
+        String phone = request.getParameter("phone");
+        request.setAttribute("phone", phone);
+        String address = request.getParameter("address");
+        request.setAttribute("address", address);
         String email = request.getParameter("email");
         request.setAttribute("email", email);
-        String code = request.getParameter("code");
         String password = request.getParameter("password");
-        request.setAttribute("password",password);
+        request.setAttribute("password", password);
+        String code = request.getParameter("code");
         if (verifyCode == null || verifyCode.isExpired() || !verifyCode.getAuthCode().equals(code)) {
-            request.setAttribute("error", "The verification code is incorrect or expired!");
+            request.setAttribute("error", "Mã xác thực không đúng hoặc đã hết hạn!");
             request.getRequestDispatcher("verify.jsp").forward(request, response);
         } else {
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-            accountDAO.insertAccount(new Account(0, email, hashedPassword , 0, 1));
+            Customer customer = new Customer();
+            customer.setName(name);
+            customer.setAddress(address);
+            customer.setPhone(phone);
+            customer.setPassword(hashedPassword);
+            customer.setEmail(email);
+            customer.setStatus("Active");
+            customerDao.insertCustomer(customer);
+            System.out.println(customer.toString());
             session.removeAttribute("verifyCode");
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("login.jsp");
 
         }
 
@@ -70,21 +87,32 @@ public class RegisterServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        String name = request.getParameter("name");
+        request.setAttribute("name", name);
+        String phone = request.getParameter("phone");
+        request.setAttribute("phone", phone);
+        String address = request.getParameter("address");
+        request.setAttribute("address", address);
         String email = request.getParameter("email");
         request.setAttribute("email", email);
         String password = request.getParameter("password");
         request.setAttribute("password", password);
         String confirm = request.getParameter("confirm");
-
-        Account account = accountDAO.getAccountByEmail(email);
-        if (account != null) {
-            request.setAttribute("error", "Email already exists!");
+        Staff staff = staffDao.getStaffByEmail(email);
+        Customer customer = customerDao.getCustomerByEmail(email);
+        if (staff != null || customer != null) {
+            request.setAttribute("error", "Email đã tồn tại!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
 
         if (!password.equals(confirm)) {
-            request.setAttribute("error", "Password and confirm password do not match!");
+            request.setAttribute("error", "Mật khẩu và mật khẩu xác nhận không khớp!");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+            return;
+        }
+        if (!valid.validatePassword(password)) {
+            request.setAttribute("error", "Mật khẩu phải ít nhất 6 kí tự, bao gồm chữ hoa, chữ thường, số và kí tự đặc biệt!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }

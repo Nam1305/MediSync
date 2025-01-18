@@ -4,7 +4,8 @@
  */
 package controller;
 
-import dal.AccountDAO;
+import dal.CustomerDAO;
+import dal.StaffDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -12,7 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Account;
+import model.Customer;
+import model.Staff;
 import util.BCrypt;
 
 /**
@@ -21,7 +23,8 @@ import util.BCrypt;
  */
 public class LoginServlet extends HttpServlet {
 
-    AccountDAO accountDAO = new AccountDAO();
+    StaffDAO staffDao = new StaffDAO();
+    CustomerDAO customerDao = new CustomerDAO();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -70,20 +73,39 @@ public class LoginServlet extends HttpServlet {
         response.addCookie(cEmail);
         response.addCookie(cPassword);
         response.addCookie(cRemember);
-        Account account = accountDAO.getAccountByEmail(email);
-        if (account != null) {
-            if (BCrypt.checkpw(password, account.getPassWord())) {
-                if (account.getStatus() == 0) {
+        Customer customer = customerDao.getCustomerByEmail(email);
+        Staff staff = staffDao.getStaffByEmail(email);
+        if (customer != null) {
+            if (BCrypt.checkpw(password, customer.getPassword())) {
+                if (!customer.getStatus().equals("Active")) {
                     request.setAttribute("error", "This account is not active.");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 } else {
-                    session.setAttribute("account", account);
-                    if (account.getStatus() == 3) {
-                        response.sendRedirect("home.jsp");
+                    session.setAttribute("account", customer);
+                    request.getRequestDispatcher("home.jsp").forward(request, response);
+                }
+
+            } else {
+                request.setAttribute("error", "Password is incorrect!");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+
+            }
+        } else if (staff != null) {
+            if (BCrypt.checkpw(password, staff.getPassword())) {
+                if (!customer.getStatus().equals("Active")) {
+                    request.setAttribute("error", "This account is not active.");
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                } else {
+                    session.setAttribute("account", staff);
+                    if (staff.getRole().getRoleId() == 1) {
+                        request.getRequestDispatcher("home.jsp").forward(request, response);
+
                     } else {
                         request.getRequestDispatcher("home.jsp").forward(request, response);
+
                     }
                 }
+
             } else {
                 request.setAttribute("error", "Password is incorrect!");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
