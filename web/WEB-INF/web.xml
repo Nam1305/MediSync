@@ -12,6 +12,10 @@
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>controller.RegisterServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginGoogleSevlet</servlet-name>
+        <servlet-class>controller.LoginGoogleSevlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -23,5 +27,9 @@
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginGoogleSevlet</servlet-name>
+        <url-pattern>/logingg</url-pattern>
     </servlet-mapping>
 </web-app>
