@@ -330,9 +330,9 @@
                                                 <!--                                                <th class="border-bottom p-3">Age</th>-->
                                                 <th class="border-bottom p-3">Gender</th>
                                                 <!--                                                <th class="border-bottom p-3">Address</th>-->
+                                                <th class="border-bottom p-3">Address</th>
                                                 <th class="border-bottom p-3">Phone Number</th>
-                                                <th class="border-bottom p-3">Department</th>
-                                                <th class="border-bottom p-3" style="min-width: 150px;">Date</th>
+                                                <th class="border-bottom p-3" style="min-width: 150px;">Date Of Birth</th>
                                                 <th class="border-bottom p-3">Email</th>
                                                 <th class="border-bottom p-3">Status</th>
                                                 <th class="border-bottom p-3" style="min-width: 100px;"></th>
@@ -343,7 +343,7 @@
                                             <c:forEach var="customers" items="${customers}">
                                                 <!-- customer1-start -->
                                                 <tr>
-                                                    <th class="p-3">${customers.customerID}</th>
+                                                    <th class="p-3">${customers.customerId}</th>
                                                     <td class="py-3">
                                                         <a href="#" class="text-dark">
                                                             <div class="d-flex align-items-center">
@@ -353,13 +353,13 @@
                                                         </a>
                                                     </td>
                                                     <!--                                                    <td class="p-3">25</td>-->
-                                                    <td class="p-3">Male</td>
-                                                    <!--                                                    <td class="p-3">1451 - ABC Street, NY</td>-->
-                                                    <td class="p-3">${customers.phoneNumber}</td>
-                                                    <td class="p-3">Cardiology</td>
-                                                    <td class="p-3">20th Dec 2020</td>
+                                                    <td class="p-3">${customers.gender}</td>
+                                                    <td class="p-3">${customers.address}</td>
+                                                    <td class="p-3">${customers.phone}</td>
+                                                    <td class="p-3">${customers.dateOfBirth}</td>
                                                     <td class="p-3">${customers.email}</td>
-                                                    <td class="p-3"><span class="badge bg-soft-success">Approved</span></td>
+                                                    <td class="p-3"><span class="badge bg-soft-success">${customers.status}</span></td>
+                                                    <td class="p-3"></td>
                                                     <td class="text-end p-3">
                                                         <a href="#" class="btn btn-icon btn-pills btn-soft-primary" data-bs-toggle="modal" data-bs-target="#viewprofile"><i class="uil uil-eye"></i></a>
                                                         <!--pop-up update-->
