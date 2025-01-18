@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/DIEN%20MAY%20XANH/Desktop/Semester_5_SP25/SWP391/Project/MediSyncSys/src/java/controller/LoginServlet.java</file>
-            <file>file:/C:/Users/DIEN%20MAY%20XANH/Desktop/Semester_5_SP25/SWP391/Project/MediSyncSys/src/java/util/Constant.java</file>
-            <file>file:/C:/Users/DIEN%20MAY%20XANH/Desktop/Semester_5_SP25/SWP391/Project/MediSyncSys/src/java/controller/LoginGoogleSevlet.java</file>
-            <file>file:/C:/Users/DIEN%20MAY%20XANH/Desktop/Semester_5_SP25/SWP391/Project/MediSyncSys/web/login.jsp</file>
+            <file>file:/D:/MediSync/web/listCustomer.jsp</file>
+            <file>file:/D:/MediSync/src/java/dal/CustomerDAO.java</file>
+            <file>file:/D:/MediSync/src/java/controller/EditCustomerServlet.java</file>
         </group>
     </open-files>
 </project-private>
