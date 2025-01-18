@@ -11,9 +11,9 @@ package util;
  */
 public class Constant {
 
-    public static final String GOOGLE_CLIENT_ID = "185858868190-ph9uql7ag8caujm9vkspa2qs8j46dgkc.apps.googleusercontent.com";
+    public static final String GOOGLE_CLIENT_ID = "";
 
-    public static final String GOOGLE_CLIENT_SECRET = "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";
+    public static final String GOOGLE_CLIENT_SECRET = "";
 
     public static final String GOOGLE_REDIRECT_URI = "http://localhost:9999/MediSyncSys/logingg";
 

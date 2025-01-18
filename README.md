@@ -23,4 +23,11 @@ Chào mừng bạn đến với dự án dịch vụ cho phòng khám của chú
 - **Đinh Phúc Sơn**
 - **Nguyễn Mạnh Trung**
 
+
+- Vào Constant.java paste dong sau 
+    public static final String GOOGLE_CLIENT_ID = "185858868190-ph9uql7ag8caujm9vkspa2qs8j46dgkc.apps.googleusercontent.com";
+
+    public static final String GOOGLE_CLIENT_SECRET = "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";
+
+
 Cảm ơn bạn đã quan tâm đến dự án của chúng tôi!
