@@ -485,7 +485,7 @@
                             </div><!--end col-->
                         </div><!--end row-->
                         
-                        <!--form edit profile- gọi về editProfileServlet-->
+                        <!--form-edit-profile - gọi về editProfileServlet-->
                         <form class="mt-4" method="POST" action="editCustomer">
                             <div class="row">
                                 <div class="col-md-6">
