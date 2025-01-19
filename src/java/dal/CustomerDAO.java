@@ -103,7 +103,7 @@ public class CustomerDAO extends DBContext {
 
     public boolean updateCustomer(Customer customer) {
         boolean isUpdated = false;
-        String sql = "UPDATE customers SET name = ?, email = ?, phone = ? WHERE customerId = ?";
+        String sql = "UPDATE Customer SET name = ?, email = ?, phone = ? WHERE customerId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, customer.getName());

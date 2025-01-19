@@ -71,7 +71,7 @@
                             <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Patients</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="patients.html">All Patients</a></li>
+                                    <li><a href="listCustomer">All Patients</a></li>
                                     <li><a href="addCustomer">Add Patients</a></li>
                                     <li><a href="patient-profile.html">Profile</a></li>
                                 </ul>
@@ -310,6 +310,8 @@
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
                             <h5 class="mb-0">Patients List</h5>
+                            
+                           
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
@@ -318,6 +320,21 @@
                                 </ul>
                             </nav>
                         </div>
+                        
+                         <div class="row" >
+                                    <div class="col-sm-12">
+                                        <c:if test="${not empty status}">
+                                            <c:choose>
+                                                <c:when test="${status == 'success'}">
+                                                    <div class="alert alert-success" id="statusMess">Customer edited successfully!</div>
+                                                </c:when>
+                                                <c:when test="${status == 'fail'}">
+                                                    <div class="alert alert-danger" id="statusMess">Failed to edit customer. Please try again.</div>
+                                                </c:when>
+                                            </c:choose>
+                                        </c:if>
+                                    </div>
+                                </div>
                         <!-- navbar-of-table -->
                         <div class="row">
                             <div class="col-12 mt-4">
@@ -341,7 +358,6 @@
                                         <!--tbody-start-->
                                         <tbody>
                                             <c:forEach var="customers" items="${customers}">
-                                                <!-- customer1-start -->
                                                 <tr>
                                                     <th class="p-3">${customers.customerId}</th>
                                                     <td class="py-3">
@@ -352,7 +368,6 @@
                                                             </div>
                                                         </a>
                                                     </td>
-                                                    <!--                                                    <td class="p-3">25</td>-->
                                                     <td class="p-3">${customers.gender}</td>
                                                     <td class="p-3">${customers.address}</td>
                                                     <td class="p-3">${customers.phone}</td>
@@ -361,18 +376,27 @@
                                                     <td class="p-3"><span class="badge bg-soft-success">${customers.status}</span></td>
                                                     <td class="p-3"></td>
                                                     <td class="text-end p-3">
-                                                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary" data-bs-toggle="modal" data-bs-target="#viewprofile"><i class="uil uil-eye"></i></a>
-                                                        <!--pop-up update-->
-                                                        <a href="#" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#editprofile"><i class="uil uil-pen"></i></a>
+                                                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary" data-bs-toggle="modal" data-bs-target="#viewprofile">
+                                                            <i class="uil uil-eye"></i>
+                                                        </a>
+                                                        <!-- Edit button with data-* attributes for customer info -->
+                                                        <a href="#" class="btn btn-icon btn-pills btn-soft-success" 
+                                                           data-bs-toggle="modal" 
+                                                           data-bs-target="#editprofile"
+                                                           data-customer-id="${customers.customerId}"
+                                                           data-customer-name="${customers.name}"
+                                                           data-customer-email="${customers.email}"
+                                                           data-customer-phone="${customers.phone}">
+                                                            <i class="uil uil-pen"></i>
+                                                        </a>
                                                         <a href="deleteCustomer" class="btn btn-icon btn-pills btn-soft-danger"><i class="uil uil-trash"></i></a>
                                                     </td>
                                                 </tr>
-                                                <!--customer1-end-->                                              
                                             </c:forEach>
                                         </tbody>
                                         <!--Tbody-end-->
                                     </table>
-                                    
+
                                 </div>
                             </div>
                         </div><!--end row-->
@@ -460,7 +484,6 @@
         <!-- Offcanvas End -->
 
         <!-- Modal start -->
-        <!-- Profile-Settings-Start -->
         <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -469,36 +492,21 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3 pt-4">
-                        <div class="row align-items-center">
-                            <div class="col-lg-2 col-md-4">
-                                <img src="assets/images/doctors/01.jpg" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
-                            </div><!--end col-->
-
-                            <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
-                                <h6 class="">Upload your picture</h6>
-                                <p class="text-muted mb-0">For best results, use an image at least 256px by 256px in either .jpg or .png format</p>
-                            </div><!--end col-->
-
-                            <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
-                                <a href="#" class="btn btn-primary">Upload</a>
-                                <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                        
-                        <!--form-edit-profile - gọi về editProfileServlet-->
                         <form class="mt-4" method="POST" action="editCustomer">
+                            <!--input hidden-->
+                            <input type="hidden" name="customerId" id="customerId">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">First Name</label>
-                                        <input name="name" id="name" type="text" class="form-control" placeholder="First Name :">
+                                        <input name="first-name" id="first-name" type="text" class="form-control" placeholder="First Name :">
                                     </div>
                                 </div><!--end col-->
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Last Name</label>
-                                        <input name="name" id="name2" type="text" class="form-control" placeholder="Last Name :">
+                                        <input name="last-name" id="last-name" type="text" class="form-control" placeholder="Last Name :">
                                     </div>
                                 </div><!--end col-->
 
@@ -506,22 +514,18 @@
                                     <div class="mb-3">
                                         <label class="form-label">Your Email</label>
                                         <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
-                                    </div> 
+                                    </div>
                                 </div><!--end col-->
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Phone no.</label>
                                         <input name="number" id="number" type="text" class="form-control" placeholder="Phone no. :">
-                                    </div>                                                                               
+                                    </div>
                                 </div><!--end col-->
 
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Your Bio Here</label>
-                                        <textarea name="comments" id="comments" rows="4" class="form-control" placeholder="Bio :"></textarea>
-                                    </div>
-                                </div>
+            
+
                             </div><!--end row-->
 
                             <div class="row">
@@ -534,7 +538,7 @@
                 </div>
             </div>
         </div>
-        <!-- Profile Settings End -->
+        <!-- Modal end -->
 
         <!-- Profile Start -->
         <div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
@@ -603,6 +607,39 @@
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
 
+        <script>
+                                        // Populate the modal with customer data when the edit button is clicked
+                                        document.addEventListener("DOMContentLoaded", function () {
+                                            // Get all the edit buttons
+                                            const editButtons = document.querySelectorAll('[data-bs-target="#editprofile"]');
+
+                                            // Add event listener to each button
+                                            editButtons.forEach(button => {
+                                                button.addEventListener('click', function () {
+                                                    // Get customer data from data-* attributes
+                                                    const customerId = this.getAttribute('data-customer-id');
+                                                    const customerName = this.getAttribute('data-customer-name');
+                                                    const customerEmail = this.getAttribute('data-customer-email');
+                                                    const customerPhone = this.getAttribute('data-customer-phone');
+
+                                                    // Populate the form fields in the modal
+                                                    document.getElementById('customerId').value = customerId;
+                                                    document.getElementById('first-name').value = customerName.split(' ')[0]; // Assuming first name is the first part of the full name
+                                                    document.getElementById('last-name').value = customerName.split(' ')[1] || ''; // Assuming last name is the second part of the full name
+                                                    document.getElementById('email').value = customerEmail;
+                                                    document.getElementById('number').value = customerPhone;
+                                                });
+                                            });
+                                        });
+
+                                        var statusMessage = document.getElementById('statusMess');
+                                        if (statusMessage) {
+                                            // Set a timeout to hide the message after 5 seconds (5000ms)
+                                            setTimeout(function () {
+                                                statusMessage.style.display = 'none';
+                                            }, 5000);
+                                        }
+        </script>
 
     </body>
 

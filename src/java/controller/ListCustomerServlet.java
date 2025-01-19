@@ -32,7 +32,12 @@ public class ListCustomerServlet extends HttpServlet {
 
         // Đặt danh sách khách hàng vào thuộc tính của request
         request.setAttribute("customers", customers);
-
+        //
+         // Lấy tham số "status" từ URL
+        String status = request.getParameter("status");
+        if (status != null && !status.isEmpty()) {
+            request.setAttribute("status", status);
+        }
         // Chuyển hướng đến trang listCustomers.jsp để hiển thị dữ liệu
         request.getRequestDispatcher("listCustomer.jsp").forward(request, response);
     }
