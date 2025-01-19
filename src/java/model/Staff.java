@@ -122,5 +122,10 @@ public class Staff {
         this.role = role;
     }
 
+    @Override
+    public String toString() {
+        return "Staff{" + "staffId=" + staffId + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password=" + password + ", dateOfBirth=" + dateOfBirth + ", position=" + position + ", gender=" + gender + ", status=" + status + ", department=" + department + ", role=" + role + '}';
+    }
+
 
 }
