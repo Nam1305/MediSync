@@ -460,7 +460,7 @@
         <!-- Offcanvas End -->
 
         <!-- Modal start -->
-        <!-- Profile Settings Start -->
+        <!-- Profile-Settings-Start -->
         <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">

@@ -103,15 +103,13 @@ public class CustomerDAO extends DBContext {
 
     public boolean updateCustomer(Customer customer) {
         boolean isUpdated = false;
-        String sql = "UPDATE customers SET name = ?, email = ?, phone = ?, dateOfBirth = ?, password = ? WHERE customerId = ?";
+        String sql = "UPDATE customers SET name = ?, email = ?, phone = ? WHERE customerId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, customer.getName());
             ps.setString(2, customer.getEmail());
             ps.setString(3, customer.getPhone());
-            ps.setDate(4, customer.getDateOfBirth());
-            ps.setString(5, customer.getPassword());
-            ps.setInt(6, customer.getCustomerId());
+            ps.setInt(4, customer.getCustomerId());
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
                 isUpdated = true;
