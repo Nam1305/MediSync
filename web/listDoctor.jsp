@@ -389,8 +389,15 @@
                                                         <a href="#" class="btn btn-icon btn-pills btn-soft-success" 
                                                            data-bs-toggle="modal" 
                                                            data-bs-target="#editprofile"
-
-                                                           <i class="uil uil-pen"></i>
+                                                           data-staff-id = "${doctors.staffId}"
+                                                           data-staff-name ="${doctors.name} "
+                                                           data-staff-gender="${doctors.gender}"
+                                                           data-staff-position ="${doctors.position}"
+                                                           data-staff-department="${doctors.department.name}"
+                                                           data-staff-phone="${doctors.phone}"
+                                                           data-staff-dateOfBirth="${doctors.dateOfBirth}"
+                                                           data-staff-status="${doctors.status}">
+                                                            <i class="uil uil-pen"></i>
                                                         </a>
                                                         <form id="deleteForm${doctors.staffId}" action="deleteStaffServlet" method="post" style="display: inline;">
                                                             <input type="hidden" name="id" value="${doctors.staffId}">
@@ -501,45 +508,106 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3 pt-4">
-                        <form class="mt-4" method="POST" action="editCustomer">
-                            <!--input hidden-->
-                            <input type="hidden" name="customerId" id="customerId">
+                        <form class="mt-4" method="POST" action="UpdateStaffServlet">
+                            <!-- Input Hidden -->
+                            <input type="hidden" name="staffId" id="staffId">
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">First Name</label>
-                                        <input name="first-name" id="first-name" type="text" class="form-control" placeholder="First Name :">
+                                        <label class="form-label">Name</label>
+                                        <input name="name" id="name" type="text" class="form-control" placeholder="Name">
                                     </div>
                                 </div><!--end col-->
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Last Name</label>
-                                        <input name="last-name" id="last-name" type="text" class="form-control" placeholder="Last Name :">
+                                        <label class="form-label">Email</label>
+                                        <input name="email" id="email" type="email" class="form-control" placeholder="Email">
                                     </div>
                                 </div><!--end col-->
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Your Email</label>
-                                        <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
+                                        <label class="form-label">Phone</label>
+                                        <input name="phone" id="phone" type="text" class="form-control" placeholder="Phone">
                                     </div>
                                 </div><!--end col-->
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Phone no.</label>
-                                        <input name="number" id="number" type="text" class="form-control" placeholder="Phone no. :">
+                                        <label class="form-label">Password</label>
+                                        <input name="password" id="password" type="password" class="form-control" placeholder="Password">
                                     </div>
                                 </div><!--end col-->
 
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Date of Birth</label>
+                                        <input name="dateOfBirth" id="dateOfBirth" type="date" class="form-control">
+                                    </div>
+                                </div><!--end col-->
 
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Position</label>
+                                        <input name="position" id="position" type="text" class="form-control" placeholder="Position">
+                                    </div>
+                                </div><!--end col-->
 
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Gender</label>
+                                        <select name="gender" id="gender" class="form-control">
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Status</label>
+                                        <select name="status" id="status" class="form-control">
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Department</label>
+                                        <select name="departmentId" id="departmentId" class="form-control">
+                                            <option value="1">Khoa nội tổng quát</option>
+                                            <option value="2">Khoa Ngoại tổng quát</option>
+                                            <option value="3">Khoa Nhi</option>
+                                            <option value="4">Khoa Sản</option>
+                                            <option value="5">Khoa Tai Mũi Họng</option>
+                                            <option value="6">Khoa Răng Hàm Mặt</option>
+                                            <option value="7">Khoa Da Liễu</option>
+                                            <option value="8">Khoa Mắt</option>
+                                            <option value="9">Khoa Xét Nghiệm</option>
+                                            <option value="10">Khoa Chẩn Đoán Hình Ảnh</option>
+                                        </select>
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Role</label>
+                                        <select name="roleId" id="roleId" class="form-control">
+                                            <option value="2">Doctor</option>
+                                            <option value="3">Expert</option>
+                                            <option value="4">Receptionist</option>
+                                        </select>
+                                    </div>
+                                </div><!--end col-->
                             </div><!--end row-->
 
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <input type="submit" id="submit" name="send" class="btn btn-primary" value="Save changes">
+                                    <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
                                 </div><!--end col-->
                             </div><!--end row-->
                         </form><!--end form-->
@@ -617,33 +685,45 @@
         <script src="assets/js/app.js"></script>
 
         <script>
-                                        // Populate the modal with customer data when the edit button is clicked
                                         document.addEventListener("DOMContentLoaded", function () {
-                                            // Get all the edit buttons
+                                            // Lấy tất cả các nút "Sửa" (edit buttons)
                                             const editButtons = document.querySelectorAll('[data-bs-target="#editprofile"]');
 
-                                            // Add event listener to each button
+                                            // Thêm sự kiện click cho mỗi nút "Sửa"
                                             editButtons.forEach(button => {
                                                 button.addEventListener('click', function () {
-                                                    // Get customer data from data-* attributes
-                                                    const customerId = this.getAttribute('data-customer-id');
-                                                    const customerName = this.getAttribute('data-customer-name');
-                                                    const customerEmail = this.getAttribute('data-customer-email');
-                                                    const customerPhone = this.getAttribute('data-customer-phone');
+                                                    // Lấy dữ liệu từ các thuộc tính data-* của nút đã nhấn
+                                                    const staffId = this.getAttribute('data-staff-id');
+                                                    const staffName = this.getAttribute('data-staff-name');
+                                                    const staffPhone = this.getAttribute('data-staff-phone');
+                                                    const staffEmail = this.getAttribute('data-staff-email');
+                                                    const staffPosition = this.getAttribute('data-staff-position');
+                                                    const staffGender = this.getAttribute('data-staff-gender');
+                                                    const staffDateOfBirth = this.getAttribute('data-staff-dateOfBirth');
+                                                    const staffStatus = this.getAttribute('data-staff-status');
+                                                    const departmentId = this.getAttribute('data-staff-departmentId');
+                                                    const roleId = this.getAttribute('data-staff-roleId');
 
-                                                    // Populate the form fields in the modal
-                                                    document.getElementById('customerId').value = customerId;
-                                                    document.getElementById('first-name').value = customerName.split(' ')[0]; // Assuming first name is the first part of the full name
-                                                    document.getElementById('last-name').value = customerName.split(' ')[1] || ''; // Assuming last name is the second part of the full name
-                                                    document.getElementById('email').value = customerEmail;
-                                                    document.getElementById('number').value = customerPhone;
+                                                    // Điền dữ liệu vào các trường trong form của modal
+                                                    document.getElementById('staffId').value = staffId;
+                                                    document.getElementById('name').value = staffName;
+                                                    document.getElementById('phone').value = staffPhone;
+                                                    document.getElementById('email').value = staffEmail;
+                                                    document.getElementById('position').value = staffPosition;
+                                                    document.getElementById('gender').value = staffGender;
+                                                    document.getElementById('dateOfBirth').value = staffDateOfBirth;
+                                                    document.getElementById('status').value = staffStatus;
+
+                                                    // Cập nhật lựa chọn trong các ô chọn Department và Role
+                                                    document.getElementById('departmentId').value = departmentId;
+                                                    document.getElementById('roleId').value = roleId;
                                                 });
                                             });
                                         });
 
+                                        // Tự động ẩn thông báo status sau 5 giây
                                         var statusMessage = document.getElementById('statusMess');
                                         if (statusMessage) {
-                                            // Set a timeout to hide the message after 5 seconds (5000ms)
                                             setTimeout(function () {
                                                 statusMessage.style.display = 'none';
                                             }, 5000);

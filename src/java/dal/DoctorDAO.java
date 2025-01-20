@@ -84,6 +84,30 @@ public class DoctorDAO extends DBContext {
             return false; // Return false nếu xóa staff thất bại 
         }
     }
+    
+    public boolean updateStaff(Staff staff) {
+    String sql = "UPDATE Staff SET name = ?, email = ?, phone = ?, password = ?, dateOfBirth = ?, position = ?, gender = ?, status = ?, departmentId = ?, roleId = ? WHERE staffId = ?";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, staff.getName());
+        ps.setString(2, staff.getEmail());
+        ps.setString(3, staff.getPhone());
+        ps.setString(4, staff.getPassword());
+        ps.setDate(5, staff.getDateOfBirth());
+        ps.setString(6, staff.getPosition());
+        ps.setString(7, staff.getGender());
+        ps.setString(8, staff.getStatus());
+        ps.setInt(9, staff.getDepartment().getDepartmentId());
+        ps.setInt(10, staff.getRole().getRoleId());
+        ps.setInt(11, staff.getStaffId());
+        
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0; // Return true nếu update thành công
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        return false; // nếu update thất bại 
+    }
+}
 //    public static void main(String[] args) {
 //        DoctorDAO doctor = new DoctorDAO();
 //        System.out.println(doctor.getAllDoctor());
