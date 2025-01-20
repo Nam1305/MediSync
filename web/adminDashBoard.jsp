@@ -64,9 +64,9 @@
                             <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Doctors</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="doctors.html">Doctors</a></li>
-                                    <li><a href="add-doctor.html">Add Doctor</a></li>
-                                    <li><a href="dr-profile.html">Profile</a></li>
+                                    <li><a href="ListDoctor">Doctors</a></li>
+                                    <li><a href="addStaff.jsp">Add Staff</a></li>
+                                    
                                 </ul>
                             </div>
                         </li>

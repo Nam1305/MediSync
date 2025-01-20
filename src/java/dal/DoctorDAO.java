@@ -48,6 +48,29 @@ public class DoctorDAO extends DBContext {
         return listDoctor;
     }
     
+    public boolean addStaff(Staff staff) {
+         // mặc định  status set = '1'
+    String sql = "INSERT INTO Staff (name, email, phone, password, dateOfBirth, position, gender, status, departmentId, roleId) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?, 'Active', ?, ?)";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, staff.getName());
+        ps.setString(2, staff.getEmail());
+        ps.setString(3, staff.getPhone());
+        ps.setString(4, staff.getPassword());
+        ps.setDate(5, staff.getDateOfBirth());
+        ps.setString(6, staff.getPosition());
+        ps.setString(7, staff.getGender());
+        ps.setInt(8, staff.getDepartment().getDepartmentId());
+        ps.setInt(9, staff.getRole().getRoleId());
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0; // Return true if the doctor was added successfully
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        return false; // Return false if an error occurred
+    }
+}
 //    public static void main(String[] args) {
 //        DoctorDAO doctor = new DoctorDAO();
 //        System.out.println(doctor.getAllDoctor());
