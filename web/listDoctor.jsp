@@ -27,7 +27,13 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-
+        <script type="text/javascript">
+            function doDelete(id) {
+                if (confirm("Are you sure you want to delete doctor with ID: " + id + "?")) {
+                    document.getElementById("deleteForm" + id).submit();
+                }
+            }
+        </script>
     </head>
 
     <body>
@@ -53,7 +59,7 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                        <li><a href="adminDashBoard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                         <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
 
                         <li class="sidebar-dropdown">
@@ -62,7 +68,7 @@
                                 <ul>
                                     <li><a href="ListDoctor">Doctors</a></li>
                                     <li><a href="addStaff.jsp">Add Staff</a></li>
-                                    
+
                                 </ul>
                             </div>
                         </li>
@@ -350,6 +356,7 @@
                                                 <th class="border-bottom p-3">Phone</th>
                                                 <th class="border-bottom p-3" style="min-width: 150px;">Date of Birth</th>
                                                 <th class="border-bottom p-3">Email</th>
+                                                <th class="border-bottom p-3">Status</th>
                                                 <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
                                             </tr>
                                         </thead>
@@ -372,7 +379,7 @@
                                                     <td class="p-3">${doctors.phone}</td>
                                                     <td class="p-3">${doctors.dateOfBirth}</td>
                                                     <td class="p-3">${doctors.email}</td>
-                                                    
+                                                    <td class="p-3">${doctors.status}</td>
                                                     <td class="text-end p-3">
                                                         <!-- Action Buttons -->
                                                         <a href="#" class="btn btn-icon btn-pills btn-soft-primary" data-bs-toggle="modal" data-bs-target="#viewprofile">
@@ -382,10 +389,16 @@
                                                         <a href="#" class="btn btn-icon btn-pills btn-soft-success" 
                                                            data-bs-toggle="modal" 
                                                            data-bs-target="#editprofile"
-                                                        
-                                                            <i class="uil uil-pen"></i>
+
+                                                           <i class="uil uil-pen"></i>
                                                         </a>
-                                                        <a href="deleteCustomer" class="btn btn-icon btn-pills btn-soft-danger"><i class="uil uil-trash"></i></a>
+                                                        <form id="deleteForm${doctors.staffId}" action="deleteStaffServlet" method="post" style="display: inline;">
+                                                            <input type="hidden" name="id" value="${doctors.staffId}">
+                                                            <a href="#" onclick="doDelete(${doctors.staffId})" class="btn btn-icon btn-pills btn-soft-danger">
+                                                                <i class="uil uil-trash"></i>
+                                                            </a>
+                                                        </form>
+
                                                     </td>
                                                 </tr>
                                             </c:forEach>
