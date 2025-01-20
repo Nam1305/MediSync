@@ -47,7 +47,7 @@ public class DoctorDAO extends DBContext {
         }
         return listDoctor;
     }
-
+    
 //    public static void main(String[] args) {
 //        DoctorDAO doctor = new DoctorDAO();
 //        System.out.println(doctor.getAllDoctor());

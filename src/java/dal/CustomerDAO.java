@@ -121,6 +121,20 @@ public class CustomerDAO extends DBContext {
 
     }
 
+    //Them boi Nguyen Dinh Chinh 20-1-25
+    public void updatePassword(String email, String newPassword) {
+        String sql = "UPDATE Customer SET Password = ? WHERE Email = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, newPassword);
+            ps.setString(2, email);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            // Xử lý exception
+        }
+    }
+
+
     public static void main(String[] args) {
         CustomerDAO d = new CustomerDAO();
         System.out.println(d.getCustomerByEmail("nva@example.com"));

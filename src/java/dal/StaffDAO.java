@@ -5,6 +5,8 @@
 package dal;
 
 import java.sql.*;
+import model.Department;
+import model.Role;
 import model.Staff;
 
 /**
@@ -12,8 +14,10 @@ import model.Staff;
  * @author DIEN MAY XANH
  */
 public class StaffDAO extends DBContext {
+
     DepartmentDAO departDao = new DepartmentDAO();
     RoleDAO roleDao = new RoleDAO();
+
     public Staff getStaffByEmail(String email) {
         String sql = "select * from Staff where email = ?";
 
@@ -41,7 +45,53 @@ public class StaffDAO extends DBContext {
         }
         return null;
     }
-    
+
+    //Them boi Nguyen Dinh Chinh 20-1-25
+    public void updatePassword(String email, String newPassword) {
+        String sql = "UPDATE Staff SET Password = ? WHERE Email = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, newPassword);
+            ps.setString(2, email);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            // Xử lý exception
+        }
+    }
+
+    public Staff getAccountByEmail(String email) {
+        String sql = "select * from Staff where email = '" + email + "'";
+        try {
+            PreparedStatement ps = connection.prepareCall(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Staff account = new Staff(
+                        rs.getInt("staffId"),
+                        rs.getString("name"), 
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("password"),
+                        rs.getDate("dateOfBirth"),
+                        rs.getString("position"),
+                        rs.getString("gender"),
+                        rs.getString("status"),
+                        new Department( // Department object
+                                rs.getInt("departmentId"),
+                                rs.getString("departmentName")
+                        ),
+                        new Role( // Role object
+                                rs.getInt("roleId"),
+                                rs.getString("roleName")
+                        )
+                );
+                return account;
+            }
+
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         StaffDAO staff = new StaffDAO();
         System.out.println(staff.getStaffByEmail("ntk@example.com"));
