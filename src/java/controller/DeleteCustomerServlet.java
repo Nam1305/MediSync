@@ -16,7 +16,7 @@ import model.Customer;
 @WebServlet(name="DeleteCustomerServlet", urlPatterns={"/deleteCustomer"})
 public class DeleteCustomerServlet extends HttpServlet {
 
-    private void handleEditCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void handleDeleteCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String customerIdStr = request.getParameter("id");
         if(customerIdStr == null || customerIdStr.trim().isEmpty()){
             response.sendRedirect("listCustomer?status=failDelete");
@@ -36,7 +36,7 @@ public class DeleteCustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        handleEditCustomer(request, response);
+        handleDeleteCustomer(request, response);
     } 
 
     @Override
