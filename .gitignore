@@ -5,6 +5,7 @@
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash
+# Ignore private.xml D:\SWP391\MediSync\nbproject\private
 build/
 nbbuild/
 dist/
