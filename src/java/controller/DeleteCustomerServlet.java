@@ -47,5 +47,6 @@ public class DeleteCustomerServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
+    
 
 }
