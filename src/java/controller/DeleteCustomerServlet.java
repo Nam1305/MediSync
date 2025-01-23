@@ -2,6 +2,7 @@
 
 package controller;
 
+import dal.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -9,54 +10,44 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Customer;
 
 
 @WebServlet(name="DeleteCustomerServlet", urlPatterns={"/deleteCustomer"})
 public class DeleteCustomerServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DeleteCustomerServlet</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DeleteCustomerServlet at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+    private void handleEditCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String customerIdStr = request.getParameter("id");
+        if(customerIdStr == null || customerIdStr.trim().isEmpty()){
+            response.sendRedirect("listCustomer?status=failDelete");
+            return;
         }
-    } 
+        int customerId = Integer.parseInt(customerIdStr);
+        Customer deletedCustomer = new Customer(customerId);
+        CustomerDAO customerDao = new CustomerDAO();
+        boolean isDeleted = customerDao.deleteCustomer(deletedCustomer);
+        if(isDeleted == true){
+            response.sendRedirect("listCustomer?status=successDelete");
+        } else{
+            response.sendRedirect("listCustomer?status=failDelete");
+        }     
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        handleEditCustomer(request, response);
     } 
 
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

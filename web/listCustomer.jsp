@@ -310,8 +310,8 @@
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
                             <h5 class="mb-0">Patients List</h5>
-                            
-                           
+
+
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
@@ -320,21 +320,27 @@
                                 </ul>
                             </nav>
                         </div>
-                        
-                         <div class="row" >
-                                    <div class="col-sm-12">
-                                        <c:if test="${not empty status}">
-                                            <c:choose>
-                                                <c:when test="${status == 'success'}">
-                                                    <div class="alert alert-success" id="statusMess">Customer edited successfully!</div>
-                                                </c:when>
-                                                <c:when test="${status == 'fail'}">
-                                                    <div class="alert alert-danger" id="statusMess">Failed to edit customer. Please try again.</div>
-                                                </c:when>
-                                            </c:choose>
-                                        </c:if>
-                                    </div>
-                                </div>
+
+                        <div class="row" >
+                            <div class="col-sm-12">
+                                <c:if test="${not empty status}">
+                                    <c:choose>
+                                        <c:when test="${status == 'success'}">
+                                            <div class="alert alert-success" id="statusMess">Customer edited successfully!</div>
+                                        </c:when>
+                                        <c:when test="${status == 'fail'}">
+                                            <div class="alert alert-danger" id="statusMess">Failed to edit customer. Please try again.</div>
+                                        </c:when>
+                                        <c:when test="${status == 'failDelete'}">
+                                            <div class="alert alert-danger" id="statusMess">Failed to delete customer. Please try again.</div>
+                                        </c:when>
+                                        <c:when test="${status == 'successDelete'}">
+                                            <div class="alert alert-success" id="statusMess">Customer is deleted.</div>
+                                        </c:when>    
+                                    </c:choose>
+                                </c:if>
+                            </div>
+                        </div>
                         <!-- navbar-of-table -->
                         <div class="row">
                             <div class="col-12 mt-4">
@@ -389,7 +395,7 @@
                                                            data-customer-phone="${customers.phone}">
                                                             <i class="uil uil-pen"></i>
                                                         </a>
-                                                        <a href="deleteCustomer" class="btn btn-icon btn-pills btn-soft-danger"><i class="uil uil-trash"></i></a>
+                                                        <a href="deleteCustomer?id=${customers.customerId}" class="btn btn-icon btn-pills btn-soft-danger"><i class="uil uil-trash"></i></a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -524,7 +530,7 @@
                                     </div>
                                 </div><!--end col-->
 
-            
+
 
                             </div><!--end row-->
 

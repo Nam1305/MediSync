@@ -133,6 +133,22 @@ public class CustomerDAO extends DBContext {
             // Xử lý exception
         }
     }
+    
+    public boolean deleteCustomer(Customer customer) {
+        boolean isDeleted = false;
+        String sql = "UPDATE Customer Set status = 'Inactive' where customerId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, customer.getCustomerId());
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                isDeleted = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Loi deleteCustomer");
+        }
+        return isDeleted;
+    }
 
 
     public static void main(String[] args) {
