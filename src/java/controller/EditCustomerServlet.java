@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
 import model.Customer;
 
 @WebServlet(name = "EditCustomerServlet", urlPatterns = {"/editCustomer"})
@@ -37,7 +38,7 @@ public class EditCustomerServlet extends HttpServlet {
         String fullName = lastName + " " + firstName;
         //lấy customer dựa vào email, tạo customer
         CustomerDAO customerDao = new CustomerDAO();
-        Customer updatedCustomer = new Customer(customerId, fullName, email, phoneNumber);
+        Customer updatedCustomer = new Customer(customerId, fullName, email, email, lastName, email, new Date(System.currentTimeMillis()), lastName, email, email, email);
         //dùng CustomerDAO để cập nhật thông tin khách hàng trong cơ sở dữ liệu
         boolean isUpdated = customerDao.updateCustomer(updatedCustomer);
         //bắn status lên url để bên listCustomerServlet lấy và hiển thị ra 

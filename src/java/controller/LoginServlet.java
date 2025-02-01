@@ -80,27 +80,27 @@ public class LoginServlet extends HttpServlet {
         if (customer != null) {
             if (BCrypt.checkpw(password, customer.getPassword())) {
                 if (!customer.getStatus().equals("Active")) {
-                    request.setAttribute("error", "This account is not active.");
+                    request.setAttribute("error", "Tài khoản này đã bị vô hiệu hóa!");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 } else {
-                    session.setAttribute("account", customer);
+                    session.setAttribute("customer", customer);
                     request.getRequestDispatcher("home.jsp").forward(request, response);
                 }
 
             } else {
-                request.setAttribute("error", "Password is incorrect!");
+                request.setAttribute("error", "Mật khẩu không đúng!");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
 
             }
         } else if (staff != null) {
             if (BCrypt.checkpw(password, staff.getPassword())) {
-                if (!customer.getStatus().equals("Active")) {
-                    request.setAttribute("error", "This account is not active.");
+                if (!staff.getStatus().equals("Active")) {
+                    request.setAttribute("error", "Tài khoản này đã bị vô hiệu hóa!");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 } else {
-                    session.setAttribute("account", staff);
+                    session.setAttribute("staff", staff);
                     if (staff.getRole().getRoleId() == 1) {
-                        request.getRequestDispatcher("home.jsp").forward(request, response);
+                        request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
 
                     } else {
                         request.getRequestDispatcher("home.jsp").forward(request, response);
@@ -109,12 +109,12 @@ public class LoginServlet extends HttpServlet {
                 }
 
             } else {
-                request.setAttribute("error", "Password is incorrect!");
+                request.setAttribute("error", "Mật khẩu không đúng!");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
 
             }
         } else {
-            request.setAttribute("error", "Email is incorrect!");
+            request.setAttribute("error", "Tài khoản không tồn tại!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

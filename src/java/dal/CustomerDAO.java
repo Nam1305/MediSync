@@ -4,7 +4,6 @@ import model.Customer;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  *
  * @author DIEN MAY XANH
@@ -12,48 +11,30 @@ import java.util.List;
 public class CustomerDAO extends DBContext {
 
     public Customer getCustomerByEmail(String email) {
-
-        String sql = "select * from Customer where email =  ?";
+        String sql = "SELECT customerId, name, avatar, email, password, address, dateOfBirth, bloodType, gender, status, phone FROM Customer WHERE email = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Customer customer = new Customer();
-                customer.setCustomerId(rs.getInt(1));
-                customer.setName(rs.getString(2));
-                customer.setEmail(rs.getString(3));
-                customer.setPassword(rs.getString(4));
-                customer.setPhone(rs.getString(5));
-                customer.setAddress(rs.getString(6));
-                customer.setBloodtype(rs.getString(7));
-                customer.setGender(rs.getString(8));
-                customer.setDateOfBirth(rs.getDate(9));
-                customer.setStatus(rs.getString(10));
+                customer.setCustomerId(rs.getInt("customerId"));
+                customer.setName(rs.getString("name"));
+                customer.setAvatar(rs.getString("avatar"));
+                customer.setEmail(rs.getString("email"));
+                customer.setPassword(rs.getString("password"));
+                customer.setAddress(rs.getString("address"));
+                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
+                customer.setBloodType(rs.getString("bloodType"));
+                customer.setGender(rs.getString("gender"));
+                customer.setStatus(rs.getString("status"));
+                customer.setPhoneNumber(rs.getString("phone"));
                 return customer;
             }
         } catch (SQLException ex) {
-
+            ex.printStackTrace();
         }
         return null;
-    }
-
-    public void insertCustomer(Customer customer) {
-        String sql = "insert into Customer(name, email, password, phone, address, status) values (?,?,?,?,?,?)";
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, customer.getName());
-            ps.setString(2, customer.getEmail());
-            ps.setString(3, customer.getPassword());
-            ps.setString(4, customer.getPhone());
-            ps.setString(5, customer.getAddress());
-            ps.setString(6, customer.getStatus());
-            ps.executeUpdate();
-
-        } catch (SQLException ex) {
-            System.out.println("Loi roi!");
-        }
     }
 
     public void addCustomer(Customer customer) {
@@ -64,7 +45,7 @@ public class CustomerDAO extends DBContext {
             ps.setString(1, customer.getName());
             ps.setString(2, customer.getEmail());
             ps.setString(3, customer.getPassword());
-            ps.setString(4, customer.getPhone());
+            ps.setString(4, customer.getPhoneNumber());
             ps.setDate(5, customer.getDateOfBirth());
 
             ps.executeUpdate();
@@ -74,25 +55,46 @@ public class CustomerDAO extends DBContext {
         }
     }
 
-    //list all customer
+    public void insertCustomer(Customer customer) {
+        String sql = "INSERT INTO Customer (name, avatar, email, password, address, dateOfBirth, bloodType, gender, status, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, customer.getName());
+            ps.setString(2, customer.getAvatar());
+            ps.setString(3, customer.getEmail());
+            ps.setString(4, customer.getPassword());
+            ps.setString(5, customer.getAddress());
+            ps.setDate(6, customer.getDateOfBirth());
+            ps.setString(7, customer.getBloodType());
+            ps.setString(8, customer.getGender());
+            ps.setString(9, customer.getStatus());
+            ps.setString(10, customer.getPhoneNumber());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Error in insertCustomer: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
     public List<Customer> getAllCustomer() {
         List<Customer> listCustomer = new ArrayList<>();
-        String sql = "select * from Customer";
+        String sql = "SELECT customerId, name, avatar, email, password, address, dateOfBirth, bloodType, gender, status, phone FROM Customer";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Customer customer = new Customer();
-                customer.setCustomerId(rs.getInt(1));
-                customer.setName(rs.getString(2));
-                customer.setEmail(rs.getString(3));
-                customer.setPassword(rs.getString(4));
-                customer.setPhone(rs.getString(5));
-                customer.setAddress(rs.getString(6));
-                customer.setBloodtype(rs.getString(7));
-                customer.setGender(rs.getString(8));
-                customer.setDateOfBirth(rs.getDate(9));
-                customer.setStatus(rs.getString(10));
+                customer.setCustomerId(rs.getInt("customerId"));
+                customer.setName(rs.getString("name"));
+                customer.setAvatar(rs.getString("avatar"));
+                customer.setEmail(rs.getString("email"));
+                customer.setPassword(rs.getString("password"));
+                customer.setAddress(rs.getString("address"));
+                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
+                customer.setBloodType(rs.getString("bloodType"));
+                customer.setGender(rs.getString("gender"));
+                customer.setStatus(rs.getString("status"));
+                customer.setPhoneNumber(rs.getString("phone"));
                 listCustomer.add(customer);
             }
         } catch (SQLException ex) {
@@ -103,40 +105,46 @@ public class CustomerDAO extends DBContext {
 
     public boolean updateCustomer(Customer customer) {
         boolean isUpdated = false;
-        String sql = "UPDATE Customer SET name = ?, email = ?, phone = ? WHERE customerId = ?";
+        String sql = "UPDATE Customer SET name = ?, avatar = ?, email = ?, address = ?, dateOfBirth = ?, bloodType = ?, gender = ?, phone = ? WHERE customerId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, customer.getName());
-            ps.setString(2, customer.getEmail());
-            ps.setString(3, customer.getPhone());
-            ps.setInt(4, customer.getCustomerId());
+            ps.setString(2, customer.getAvatar());
+            ps.setString(3, customer.getEmail());
+            ps.setString(4, customer.getAddress());
+            ps.setDate(5, customer.getDateOfBirth());
+            ps.setString(6, customer.getBloodType());
+            ps.setString(7, customer.getGender());
+            ps.setString(8, customer.getPhoneNumber());
+            ps.setInt(9, customer.getCustomerId());
+
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
                 isUpdated = true;
             }
         } catch (SQLException ex) {
-            System.out.println("Loi roi!");
+            System.out.println("Error in updateCustomer: " + ex.getMessage());
+            ex.printStackTrace();
         }
         return isUpdated;
-
     }
 
-    //Them boi Nguyen Dinh Chinh 20-1-25
     public void updatePassword(String email, String newPassword) {
-        String sql = "UPDATE Customer SET Password = ? WHERE Email = ?";
+        String sql = "UPDATE Customer SET password = ? WHERE email = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, newPassword);
             ps.setString(2, email);
             ps.executeUpdate();
-        } catch (SQLException e) {
-            // Xử lý exception
+        } catch (SQLException ex) {
+            System.out.println("Error in updatePassword: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
-    
+
     public boolean deleteCustomer(Customer customer) {
         boolean isDeleted = false;
-        String sql = "UPDATE Customer Set status = 'Inactive' where customerId = ?";
+        String sql = "UPDATE Customer SET status = 'Inactive' WHERE customerId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, customer.getCustomerId());
@@ -145,11 +153,11 @@ public class CustomerDAO extends DBContext {
                 isDeleted = true;
             }
         } catch (SQLException ex) {
-            System.out.println("Loi deleteCustomer");
+            System.out.println("Error in deleteCustomer: " + ex.getMessage());
+            ex.printStackTrace();
         }
         return isDeleted;
     }
-
 
     public static void main(String[] args) {
         CustomerDAO d = new CustomerDAO();

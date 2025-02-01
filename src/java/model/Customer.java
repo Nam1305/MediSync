@@ -4,47 +4,36 @@ import java.sql.*;
 
 public class Customer {
     private int customerId;
-    private String name, email, password, phone, address, bloodtype, gender;
+    private String name;
+    private String avatar;
+    private String email;
+    private String password;
+    private String address;
     private Date dateOfBirth;
+    private String bloodType;
+    private String gender;
     private String status;
+    private String phone;
 
     public Customer() {
     }
     
-    public Customer(int customerId) {
-        this.customerId = customerId;
+      public Customer(int id) {
+          this.customerId = id;
     }
 
-    public Customer(int customerId, String name, String email, String phone) {
+    public Customer(int customerId, String name, String avatar, String email, String password, String address, Date dateOfBirth, String bloodType, String gender, String status, String phone) {
         this.customerId = customerId;
         this.name = name;
-        this.email = email;
-        this.phone = phone;
-    }
-    
-    
-
-    public Customer(String name, String email, String password, String phone, Date dateOfBirth) {
-        this.name = name;
+        this.avatar = avatar;
         this.email = email;
         this.password = password;
-        this.phone = phone;
-        this.dateOfBirth = dateOfBirth;
-    }
-    
-    
-
-    public Customer(int customerId, String name, String email, String password, String phone, String address, String bloodtype, String gender, Date dateOfBirth, String status) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
         this.address = address;
-        this.bloodtype = bloodtype;
-        this.gender = gender;
         this.dateOfBirth = dateOfBirth;
+        this.bloodType = bloodType;
+        this.gender = gender;
         this.status = status;
+        this.phone = phone;
     }
 
     public int getCustomerId() {
@@ -63,6 +52,14 @@ public class Customer {
         this.name = name;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -79,36 +76,12 @@ public class Customer {
         this.password = password;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getBloodtype() {
-        return bloodtype;
-    }
-
-    public void setBloodtype(String bloodtype) {
-        this.bloodtype = bloodtype;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public Date getDateOfBirth() {
@@ -119,6 +92,22 @@ public class Customer {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public String getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -127,11 +116,18 @@ public class Customer {
         this.status = status;
     }
 
+    public String getPhoneNumber() {
+        return phone;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phone = phoneNumber;
+    }
+
     @Override
     public String toString() {
-        return "Customer{" + "customerId=" + customerId + ", name=" + name + ", email=" + email + ", password=" + password + ", phone=" + phone + ", address=" + address + ", bloodtype=" + bloodtype + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", status=" + status + '}';
+        return "Customer{" + "customerId=" + customerId + ", name=" + name + ", avatar=" + avatar + ", email=" + email + ", password=" + password + ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", bloodType=" + bloodType + ", gender=" + gender + ", status=" + status + ", phone=" + phone + '}';
     }
-    
-    
+
 
 }

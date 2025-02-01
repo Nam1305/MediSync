@@ -10,26 +10,35 @@ import java.sql.*;
  */
 public class Staff {
 
-    private int staffId;
-    private String name, email, phone, password;
+     private int staffId;
+    private String name;
+    private String email;
+    private String avatar;
+    private String phone;
+    private String password;
     private Date dateOfBirth;
-    private String position,gender, status;
+    private String position;
+    private String gender;
+    private String status;
+    private String description;
     private Department department;
     private Role role;
 
     public Staff() {
     }
 
-    public Staff(int staffId, String name, String email, String phone, String password, Date dateOfBirth, String position, String gender, String status, Department department, Role role) {
+    public Staff(int staffId, String name, String email, String avatar, String phone, String password, Date dateOfBirth, String position, String gender, String status, String description, Department department, Role role) {
         this.staffId = staffId;
         this.name = name;
         this.email = email;
+        this.avatar = avatar;
         this.phone = phone;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.position = position;
         this.gender = gender;
         this.status = status;
+        this.description = description;
         this.department = department;
         this.role = role;
     }
@@ -56,6 +65,14 @@ public class Staff {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getPhone() {
@@ -106,6 +123,14 @@ public class Staff {
         this.status = status;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Department getDepartment() {
         return department;
     }
@@ -124,8 +149,9 @@ public class Staff {
 
     @Override
     public String toString() {
-        return "Staff{" + "staffId=" + staffId + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password=" + password + ", dateOfBirth=" + dateOfBirth + ", position=" + position + ", gender=" + gender + ", status=" + status + ", department=" + department + ", role=" + role + '}';
+        return "Staff{" + "staffId=" + staffId + ", name=" + name + ", email=" + email + ", avatar=" + avatar + ", phone=" + phone + ", password=" + password + ", dateOfBirth=" + dateOfBirth + ", position=" + position + ", gender=" + gender + ", status=" + status + ", description=" + description + ", department=" + department + ", role=" + role + '}';
     }
-
+    
+    
 
 }

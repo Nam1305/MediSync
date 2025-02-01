@@ -88,7 +88,7 @@ public class AddStaffServlet extends HttpServlet {
         department.setDepartmentId(departmentId);
         Role role = new Role();
         role.setRoleId(roleId);
-        Staff newStaff = new Staff(0, name, email, phone, hashedPassword, dateOfBirth, position, gender, "Active", department, role);
+        Staff newStaff = new Staff(0, name, email, gender, phone, password, dateOfBirth, position, gender, "Active", position, department, role);
       
         boolean isAdded = staff.addStaff(newStaff);
 

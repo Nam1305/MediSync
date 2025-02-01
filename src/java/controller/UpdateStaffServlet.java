@@ -98,7 +98,7 @@ public class UpdateStaffServlet extends HttpServlet {
         Role role = new Role();
         role.setRoleId(roleId); 
         // khởi tạo biến update staff mới 
-        Staff updateStaff = new Staff(staffId, name, email, phone, hashedPassword, dateOfBirth, position, gender, status, department, role);
+        Staff updateStaff = new Staff(staffId, name, email, status, phone, password, dateOfBirth, position, gender, status, position, department, role);
         
         DoctorDAO staff = new DoctorDAO();
         boolean isUpdate = staff.updateStaff(updateStaff);

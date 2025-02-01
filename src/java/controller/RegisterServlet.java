@@ -62,9 +62,10 @@ public class RegisterServlet extends HttpServlet {
             Customer customer = new Customer();
             customer.setName(name);
             customer.setAddress(address);
-            customer.setPhone(phone);
+            customer.setPhoneNumber(phone);
             customer.setPassword(hashedPassword);
             customer.setEmail(email);
+            customer.setAvatar("https://thumbs.dreamstime.com/z/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg");            
             customer.setStatus("Active");
             customerDao.insertCustomer(customer);
             System.out.println(customer.toString());
@@ -108,11 +109,6 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        if (!password.equals(confirm)) {
-            request.setAttribute("error", "Mật khẩu và mật khẩu xác nhận không khớp!");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
-            return;
-        }
         if (!valid.validatePassword(password)) {
             request.setAttribute("error", "Mật khẩu phải ít nhất 6 kí tự, bao gồm chữ hoa, chữ thường, số và kí tự đặc biệt!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
@@ -123,7 +119,7 @@ public class RegisterServlet extends HttpServlet {
         String code = sendEmail.getRandom();
         VerifyCode verifyCode = new VerifyCode(code);
         session.setAttribute("verifyCode", verifyCode);
-        sendEmail.sendMailVerify(email, code);
+        boolean x = sendEmail.sendMailVerify(email, code);
         request.getRequestDispatcher("verify.jsp").forward(request, response);
 
     }

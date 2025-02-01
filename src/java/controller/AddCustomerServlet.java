@@ -64,7 +64,7 @@ public class AddCustomerServlet extends HttpServlet {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
         CustomerDAO customerDao = new CustomerDAO();
-        Customer newCustomer = new Customer(fullName, email, hashedPassword, phoneNumber, dateOfBirth);
+        Customer newCustomer = new Customer(0, fullName, email, email, password, password, dateOfBirth, lastName, email, email, email);
         //add Customer
         customerDao.addCustomer(newCustomer);
         request.setAttribute("success", "Add done!");
