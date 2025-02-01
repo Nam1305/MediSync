@@ -34,7 +34,7 @@ import java.sql.*;
 )
 public class DoctorProfileServlet extends HttpServlet {
 
-    private static final String UPLOAD_DIR = "uploads"; 
+    private static final String UPLOAD_DIR = "uploads";
     DepartmentDAO depart = new DepartmentDAO();
     StaffDAO std = new StaffDAO();
 
@@ -94,7 +94,18 @@ public class DoctorProfileServlet extends HttpServlet {
                 std.updateProfile(st);
                 break;
             case "updateavatar":
-             
+                String uploadFolder = request.getServletContext().getRealPath("/uploads");
+                Path uploadPath = Paths.get(uploadFolder);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectory(uploadPath);
+                }
+                Part imagePart = request.getPart("avatar");
+                String imageFilename = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
+                if (!imageFilename.equals("")) {
+                    imagePart.write(Paths.get(uploadPath.toString(), imageFilename).toString());
+                }
+                std.updateAvatar(st.getStaffId(), "/uploads/" + imageFilename);
+                st.setAvatar("/uploads/" + imageFilename);
 
                 break;
         }
