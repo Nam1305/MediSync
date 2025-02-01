@@ -28,7 +28,7 @@ public class CustomerDAO extends DBContext {
                 customer.setBloodType(rs.getString("bloodType"));
                 customer.setGender(rs.getString("gender"));
                 customer.setStatus(rs.getString("status"));
-                customer.setPhoneNumber(rs.getString("phone"));
+                customer.setPhone(rs.getString("phone"));
                 return customer;
             }
         } catch (SQLException ex) {
@@ -45,7 +45,7 @@ public class CustomerDAO extends DBContext {
             ps.setString(1, customer.getName());
             ps.setString(2, customer.getEmail());
             ps.setString(3, customer.getPassword());
-            ps.setString(4, customer.getPhoneNumber());
+            ps.setString(4, customer.getPhone());
             ps.setDate(5, customer.getDateOfBirth());
 
             ps.executeUpdate();
@@ -68,7 +68,7 @@ public class CustomerDAO extends DBContext {
             ps.setString(7, customer.getBloodType());
             ps.setString(8, customer.getGender());
             ps.setString(9, customer.getStatus());
-            ps.setString(10, customer.getPhoneNumber());
+            ps.setString(10, customer.getPhone());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Error in insertCustomer: " + ex.getMessage());
@@ -94,7 +94,7 @@ public class CustomerDAO extends DBContext {
                 customer.setBloodType(rs.getString("bloodType"));
                 customer.setGender(rs.getString("gender"));
                 customer.setStatus(rs.getString("status"));
-                customer.setPhoneNumber(rs.getString("phone"));
+                customer.setPhone(rs.getString("phone"));
                 listCustomer.add(customer);
             }
         } catch (SQLException ex) {
@@ -115,7 +115,7 @@ public class CustomerDAO extends DBContext {
             ps.setDate(5, customer.getDateOfBirth());
             ps.setString(6, customer.getBloodType());
             ps.setString(7, customer.getGender());
-            ps.setString(8, customer.getPhoneNumber());
+            ps.setString(8, customer.getPhone());
             ps.setInt(9, customer.getCustomerId());
 
             int rowsAffected = ps.executeUpdate();

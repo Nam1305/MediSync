@@ -116,11 +116,11 @@ public class Customer {
         this.status = status;
     }
 
-    public String getPhoneNumber() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhone(String phoneNumber) {
         this.phone = phoneNumber;
     }
 

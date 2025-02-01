@@ -30,7 +30,7 @@
             }
 
             .input-group .btn {
-                border-radius: 0 5px 5px 0; 
+                border-radius: 0 5px 5px 0;
             }
         </style>
     </head>
@@ -128,25 +128,57 @@
         </section><!--end section-->
         <!-- Hero End -->
 
-        <!-- javascript -->
         <script>
             document.getElementById('registration-form').addEventListener('submit', function (event) {
+                // Lấy tất cả các input
+                const phone = document.querySelector("input[name='phone']").value.trim();
+                const email = document.querySelector("input[name='email']").value.trim();
+                const password = document.querySelector("input[name='password']").value;
+                const confirmPassword = document.querySelector("input[name='confirm']").value;
                 const checkbox = document.getElementById('accept-tnc-check');
                 const errorMessage = document.getElementById('error-message');
 
-                if (!checkbox.checked) {
-                    event.preventDefault();
+                let error = "";
+
+
+                // Kiểm tra số điện thoại hợp lệ (10-11 số, bắt đầu bằng 0)
+                if (!/^(0\d{9,10})$/.test(phone)) {
+                    error = "Số điện thoại không hợp lệ! Số điện thoại phải có 10-11 chữ số và bắt đầu bằng 0.";
+                }
+
+                // Kiểm tra email hợp lệ
+                else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                    error = "Email không hợp lệ!";
+                }
+               
+
+                // Kiểm tra mật khẩu xác nhận có khớp không
+                if (!error && password !== confirmPassword) {
+                    error = "Mật khẩu xác nhận không khớp!";
+                }
+                // Kiểm tra checkbox điều khoản đã được chọn chưa
+                if (!error && !checkbox.checked) {
+                    error = "Bạn phải chấp nhận Điều khoản và điều kiện để đăng ký.";
+                }
+
+                // Nếu có lỗi, hiển thị thông báo và ngăn submit form
+                if (error) {
+                    event.preventDefault(); // Ngăn form submit
+                    errorMessage.innerText = error;
                     errorMessage.style.display = 'block';
                 } else {
                     errorMessage.style.display = 'none';
                 }
             });
+
+// Hàm bật/tắt hiển thị mật khẩu
             function togglePasswordVisibility(fieldId, buttonElement) {
                 const field = document.getElementById(fieldId);
                 const isPassword = field.type === 'password';
                 field.type = isPassword ? 'text' : 'password';
                 buttonElement.innerText = isPassword ? 'Ẩn' : 'Hiện';
             }
+
         </script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <!-- Icons -->
