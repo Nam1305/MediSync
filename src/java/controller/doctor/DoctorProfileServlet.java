@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,7 +33,6 @@ import java.sql.*;
 )
 public class DoctorProfileServlet extends HttpServlet {
 
-    private static final String UPLOAD_DIR = "uploads";
     DepartmentDAO depart = new DepartmentDAO();
     StaffDAO std = new StaffDAO();
 

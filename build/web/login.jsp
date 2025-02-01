@@ -27,7 +27,7 @@
             </div>
         </div>
 
-      
+
         <div class="back-to-home rounded d-none d-sm-block">
             <a href="index.html" class="btn btn-icon btn-success"><i data-feather="home" class="icons"></i></a>
         </div>
@@ -38,7 +38,7 @@
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Sign In</h4>
-                                 <c:set var="cookie"  value="${pageContext.request.cookies}"/>
+                                <c:set var="cookie"  value="${pageContext.request.cookies}"/>
                                 <form action="login" method="post" class="login-form mt-4">                                        <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Your Email <span class="text-danger">*</span></label>
@@ -49,7 +49,12 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Password <span class="text-danger">*</span></label>
-                                            <input type="password" class="form-control" placeholder="Password" name="password" value="${cookie.cPassword.value}" required="">
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="password" placeholder="Password" name="password" value="${cookie.cPassword.value}" required>
+                                                <button type="button" class="btn btn-outline-secondary" id="togglePasswordBtn" onclick="togglePassword()">
+                                                    <span id="togglePasswordText">Hiện</span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -100,7 +105,20 @@
             </div><!--end row-->
         </div> <!--end container-->
     </section>
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementById("password");
+            var togglePasswordText = document.getElementById("togglePasswordText");
 
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                togglePasswordText.textContent = "Ẩn";  // Hiển thị "Ẩn"
+            } else {
+                passwordInput.type = "password";
+                togglePasswordText.textContent = "Hiện";  // Hiển thị "Hiện"
+            }
+        }
+    </script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/app.js"></script>
 </body>
