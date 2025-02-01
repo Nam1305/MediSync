@@ -84,7 +84,7 @@ public class LoginServlet extends HttpServlet {
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 } else {
                     session.setAttribute("customer", customer);
-                    request.getRequestDispatcher("home.jsp").forward(request, response);
+                    request.getRequestDispatcher("home").forward(request, response);
                 }
 
             } else {
@@ -103,7 +103,7 @@ public class LoginServlet extends HttpServlet {
                         request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
 
                     } else {
-                        request.getRequestDispatcher("home.jsp").forward(request, response);
+                        request.getRequestDispatcher("home").forward(request, response);
 
                     }
                 }

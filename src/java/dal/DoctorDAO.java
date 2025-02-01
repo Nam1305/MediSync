@@ -113,4 +113,47 @@ public class DoctorDAO extends DBContext {
 //        System.out.println(doctor.getAllDoctor());
 //        
 //    }
+    
+    //Them boi Nguyen Dinh Chinh 1-2-25
+    public List<Staff> getTopRatedDoctors() {
+        List<Staff> topDoctors = new ArrayList<>();
+        String sql = """
+        SELECT TOP 4 s.*
+        FROM Staff s
+        JOIN FeedBack f ON s.staffId = f.staffId
+        WHERE s.roleId = 2
+        GROUP BY s.staffId, s.name, s.email, s.avatar, s.phone, 
+                 s.password, s.dateOfBirth, s.position, s.gender, 
+                 s.status, s.description, s.roleId, s.departmentId
+        ORDER BY AVG(f.ratings) DESC
+    """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                topDoctors.add(mapResultSetToStaff(rs));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return topDoctors;
+    }
+
+    protected Staff mapResultSetToStaff(ResultSet rs) throws SQLException {
+        Staff staff = new Staff();
+        staff.setStaffId(rs.getInt("staffId"));
+        staff.setName(rs.getString("name"));
+        staff.setEmail(rs.getString("email"));
+        staff.setAvatar(rs.getString("avatar"));
+        staff.setPhone(rs.getString("phone"));
+        staff.setPassword(rs.getString("password"));
+        staff.setDateOfBirth(rs.getDate("dateOfBirth"));
+        staff.setPosition(rs.getString("position"));
+        staff.setGender(rs.getString("gender"));
+        staff.setStatus(rs.getString("status"));
+        staff.setDescription(rs.getString("description"));
+        staff.setDepartment(departDao.getDepartmentById(rs.getInt("departmentId")));
+        staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
+        return staff;
+    }
 }
