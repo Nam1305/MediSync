@@ -97,7 +97,7 @@
                                                 <small class="text-muted">
                                                     <c:choose>
                                                         <c:when test="${account['class'].simpleName eq 'Staff'}">
-                                                            ${account.department.name}
+                                                            ${account.department.departmentName}
                                                         </c:when>
                                                         <c:otherwise>
                                                             Customer
@@ -239,94 +239,19 @@
         </div><!--end row-->
 
         <div class="row">
-            <div class="col-xl-3 col-md-4 col-12 mt-5">
-                <div class="card features feature-primary border-0">
-                    <div class="icon text-center rounded-md">
-                        <i class="ri-eye-fill h3 mb-0"></i>
-                    </div>
-                    <div class="card-body p-0 mt-3">
-                        <a href="departments.html" class="title text-dark h5">Khoa Mắt</a>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-xl-3 col-md-4 col-12 mt-5">
-                <div class="card features feature-primary border-0">
-                    <div class="icon text-center rounded-md">
-                        <i class="ri-psychotherapy-fill h3 mb-0"></i>
-                    </div>
-                    <div class="card-body p-0 mt-3">
-                        <a href="departments.html" class="title text-dark h5">Khoa Tâm Lý</a>
+            <c:forEach items="${departments}" var="dept">
+                <div class="col-xl-3 col-md-4 col-12 mt-5">
+                    <div class="card features feature-primary border-0">
+                        <div class="icon text-center rounded-md">
+                            <i class="ri-stethoscope-fill h3 mb-0"></i>
+                        </div>
+                        <div class="card-body p-0 mt-3">
+                            <a href="departments.html" class="title text-dark h5">${dept.departmentName}</a>
+                        </div>
                     </div>
                 </div>
-            </div><!--end col-->
-
-            <div class="col-xl-3 col-md-4 col-12 mt-5">
-                <div class="card features feature-primary border-0">
-                    <div class="icon text-center rounded-md">
-                        <i class="ri-stethoscope-fill h3 mb-0"></i>
-                    </div>
-                    <div class="card-body p-0 mt-3">
-                        <a href="departments.html" class="title text-dark h5">Khoa Chăm Sóc Sức Khỏe</a>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-xl-3 col-md-4 col-12 mt-5">
-                <div class="card features feature-primary border-0">
-                    <div class="icon text-center rounded-md">
-                        <i class="ri-capsule-fill h3 mb-0"></i>
-                    </div>
-                    <div class="card-body p-0 mt-3">
-                        <a href="departments.html" class="title text-dark h5">Khoa Nha Khoa</a>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-xl-3 col-md-4 col-12 mt-5">
-                <div class="card features feature-primary border-0">
-                    <div class="icon text-center rounded-md">
-                        <i class="ri-microscope-fill h3 mb-0"></i>
-                    </div>
-                    <div class="card-body p-0 mt-3">
-                        <a href="departments.html" class="title text-dark h5">Khoa Chỉnh Hình</a>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-xl-3 col-md-4 col-12 mt-5">
-                <div class="card features feature-primary border-0">
-                    <div class="icon text-center rounded-md">
-                        <i class="ri-pulse-fill h3 mb-0"></i>
-                    </div>
-                    <div class="card-body p-0 mt-3">
-                        <a href="departments.html" class="title text-dark h5">Khoa Tim Mạch</a>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-xl-3 col-md-4 col-12 mt-5">
-                <div class="card features feature-primary border-0">
-                    <div class="icon text-center rounded-md">
-                        <i class="ri-empathize-fill h3 mb-0"></i>
-                    </div>
-                    <div class="card-body p-0 mt-3">
-                        <a href="departments.html" class="title text-dark h5">Khoa Phụ Khoa</a>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-xl-3 col-md-4 col-12 mt-5">
-                <div class="card features feature-primary border-0">
-                    <div class="icon text-center rounded-md">
-                        <i class="ri-mind-map h3 mb-0"></i>
-                    </div>
-                    <div class="card-body p-0 mt-3">
-                        <a href="departments.html" class="title text-dark h5">Khoa Thần Kinh</a>
-                    </div>
-                </div>
-            </div><!--end col-->
-        </div><!--end row-->
+            </c:forEach>
+        </div>
 
         <!-- Start -->
         <section class="section">
@@ -348,7 +273,7 @@
                                 </div>
                                 <div class="card-body content text-center">
                                     <a href="doctor-team-one.html" class="title text-dark h5 d-block mb-0">${doctor.name}</a>
-                                    <small class="text-muted speciality">${doctor.department.name}</small>
+                                    <small class="text-muted speciality">${doctor.department.departmentName}</small>
                                 </div>
                             </div>
                         </div>

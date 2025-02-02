@@ -24,7 +24,7 @@ public class DepartmentDAO extends DBContext {
             while (rs.next()) {
                 Department depart = new Department();
                 depart.setDepartmentId(rs.getInt(1));
-                depart.setName(rs.getString(2));
+                depart.setDepartmentName(rs.getString(2));
                 return depart;
             }
         } catch (SQLException ex) {
@@ -46,6 +46,25 @@ public class DepartmentDAO extends DBContext {
             }
         } catch (SQLException ex) {
 
+        }
+        return list;
+    }
+    
+    public List<Department> getDepartmentsWithKhoa() {
+        List<Department> list = new ArrayList<>();
+        String sql = "SELECT * FROM Department WHERE DepartmentName LIKE N'%Khoa%'";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Department department = new Department(
+                    rs.getInt("DepartmentId"),
+                    rs.getString("DepartmentName")
+                );
+                list.add(department);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error getting departments with Khoa: " + ex.getMessage());
         }
         return list;
     }

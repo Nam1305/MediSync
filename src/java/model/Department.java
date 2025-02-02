@@ -8,16 +8,17 @@ package model;
  *
  * @author DIEN MAY XANH
  */
+
 public class Department {
     private int departmentId;
-    private String name;
+    private String departmentName;
 
     public Department() {
     }
 
-    public Department(int departmentId, String name) {
+    public Department(int departmentId, String departmentName) {
         this.departmentId = departmentId;
-        this.name = name;
+        this.departmentName = departmentName;
     }
 
     public int getDepartmentId() {
@@ -28,13 +29,11 @@ public class Department {
         this.departmentId = departmentId;
     }
 
-    public String getName() {
-        return name;
+    public String getDepartmentName() {
+        return departmentName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
-    
-    
 }

@@ -13,16 +13,21 @@ import jakarta.servlet.http.HttpSession;
 import model.Staff;
 import model.Customer;
 import model.Blog;
+import dal.DepartmentDAO;
+import model.Department;
 
 @WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
 public class HomeServlet extends HttpServlet {
     
     private final DoctorDAO doctorDAO;
     private final BlogDAO blogDAO;
+    private final DepartmentDAO departmentDAO;
+
     
     public HomeServlet() {
         this.doctorDAO = new DoctorDAO();
         this.blogDAO = new BlogDAO();
+        this.departmentDAO = new DepartmentDAO();
     }
     
     private boolean isUserLoggedIn(HttpSession session) {
@@ -52,6 +57,9 @@ public class HomeServlet extends HttpServlet {
                 }
             }
 
+            List<Department> departments = departmentDAO.getDepartmentsWithKhoa();
+            request.setAttribute("departments", departments);
+            
             // Get top rated doctors
             List<Staff> topDoctors = doctorDAO.getTopRatedDoctors();
             request.setAttribute("topDoctors", topDoctors);
