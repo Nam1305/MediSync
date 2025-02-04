@@ -20,22 +20,28 @@ public class DoctorDAO extends DBContext {
     DepartmentDAO departDao = new DepartmentDAO();
     RoleDAO roleDao = new RoleDAO();
 
-    public List<Staff> getAllDoctor(Integer roleId) {
+    public List<Staff> getAllDoctor(Integer roleId, String status) {
         List<Staff> listDoctor = new ArrayList<>();
         String sql = "SELECT * FROM Staff"; // Câu SQL cơ bản
 
     // Nếu roleId không null, thêm điều kiện lọc
     if (roleId != null) {
-        sql += " WHERE roleId = ?";
+        sql += " where roleId = ?";
     }
-
+       if (status != null && !status.isEmpty()) {
+        sql += " AND status = ?";
+    }
     try {
         PreparedStatement ps = connection.prepareStatement(sql);
 
-        // Nếu có roleId, truyền vào SQL
-        if (roleId != null) {
-            ps.setInt(1, roleId);
+        int index = 1;
+        if (roleId != null ) {
+            ps.setInt(index++, roleId);
         }
+        if (status != null && !status.isEmpty()) {
+            ps.setString(index++, status);
+        }
+
         ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Staff doctor = new Staff();

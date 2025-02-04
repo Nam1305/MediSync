@@ -325,6 +325,12 @@
                                     <option value="3">Expert</option>
                                     <option value="4">Receptionist</option>
                                 </select>
+                                <label for="statusFilter">Filter by Status:</label>
+                                <select name="status" id="statusFilter">
+                                    <option value="">All</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
                                 <button type="submit">Filter</button>
                             </form>
 
@@ -362,12 +368,12 @@
                                                 <th class="border-bottom p-3" style="min-width: 150px;">Date of Birth</th>
                                                 <th class="border-bottom p-3">Email</th>
                                                 <th class="border-bottom p-3">Status</th>
-                                                
+
                                                 <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
                                             </tr>
                                         </thead>
                                         <!--tbody-start-->
-                                         <tbody>
+                                        <tbody>
                                             <c:forEach var="doctors" items="${listDoctor}">
                                                 <tr>
                                                     <td class="p-3">${doctors.staffId}</td>
@@ -407,7 +413,7 @@
                                                            data-staff-description ="${doctors.description}"
                                                            data-staff-departmentId= "${doctors.department.departmentId}"
                                                            data-staff-roleId ="${doctors.role.roleId}">
-                                                           
+
                                                             <i class="uil uil-pen"></i>
                                                         </a>
                                                         <form id="deleteForm${doctors.staffId}" action="deleteStaffServlet" method="post" style="display: inline;">
@@ -511,7 +517,7 @@
         </div>
         <!-- Offcanvas End -->
 
-         <!-- Modal start -->
+        <!-- Modal start -->
         <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -563,7 +569,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Position</label>
-                                      
+
                                         <select name="position" id="position" class="form-control">
                                             <option value="Doctor">Doctor</option>
                                             <option value="Expert">Expert</option>
@@ -586,53 +592,53 @@
                                     <div class="mb-3">
                                         <label class="form-label">Status</label>
                                         <select name="status" id="status" class="form-control">
-                                            <option value="active">Active</option>
-                                            <option value="inactive">Inactive</option>
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
                                 </div><!--end col-->
                                 <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Description</label>
-                                        <input name="description" id="description" type="text" class="form-control" placeholder="Description">
-                                    </div>
-                                </div><!--end col-->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Department</label>
-                                        <select name="departmentId" id="departmentId" class="form-control">
-                                            <option value="1">Khoa nội tổng quát</option>
-                                            <option value="2">Khoa Ngoại tổng quát</option>
-                                            <option value="3">Khoa Nhi</option>
-                                            <option value="4">Khoa Sản</option>
-                                            <option value="5">Khoa Tai Mũi Họng</option>
-                                            <option value="6">Khoa Răng Hàm Mặt</option>
-                                            <option value="7">Khoa Da Liễu</option>
-                                            <option value="8">Khoa Mắt</option>
-                                            <option value="9">Khoa Xét Nghiệm</option>
-                                            <option value="10">Khoa Chẩn Đoán Hình Ảnh</option>
-                                        </select>
-                                    </div>
-                                </div><!--end col-->
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <input name="description" id="description" type="text" class="form-control" placeholder="Description">
+                                        </div>
+                                    </div><!--end col-->
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Department</label>
+                                            <select name="departmentId" id="departmentId" class="form-control">
+                                                <option value="1">Khoa nội tổng quát</option>
+                                                <option value="2">Khoa Ngoại tổng quát</option>
+                                                <option value="3">Khoa Nhi</option>
+                                                <option value="4">Khoa Sản</option>
+                                                <option value="5">Khoa Tai Mũi Họng</option>
+                                                <option value="6">Khoa Răng Hàm Mặt</option>
+                                                <option value="7">Khoa Da Liễu</option>
+                                                <option value="8">Khoa Mắt</option>
+                                                <option value="9">Khoa Xét Nghiệm</option>
+                                                <option value="10">Khoa Chẩn Đoán Hình Ảnh</option>
+                                            </select>
+                                        </div>
+                                    </div><!--end col-->
 
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Role</label>
-                                        <select name="roleId" id="roleId" class="form-control">
-                                            <option value="2">Doctor</option>
-                                            <option value="3">Expert</option>
-                                            <option value="4">Receptionist</option>
-                                        </select>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Role</label>
+                                            <select name="roleId" id="roleId" class="form-control">
+                                                <option value="2">Doctor</option>
+                                                <option value="3">Expert</option>
+                                                <option value="4">Receptionist</option>
+                                            </select>
+                                        </div>
+                                    </div><!--end col-->
+                                </div><!--end row-->
 
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
-                                </div><!--end col-->
-                            </div><!--end row-->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
+                                    </div><!--end col-->
+                                </div><!--end row-->
                         </form><!--end form-->
                     </div>
                 </div>
