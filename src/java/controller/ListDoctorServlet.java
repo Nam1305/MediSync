@@ -41,7 +41,7 @@ public class ListDoctorServlet extends HttpServlet {
             out.println("<title>Servlet ListDoctorServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListDoctorServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListDoctorServlet at  " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,7 +60,13 @@ public class ListDoctorServlet extends HttpServlet {
     throws ServletException, IOException {
         // tạo đối tượng doctors và gọi phương thức getAllDOctor để lấy dữ liệu 
         DoctorDAO doctors = new DoctorDAO();
-        List<Staff> listDoctor = doctors.getAllDoctor();
+        String roleIdParam = request.getParameter("roleId"); // Lấy roleId từ request
+        Integer roleId = null;
+
+        if (roleIdParam != null && !roleIdParam.isEmpty()) {
+            roleId = Integer.parseInt(roleIdParam); // Chuyển về Integer nếu có roleId
+        }
+        List<Staff> listDoctor = doctors.getAllDoctor(roleId);
         // đóng gói listDoctor và request và truyền sang trang jsp để hiện thị dữ liệu 
         request.setAttribute("listDoctor", listDoctor);
         request.getRequestDispatcher("listDoctor.jsp").forward(request, response);

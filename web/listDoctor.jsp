@@ -66,7 +66,7 @@
                             <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Doctors</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="ListDoctor">Doctors</a></li>
+                                    <li><a href="ListDoctor">Staffs</a></li>
                                     <li><a href="addStaff.jsp">Add Staff</a></li>
 
                                 </ul>
@@ -146,7 +146,7 @@
                             </div>
                         </li>
 
-                        
+
                         <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
 
                         <li><a href="landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
@@ -316,16 +316,20 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Doctor List</h5>
+                            <h5 class="mb-0">Staff List</h5>
+                            <form action="ListDoctor" method="get">
+                                <label for="roleFilter">Filter by Role:</label>
+                                <select name="roleId" id="roleFilter">
+                                    <option value="">All</option>
+                                    <option value="2">Doctor</option>
+                                    <option value="3">Expert</option>
+                                    <option value="4">Receptionist</option>
+                                </select>
+                                <button type="submit">Filter</button>
+                            </form>
 
 
 
-                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
-                                <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Patients</li>
-                                </ul>
-                            </nav>
                         </div>
 
                         <div class="row" >
@@ -358,25 +362,26 @@
                                                 <th class="border-bottom p-3" style="min-width: 150px;">Date of Birth</th>
                                                 <th class="border-bottom p-3">Email</th>
                                                 <th class="border-bottom p-3">Status</th>
+                                                
                                                 <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
                                             </tr>
                                         </thead>
                                         <!--tbody-start-->
-                                        <tbody>
+                                         <tbody>
                                             <c:forEach var="doctors" items="${listDoctor}">
                                                 <tr>
                                                     <td class="p-3">${doctors.staffId}</td>
                                                     <td class="py-3">
                                                         <a href="#" class="text-dark">
                                                             <div class="d-flex align-items-center">
-                                                                <img src="assets/images/client/01.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
+                                                                <img src="${doctors.avatar}" width="40" height="" alt="alt"/>
                                                                 <span class="ms-2">${doctors.name}</span>
                                                             </div>
                                                         </a>
                                                     </td>
                                                     <td class="p-3">${doctors.gender}</td>
                                                     <td class="p-3">${doctors.position}</td>
-                                                    <td class="p-3">${doctors.department.name}</td>
+                                                    <td class="p-3">${doctors.department.departmentName}</td>
                                                     <td class="p-3">${doctors.phone}</td>
                                                     <td class="p-3">${doctors.dateOfBirth}</td>
                                                     <td class="p-3">${doctors.email}</td>
@@ -392,12 +397,17 @@
                                                            data-bs-target="#editprofile"
                                                            data-staff-id = "${doctors.staffId}"
                                                            data-staff-name ="${doctors.name} "
+                                                           data-staff-email="${doctors.email}"
                                                            data-staff-gender="${doctors.gender}"
                                                            data-staff-position ="${doctors.position}"
-                                                           data-staff-department="${doctors.department.name}"
+                                                           data-staff-department="${doctors.department.departmentName}"
                                                            data-staff-phone="${doctors.phone}"
                                                            data-staff-dateOfBirth="${doctors.dateOfBirth}"
-                                                           data-staff-status="${doctors.status}">
+                                                           data-staff-status="${doctors.status}"
+                                                           data-staff-description ="${doctors.description}"
+                                                           data-staff-departmentId= "${doctors.department.departmentId}"
+                                                           data-staff-roleId ="${doctors.role.roleId}">
+                                                           
                                                             <i class="uil uil-pen"></i>
                                                         </a>
                                                         <form id="deleteForm${doctors.staffId}" action="deleteStaffServlet" method="post" style="display: inline;">
@@ -411,6 +421,7 @@
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
+                                        <!--Tbody-end-->
                                         <!--Tbody-end-->
                                     </table>
 
@@ -500,7 +511,7 @@
         </div>
         <!-- Offcanvas End -->
 
-        <!-- Modal start -->
+         <!-- Modal start -->
         <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -509,7 +520,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3 pt-4">
-                        <form class="mt-4" method="POST" action="UpdateStaffServlet">
+                        <form class="mt-4" method="post" action="UpdateStaffServlet">
                             <!-- Input Hidden -->
                             <input type="hidden" name="staffId" id="staffId">
 
@@ -552,7 +563,12 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Position</label>
-                                        <input name="position" id="position" type="text" class="form-control" placeholder="Position">
+                                      
+                                        <select name="position" id="position" class="form-control">
+                                            <option value="Doctor">Doctor</option>
+                                            <option value="Expert">Expert</option>
+                                            <option value="Receptionist">Receptionist</option>
+                                        </select>
                                     </div>
                                 </div><!--end col-->
 
@@ -575,7 +591,13 @@
                                         </select>
                                     </div>
                                 </div><!--end col-->
-
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Description</label>
+                                        <input name="description" id="description" type="text" class="form-control" placeholder="Description">
+                                    </div>
+                                </div><!--end col-->
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Department</label>
@@ -617,6 +639,7 @@
             </div>
         </div>
         <!-- Modal end -->
+
 
         <!-- Profile Start -->
         <div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
@@ -702,6 +725,7 @@
                                                     const staffGender = this.getAttribute('data-staff-gender');
                                                     const staffDateOfBirth = this.getAttribute('data-staff-dateOfBirth');
                                                     const staffStatus = this.getAttribute('data-staff-status');
+                                                    const staffDescription = this.getAttribute('data-staff-description');
                                                     const departmentId = this.getAttribute('data-staff-departmentId');
                                                     const roleId = this.getAttribute('data-staff-roleId');
 
@@ -714,6 +738,7 @@
                                                     document.getElementById('gender').value = staffGender;
                                                     document.getElementById('dateOfBirth').value = staffDateOfBirth;
                                                     document.getElementById('status').value = staffStatus;
+                                                    document.getElementById('description').value = staffDescription;
 
                                                     // Cập nhật lựa chọn trong các ô chọn Department và Role
                                                     document.getElementById('departmentId').value = departmentId;
@@ -730,6 +755,7 @@
                                             }, 5000);
                                         }
         </script>
+
 
     </body>
 
