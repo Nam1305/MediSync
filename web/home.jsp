@@ -110,11 +110,11 @@
                                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Change password
                                         </a>
                                         <c:if test="${account['class'].simpleName eq 'Staff'}">
-                                            <a class="dropdown-item text-dark" href="doctor-dashboard">
+                                            <a class="dropdown-item text-dark" href="addCustomer">
                                                 <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard
                                             </a>
                                         </c:if>
-                                        <a class="dropdown-item text-dark" href="profile">
+                                        <a class="dropdown-item text-dark" href="doctorprofile">
                                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings
                                         </a>
                                         <div class="dropdown-divider border-top"></div>

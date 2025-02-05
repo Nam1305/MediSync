@@ -57,7 +57,6 @@ public class DoctorProfileServlet extends HttpServlet {
         Staff staff = (Staff) session.getAttribute("staff");
         request.setAttribute("staff", staff);
         request.getRequestDispatcher("doctorProfile.jsp").forward(request, response);
-
     }
 
     /**
