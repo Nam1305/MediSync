@@ -181,11 +181,9 @@
                             </a>
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form role="search" method="get" id="searchform" class="searchform">
-                                        <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
-                                            <input type="submit" id="searchsubmit" value="Search">
-                                        </div>
+                                    <form action="ListDoctor" method="get" class="searchform">
+                                        <input type="text" class="form-control border rounded-pill" name="s" placeholder="Search by name or phone...">
+                                        <input type="submit" value="Search">
                                     </form>
                                 </div>
                             </div>
@@ -343,10 +341,10 @@
                                 <c:if test="${not empty status}">
                                     <c:choose>
                                         <c:when test="${status == 'success'}">
-                                            <div class="alert alert-success" id="statusMess">Customer edited successfully!</div>
+                                            <div class="alert alert-success" id="statusMess">Staff edited successfully!</div>
                                         </c:when>
                                         <c:when test="${status == 'fail'}">
-                                            <div class="alert alert-danger" id="statusMess">Failed to edit customer. Please try again.</div>
+                                            <div class="alert alert-danger" id="statusMess">Failed to edit Staff. Please try again.</div>
                                         </c:when>
                                     </c:choose>
                                 </c:if>
@@ -582,8 +580,8 @@
                                     <div class="mb-3">
                                         <label class="form-label">Gender</label>
                                         <select name="gender" id="gender" class="form-control">
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
                                         </select>
                                     </div>
                                 </div><!--end col-->

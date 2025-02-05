@@ -60,13 +60,14 @@ public class ListDoctorServlet extends HttpServlet {
     throws ServletException, IOException {
         // tạo đối tượng doctors và gọi phương thức getAllDOctor để lấy dữ liệu 
         DoctorDAO doctors = new DoctorDAO();
+        String searchQuery = request.getParameter("s"); 
         String roleIdParam = request.getParameter("roleId"); // Lấy roleId từ request
         Integer roleId = null;
         String status = request.getParameter("status");
         if (roleIdParam != null && !roleIdParam.isEmpty()) {
             roleId = Integer.parseInt(roleIdParam); // Chuyển về Integer nếu có roleId
         }
-        List<Staff> listDoctor = doctors.getAllDoctor(roleId,status);
+        List<Staff> listDoctor = doctors.getAllDoctor(roleId,status,searchQuery);
         // đóng gói listDoctor và request và truyền sang trang jsp để hiện thị dữ liệu 
         request.setAttribute("listDoctor", listDoctor);
         request.getRequestDispatcher("listDoctor.jsp").forward(request, response);

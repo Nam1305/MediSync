@@ -5,6 +5,7 @@
 package controller;
 
 import dal.DoctorDAO;
+import dal.PositionDAO;
 import dal.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -53,7 +54,7 @@ public class UpdateStaffServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     /**
@@ -67,21 +68,10 @@ public class UpdateStaffServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        StaffDAO staff1 = new StaffDAO();
-        // lấy dữ liệu từ trang jsp về 
+        // Lấy thông tin từ request
         int staffId = Integer.parseInt(request.getParameter("staffId"));
         String name = request.getParameter("name");
         String email = request.getParameter("email");
-        // Xử lý ảnh đại diện (avatar)
-        Staff existingStaff = staff1.getStaffByEmail(email);
-        if (existingStaff == null) {
-            request.setAttribute("error", "Staff not found!");
-            request.getRequestDispatcher("ListDoctor").forward(request, response);
-            return;
-        }        
-        // Giữ nguyên ảnh cũ của nhân viên
-        String avatarPath = existingStaff.getAvatar();
-        
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         String dateOfBirthStr = request.getParameter("dateOfBirth");
@@ -91,43 +81,87 @@ public class UpdateStaffServlet extends HttpServlet {
         String description = request.getParameter("description");
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         int roleId = Integer.parseInt(request.getParameter("roleId"));
-        
-        if (isEmpty(name) || isEmpty(email)
-                || isEmpty(phone) || isEmpty(password)
-                || isEmpty(gender) || isEmpty(dateOfBirthStr)) {
+
+        // Lấy staff hiện tại
+        StaffDAO staffDao = new StaffDAO();
+        Staff existingStaff = staffDao.getStaffByEmail(email);
+        if (existingStaff == null) {
+            request.setAttribute("error", "Staff not found!");
+            request.getRequestDispatcher("ListDoctor").forward(request, response);
+            return;
+        }
+        // Giữ nguyên avatar cũ
+        String avatarPath = existingStaff.getAvatar();
+
+        // Lấy position hiện tại của nhân viên
+        PositionDAO positionDao = new PositionDAO();
+        String currentPosition = positionDao.getPositionByStaffId(staffId);
+
+        // Kiểm tra điều kiện dữ liệu đầu vào
+        if (isEmpty(name) || isEmpty(email) || isEmpty(phone) || isEmpty(password) || isEmpty(gender) || isEmpty(dateOfBirthStr)) {
             request.setAttribute("error", "All fields are required!");
             request.getRequestDispatcher("ListDoctor").forward(request, response);
             return;
         }
-        
+
+        if (!checkPhone(phone)) {
+            request.setAttribute("error", "Invalid phone number! It must start with 09, 08, or 03.");
+            request.getRequestDispatcher("ListDoctor").forward(request, response);
+            return;
+        }
+
+        if (!checkPassword(password)) {
+            request.setAttribute("error", "Password must be at least 8 characters and include uppercase, lowercase, special character.");
+            request.getRequestDispatcher("ListDoctor").forward(request, response);
+            return;
+        }
+
         java.sql.Date dateOfBirth = java.sql.Date.valueOf(dateOfBirthStr);
-        // Mã hóa mật khẩu 
+        //Mã hóa mật khẩu
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        // tạo đối tượng department mới 
+
+        // Tạo đối tượng Department và Role
         Department department = new Department();
         department.setDepartmentId(departmentId);
-        // tạo đối tượng role mới 
+
         Role role = new Role();
         role.setRoleId(roleId);
-        // khởi tạo biến update staff mới 
-        Staff updateStaff = new Staff(staffId, name, email, avatarPath, phone, password, dateOfBirth, position, gender, status,description , department, role);
         DoctorDAO staff = new DoctorDAO();
+        // Cập nhật thông tin nhân viên
+        Staff updateStaff = new Staff(staffId, name, email, avatarPath, phone, hashedPassword, dateOfBirth, position, gender, status, description, department, role);
         boolean isUpdate = staff.updateStaff(updateStaff);
+
+        // Nếu cập nhật thành công và position thay đổi, lưu vào HistoryPosition
+        if (isUpdate && !updateStaff.getPosition().equals(currentPosition)) {
+            positionDao.insertPositionHistory(staffId, position);
+        }
+
         if (isUpdate) {
             response.sendRedirect("ListDoctor");
         } else {
             request.setAttribute("error", "Failed to update staff");
             request.getRequestDispatcher("ListDoctor").forward(request, response);
         }
-        
     }
 
     private boolean checkPhone(String phone) {
-        return phone.matches("^(09|08|03)\\d{7}$");
+        return phone.matches("^(09|08|03)\\d{8}$");
     }
 
     private boolean isEmpty(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    private boolean checkPassword(String password) {
+        // Kiểm tra ít nhất 8 ký tự, có chữ hoa, chữ thường, và ký tự đặc biệt (bất kỳ vị trí nào)
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$";
+        // ^                 : Bắt đầu chuỗi
+        // (?=.*[a-z])       : Ít nhất một chữ cái thường (a-z)
+        // (?=.*[A-Z])       : Ít nhất một chữ cái hoa (A-Z)
+        // (?=.*[^a-zA-Z0-9]): Ít nhất một ký tự đặc biệt (không phải chữ hoặc số)
+        // .{8,}             : Ít nhất 8 ký tự trở lên (bất kỳ ký tự nào)
+        // $                 : Kết thúc chuỗi
+        return password.matches(passwordPattern);
     }
 
     /**
