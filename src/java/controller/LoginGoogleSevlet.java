@@ -69,7 +69,7 @@ public class LoginGoogleSevlet extends HttpServlet {
             // Đặt tài khoản vào session
             HttpSession session = request.getSession();
             session.setAttribute("customer", account);
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("home");
 
         } catch (IOException e) {
             request.setAttribute("error", "Có lỗi xảy ra khi liên kết với Google. Vui lòng thử lại sau!");

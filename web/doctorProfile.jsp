@@ -10,7 +10,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Doctris - Hệ thống đặt lịch khám bác sĩ</title>
+        <title>Profile</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="assets/images/favicon.ico.png">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -186,11 +186,12 @@
 
                     <li class="list-inline-item mb-0 ms-1">
                         <div class="dropdown dropdown-primary">
-                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="${pageContext.request.contextPath}${staff.avatar}" class="avatar avatar-ex-small rounded-circle" alt=""></button>
+                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="${not empty staff.avatar && staff.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(staff.avatar) : staff.avatar}" 
+                                                                                                                                                                                        class="avatar avatar-md-sm rounded-circle border shadow" alt="">        </button>
                             <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
                                 <a class="dropdown-item d-flex align-items-center text-dark" href="doctor-profile.html">
-                                    <img src="${staff.avatar.contains('/uploads/') ? staff.avatar : pageContext.request.contextPath + staff.avatar}" 
-                                         class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                    <img src="${not empty staff.avatar && staff.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(staff.avatar) : staff.avatar}" 
+                                         class="avatar avatar-md-sm rounded-circle border shadow" alt="">        
                                     <div class="flex-1 ms-2">
                                         <span class="d-block mb-1">${staff.name}</span>
                                         <small class="text-muted">${staff.department.departmentName}</small>
@@ -245,8 +246,9 @@
                             </div>
 
                             <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
-                                <img src="${staff.avatar.contains('/uploads/') ? staff.avatar : pageContext.request.contextPath + staff.avatar}" 
-                                     class="avatar avatar-md-sm rounded-circle border shadow" alt="">                                <h5 class="mt-3 mb-1">${staff.name}</h5>
+                                <img src="${not empty staff.avatar && staff.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(staff.avatar) : staff.avatar}" 
+                                     class="avatar avatar-md-sm rounded-circle border shadow" alt="">                         
+                                <h5 class="mt-3 mb-1">${staff.name}</h5>
                                 <p class="text-muted mb-0">${staff.department.departmentName}</p>
                             </div>
 
@@ -274,8 +276,10 @@
                                         <div class="avatar-upload-container">
                                             <!-- Hiển thị ảnh đại diện -->
                                             <div class="avatar-wrapper">
-                                                <img src="${staff.avatar.contains('/uploads/') ? staff.avatar : pageContext.request.contextPath + staff.avatar}" 
-                                                     class="avatar avatar-md-sm rounded-circle border shadow" alt="">                                                <p class="text-muted mb-0">Để có kết quả tốt nhất, hãy sử dụng hình ảnh có kích thước ít nhất 256px x 256px ở định dạng .jpg hoặc .png</p>
+                                                <img id="avatarPreview" class="avatar-img" 
+                                                     src="${not empty staff.avatar && staff.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(staff.avatar) : staff.avatar}" 
+                                                     alt="Avatar" 
+                                                     onclick="openImagePreview()">                                                <p class="text-muted mb-0">Để có kết quả tốt nhất, hãy sử dụng hình ảnh có kích thước ít nhất 256px x 256px ở định dạng .jpg hoặc .png</p>
                                             </div>
 
                                             <!-- Nút để chọn ảnh -->
@@ -346,7 +350,7 @@
                                             <label for="department" class="form-label">Khoa</label>
                                             <select class="form-control" id="department" name="depart">
                                                 <c:forEach var="dept" items="${listd}">
-                                                    <option value="${dept.departmentId}" ${dept.departmentId == staff.department.departmentId ? 'selected' : ''}>${dept.departmentname}</option>
+                                                    <option value="${dept.departmentId}" ${dept.departmentId == staff.department.departmentId ? 'selected' : ''}>${dept.departmentName}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
