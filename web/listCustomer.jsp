@@ -73,7 +73,7 @@
                                 <ul>
                                     <li><a href="listCustomer">All Patients</a></li>
                                     <li><a href="addCustomer">Add Patients</a></li>
-                                    <li><a href="patient-profile.html">Profile</a></li>
+                                    <!--                                    <li><a href="patient-profile.html">Profile</a></li>-->
                                 </ul>
                             </div>
                         </li>
@@ -174,9 +174,10 @@
                             </a>
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form role="search" method="get" id="searchform" class="searchform">
+                                    <form role="search" method="post" id="searchform" class="searchform" action="listCustomer">
                                         <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
+                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Tìm kiếm bệnh nhân: tên, sđt" style="width: 100%; max-width: 600px;">
+                                            <input type="hidden" name="action" value="search">
                                             <input type="submit" id="searchsubmit" value="Search">
                                         </div>
                                     </form>
@@ -185,47 +186,47 @@
                         </div>
 
                         <ul class="list-unstyled mb-0">
-                            <li class="list-inline-item mb-0">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/language/american.png" class="avatar avatar-ex-small rounded-circle p-2" alt=""></button>
-                                    <div class="dropdown-menu dd-menu drop-ups dropdown-menu-end bg-white shadow border-0 mt-3 p-2" data-simplebar style="height: 175px;">
-                                        <a href="javascript:void(0)" class="d-flex align-items-center">
-                                            <img src="assets/images/language/chinese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Chinese</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">European</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Indian</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Japanese</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Russian</small>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
+                            <!--                            <li class="list-inline-item mb-0">
+                                                            <div class="dropdown dropdown-primary">
+                                                                <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/language/american.png" class="avatar avatar-ex-small rounded-circle p-2" alt=""></button>
+                                                                <div class="dropdown-menu dd-menu drop-ups dropdown-menu-end bg-white shadow border-0 mt-3 p-2" data-simplebar style="height: 175px;">
+                                                                    <a href="javascript:void(0)" class="d-flex align-items-center">
+                                                                        <img src="assets/images/language/chinese.png" class="avatar avatar-client rounded-circle shadow" alt="">
+                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
+                                                                            <small class="text-dark mb-0">Chinese</small>
+                                                                        </div>
+                                                                    </a>
+                            
+                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
+                                                                        <img src="assets/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
+                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
+                                                                            <small class="text-dark mb-0">European</small>
+                                                                        </div>
+                                                                    </a>
+                            
+                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
+                                                                        <img src="assets/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
+                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
+                                                                            <small class="text-dark mb-0">Indian</small>
+                                                                        </div>
+                                                                    </a>
+                            
+                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
+                                                                        <img src="assets/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
+                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
+                                                                            <small class="text-dark mb-0">Japanese</small>
+                                                                        </div>
+                                                                    </a>
+                            
+                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
+                                                                        <img src="assets/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
+                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
+                                                                            <small class="text-dark mb-0">Russian</small>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </li>-->
 
                             <li class="list-inline-item mb-0 ms-1">
                                 <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -309,7 +310,7 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Patients List</h5>
+                            <h5 class="mb-0">Danh sách bệnh nhân</h5>
 
 
 
@@ -323,45 +324,71 @@
 
                         <div class="row" >
                             <div class="col-sm-12">
-                                <c:if test="${not empty status}">
+                                <c:if test="${not empty noti}">
                                     <c:choose>
-                                        <c:when test="${status == 'success'}">
+                                        <c:when test="${noti == 'success'}">
                                             <div class="alert alert-success" id="statusMess">Customer edited successfully!</div>
                                         </c:when>
-                                        <c:when test="${status == 'fail'}">
+                                        <c:when test="${noti == 'fail'}">
                                             <div class="alert alert-danger" id="statusMess">Failed to edit customer. Please try again.</div>
                                         </c:when>
-                                        <c:when test="${status == 'failDelete'}">
+                                        <c:when test="${noti == 'failDelete'}">
                                             <div class="alert alert-danger" id="statusMess">Failed to delete customer. Please try again.</div>
                                         </c:when>
-                                        <c:when test="${status == 'successDelete'}">
+                                        <c:when test="${noti == 'successDelete'}">
                                             <div class="alert alert-success" id="statusMess">Customer is deleted.</div>
                                         </c:when>    
                                     </c:choose>
                                 </c:if>
                             </div>
                         </div>
-                        <!-- navbar-of-table -->
+                        <form action="listCustomer" method="get">
+                            <input type="hidden" name="page" value="${requestScope.currentPage != null ? requestScope.currentPage : 1}" />
+                            <div class="d-flex justify-content-between mb-3">
+                                <div class="d-flex">
+                                    <!-- Dropdown menu để chọn trạng thái -->
+                                    <select class="form-select me-2" name="status">
+                                        <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả</option>
+                                        <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
+                                        <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
+                                        </select>
+
+                                        <!-- Dropdown menu để chọn giới tính -->
+                                        <select class="form-select" name="gender">
+                                            <option value="" <c:if test="${empty gender}">selected</c:if>>Tất cả</option>
+                                        <option value="M" <c:if test="${gender == 'M'}">selected</c:if>>Nam</option>
+                                        <option value="F" <c:if test="${gender == 'F'}">selected</c:if>>Nữ</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Thêm tham số 'page' vào form để đảm bảo nó luôn được gửi -->
+                                
+                            <!-- Nút gửi form -->
+                            <button type="submit" class="btn btn-primary">Lọc</button>
+                        </form>
+
                         <div class="row">
                             <div class="col-12 mt-4">
                                 <div class="table-responsive shadow rounded">
                                     <table class="table table-center bg-white mb-0">
                                         <thead>
                                             <tr>
-                                                <th class="border-bottom p-3" style="min-width: 50px;">Id</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Name</th>
+                                                <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
+                                                <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
                                                 <!--                                                <th class="border-bottom p-3">Age</th>-->
-                                                <th class="border-bottom p-3">Gender</th>
+                                                <th class="border-bottom p-3">Giới tính</th>
                                                 <!--                                                <th class="border-bottom p-3">Address</th>-->
-                                                <th class="border-bottom p-3">Address</th>
-                                                <th class="border-bottom p-3">Phone Number</th>
-                                                <th class="border-bottom p-3" style="min-width: 150px;">Date Of Birth</th>
+                                                <th class="border-bottom p-3">Địa chỉ</th>
+                                                <th class="border-bottom p-3">Số Điện Thoại</th>
+                                                <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
                                                 <th class="border-bottom p-3">Email</th>
-                                                <th class="border-bottom p-3">Status</th>
+                                                <th class="border-bottom p-3">Trạng thái</th>
                                                 <th class="border-bottom p-3" style="min-width: 100px;"></th>
                                             </tr>
                                         </thead>
                                         <!--tbody-start-->
+                                        <c:set var="profile" value="${requestScope.profile}" />
+
                                         <tbody>
                                             <c:forEach var="customers" items="${customers}">
                                                 <tr>
@@ -369,7 +396,8 @@
                                                     <td class="py-3">
                                                         <a href="#" class="text-dark">
                                                             <div class="d-flex align-items-center">
-                                                                <img src="assets/images/client/01.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
+                                                                <img src="${not empty customers.avatar && customers.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(customers.avatar) : customers.avatar}" 
+                                                                     class="avatar avatar-md-sm rounded-circle shadow" alt="">
                                                                 <span class="ms-2">${customers.name}</span>
                                                             </div>
                                                         </a>
@@ -380,9 +408,21 @@
                                                     <td class="p-3">${customers.dateOfBirth}</td>
                                                     <td class="p-3">${customers.email}</td>
                                                     <td class="p-3"><span class="badge bg-soft-success">${customers.status}</span></td>
-                                                    <td class="p-3"></td>
+                                                    <!--                                                    <td class="p-3"></td>-->
                                                     <td class="text-end p-3">
-                                                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary" data-bs-toggle="modal" data-bs-target="#viewprofile">
+                                                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary" 
+                                                           data-bs-toggle="modal" 
+                                                           data-bs-target="#viewprofile"
+                                                           data-customer-id="${customers.customerId}"
+                                                           data-customer-avatar="${customers.avatar}"
+                                                           data-customer-name="${customers.name}"
+                                                           data-customer-age="${customers.getAge()}"
+                                                           data-customer-gender="${customers.gender}"
+                                                           data-customer-department="${customers.getDepartment()}"
+                                                           data-customer-doctor="${customers.getDoctor()}"
+                                                           data-customer-date="${customers.getAppointmentDate()}"
+                                                           data-customer-time="${customers.getAppointmentTime()}">
+
                                                             <i class="uil uil-eye"></i>
                                                         </a>
                                                         <!-- Edit button with data-* attributes for customer info -->
@@ -391,8 +431,11 @@
                                                            data-bs-target="#editprofile"
                                                            data-customer-id="${customers.customerId}"
                                                            data-customer-name="${customers.name}"
+                                                           data-customer-gender="${customers.gender}"
                                                            data-customer-email="${customers.email}"
-                                                           data-customer-phone="${customers.phone}">
+                                                           data-customer-phone="${customers.phone}"
+                                                           data-customer-address="${customers.address}"
+                                                           data-customer-dob="${customers.dateOfBirth}">
                                                             <i class="uil uil-pen"></i>
                                                         </a>
                                                         <a href="deleteCustomer?id=${customers.customerId}" class="btn btn-icon btn-pills btn-soft-danger"><i class="uil uil-trash"></i></a>
@@ -411,16 +454,33 @@
                             <!-- PAGINATION START -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
+                                    <span class="text-muted me-3">Showing 1 - 10 out of ${requestScope.totalCustomers}</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>
-                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
+                                        <!--                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>-->
+                                        <c:if test="${currentPage > 1}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage - 1}" aria-label="Previous">Prev</a>
+                                            </li>
+                                        </c:if>
+                                        <!--                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                                                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>-->
+
+                                        <c:forEach var="i" begin="1" end="${totalPages}" step="1">
+                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${i}">${i}</a>
+                                            </li>
+                                        </c:forEach>
+                                        <!--                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>-->
+                                        <c:if test="${currentPage < totalPages}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage + 1}" aria-label="Next">Next</a>
+                                            </li>
+                                        </c:if>
                                     </ul>
                                 </div>
                             </div><!--end col-->
+
                             <!-- PAGINATION END -->
                         </div><!--end row-->
                     </div>
@@ -504,15 +564,24 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">First Name</label>
-                                        <input name="first-name" id="first-name" type="text" class="form-control" placeholder="First Name :">
+                                        <label class="form-label">Họ và Tên</label>
+                                        <input name="full-name" id="full-name" type="text" class="form-control" placeholder="Full name:">
                                     </div>
                                 </div><!--end col-->
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Last Name</label>
-                                        <input name="last-name" id="last-name" type="text" class="form-control" placeholder="Last Name :">
+                                        <label class="form-label">Giới tính</label>
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="male" value="M">
+                                                <label class="form-check-label" for="male">Male</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="female" value="F">
+                                                <label class="form-check-label" for="female">Female</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div><!--end col-->
 
@@ -525,18 +594,30 @@
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Phone no.</label>
-                                        <input name="number" id="number" type="text" class="form-control" placeholder="Phone no. :">
+                                        <label class="form-label">Số Điện Thoại</label>
+                                        <input name="number" id="number" type="text" class="form-control" placeholder="Phone number:">
                                     </div>
                                 </div><!--end col-->
 
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Địa chỉ</label>
+                                        <input name="address" id="address" type="text" class="form-control" placeholder="Your address:">
+                                    </div>
+                                </div><!--end col-->
 
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Ngày sinh</label>
+                                        <input name="dob" id="dob" type="date" class="form-control" placeholder="Your date of birth:">
+                                    </div>
+                                </div><!--end col-->
 
                             </div><!--end row-->
 
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <input type="submit" id="submit" name="send" class="btn btn-primary" value="Save changes">
+                                    <input type="submit" id="submit" name="send" class="btn btn-primary" value="Lưu thay đổi">
                                 </div><!--end col-->
                             </div><!--end row-->
                         </form><!--end form-->
@@ -546,35 +627,36 @@
         </div>
         <!-- Modal end -->
 
-        <!-- Profile Start -->
+        <!-- Profile-Start -->
         <div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header border-bottom p-3">
-                        <h5 class="modal-title" id="exampleModalLabel1">Profile</h5>
+                        <h5 class="modal-title" id="exampleModalLabel1">Thông tin chi tiết</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-3 pt-4">
                         <div class="d-flex align-items-center">
-                            <img src="assets/images/client/01.jpg" class="avatar avatar-small rounded-pill" alt="">
-                            <h5 class="mb-0 ms-3">Howard Tanner</h5>
+                            <!--Avatar-Detail-Profile  -->
+                            <img id="profileAvatar" src="" class="avatar avatar-small rounded-pill" alt="">
+                            <h5 class="mb-0 ms-3" id="profileName"></h5>
                         </div>
                         <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
                             <li>
                                 <ul class="list-unstyled mb-0">
                                     <li class="d-flex">
                                         <h6>Age:</h6>
-                                        <p class="text-muted ms-2">25 year old</p>
+                                        <p class="text-muted ms-2" id="profileAge"></p>
                                     </li>
 
                                     <li class="d-flex">
                                         <h6>Gender:</h6>
-                                        <p class="text-muted ms-2">Male</p>
+                                        <p class="text-muted ms-2" id="profileGender"></p>
                                     </li>
 
                                     <li class="d-flex">
                                         <h6 class="mb-0">Department:</h6>
-                                        <p class="text-muted ms-2 mb-0">Cardiology</p>
+                                        <p class="text-muted ms-2 mb-0" id="profileDepartment"></p>
                                     </li>
                                 </ul>
                             </li>
@@ -582,17 +664,17 @@
                                 <ul class="list-unstyled mb-0">
                                     <li class="d-flex">
                                         <h6>Date:</h6>
-                                        <p class="text-muted ms-2">20th Dec 2020</p>
+                                        <p class="text-muted ms-2" id="profileDate"></p>
                                     </li>
 
                                     <li class="d-flex">
                                         <h6>Time:</h6>
-                                        <p class="text-muted ms-2">11:00 AM</p>
+                                        <p class="text-muted ms-2" id="profileTime"></p>
                                     </li>
 
                                     <li class="d-flex">
                                         <h6 class="mb-0">Doctor:</h6>
-                                        <p class="text-muted ms-2 mb-0">Dr. Calvin Carlo</p>
+                                        <p class="text-muted ms-2 mb-0" id="profileDoctor"></p>
                                     </li>
                                 </ul>
                             </li>
@@ -614,37 +696,71 @@
         <script src="assets/js/app.js"></script>
 
         <script>
-                                        // Populate the modal with customer data when the edit button is clicked
+
                                         document.addEventListener("DOMContentLoaded", function () {
-                                            // Get all the edit buttons
-                                            const editButtons = document.querySelectorAll('[data-bs-target="#editprofile"]');
+                                            // Xử lý sự kiện khi nhấn "Xem chi tiết"
+                                            document.querySelectorAll('[data-bs-target="#viewprofile"]').forEach(button => {
+                                                button.addEventListener("click", function () {
+                                                    // Lấy dữ liệu từ data-attribute
+                                                    const customerId = this.getAttribute("data-customer-id");
+                                                    const customerName = this.getAttribute("data-customer-name");
+                                                    const customerGender = this.getAttribute("data-customer-gender");
+                                                    const customerAge = this.getAttribute("data-customer-age");
+                                                    const customerDepartment = this.getAttribute("data-customer-department");
+                                                    const customerDoctor = this.getAttribute("data-customer-doctor");
+                                                    const customerDate = this.getAttribute("data-customer-date");
+                                                    const customerTime = this.getAttribute("data-customer-time");
+                                                    const customerAvatar = this.getAttribute("data-customer-avatar");
 
-                                            // Add event listener to each button
-                                            editButtons.forEach(button => {
-                                                button.addEventListener('click', function () {
-                                                    // Get customer data from data-* attributes
-                                                    const customerId = this.getAttribute('data-customer-id');
-                                                    const customerName = this.getAttribute('data-customer-name');
-                                                    const customerEmail = this.getAttribute('data-customer-email');
-                                                    const customerPhone = this.getAttribute('data-customer-phone');
-
-                                                    // Populate the form fields in the modal
-                                                    document.getElementById('customerId').value = customerId;
-                                                    document.getElementById('first-name').value = customerName.split(' ')[0]; // Assuming first name is the first part of the full name
-                                                    document.getElementById('last-name').value = customerName.split(' ')[1] || ''; // Assuming last name is the second part of the full name
-                                                    document.getElementById('email').value = customerEmail;
-                                                    document.getElementById('number').value = customerPhone;
+                                                    // Hiển thị dữ liệu trong modal "Xem chi tiết"
+                                                    document.getElementById("profileName").textContent = customerName;
+                                                    document.getElementById("profileAge").textContent = customerAge;
+                                                    document.getElementById("profileDepartment").textContent = customerDepartment;
+                                                    document.getElementById("profileDoctor").textContent = customerDoctor;
+                                                    document.getElementById("profileDate").textContent = customerDate;
+                                                    document.getElementById("profileTime").textContent = customerTime;
+                                                    document.getElementById("profileGender").textContent = customerGender;
+                                                    document.getElementById("profileAvatar").src = customerAvatar;
                                                 });
                                             });
-                                        });
 
-                                        var statusMessage = document.getElementById('statusMess');
-                                        if (statusMessage) {
-                                            // Set a timeout to hide the message after 5 seconds (5000ms)
-                                            setTimeout(function () {
-                                                statusMessage.style.display = 'none';
-                                            }, 5000);
-                                        }
+                                            // Xử lý sự kiện khi nhấn "Chỉnh sửa"
+                                            document.querySelectorAll('[data-bs-target="#editprofile"]').forEach(button => {
+                                                button.addEventListener("click", function () {
+                                                    // Lấy dữ liệu từ data-attribute
+                                                    const customerId = this.getAttribute("data-customer-id");
+                                                    const customerName = this.getAttribute("data-customer-name");
+                                                    const customerGender = this.getAttribute("data-customer-gender");
+                                                    const customerEmail = this.getAttribute("data-customer-email");
+                                                    const customerPhone = this.getAttribute("data-customer-phone");
+                                                    const customerAddress = this.getAttribute("data-customer-address");
+                                                    const customerDob = this.getAttribute("data-customer-dob");
+
+                                                    // Điền dữ liệu vào form trong modal "Chỉnh sửa"
+                                                    document.getElementById("customerId").value = customerId;
+                                                    document.getElementById("full-name").value = customerName;
+                                                    document.getElementById("email").value = customerEmail;
+                                                    document.getElementById("number").value = customerPhone;
+                                                    document.getElementById("address").value = customerAddress;
+                                                    document.getElementById("dob").value = customerDob;
+
+                                                    // Chọn giới tính
+                                                    if (customerGender === "M") {
+                                                        document.getElementById("male").checked = true;
+                                                    } else if (customerGender === "F") {
+                                                        document.getElementById("female").checked = true;
+                                                    }
+                                                });
+                                            });
+
+                                            // Ẩn thông báo sau 5 giây nếu có
+                                            var statusMessage = document.getElementById("statusMess");
+                                            if (statusMessage) {
+                                                setTimeout(function () {
+                                                    statusMessage.style.display = "none";
+                                                }, 5000);
+                                            }
+                                        });
         </script>
 
     </body>

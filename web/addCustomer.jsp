@@ -76,7 +76,7 @@
                                 <ul>
                                     <li><a href="listCustomer">All Patients</a></li>
                                     <li><a href="addCustomer">Add Patients</a></li>
-                                    <li><a href="patient-profile.html">Profile</a></li>
+                                    <!--                                    <li><a href="patient-profile.html">Profile</a></li>-->
                                 </ul>
                             </div>
                         </li>
@@ -188,53 +188,53 @@
                         </div>
 
                         <ul class="list-unstyled mb-0">
-                            <li class="list-inline-item mb-0">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/language/american.png" class="avatar avatar-ex-small rounded-circle p-2" alt=""></button>
-                                    <div class="dropdown-menu dd-menu drop-ups dropdown-menu-end bg-white shadow border-0 mt-3 p-2" data-simplebar style="height: 175px;">
-                                        <a href="javascript:void(0)" class="d-flex align-items-center">
-                                            <img src="assets/images/language/chinese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Chinese</small>
-                                            </div>
-                                        </a>
+                            <!--                            <li class="list-inline-item mb-0">
+                                                            <div class="dropdown dropdown-primary">
+                                                                <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/language/american.png" class="avatar avatar-ex-small rounded-circle p-2" alt=""></button>
+                                                                <div class="dropdown-menu dd-menu drop-ups dropdown-menu-end bg-white shadow border-0 mt-3 p-2" data-simplebar style="height: 175px;">
+                                                                    <a href="javascript:void(0)" class="d-flex align-items-center">
+                                                                        <img src="assets/images/language/chinese.png" class="avatar avatar-client rounded-circle shadow" alt="">
+                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
+                                                                            <small class="text-dark mb-0">Chinese</small>
+                                                                        </div>
+                                                                    </a>
+                            
+                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
+                                                                        <img src="assets/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
+                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
+                                                                            <small class="text-dark mb-0">European</small>
+                                                                        </div>
+                                                                    </a>
+                            
+                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
+                                                                        <img src="assets/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
+                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
+                                                                            <small class="text-dark mb-0">Indian</small>
+                                                                        </div>
+                                                                    </a>
+                            
+                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
+                                                                        <img src="assets/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
+                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
+                                                                            <small class="text-dark mb-0">Japanese</small>
+                                                                        </div>
+                                                                    </a>
+                            
+                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
+                                                                        <img src="assets/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
+                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
+                                                                            <small class="text-dark mb-0">Russian</small>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </li>-->
 
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">European</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Indian</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Japanese</small>
-                                            </div>
-                                        </a>
-
-                                        <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                            <img src="assets/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                            <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                <small class="text-dark mb-0">Russian</small>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="list-inline-item mb-0 ms-1">
-                                <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="settings" class="fea icon-sm"></i></div>
-                                </a>
-                            </li>
+                            <!--                            <li class="list-inline-item mb-0 ms-1">
+                                                            <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                                                <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="settings" class="fea icon-sm"></i></div>
+                                                            </a>
+                                                        </li>-->
 
                             <li class="list-inline-item mb-0 ms-1">
                                 <div class="dropdown dropdown-primary">
@@ -301,7 +301,7 @@
                                         <a class="dropdown-item text-dark" href="index.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
                                         <a class="dropdown-item text-dark" href="dr-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
                                         <div class="dropdown-divider border-top"></div>
-                                        <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
+                                        <a class="dropdown-item text-dark" href="lock-screen.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -312,7 +312,7 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Add New Patient</h5>
+                            <h5 class="mb-0">Thêm bệnh nhân mới</h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
@@ -332,145 +332,160 @@
                                         </div><!--end col-->
 
                                         <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
-                                            <h5 class="">Upload your picture</h5>
+                                            <!--                                            <h5 class="">Thêm ảnh đại diện</h5>-->
                                             <p class="text-muted mb-0">For best results, use an image at least 600px by 600px in either .jpg or .png format</p>
                                         </div><!--end col-->
 
-                                        <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
-                                            <a href="#" class="btn btn-primary">Upload</a>
-                                            <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
-                                        </div><!--end col-->
+                                        <!--                                        <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
+                                                                                    <a href="#" class="btn btn-primary">Thêm</a>
+                                                                                    <a href="#" class="btn btn-soft-primary ms-2">Xóa</a>
+                                                                                </div>end col-->
                                     </div><!--end row-->
 
                                     <!--form-start-->
                                     <!--form add customer-->
-                                    <form class="mt-4" action="addCustomer" method="POST">
+                                    <form class="mt-4" action="addCustomer" method="POST" enctype="multipart/form-data">
 
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">First Name</label>
-                                                    <input name="first-name" id="name" type="text" class="form-control" placeholder="First Name :">
+                                                    <label class="form-label">Họ và Tên</label>
+                                                    <input name="full-name" id="full-name" type="text" class="form-control" placeholder="Full Name:">
                                                 </div>
-                                            </div><!--end col-->
+                                            </div><!--end col-->   
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Last Name</label>
-                                                    <input name="last-name" id="name2" type="text" class="form-control" placeholder="Last Name :">
+                                                    <label class="form-label">Giới tính</label>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="gender" id="male" value="M" checked>
+                                                        <label class="form-check-label" for="male">Nam</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="gender" id="female" value="F">
+                                                        <label class="form-check-label" for="female">Nữ</label>
+                                                    </div>
                                                 </div>
                                             </div><!--end col-->
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Your Email</label>
-                                                    <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
+                                                    <input name="email" id="email" type="email" class="form-control" placeholder="Your email:">
                                                 </div> 
                                             </div><!--end col-->
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Phone no.</label>
-                                                    <input name="number" id="number" type="text" class="form-control" placeholder="Phone no. :">
+                                                    <label class="form-label">Số Điện Thoại</label>
+                                                    <input name="number" id="number" type="text" class="form-control" placeholder="Phone number:">
                                                 </div>                                                                               
                                             </div><!--end col-->
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label"> Date of birth : </label>
+                                                    <label class="form-label">Ngày sinh</label>
                                                     <input name="date" type="text" class="flatpickr flatpickr-input form-control" id="checkin-date">
                                                 </div>
                                             </div><!--end col-->
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label"> Password : </label>
+                                                    <label class="form-label"> Mật Khẩu</label>
                                                     <input name="password" type="text" class="form-control" placeholder="Your password :">
                                                 </div>
                                             </div><!--end col-->
 
-                                            <!-- Error Message -->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Your Avatar</label>
+                                                    <input name="avatar" id="avatar" type="file" class="form-control" placeholder="Your avatar :" required>
+                                                </div> 
+                                            </div><!--end col-->
+
+                                            <!-- Hiển thị thông báo lỗi chung -->
                                             <div>
                                                 <c:if test="${not empty error}">
                                                     <div class="alert alert-danger mt-3">${error}</div>
                                                 </c:if>
                                             </div>
                                             <!-- End Error Message -->
+
                                             <!-- Hiển thị thông báo thành công nếu có -->
                                             <c:if test="${not empty success}">
                                                 <div class="alert alert-success mt-3">${success}</div>
-                                            </c:if>   
+                                            </c:if>  
                                         </div><!--end row-->
 
-                                        <button type="submit" class="btn btn-primary">Add Patient</button>
+                                        <button type="submit" class="btn btn-primary">Thêm bệnh nhân</button>
                                     </form>
                                     <!--form-end-->
                                 </div>
                             </div><!--end col-->
 
-                            <div class="col-lg-4 mt-4">
-                                <div class="card rounded border-0 shadow">
-                                    <div class="p-4 border-bottom">
-                                        <h5 class="mb-0">Doctors List</h5>
-                                    </div>
-
-                                    <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
-                                        <li class="d-md-flex align-items-center text-center text-md-start">
-                                            <img src="assets/images/doctors/01.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
-
-                                            <div class="ms-md-3 mt-4 mt-sm-0">
-                                                <a href="#" class="text-dark h6">Dr. Calvin Carlo</a>
-                                                <p class="text-muted my-1">Cardiologist</p>
-                                                <p class="text-muted mb-0">3 Years Experienced</p>
-                                            </div>
-                                        </li>
-
-                                        <li class="d-md-flex align-items-center text-center text-md-start mt-4">
-                                            <img src="assets/images/doctors/02.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
-
-                                            <div class="ms-md-3 mt-4 mt-sm-0">
-                                                <a href="#" class="text-dark h6">Dr. Alex Smith</a>
-                                                <p class="text-muted my-1">Dentist</p>
-                                                <p class="text-muted mb-0">1 Years Experienced</p>
-                                            </div>
-                                        </li>
-
-                                        <li class="d-md-flex align-items-center text-center text-md-start mt-4">
-                                            <img src="assets/images/doctors/03.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
-
-                                            <div class="ms-md-3 mt-4 mt-sm-0">
-                                                <a href="#" class="text-dark h6">Dr. Cristina Luly</a>
-                                                <p class="text-muted my-1">Orthopedic</p>
-                                                <p class="text-muted mb-0">5 Years Experienced</p>
-                                            </div>
-                                        </li>
-
-                                        <li class="d-md-flex align-items-center text-center text-md-start mt-4">
-                                            <img src="assets/images/doctors/04.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
-
-                                            <div class="ms-md-3 mt-4 mt-sm-0">
-                                                <a href="#" class="text-dark h6">Dr. Dwayen Maria</a>
-                                                <p class="text-muted my-1">Gastrologist</p>
-                                                <p class="text-muted mb-0">2 Years Experienced</p>
-                                            </div>
-                                        </li>
-
-                                        <li class="d-md-flex align-items-center text-center text-md-start mt-4">
-                                            <img src="assets/images/doctors/05.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
-
-                                            <div class="ms-md-3 mt-4 mt-sm-0">
-                                                <a href="#" class="text-dark h6">Dr. Jenelia Focia</a>
-                                                <p class="text-muted my-1">Psychotherapist</p>
-                                                <p class="text-muted mb-0">3 Years Experienced</p>
-                                            </div>
-                                        </li>
-
-                                        <li class="mt-4">
-                                            <a href="doctors.html" class="btn btn-primary">All Doctors</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <!--                                                        <div class="col-lg-4 mt-4">
+                                                                                        <div class="card rounded border-0 shadow">
+                                                                                            <div class="p-4 border-bottom">
+                                                                                                <h5 class="mb-0">Doctors List</h5>
+                                                                                            </div>
+                                                        
+                                                                                            <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
+                                                                                                <li class="d-md-flex align-items-center text-center text-md-start">
+                                                                                                    <img src="assets/images/doctors/01.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
+                                                        
+                                                                                                    <div class="ms-md-3 mt-4 mt-sm-0">
+                                                                                                        <a href="#" class="text-dark h6">Dr. Calvin Carlo</a>
+                                                                                                        <p class="text-muted my-1">Cardiologist</p>
+                                                                                                        <p class="text-muted mb-0">3 Years Experienced</p>
+                                                                                                    </div>
+                                                                                                </li>
+                                                        
+                                                                                                <li class="d-md-flex align-items-center text-center text-md-start mt-4">
+                                                                                                    <img src="assets/images/doctors/02.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
+                                                        
+                                                                                                    <div class="ms-md-3 mt-4 mt-sm-0">
+                                                                                                        <a href="#" class="text-dark h6">Dr. Alex Smith</a>
+                                                                                                        <p class="text-muted my-1">Dentist</p>
+                                                                                                        <p class="text-muted mb-0">1 Years Experienced</p>
+                                                                                                    </div>
+                                                                                                </li>
+                                                        
+                                                                                                <li class="d-md-flex align-items-center text-center text-md-start mt-4">
+                                                                                                    <img src="assets/images/doctors/03.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
+                                                        
+                                                                                                    <div class="ms-md-3 mt-4 mt-sm-0">
+                                                                                                        <a href="#" class="text-dark h6">Dr. Cristina Luly</a>
+                                                                                                        <p class="text-muted my-1">Orthopedic</p>
+                                                                                                        <p class="text-muted mb-0">5 Years Experienced</p>
+                                                                                                    </div>
+                                                                                                </li>
+                                                        
+                                                                                                <li class="d-md-flex align-items-center text-center text-md-start mt-4">
+                                                                                                    <img src="assets/images/doctors/04.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
+                                                        
+                                                                                                    <div class="ms-md-3 mt-4 mt-sm-0">
+                                                                                                        <a href="#" class="text-dark h6">Dr. Dwayen Maria</a>
+                                                                                                        <p class="text-muted my-1">Gastrologist</p>
+                                                                                                        <p class="text-muted mb-0">2 Years Experienced</p>
+                                                                                                    </div>
+                                                                                                </li>
+                                                        
+                                                                                                <li class="d-md-flex align-items-center text-center text-md-start mt-4">
+                                                                                                    <img src="assets/images/doctors/05.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
+                                                        
+                                                                                                    <div class="ms-md-3 mt-4 mt-sm-0">
+                                                                                                        <a href="#" class="text-dark h6">Dr. Jenelia Focia</a>
+                                                                                                        <p class="text-muted my-1">Psychotherapist</p>
+                                                                                                        <p class="text-muted mb-0">3 Years Experienced</p>
+                                                                                                    </div>
+                                                                                                </li>
+                                                        
+                                                                                                <li class="mt-4">
+                                                                                                    <a href="doctors.html" class="btn btn-primary">All Doctors</a>
+                                                                                                </li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div>-->
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->

@@ -17,7 +17,7 @@ public class DeleteCustomerServlet extends HttpServlet {
     private void handleDeleteCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String customerIdStr = request.getParameter("id");
         if(customerIdStr == null || customerIdStr.trim().isEmpty()){
-            response.sendRedirect("listCustomer?status=failDelete");
+            response.sendRedirect("listCustomer?noti=failDelete");
             return;
         }
         int customerId = Integer.parseInt(customerIdStr);
@@ -25,9 +25,9 @@ public class DeleteCustomerServlet extends HttpServlet {
         CustomerDAO customerDao = new CustomerDAO();
         boolean isDeleted = customerDao.deleteCustomer(deletedCustomer);
         if(isDeleted == true){
-            response.sendRedirect("listCustomer?status=successDelete");
+            response.sendRedirect("listCustomer?noti=successDelete");
         } else{
-            response.sendRedirect("listCustomer?status=failDelete");
+            response.sendRedirect("listCustomer?noti=failDelete");
         }     
     }
 

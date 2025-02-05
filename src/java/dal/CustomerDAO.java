@@ -37,21 +37,23 @@ public class CustomerDAO extends DBContext {
         return null;
     }
 
-    public void addCustomer(Customer customer) {
-        String sql = "insert into Customer(name, email, password, phone, dateOfBirth) values (?,?,?,?,?)";
-
+    public void addCustomer(Customer customer, String imagePath) {
+        String sql = "INSERT INTO Customer (name, email, password, dateOfBirth, gender, phone, avatar, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, customer.getName());
-            ps.setString(2, customer.getEmail());
-            ps.setString(3, customer.getPassword());
-            ps.setString(4, customer.getPhone());
-            ps.setDate(5, customer.getDateOfBirth());
+            ps.setString(1, customer.getName());          // name
+            ps.setString(2, customer.getEmail());         // email
+            ps.setString(3, customer.getPassword());      // password
+            ps.setDate(4, customer.getDateOfBirth());     // dateOfBirth
+            ps.setString(5, customer.getGender());        // gender
+            ps.setString(6, customer.getPhone());         // phone
+            ps.setString(7, imagePath);                 // avatar path
+            ps.setString(8, "Active");                   // status (mặc định là Active)
 
             ps.executeUpdate();
-
         } catch (SQLException ex) {
-            System.out.println("Loi roi!");
+            System.out.println("Error in addCustomer: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -102,22 +104,237 @@ public class CustomerDAO extends DBContext {
         }
         return listCustomer;
     }
+    
+    public int getTotalCustomer() {
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM Customer";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+
+    //paging
+    public List<Customer> getCustomerByPage(int page, int pageSize) {
+        List<Customer> listCustomer = new ArrayList<>();
+        String sql = "SELECT customerId, name, avatar, email, password, address, dateOfBirth, bloodType, gender, status, phone \n"
+                + "FROM Customer ORDER BY customerId \n"
+                + "OFFSET ?\n"
+                + "ROWS FETCH NEXT ? ROWS ONLY";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            int offset = (page - 1) * pageSize;
+            ps.setInt(1, offset);
+            ps.setInt(2, pageSize);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("customerId"));
+                customer.setName(rs.getString("name"));
+                customer.setAvatar(rs.getString("avatar"));
+                customer.setEmail(rs.getString("email"));
+                customer.setPassword(rs.getString("password"));
+                customer.setAddress(rs.getString("address"));
+                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
+                customer.setBloodType(rs.getString("bloodType"));
+                customer.setGender(rs.getString("gender"));
+                customer.setStatus(rs.getString("status"));
+                customer.setPhone(rs.getString("phone"));
+                listCustomer.add(customer);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listCustomer;
+    }
+
+    //lấy bệnh nhân theo trạng thái
+    public List<Customer> getCustomersByStatus(String status, int page, int pageSize) {
+        List<Customer> listCustomer = new ArrayList<>();
+        String sql = "SELECT customerId, name, avatar, email, password, address, dateOfBirth, bloodType, gender, status, phone "
+                + "FROM Customer WHERE status = ? "
+                + "ORDER BY customerId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2, (page - 1) * pageSize); // OFFSET
+            ps.setInt(3, pageSize);  // FETCH NEXT
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("customerId"));
+                customer.setName(rs.getString("name"));
+                customer.setAvatar(rs.getString("avatar"));
+                customer.setEmail(rs.getString("email"));
+                customer.setPassword(rs.getString("password"));
+                customer.setAddress(rs.getString("address"));
+                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
+                customer.setBloodType(rs.getString("bloodType"));
+                customer.setGender(rs.getString("gender"));
+                customer.setStatus(rs.getString("status"));
+                customer.setPhone(rs.getString("phone"));
+                listCustomer.add(customer);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listCustomer;
+    }
+
+    //lấy bệnh nhân theo giới tính
+    public List<Customer> getCustomersByGender(String gender, int page, int pageSize) {
+        List<Customer> listCustomer = new ArrayList<>();
+        String sql = "SELECT customerId, name, avatar, email, password, address, dateOfBirth, bloodType, gender, status, phone "
+                + "FROM Customer WHERE gender = ? "
+                + "ORDER BY customerId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, gender);
+            ps.setInt(2, (page - 1) * pageSize); // OFFSET
+            ps.setInt(3, pageSize);  // FETCH NEXT
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("customerId"));
+                customer.setName(rs.getString("name"));
+                customer.setAvatar(rs.getString("avatar"));
+                customer.setEmail(rs.getString("email"));
+                customer.setPassword(rs.getString("password"));
+                customer.setAddress(rs.getString("address"));
+                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
+                customer.setBloodType(rs.getString("bloodType"));
+                customer.setGender(rs.getString("gender"));
+                customer.setStatus(rs.getString("status"));
+                customer.setPhone(rs.getString("phone"));
+                listCustomer.add(customer);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listCustomer;
+    }
+
+    //lấy bệnh nhân dựa vào cả trạng thái và giới tính
+    public List<Customer> getFilteredCustomers(String status, String gender, int page, int pageSize) {
+        List<Customer> listCustomer = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder("SELECT customerId, name, avatar, email, password, address, dateOfBirth, bloodType, gender, status, phone FROM Customer WHERE 1=1");
+
+        // Thêm điều kiện cho status nếu có
+        if (status != null && !status.isEmpty()) {
+            sql.append(" AND status = ?");
+        }
+
+        // Thêm điều kiện cho gender nếu có
+        if (gender != null && !gender.isEmpty()) {
+            sql.append(" AND gender = ?");
+        }
+
+        // Sử dụng ORDER BY + OFFSET + FETCH NEXT cho phân trang trong SQL Server
+        sql.append(" ORDER BY customerId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql.toString());
+            int index = 1;
+
+            // Thiết lập tham số cho các điều kiện
+            if (status != null && !status.isEmpty()) {
+                ps.setString(index++, status);
+            }
+            if (gender != null && !gender.isEmpty()) {
+                ps.setString(index++, gender);
+            }
+
+            // Thiết lập tham số phân trang
+            ps.setInt(index++, (page - 1) * pageSize); // OFFSET
+            ps.setInt(index++, pageSize); // FETCH NEXT
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("customerId"));
+                customer.setName(rs.getString("name"));
+                customer.setAvatar(rs.getString("avatar"));
+                customer.setEmail(rs.getString("email"));
+                customer.setPassword(rs.getString("password"));
+                customer.setAddress(rs.getString("address"));
+                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
+                customer.setBloodType(rs.getString("bloodType"));
+                customer.setGender(rs.getString("gender"));
+                customer.setStatus(rs.getString("status"));
+                customer.setPhone(rs.getString("phone"));
+                listCustomer.add(customer);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listCustomer;
+    }
+
+    //tìm kiếm bệnh nhân theo tên hoặc số điện thoại
+    public List<Customer> searchCustomers(String searchQuery) {
+        List<Customer> customers = new ArrayList<>();
+        // Câu lệnh SQL tìm kiếm khách hàng theo tên hoặc số điện thoại
+        String sql = "SELECT * FROM Customer WHERE name LIKE ? OR phone LIKE ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            String searchPattern = "%" + searchQuery + "%"; // Thêm ký tự % để tìm kiếm chứa chuỗi
+            ps.setString(1, searchPattern); // Tìm kiếm theo tên
+            ps.setString(2, searchPattern); // Tìm kiếm theo số điện thoại
+
+            // Thực thi câu lệnh SQL và lấy kết quả
+            ResultSet rs = ps.executeQuery();
+
+            // Duyệt qua các kết quả và thêm vào danh sách
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("customerId"));
+                customer.setName(rs.getString("name"));
+                customer.setAvatar(rs.getString("avatar"));
+                customer.setEmail(rs.getString("email"));
+                customer.setPassword(rs.getString("password"));
+                customer.setAddress(rs.getString("address"));
+                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
+                customer.setBloodType(rs.getString("bloodType"));
+                customer.setGender(rs.getString("gender"));
+                customer.setStatus(rs.getString("status"));
+                customer.setPhone(rs.getString("phone"));
+
+                // Thêm khách hàng vào danh sách
+                customers.add(customer);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return customers;
+    }
 
     public boolean updateCustomer(Customer customer) {
         boolean isUpdated = false;
-        String sql = "UPDATE Customer SET name = ?, avatar = ?, email = ?, address = ?, dateOfBirth = ?, bloodType = ?, gender = ?, phone = ? WHERE customerId = ?";
+        // Câu lệnh SQL cập nhật thông tin khách hàng
+        String sql = "UPDATE Customer SET name = ?, email = ?, address = ?, dateOfBirth = ?, gender = ?, phone = ? WHERE customerId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, customer.getName());
-            ps.setString(2, customer.getAvatar());
-            ps.setString(3, customer.getEmail());
-            ps.setString(4, customer.getAddress());
-            ps.setDate(5, customer.getDateOfBirth());
-            ps.setString(6, customer.getBloodType());
-            ps.setString(7, customer.getGender());
-            ps.setString(8, customer.getPhone());
-            ps.setInt(9, customer.getCustomerId());
+            // Thiết lập các tham số cho câu lệnh SQL
+            ps.setString(1, customer.getName());          // name
+            ps.setString(2, customer.getEmail());         // email
+            ps.setString(3, customer.getAddress());       // address
+            ps.setDate(4, customer.getDateOfBirth());     // dateOfBirth
+            ps.setString(5, customer.getGender());        // gender
+            ps.setString(6, customer.getPhone());         // phone
+            ps.setInt(7, customer.getCustomerId());       // customerId
 
+            // Thực thi câu lệnh SQL và kiểm tra số hàng bị ảnh hưởng
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
                 isUpdated = true;
@@ -157,6 +374,127 @@ public class CustomerDAO extends DBContext {
             ex.printStackTrace();
         }
         return isDeleted;
+    }
+
+    public boolean isEmailExists(String email) {
+        String query = "SELECT COUNT(*) FROM Customer WHERE email = ? AND status = 'Active'";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in isEmailExists: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public String getDepartmentByCustomerID(int customerId) {
+        String departmentName = null;
+        String sql = "SELECT d.departmentName AS Department "
+                + "FROM Customer c "
+                + "INNER JOIN Appointment a ON c.customerId = a.customerId "
+                + "INNER JOIN Staff s ON a.staffId = s.staffId "
+                + "INNER JOIN Department d ON s.departmentId = d.departmentId "
+                + "WHERE c.customerId = ?";
+        try {
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                departmentName = rs.getString("Department");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getDepartmentByCustomerID: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return departmentName;
+    }
+
+    public String getDoctorName(int customerId) {
+        String doctor = null;
+        String sql = "SELECT \n"
+                + "    s.name AS Doctor\n"
+                + "FROM \n"
+                + "    Customer c\n"
+                + "INNER JOIN \n"
+                + "    Appointment a ON c.customerId = a.customerId\n"
+                + "INNER JOIN \n"
+                + "    Staff s ON a.staffId = s.staffId\n"
+                + "INNER JOIN \n"
+                + "    Department d ON s.departmentId = d.departmentId WHERE c.customerId = ?";
+        try {
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                doctor = rs.getString("Doctor");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getDoctor: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return doctor;
+    }
+
+    public Date getAppointmentDate(int customerId) {
+        Date appointmentDate = null;
+        String sql = "SELECT \n"
+                + "    a.date AS AppointmentDate\n"
+                + "FROM \n"
+                + "    Customer c\n"
+                + "INNER JOIN \n"
+                + "    Appointment a ON c.customerId = a.customerId\n"
+                + "INNER JOIN \n"
+                + "    Staff s ON a.staffId = s.staffId\n"
+                + "INNER JOIN \n"
+                + "    Department d ON s.departmentId = d.departmentId WHERE c.customerId = ?";
+        try {
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                appointmentDate = rs.getDate("AppointmentDate");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getDoctor: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return appointmentDate;
+    }
+
+    public Time getAppointmentTime(int customerId) {
+        Time appointmentTime = null;
+        String sql = "SELECT \n"
+                + "    a.startTime AS AppointmentTime\n"
+                + "FROM \n"
+                + "    Customer c\n"
+                + "INNER JOIN \n"
+                + "    Appointment a ON c.customerId = a.customerId\n"
+                + "INNER JOIN \n"
+                + "    Staff s ON a.staffId = s.staffId\n"
+                + "INNER JOIN \n"
+                + "    Department d ON s.departmentId = d.departmentId WHERE c.customerId = ?";
+        try {
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                appointmentTime = rs.getTime("AppointmentTime");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in getDoctor: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return appointmentTime;
     }
 
     public static void main(String[] args) {

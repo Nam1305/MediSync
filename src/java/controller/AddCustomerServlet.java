@@ -1,75 +1,118 @@
-
 package controller;
 
 import dal.CustomerDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import model.Customer;
 import util.BCrypt;
 
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
 
 @WebServlet(name = "AddCustomerServlet", urlPatterns = {"/addCustomer"})
 public class AddCustomerServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddCustomerServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddCustomerServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+    CustomerDAO customerDao = new CustomerDAO();
+
+    private static final String UPLOAD_DIR = "uploads"; // Thư mục lưu avatar trên server
 
     private void handleAddCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy dữ liệu từ form
-        String firstName = request.getParameter("first-name");
-        String lastName = request.getParameter("last-name");
+        String fullName = request.getParameter("full-name");
+        String gender = request.getParameter("gender");
         String email = request.getParameter("email");
         String phoneNumber = request.getParameter("number");
         String dateOfBirthString = request.getParameter("date");
         String password = request.getParameter("password");
-        //xử lý null
-        if (firstName == null || firstName.trim().isEmpty()
-                || lastName == null || lastName.trim().isEmpty()
+
+        Part imagePart = request.getPart("avatar");// Lấy file ảnh từ form
+        // Xử lý null
+        if (fullName == null || fullName.trim().isEmpty()
+                || gender == null || gender.trim().isEmpty()
                 || email == null || email.trim().isEmpty()
                 || phoneNumber == null || phoneNumber.trim().isEmpty()
                 || password == null || password.trim().isEmpty()
-                || dateOfBirthString == null || dateOfBirthString.trim().isEmpty()) {
-            request.setAttribute("error", "All fields are required!");
+                || dateOfBirthString == null || dateOfBirthString.trim().isEmpty()
+                || imagePart == null || imagePart.getSize() == 0) {
+            request.setAttribute("error", "Vui lòng điền đầy đủ thông tin!");
+            request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
+            return;
+        }
+        //check email đã tồn tại và đang active
+        if (customerDao.isEmailExists(email)) {
+            request.setAttribute("error", "Email đã tồn tại!");
+            request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
+            return;
+        }
+
+        //số ĐT bắt đầu bằng 03/09 và có 10 số
+        if (!phoneNumber.matches("^(09|03)\\d{8}$")) {
+            request.setAttribute("error", "Số điện thoại phải bắt đầu bằng 09 hoặc 03 và có 10 số!");
+            request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
+            return;
+        }
+
+        //ép kiểu cho dateOfBirth
+        Date dateOfBirth = Date.valueOf(dateOfBirthString);
+        //kiểm tra ngày sinh không lớn hơn ngày hiện tại
+        // Kiểm tra ngày sinh không lớn hơn ngày hiện tại
+        if (dateOfBirth.toLocalDate().isAfter(LocalDate.now())) {
+            request.setAttribute("error", "Ngày sinh không hợp lệ!");
             request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
             return;
         }
         
-        //ghép fullname
-        String fullName = lastName + " " + firstName;
-        
-        //ép kiểu cho dateOfBirth
-        Date dateOfBirth = Date.valueOf(dateOfBirthString);
+        // Kiểm tra mật khẩu
+        //^(?=.*[a-z]): Có ít nhất một chữ cái thường.
+        //(?=.*[A-Z]): Có ít nhất một chữ cái in hoa.
+        //(?=.*\\d): Có ít nhất một chữ số.
+        //(?=.*[^a-zA-Z0-9]): Có ít nhất một ký tự đặc biệt.
+        //.{8,}$: Mật khẩu phải có ít nhất 8 ký tự.
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}$";
+        if (!password.matches(passwordPattern)) {
+            request.setAttribute("error", "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái in hoa, chữ cái thường, số và ký tự đặc biệt!");
+            request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
+            return;
+        }
 
         //mã hóa password bằng hàm Bcrypt()
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        CustomerDAO customerDao = new CustomerDAO();
-        Customer newCustomer = new Customer(0, fullName, email, email, password, password, dateOfBirth, lastName, email, email, email);
+        //lấy đường dẫn thư mục trên máy chủ (server)
+        String uploadFolder = request.getServletContext().getRealPath("/uploads");
+        Path uploadPath = Paths.get(uploadFolder);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectory(uploadPath);
+        }
+
+        String imageFilename = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
+        if (!imageFilename.equals("")) {
+            imagePart.write(Paths.get(uploadPath.toString(), imageFilename).toString());
+        }
+
+        Customer newCustomer = new Customer(fullName, email, hashedPassword, dateOfBirth, gender, phoneNumber);
         //add Customer
-        customerDao.addCustomer(newCustomer);
-        request.setAttribute("success", "Add done!");
+        customerDao.addCustomer(newCustomer, "/uploads/" + imageFilename);
+        request.setAttribute("success", "Thêm thành công!");
         request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
-        
     }
 
     @Override
@@ -88,6 +131,6 @@ public class AddCustomerServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }
