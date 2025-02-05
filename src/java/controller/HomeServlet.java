@@ -51,9 +51,9 @@ public class HomeServlet extends HttpServlet {
                 
                 // Set the logged-in user info for the view
                 if (staff != null) {
-                    request.setAttribute("account", staff);
+                    request.setAttribute("staff", staff);
                 } else {
-                    request.setAttribute("account", customer);
+                    request.setAttribute("customer", customer);
                 }
             }
 

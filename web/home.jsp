@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 
@@ -84,20 +85,20 @@
                     <li class="list-inline-item mb-0 ms-1">
                         <div class="dropdown dropdown-primary">
                             <c:choose>
-                                <c:when test="${account != null}">
+                                <c:when test="${staff != null || customer != null}">
                                     <!-- Logged in user -->
                                     <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="${account.avatar}" class="avatar avatar-ex-small rounded-circle" alt="">
+                                        <img src="${staff != null ? staff.avatar : customer.avatar}" class="avatar avatar-ex-small rounded-circle" alt="">
                                     </button>
                                     <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
                                         <a class="dropdown-item d-flex align-items-center text-dark" href="profile">
-                                            <img src="${account.avatar}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                            <img src="${staff != null ? staff.avatar : customer.avatar}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                             <div class="flex-1 ms-2">
-                                                <span class="d-block mb-1">${account.name}</span>
+                                                <span class="d-block mb-1">${staff != null ? staff.name : customer.name}</span>
                                                 <small class="text-muted">
                                                     <c:choose>
-                                                        <c:when test="${account['class'].simpleName eq 'Staff'}">
-                                                            ${account.department.departmentName}
+                                                        <c:when test="${staff != null}">
+                                                            ${staff.department.departmentName}
                                                         </c:when>
                                                         <c:otherwise>
                                                             Customer
@@ -109,12 +110,12 @@
                                         <a class="dropdown-item text-dark" href="change-password">
                                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Change password
                                         </a>
-                                        <c:if test="${account['class'].simpleName eq 'Staff'}">
-                                            <a class="dropdown-item text-dark" href="addCustomer">
+                                        <c:if test="${staff != null}">
+                                            <a class="dropdown-item text-dark" href="doctor-dashboard">
                                                 <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard
                                             </a>
                                         </c:if>
-                                        <a class="dropdown-item text-dark" href="doctorprofile">
+                                        <a class="dropdown-item text-dark" href="profile">
                                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings
                                         </a>
                                         <div class="dropdown-divider border-top"></div>
@@ -307,7 +308,7 @@
                         <ul class="list-unstyled mb-2">
                             <li class="list-inline-item text-muted small me-3">
                                 <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
-                            <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
+                                <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
                             </li>
                         </ul>
                         <a href="blog-detail.html" class="text-dark title h5">${blog.blogName}</a>
