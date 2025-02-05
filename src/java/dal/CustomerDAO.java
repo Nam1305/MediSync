@@ -161,6 +161,6 @@ public class CustomerDAO extends DBContext {
 
     public static void main(String[] args) {
         CustomerDAO d = new CustomerDAO();
-        System.out.println(d.getCustomerByEmail("nva@example.com"));
+        System.out.println(d.getCustomerByEmail("hoangduc060704@gmail.com"));
     }
 }

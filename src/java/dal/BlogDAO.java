@@ -22,7 +22,7 @@ public class BlogDAO extends DBContext {
     // Phương thức lấy 4 blog ngẫu nhiên
     public List<Blog> getRandomBlogs() {
         List<Blog> blogs = new ArrayList<>();
-        String sql = "SELECT TOP 4 * FROM Blog ORDER BY NEWID()";
+        String sql = "SELECT TOP 3 * FROM Blog ORDER BY NEWID()";
         
         try (PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {

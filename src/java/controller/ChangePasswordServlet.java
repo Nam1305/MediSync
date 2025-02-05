@@ -122,7 +122,7 @@ public class ChangePasswordServlet extends HttpServlet {
 
             if (passwordChanged) {
                 session.setAttribute("success", "Đổi mật khẩu thành công!");
-                response.sendRedirect(request.getContextPath() + "/profile");
+                response.sendRedirect(request.getContextPath() + "/home");
             } else {
                 request.setAttribute("error", "Có lỗi xảy ra khi đổi mật khẩu. Vui lòng thử lại!");
                 request.getRequestDispatcher("change-password.jsp").forward(request, response);

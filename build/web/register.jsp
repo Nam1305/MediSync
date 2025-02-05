@@ -38,7 +38,7 @@
     <body>
 
         <div class="back-to-home rounded d-none d-sm-block">
-            <a href="index.html" class="btn btn-icon btn-success"><i data-feather="home" class="icons"></i></a>
+            <a href="home" class="btn btn-icon btn-success"><i data-feather="home" class="icons"></i></a>
         </div>
 
         <!-- Hero Start -->

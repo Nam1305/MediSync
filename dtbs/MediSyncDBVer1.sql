@@ -171,44 +171,39 @@ INSERT INTO Department (departmentName) VALUES
 (N'Khoa Tai Mũi Họng'),
 (N'Khoa Xét Nghiệm'),
 (N'Khoa Ngoại Cơ Bản'),
-(N'Khoa Nhi'),
-(N'Khoa Vật Lý Trị Liệu'),
-(N'Khoa Da Liễu'),
-(N'Khoa Phụ Sản'),
-(N'Khoa Mắt'),
 (N'Hành Chính');
 
 --Staff
 -- Insert Staff with corresponding departments
 INSERT INTO Staff (name, email, avatar, phone, password, dateOfBirth, position, gender, status, description, roleId, departmentId) VALUES
-(N'Nguyễn Văn A', 'nguyenvana@example.com', 'assets/images/doctors/01.jpg', '0123456789', 'pass123', '1980-05-10', N'Bác Sĩ', 'M', 'Active', 
+(N'Nguyễn Văn A', 'nguyenvana@example.com', 'assets/images/doctors/01.jpg', '0123456789', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1980-05-10', N'Bác Sĩ', 'M', 'Active', 
 N'Tiến sĩ Nguyễn Văn A là bác sĩ chuyên khoa Nội tổng hợp, tốt nghiệp Đại học Y Hà Nội vào năm 2003. Với hơn 15 năm kinh nghiệm trong việc khám và điều trị các bệnh lý nội khoa, ông đã đạt được nhiều thành tựu xuất sắc trong sự nghiệp. Ông đã tham gia nhiều hội thảo y học quốc tế và có nhiều nghiên cứu công bố trên các tạp chí y học hàng đầu. Tiến sĩ A cũng là giảng viên tại Đại học Y Hà Nội, nơi ông chia sẻ kinh nghiệm chuyên môn với các thế hệ bác sĩ trẻ.' , 2, 1),
 
-(N'Trần Thị B', 'tranthib@example.com', 'assets/images/doctors/02.jpg', '0987654321', 'pass456', '1985-06-15', N'Bác Sĩ', 'F', 'Active', 
+(N'Trần Thị B', 'tranthib@example.com', 'assets/images/doctors/02.jpg', '0987654321', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1985-06-15', N'Bác Sĩ', 'F', 'Active', 
 N'Bác sĩ Trần Thị B là chuyên gia trong lĩnh vực Sản phụ khoa, tốt nghiệp Đại học Y Dược TP.HCM năm 2008. Bà đã có hơn 12 năm kinh nghiệm và hiện là giảng viên tại trường Đại học Y Dược. Bà là tác giả của nhiều nghiên cứu về sinh sản và đã thực hiện thành công hàng nghìn ca phẫu thuật phụ khoa. Bác sĩ B là một trong những bác sĩ uy tín trong ngành và luôn được bệnh nhân tin tưởng với phương pháp điều trị hiện đại và hiệu quả.' , 2, 2),
 
-(N'Lê Hoàng C', 'lehoangc@example.com', 'assets/images/doctors/03.jpg', '0901234567', 'pass789', '1990-07-20', N'Chuyên Gia', 'F', 'Active', 
+(N'Lê Hoàng C', 'lehoangc@example.com', 'assets/images/doctors/03.jpg', '0901234567', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1990-07-20', N'Chuyên Gia', 'F', 'Active', 
 N'Chuyên gia Lê Hoàng C, tốt nghiệp trường Đại học Y khoa Phạm Ngọc Thạch năm 2013, là một trong những chuyên gia hàng đầu trong lĩnh vực Y học cổ truyền. Cô đã có hơn 10 năm kinh nghiệm trong việc điều trị các bệnh lý mãn tính và phục hồi sức khỏe. Cô từng tham gia nghiên cứu các bài thuốc cổ truyền và đã được công nhận với nhiều giải thưởng quốc tế. Chuyên gia C hiện là giảng viên tại Đại học Y học cổ truyền Hà Nội và là một trong những tên tuổi nổi bật trong cộng đồng y học cổ truyền.' , 3, 3),
 
-(N'Phạm Văn D', 'phamvand@example.com', 'assets/images/doctors/04.jpg', '0912345678', 'pass321', '1982-08-25', 'Admin', 'M', 'Active', 
+(N'Phạm Văn D', 'phamvand@example.com', 'assets/images/doctors/04.jpg', '0912345678', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1982-08-25', 'Admin', 'M', 'Active', 
 N'Phạm Văn D là một chuyên gia quản lý bệnh viện, với kinh nghiệm 10 năm trong công tác tổ chức và điều hành các hoạt động y tế. Ông đã tham gia vào việc tối ưu hóa quy trình làm việc và cải thiện chất lượng dịch vụ tại nhiều bệnh viện lớn.' , 1, 5),
 
-(N'Nguyễn Thị E', 'nguyenthie@example.com', 'assets/images/doctors/05.jpg', '0923456789', 'pass654', '1995-09-30', N'Bác Sĩ', 'F', 'Active', 
+(N'Nguyễn Thị E', 'nguyenthie@example.com', 'assets/images/doctors/05.jpg', '0923456789', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1995-09-30', N'Bác Sĩ', 'F', 'Active', 
 NULL, 2, 1),
 
-(N'Đặng Văn F', 'dangvanf@example.com', 'assets/images/doctors/06.jpg', '0934567890', 'pass987', '1993-10-10', N'Nhân viên hành chính', 'M', 'Active', 
+(N'Đặng Văn F', 'dangvanf@example.com', 'assets/images/doctors/06.jpg', '0934567890', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1993-10-10', N'Nhân viên hành chính', 'M', 'Active', 
 NULL, 4, 5),
 
-(N'Vũ Thị G', 'vuthig@example.com', 'assets/images/doctors/07.jpg', '0945678901', 'pass1234', '1988-11-05', N'Bác Sĩ', 'F', 'Active', 
+(N'Vũ Thị G', 'vuthig@example.com', 'assets/images/doctors/07.jpg', '0945678901', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1988-11-05', N'Bác Sĩ', 'F', 'Active', 
 N'Vũ Thị G là bác sĩ chuyên khoa Nhi, tốt nghiệp Đại học Y Dược TP.HCM vào năm 2012. Cô có hơn 10 năm kinh nghiệm và đặc biệt chuyên sâu về các bệnh lý về đường hô hấp ở trẻ em. Bác sĩ G đã thực hiện nhiều ca điều trị thành công và tham gia nghiên cứu về các bệnh lý lây truyền ở trẻ nhỏ.' , 2, 1),
 
-(N'Lý Minh H', 'lyminhh@example.com', 'assets/images/doctors/08.jpg', '0956789012', 'pass5678', '1992-12-12', N'Bác Sĩ', 'M', 'Active', 
+(N'Lý Minh H', 'lyminhh@example.com', 'assets/images/doctors/08.jpg', '0956789012', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1992-12-12', N'Bác Sĩ', 'M', 'Active', 
 N'Bác sĩ Lý Minh H chuyên khoa Nhi, tốt nghiệp Đại học Y Hà Nội năm 2014, với 10 năm kinh nghiệm trong việc điều trị bệnh nhi. Ông là chuyên gia trong các bệnh lý về hô hấp và miễn dịch ở trẻ em, đã thực hiện thành công hàng nghìn ca điều trị và chăm sóc sức khỏe cho trẻ em. Bác sĩ H cũng là giảng viên và là diễn giả thường xuyên trong các hội thảo chuyên đề về chăm sóc sức khỏe trẻ em.' , 2, 2),
 
-(N'Hoàng Thị I', 'hoangthii@example.com', 'assets/images/doctors/09.jpg', '0967890123', 'pass9101', '1986-01-15', N'Bác Sĩ', 'F', 'Active', 
+(N'Hoàng Thị I', 'hoangthii@example.com', 'assets/images/doctors/09.jpg', '0967890123', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1986-01-15', N'Bác Sĩ', 'F', 'Active', 
 N'Bác sĩ Hoàng Thị I chuyên về các bệnh lý tim mạch, tốt nghiệp Đại học Y Hà Nội năm 2009. Với hơn 14 năm kinh nghiệm trong ngành, bác sĩ I đã thực hiện nhiều ca phẫu thuật thành công và có nhiều nghiên cứu trong lĩnh vực điều trị bệnh tim mạch. Bà là thành viên của các hiệp hội tim mạch quốc tế và đã giành được giải thưởng lớn trong các hội thảo y học về tim mạch. Bác sĩ I hiện là trưởng khoa Tim mạch tại bệnh viện lớn ở Hà Nội.' , 2, 3),
 
-(N'Bùi Văn K', 'buivank@example.com', 'assets/images/doctors/10.jpg', '0978901234', 'pass2345', '1991-02-20', N'Chuyên Gia', 'M', 'Active', 
+(N'Bùi Văn K', 'buivank@example.com', 'assets/images/doctors/10.jpg', '0978901234', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1991-02-20', N'Chuyên Gia', 'M', 'Active', 
 NULL, 3, 1);
 
 --HistoryPosition
@@ -271,16 +266,16 @@ INSERT INTO HistoryPosition (position, [date], staffId) VALUES
 
 --Customer
 INSERT INTO Customer (name, avatar, email, password, address, phone, dateOfBirth, bloodType, gender, status) VALUES
-(N'Nguyễn Thị Lan', 'assets/images/client/03.jpg', 'lan.nguyen@example.com', 'cust123', 'Số 123, Đường Chính, Quận 1, TP.HCM', '0983456721','1995-03-15', 'O+', 'F', 'Active'),
-(N'Trần Minh Tân', 'assets/images/client/07.jpg', 'minhtan.tran@example.com', 'cust456', 'Số 456, Đường Phố, Quận 3, TP.HCM',  '0983456721','1990-07-20', 'A+', 'M', 'Active'),
-(N'Lê Quốc Duy', 'assets/images/client/05.jpg', 'quocduy.le@example.com', 'cust789', 'Số 789, Đường Cây, Quận 5, TP.HCM', '0908765432', '1988-05-10', 'B+', 'M', 'Active'),
-(N'Phạm Thị Mai', 'assets/images/client/09.jpg', 'maipham@example.com', 'cust321', 'Số 321, Đường Xanh, Quận 7, TP.HCM',  '0934567890','1992-09-25', 'AB-', 'F', 'Active'),
-(N'Vũ Minh Hoàng', 'assets/images/client/02.jpg', 'minhhoang.vu@example.com', 'cust654', 'Số 654, Đường Mới, Quận 2, TP.HCM',  '0971234568','1991-11-05', 'O-', 'M', 'Active'),
-(N'Đỗ Thị Lan Anh', 'assets/images/client/10.jpg', 'lananh.do@example.com', 'cust987', 'Số 987, Đường Cổ, Quận 9, TP.HCM', '0896543217', '1987-01-15', 'A-', 'F', 'Active'),
-(N'Hoàng Đức Hùng', 'assets/images/client/04.jpg', 'hoangduc.hoang@example.com', 'cust234', 'Số 234, Đường Lớn, Quận 4, TP.HCM', '0839876543', '1994-06-10', 'B-', 'M', 'Active'),
-(N'Nguyễn Thị Thùy Dương', 'assets/images/client/06.jpg', 'thuyduong.nguyen@example.com', 'cust567', 'Số 567, Đường Cây Cảnh, Quận 10, TP.HCM',  '0852346789','1993-08-05', 'AB+', 'F', 'Active'),
-(N'Bùi Hữu Tài', 'assets/images/client/08.jpg', 'huutai.bui@example.com', 'cust910', 'Số 910, Đường Bình Minh, Quận 12, TP.HCM',  '0817654329','1989-02-20', 'O+', 'M', 'Active'),
-(N'Trương Thu Hương', 'assets/images/client/01.jpg', 'thuhoang.truong@example.com', 'cust112', 'Số 112, Đường Hoa, Quận 11, TP.HCM', '0709871234', '1996-12-12', 'A+', 'F', 'Active');
+(N'Nguyễn Thị Lan', 'assets/images/client/03.jpg', 'lannguyen@example.com', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', N'Số 123, Đường Chính, Quận 1, TP.HCM', '0983456721','1995-03-15', 'O+', 'F', 'Active'),
+(N'Trần Minh Tân', 'assets/images/client/07.jpg', 'minhtantran@example.com', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', N'Số 456, Đường Phố, Quận 3, TP.HCM',  '0983456721','1990-07-20', 'A+', 'M', 'Active'),
+(N'Lê Quốc Duy', 'assets/images/client/05.jpg', 'quocduyle@example.com', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', N'Số 789, Đường Cây, Quận 5, TP.HCM', '0908765432', '1988-05-10', 'B+', 'M', 'Active'),
+(N'Phạm Thị Mai', 'assets/images/client/09.jpg', 'maipham@example.com', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', N'Số 321, Đường Xanh, Quận 7, TP.HCM',  '0934567890','1992-09-25', 'AB-', 'F', 'Active'),
+(N'Vũ Minh Hoàng', 'assets/images/client/02.jpg', 'minhhoangvu@example.com', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', N'Số 654, Đường Mới, Quận 2, TP.HCM',  '0971234568','1991-11-05', 'O-', 'M', 'Active'),
+(N'Đỗ Thị Lan Anh', 'assets/images/client/10.jpg', 'lananhdo@example.com', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', N'Số 987, Đường Cổ, Quận 9, TP.HCM', '0896543217', '1987-01-15', 'A-', 'F', 'Active'),
+(N'Hoàng Đức Hùng', 'assets/images/client/04.jpg', 'hoangduchoang@example.com', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', N'Số 234, Đường Lớn, Quận 4, TP.HCM', '0839876543', '1994-06-10', 'B-', 'M', 'Active'),
+(N'Nguyễn Thị Thùy Dương', 'assets/images/client/06.jpg', 'thuyduongnguyen@example.com', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', N'Số 567, Đường Cây Cảnh, Quận 10, TP.HCM',  '0852346789','1993-08-05', 'AB+', 'F', 'Active'),
+(N'Bùi Hữu Tài', 'assets/images/client/08.jpg', 'huutaibui@example.com', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', N'Số 910, Đường Bình Minh, Quận 12, TP.HCM',  '0817654329','1989-02-20', 'O+', 'M', 'Active'),
+(N'Trương Thu Hương', 'assets/images/client/01.jpg', 'thuhoangtruong@example.com', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', N'Số 112, Đường Hoa, Quận 11, TP.HCM', '0709871234', '1996-12-12', 'A+', 'F', 'Active');
 
 --Blog
 INSERT INTO Blog (blogName, content, image, author, [date]) VALUES
@@ -812,193 +807,141 @@ VALUES
 
 
 
---Service
 INSERT INTO Service (name, content, price) VALUES
--- Dịch vụ khám tổng quát
+-- Khoa Nội Tổng Quát
 (N'Khám tổng quát', N'Bao gồm đo huyết áp, kiểm tra tim mạch, khám tổng quát hệ tiêu hóa, hô hấp, thần kinh và tư vấn sức khỏe.', 100000),
 (N'Khám sức khỏe định kỳ', N'Khám tổng quát định kỳ để theo dõi tình trạng sức khỏe, phát hiện sớm các bệnh lý tiềm ẩn.', 120000),
-
--- Dịch vụ xét nghiệm và chẩn đoán hình ảnh
-(N'Xét nghiệm máu', N'Xét nghiệm công thức máu, đường huyết, mỡ máu, chức năng gan, chức năng thận và các chỉ số sinh hóa khác.', 200000),
-(N'Xét nghiệm nước tiểu', N'Kiểm tra chức năng thận, đường huyết, và các chỉ số sức khỏe khác qua xét nghiệm nước tiểu.', 180000),
-(N'Xét nghiệm sinh hóa', N'Đánh giá chức năng gan, thận, đường huyết, mỡ máu qua các chỉ số sinh hóa.', 250000),
-(N'Xét nghiệm vi sinh', N'Phát hiện vi khuẩn, virus, nấm và ký sinh trùng gây bệnh.', 300000),
-(N'Chẩn đoán hình ảnh', N'Thực hiện các kỹ thuật X-quang, siêu âm, MRI để hỗ trợ chẩn đoán bệnh lý.', 400000),
-(N'Chụp X-quang', N'Chụp X-quang các bộ phận như phổi, xương khớp, cột sống để phát hiện các bất thường hoặc chấn thương.', 300000),
-(N'Chụp MRI', N'Chụp cộng hưởng từ (MRI) giúp chẩn đoán các vấn đề liên quan đến não, cột sống, khớp và các mô mềm.', 500000),
-(N'Chụp cắt lớp CT', N'Chụp cắt lớp vi tính (CT Scan) giúp phát hiện các tổn thương não, phổi, gan, tim, thận và các cơ quan khác.', 600000),
-
--- Dịch vụ tư vấn
 (N'Tư vấn với bác sĩ', N'Tư vấn trực tiếp hoặc online với bác sĩ chuyên khoa về triệu chứng, hướng dẫn điều trị, đơn thuốc và chăm sóc sức khỏe.', 150000),
 (N'Tư vấn với chuyên gia', N'Gặp chuyên gia hàng đầu trong lĩnh vực y tế để có hướng dẫn điều trị chuyên sâu và kế hoạch chăm sóc sức khỏe cá nhân hoặc qua online.', 150000),
 (N'Tư vấn dinh dưỡng', N'Tư vấn chế độ ăn uống phù hợp với từng độ tuổi, tình trạng sức khỏe và bệnh lý.', 100000),
 
--- Dịch vụ tiêm phòng
-(N'Tiêm phòng', N'Cung cấp vắc xin phòng bệnh cho trẻ em và người lớn, bao gồm vắc xin cúm, viêm gan, HPV.', 50000),
-(N'Tiêm phòng cho trẻ', N'Tiêm phòng vắc xin định kỳ theo lịch tiêm chủng cho trẻ em.', 50000),
-
--- Dịch vụ điều trị chuyên khoa
+-- Khoa Tai-Mũi-Họng
 (N'Khám và điều trị viêm tai, mũi, họng', N'Khám và điều trị các bệnh lý về viêm họng, viêm xoang, viêm tai giữa.', 120000),
 (N'Nội soi tai, mũi, họng', N'Sử dụng nội soi để kiểm tra và chẩn đoán các bệnh lý vùng tai, mũi, họng.', 250000),
 (N'Phẫu thuật tai, mũi, họng', N'Thực hiện phẫu thuật tai, mũi, họng khi cần thiết như cắt amidan, nạo VA.', 3000000),
 (N'Điều trị dị ứng', N'Tư vấn và điều trị các bệnh lý dị ứng liên quan đến đường hô hấp, da liễu.', 180000),
 (N'Phục hồi chức năng thính giác', N'Hỗ trợ phục hồi thính lực với các bài tập và thiết bị trợ thính.', 500000),
 
--- Dịch vụ phẫu thuật và cấp cứu
+-- Khoa Xét nghiệm
+(N'Xét nghiệm máu', N'Xét nghiệm công thức máu, đường huyết, mỡ máu, chức năng gan, chức năng thận và các chỉ số sinh hóa khác.', 200000),
+(N'Xét nghiệm nước tiểu', N'Kiểm tra chức năng thận, đường huyết, và các chỉ số sức khỏe khác qua xét nghiệm nước tiểu.', 180000),
+(N'Xét nghiệm sinh hóa', N'Đánh giá chức năng gan, thận, đường huyết, mỡ máu qua các chỉ số sinh hóa.', 250000),
+(N'Xét nghiệm vi sinh', N'Phát hiện vi khuẩn, virus, nấm và ký sinh trùng gây bệnh.', 300000),
+
+-- Khoa Ngoại cơ bản
 (N'Tiểu phẫu', N'Thực hiện các tiểu phẫu nhỏ như cắt u bướu nhỏ, xử lý áp xe, cắt bao quy đầu, khâu vết thương hở dưới gây tê tại chỗ.', 2000000),
-(N'Phẫu thuật cấp cứu', N'Phẫu thuật cấp cứu trong các trường hợp chấn thương, tai nạn nguy hiểm.', 5000000),
-(N'Phẫu thuật nội soi', N'Phẫu thuật ít xâm lấn, hỗ trợ điều trị các bệnh lý tiêu hóa, phụ khoa, tiết niệu.', 7000000),
 (N'Điều trị chấn thương', N'Can thiệp y tế để điều trị gãy xương, bong gân, tổn thương mô mềm.', 250000),
-(N'Phẫu thuật khối u', N'Cắt bỏ các khối u lành tính hoặc ác tính dưới sự chỉ định của bác sĩ chuyên khoa.', 8000000),
-(N'Chăm sóc hậu phẫu', N'Theo dõi và chăm sóc bệnh nhân sau phẫu thuật để phục hồi nhanh chóng.', 300000),
+(N'Chăm sóc hậu phẫu', N'Theo dõi và chăm sóc bệnh nhân sau phẫu thuật để phục hồi nhanh chóng.', 300000);
 
--- Dịch vụ dành cho trẻ em
-(N'Khám sức khỏe cho trẻ em', N'Khám định kỳ, theo dõi sự phát triển thể chất và tinh thần của trẻ.', 150000),
-(N'Điều trị bệnh lý nhi khoa', N'Khám và điều trị các bệnh lý phổ biến ở trẻ em như viêm phổi, sốt, tiêu chảy.', 200000),
-(N'Khám chuyên sâu các vấn đề phát triển', N'Đánh giá và tư vấn về sự phát triển tâm lý, vận động của trẻ.', 300000),
-
--- Dịch vụ vật lý trị liệu
-(N'Vật lý trị liệu', N'Thực hiện các bài tập và phương pháp trị liệu như xoa bóp, châm cứu, sóng siêu âm để giúp phục hồi chức năng vận động.', 400000),
-(N'Điều trị đau cơ xương khớp', N'Điều trị đau lưng, đau khớp, thoát vị đĩa đệm và các bệnh lý cơ xương khớp.', 300000),
-(N'Tập phục hồi chức năng', N'Hướng dẫn bài tập phục hồi cho bệnh nhân sau chấn thương hoặc phẫu thuật.', 400000),
-(N'Thực hiện các liệu pháp nhiệt, điện', N'Sử dụng các phương pháp trị liệu như nhiệt, điện, sóng ngắn để giảm đau và viêm.', 350000),
-(N'Tư vấn về tư thế và vận động', N'Hướng dẫn tư thế đúng trong sinh hoạt, làm việc để phòng tránh bệnh lý xương khớp.', 200000),
-
--- Dịch vụ da liễu
-(N'Khám và điều trị các bệnh da liễu', N'Khám và điều trị các bệnh lý da như viêm da, dị ứng, nấm, bệnh lý da liễu khác.', 150000),
-(N'Thực hiện các liệu pháp laser', N'Điều trị nám, tàn nhang, sẹo bằng công nghệ laser hiện đại.', 1000000),
-(N'Điều trị mụn, nám, và các vấn đề về da khác', N'Điều trị mụn trứng cá, nám, tàn nhang bằng các phương pháp tiên tiến.', 800000),
-(N'Tư vấn chăm sóc da', N'Tư vấn cách chăm sóc da phù hợp với từng loại da và tình trạng da.', 200000),
-(N'Phẫu thuật da liễu', N'Điều trị các bệnh lý da bằng phương pháp phẫu thuật khi cần thiết.', 2500000),
--- Dịch vụ khác
-(N'Khám mắt tổng quát', N'Kiểm tra thị lực, đo khúc xạ, đánh giá tình trạng mắt và tư vấn chăm sóc mắt.', 150000),
-(N'Khám và điều trị tật khúc xạ', N'Khám và điều trị cận thị, viễn thị, loạn thị bằng kính hoặc phẫu thuật LASIK.', 200000),
-(N'Điều trị viêm kết mạc', N'Chẩn đoán và điều trị viêm kết mạc, viêm giác mạc, đau mắt đỏ.', 180000),
-(N'Khám thai kỳ', N'Khám và theo dõi sự phát triển của thai nhi qua các giai đoạn thai kỳ, thực hiện siêu âm, xét nghiệm.', 300000),
-(N'Siêu âm thai', N'Siêu âm theo dõi sự phát triển của thai nhi và các dấu hiệu bất thường trong thai kỳ.', 350000),
-(N'Tư vấn sức khỏe sinh sản', N'Tư vấn về sức khỏe sinh sản, kế hoạch hóa gia đình, điều trị vô sinh.', 150000),
-(N'Xét nghiệm tiền hôn nhân', N'Các xét nghiệm cần thiết để kiểm tra tình trạng sức khỏe trước khi kết hôn như HIV, viêm gan B, và các bệnh lý lây qua đường tình dục.', 250000),
-(N'Phẫu thuật sinh con', N'Phẫu thuật sinh mổ khi cần thiết cho những trường hợp thai kỳ gặp biến chứng.', 6000000),
-(N'Khám sau sinh', N'Khám sức khỏe phụ nữ sau sinh, theo dõi sức khỏe mẹ và bé, tư vấn về chế độ ăn uống và chăm sóc sau sinh.', 200000),
-(N'Khám sức khỏe phụ nữ tuổi mãn kinh', N'Khám và theo dõi sức khỏe phụ nữ trong giai đoạn mãn kinh, bao gồm kiểm tra nội tiết tố, loãng xương, huyết áp.', 250000);
-
-
---Invoice
+-- Invoice with updated serviceIds
 INSERT INTO Invoice (appointmentId, serviceId) 
 VALUES
 -- Appointment 1
 (1, 1), -- Khám tổng quát
-(1, 3), -- Xét nghiệm máu
-(1, 9), -- Tư vấn với bác sĩ
-(1, 13), -- Tư vấn dinh dưỡng
+(1, 11), -- Xét nghiệm máu
+(1, 3), -- Tư vấn với bác sĩ
+(1, 5), -- Tư vấn dinh dưỡng
 
 -- Appointment 2
 (2, 1), -- Khám tổng quát
-(2, 4), -- Xét nghiệm nước tiểu
-(2, 9), -- Tư vấn với bác sĩ
-(2, 18), -- Điều trị dị ứng
+(2, 12), -- Xét nghiệm nước tiểu
+(2, 3), -- Tư vấn với bác sĩ
+(2, 9), -- Điều trị dị ứng
 
 -- Appointment 3
 (3, 1), -- Khám tổng quát
-(3, 3), -- Xét nghiệm máu
-(3, 9), -- Tư vấn với bác sĩ
-(3, 7), -- Chẩn đoán hình ảnh
+(3, 11), -- Xét nghiệm máu
+(3, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 4
 (4, 1), -- Khám tổng quát
-(4, 3), -- Xét nghiệm máu
-(4, 9), -- Tư vấn với bác sĩ
-(4, 16), -- Chăm sóc hậu phẫu
+(4, 11), -- Xét nghiệm máu
+(4, 3), -- Tư vấn với bác sĩ
+(4, 17), -- Chăm sóc hậu phẫu
 
 -- Appointment 5
 (5, 1), -- Khám tổng quát
-(5, 5), -- Xét nghiệm sinh hóa
-(5, 9), -- Tư vấn với bác sĩ
-(5, 19), -- Khám sức khỏe phụ nữ tuổi mãn kinh
+(5, 13), -- Xét nghiệm sinh hóa
+(5, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 6
 (6, 1), -- Khám tổng quát
-(6, 6), -- Xét nghiệm vi sinh
-(6, 9), -- Tư vấn với bác sĩ
-(6, 18), -- Điều trị dị ứng
+(6, 14), -- Xét nghiệm vi sinh
+(6, 3), -- Tư vấn với bác sĩ
+(6, 9), -- Điều trị dị ứng
 
 -- Appointment 7
 (7, 1), -- Khám tổng quát
-(7, 4), -- Xét nghiệm nước tiểu
-(7, 9), -- Tư vấn với bác sĩ
-(7, 10), -- Phẫu thuật tai, mũi, họng
+(7, 12), -- Xét nghiệm nước tiểu
+(7, 3), -- Tư vấn với bác sĩ
+(7, 8), -- Phẫu thuật tai, mũi, họng
 
 -- Appointment 8
 (8, 1), -- Khám tổng quát
-(8, 5), -- Xét nghiệm sinh hóa
-(8, 9), -- Tư vấn với bác sĩ
-(8, 17), -- Khám mắt tổng quát
+(8, 13), -- Xét nghiệm sinh hóa
+(8, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 9
 (9, 1), -- Khám tổng quát
-(9, 4), -- Xét nghiệm nước tiểu
-(9, 9), -- Tư vấn với bác sĩ
-(9, 3), -- Chụp X-quang
+(9, 12), -- Xét nghiệm nước tiểu
+(9, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 10
 (10, 1), -- Khám tổng quát
-(10, 3), -- Xét nghiệm máu
-(10, 9), -- Tư vấn với bác sĩ
-(10, 18), -- Điều trị dị ứng
+(10, 11), -- Xét nghiệm máu
+(10, 3), -- Tư vấn với bác sĩ
+(10, 9), -- Điều trị dị ứng
 
 -- Appointment 11
 (11, 1), -- Khám tổng quát
-(11, 5), -- Xét nghiệm sinh hóa
-(11, 9), -- Tư vấn với bác sĩ
-(11, 12), -- Tư vấn với chuyên gia
+(11, 13), -- Xét nghiệm sinh hóa
+(11, 3), -- Tư vấn với bác sĩ
+(11, 4), -- Tư vấn với chuyên gia
 
 -- Appointment 12
 (12, 1), -- Khám tổng quát
-(12, 3), -- Xét nghiệm máu
-(12, 9), -- Tư vấn với bác sĩ
-(12, 10), -- Phẫu thuật tai, mũi, họng
+(12, 11), -- Xét nghiệm máu
+(12, 3), -- Tư vấn với bác sĩ
+(12, 8), -- Phẫu thuật tai, mũi, họng
 
 -- Appointment 13
 (13, 1), -- Khám tổng quát
-(13, 3), -- Xét nghiệm máu
-(13, 9), -- Tư vấn với bác sĩ
-(13, 18), -- Điều trị dị ứng
+(13, 11), -- Xét nghiệm máu
+(13, 3), -- Tư vấn với bác sĩ
+(13, 9), -- Điều trị dị ứng
 
 -- Appointment 14
 (14, 1), -- Khám tổng quát
-(14, 5), -- Xét nghiệm sinh hóa
-(14, 9), -- Tư vấn với bác sĩ
-(14, 19), -- Khám sức khỏe phụ nữ tuổi mãn kinh
+(14, 13), -- Xét nghiệm sinh hóa
+(14, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 15
 (15, 1), -- Khám tổng quát
-(15, 4), -- Xét nghiệm nước tiểu
-(15, 9), -- Tư vấn với bác sĩ
-(15, 17), -- Khám mắt tổng quát
+(15, 12), -- Xét nghiệm nước tiểu
+(15, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 16
 (16, 1), -- Khám tổng quát
-(16, 6), -- Xét nghiệm vi sinh
-(16, 9), -- Tư vấn với bác sĩ
-(16, 13), -- Tư vấn dinh dưỡng
+(16, 14), -- Xét nghiệm vi sinh
+(16, 3), -- Tư vấn với bác sĩ
+(16, 5), -- Tư vấn dinh dưỡng
 
 -- Appointment 17
 (17, 1), -- Khám tổng quát
-(17, 5), -- Xét nghiệm sinh hóa
-(17, 9), -- Tư vấn với bác sĩ
-(17, 16), -- Chăm sóc hậu phẫu
+(17, 13), -- Xét nghiệm sinh hóa
+(17, 3), -- Tư vấn với bác sĩ
+(17, 17), -- Chăm sóc hậu phẫu
 
 -- Appointment 18
 (18, 1), -- Khám tổng quát
-(18, 4), -- Xét nghiệm nước tiểu
-(18, 9), -- Tư vấn với bác sĩ
-(18, 17), -- Khám mắt tổng quát
+(18, 12), -- Xét nghiệm nước tiểu
+(18, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 19
 (19, 1), -- Khám tổng quát
-(19, 3), -- Xét nghiệm máu
-(19, 9), -- Tư vấn với bác sĩ
-(19, 13); -- Tư vấn dinh dưỡng
+(19, 11), -- Xét nghiệm máu
+(19, 3), -- Tư vấn với bác sĩ
+(19, 5); -- Tư vấn dinh dưỡng
 
 
 

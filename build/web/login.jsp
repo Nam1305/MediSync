@@ -11,10 +11,11 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>MediSyns System</title>
+        <title>Login</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
         <link href="assets/css/style.min.css" rel="stylesheet" />
+
     </head>
 
     <body>
@@ -28,27 +29,32 @@
         </div>
 
 
+        <script src="https://unpkg.com/feather-icons"></script>
+
         <div class="back-to-home rounded d-none d-sm-block">
-            <a href="index.html" class="btn btn-icon btn-success"><i data-feather="home" class="icons"></i></a>
+            <a href="home" class="btn btn-icon btn-success">
+                <i data-feather="home"></i> <!-- Feather Icon Home -->
+            </a>
         </div>
+
         <section class="bg-home d-flex bg-light align-items-center" style="background: url('assets/images/bg/bg-lines-one.png') center;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-8">
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
-                                <h4 class="text-center">Sign In</h4>
+                                <h4 class="text-center">Đăng nhập</h4>
                                 <c:set var="cookie"  value="${pageContext.request.cookies}"/>
                                 <form action="login" method="post" class="login-form mt-4">                                        <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Your Email <span class="text-danger">*</span></label>
+                                            <label class="form-label">Email <span class="text-danger">*</span></label>
                                             <input type="email" class="form-control" placeholder="Email" value="${cookie.cEmail.value}" name="email" required="">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Password <span class="text-danger">*</span></label>
+                                            <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <input type="password" class="form-control" id="password" placeholder="Password" name="password" value="${cookie.cPassword.value}" required>
                                                 <button type="button" class="btn btn-outline-secondary" id="togglePasswordBtn" onclick="togglePassword()">
@@ -73,18 +79,18 @@
                                                     <label class="form-check-label" for="remember-check">Remember me</label>
                                                 </div>
                                             </div>
-                                            <a href="forgot-password.jsp" class="text-dark h6 mb-0">Forgot password?</a>
+                                            <a href="forgot-password.jsp" class="text-dark h6 mb-0">Quên mật khẩu?</a>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12 mb-0">
                                         <div class="d-grid">
-                                            <button class="btn" style="background-color: #2CA052;">Sign in</button>
+                                            <button class="btn" style="background-color: #2CA052;">Đăng nhập</button>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12 mt-3 text-center">
-                                        <h6 class="text-muted">Or</h6>
+                                        <h6 class="text-muted">Hoặc</h6>
                                     </div>
 
                                     <div class="col-12 mt-3">
@@ -94,7 +100,7 @@
                                     </div>
 
                                     <div class="col-12 text-center">
-                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Don't have an account?</small> <a href="register.jsp" class="text-dark fw-bold">Register</a></p>
+                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Bạn chưa có tài khoản?</small> <a href="register.jsp" class="text-dark fw-bold">Đăng kí</a></p>
                                     </div>
 
                             </div>

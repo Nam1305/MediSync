@@ -172,36 +172,26 @@
 
                 <!-- Start Dropdown -->
                 <ul class="dropdowns list-inline mb-0">
-                    <li class="list-inline-item mb-0">
-                        <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                            <div class="btn btn-icon btn-pills btn-primary"><i data-feather="settings" class="fea icon-sm"></i></div>
-                        </a>
-                    </li>
-
-                    <li class="list-inline-item mb-0 ms-1">
-                        <a href="javascript:void(0)" class="btn btn-icon btn-pills btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-                            <i class="uil uil-search"></i>
-                        </a>
-                    </li>
 
                     <li class="list-inline-item mb-0 ms-1">
                         <div class="dropdown dropdown-primary">
                             <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="${not empty staff.avatar && staff.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(staff.avatar) : staff.avatar}" 
                                                                                                                                                                                         class="avatar avatar-md-sm rounded-circle border shadow" alt="">        </button>
                             <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                <a class="dropdown-item d-flex align-items-center text-dark" href="doctor-profile.html">
-                                    <img src="${not empty staff.avatar && staff.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(staff.avatar) : staff.avatar}" 
-                                         class="avatar avatar-md-sm rounded-circle border shadow" alt="">        
+                                <a class="dropdown-item d-flex align-items-center text-dark" href="doctor-profile.html">      
                                     <div class="flex-1 ms-2">
                                         <span class="d-block mb-1">${staff.name}</span>
                                         <small class="text-muted">${staff.department.departmentName}</small>
 
                                     </div>
                                 </a>
+                                <a class="dropdown-item text-dark" href="change-password">
+                                    <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
+                                </a>
                                 <a class="dropdown-item text-dark" href="doctor-dashboard.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                <a class="dropdown-item text-dark" href="doctor-profile-setting.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
+
                                 <div class="dropdown-divider border-top"></div>
-                                <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
+                                <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất </a>
                             </div>
                         </div>
                     </li>
@@ -212,7 +202,7 @@
                     <!-- Navigation Menu-->   
                     <ul class="navigation-menu nav-left">
                         <li class="has-submenu parent-menu-item">
-                            <a href="javascript:void(0)">Home</a><span class="menu-arrow"></span>
+                            <a href="home">Home</a><span class="menu-arrow"></span>
                         </li>
 
                         <li class="has-submenu parent-parent-menu-item">
@@ -246,8 +236,14 @@
                             </div>
 
                             <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
-                                <img src="${not empty staff.avatar && staff.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(staff.avatar) : staff.avatar}" 
-                                     class="avatar avatar-md-sm rounded-circle border shadow" alt="">                         
+                                <img src="${not empty staff.avatar && staff.avatar.contains('/uploads/') 
+                                            ? pageContext.request.contextPath.concat(staff.avatar) 
+                                            : staff.avatar}"
+                                     class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+
+
+
+
                                 <h5 class="mt-3 mb-1">${staff.name}</h5>
                                 <p class="text-muted mb-0">${staff.department.departmentName}</p>
                             </div>
