@@ -320,7 +320,9 @@
             </div>
         </c:forEach>
     </div><!--end col-->
-
+    <div class="col-12 mt-4 pt-2 text-center">
+        <a href="Blogs.html" class="btn btn-primary">Xem thêm</a>
+    </div><!--end col-->
 </div><!--end row-->
 </div><!--end container-->
 </section><!--end section-->
