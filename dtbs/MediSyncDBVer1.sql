@@ -171,11 +171,6 @@ INSERT INTO Department (departmentName) VALUES
 (N'Khoa Tai Mũi Họng'),
 (N'Khoa Xét Nghiệm'),
 (N'Khoa Ngoại Cơ Bản'),
-(N'Khoa Nhi'),
-(N'Khoa Vật Lý Trị Liệu'),
-(N'Khoa Da Liễu'),
-(N'Khoa Phụ Sản'),
-(N'Khoa Mắt'),
 (N'Hành Chính');
 
 --Staff
@@ -812,193 +807,141 @@ VALUES
 
 
 
---Service
 INSERT INTO Service (name, content, price) VALUES
--- Dịch vụ khám tổng quát
+-- Khoa Nội Tổng Quát
 (N'Khám tổng quát', N'Bao gồm đo huyết áp, kiểm tra tim mạch, khám tổng quát hệ tiêu hóa, hô hấp, thần kinh và tư vấn sức khỏe.', 100000),
 (N'Khám sức khỏe định kỳ', N'Khám tổng quát định kỳ để theo dõi tình trạng sức khỏe, phát hiện sớm các bệnh lý tiềm ẩn.', 120000),
-
--- Dịch vụ xét nghiệm và chẩn đoán hình ảnh
-(N'Xét nghiệm máu', N'Xét nghiệm công thức máu, đường huyết, mỡ máu, chức năng gan, chức năng thận và các chỉ số sinh hóa khác.', 200000),
-(N'Xét nghiệm nước tiểu', N'Kiểm tra chức năng thận, đường huyết, và các chỉ số sức khỏe khác qua xét nghiệm nước tiểu.', 180000),
-(N'Xét nghiệm sinh hóa', N'Đánh giá chức năng gan, thận, đường huyết, mỡ máu qua các chỉ số sinh hóa.', 250000),
-(N'Xét nghiệm vi sinh', N'Phát hiện vi khuẩn, virus, nấm và ký sinh trùng gây bệnh.', 300000),
-(N'Chẩn đoán hình ảnh', N'Thực hiện các kỹ thuật X-quang, siêu âm, MRI để hỗ trợ chẩn đoán bệnh lý.', 400000),
-(N'Chụp X-quang', N'Chụp X-quang các bộ phận như phổi, xương khớp, cột sống để phát hiện các bất thường hoặc chấn thương.', 300000),
-(N'Chụp MRI', N'Chụp cộng hưởng từ (MRI) giúp chẩn đoán các vấn đề liên quan đến não, cột sống, khớp và các mô mềm.', 500000),
-(N'Chụp cắt lớp CT', N'Chụp cắt lớp vi tính (CT Scan) giúp phát hiện các tổn thương não, phổi, gan, tim, thận và các cơ quan khác.', 600000),
-
--- Dịch vụ tư vấn
 (N'Tư vấn với bác sĩ', N'Tư vấn trực tiếp hoặc online với bác sĩ chuyên khoa về triệu chứng, hướng dẫn điều trị, đơn thuốc và chăm sóc sức khỏe.', 150000),
 (N'Tư vấn với chuyên gia', N'Gặp chuyên gia hàng đầu trong lĩnh vực y tế để có hướng dẫn điều trị chuyên sâu và kế hoạch chăm sóc sức khỏe cá nhân hoặc qua online.', 150000),
 (N'Tư vấn dinh dưỡng', N'Tư vấn chế độ ăn uống phù hợp với từng độ tuổi, tình trạng sức khỏe và bệnh lý.', 100000),
 
--- Dịch vụ tiêm phòng
-(N'Tiêm phòng', N'Cung cấp vắc xin phòng bệnh cho trẻ em và người lớn, bao gồm vắc xin cúm, viêm gan, HPV.', 50000),
-(N'Tiêm phòng cho trẻ', N'Tiêm phòng vắc xin định kỳ theo lịch tiêm chủng cho trẻ em.', 50000),
-
--- Dịch vụ điều trị chuyên khoa
+-- Khoa Tai-Mũi-Họng
 (N'Khám và điều trị viêm tai, mũi, họng', N'Khám và điều trị các bệnh lý về viêm họng, viêm xoang, viêm tai giữa.', 120000),
 (N'Nội soi tai, mũi, họng', N'Sử dụng nội soi để kiểm tra và chẩn đoán các bệnh lý vùng tai, mũi, họng.', 250000),
 (N'Phẫu thuật tai, mũi, họng', N'Thực hiện phẫu thuật tai, mũi, họng khi cần thiết như cắt amidan, nạo VA.', 3000000),
 (N'Điều trị dị ứng', N'Tư vấn và điều trị các bệnh lý dị ứng liên quan đến đường hô hấp, da liễu.', 180000),
 (N'Phục hồi chức năng thính giác', N'Hỗ trợ phục hồi thính lực với các bài tập và thiết bị trợ thính.', 500000),
 
--- Dịch vụ phẫu thuật và cấp cứu
+-- Khoa Xét nghiệm
+(N'Xét nghiệm máu', N'Xét nghiệm công thức máu, đường huyết, mỡ máu, chức năng gan, chức năng thận và các chỉ số sinh hóa khác.', 200000),
+(N'Xét nghiệm nước tiểu', N'Kiểm tra chức năng thận, đường huyết, và các chỉ số sức khỏe khác qua xét nghiệm nước tiểu.', 180000),
+(N'Xét nghiệm sinh hóa', N'Đánh giá chức năng gan, thận, đường huyết, mỡ máu qua các chỉ số sinh hóa.', 250000),
+(N'Xét nghiệm vi sinh', N'Phát hiện vi khuẩn, virus, nấm và ký sinh trùng gây bệnh.', 300000),
+
+-- Khoa Ngoại cơ bản
 (N'Tiểu phẫu', N'Thực hiện các tiểu phẫu nhỏ như cắt u bướu nhỏ, xử lý áp xe, cắt bao quy đầu, khâu vết thương hở dưới gây tê tại chỗ.', 2000000),
-(N'Phẫu thuật cấp cứu', N'Phẫu thuật cấp cứu trong các trường hợp chấn thương, tai nạn nguy hiểm.', 5000000),
-(N'Phẫu thuật nội soi', N'Phẫu thuật ít xâm lấn, hỗ trợ điều trị các bệnh lý tiêu hóa, phụ khoa, tiết niệu.', 7000000),
 (N'Điều trị chấn thương', N'Can thiệp y tế để điều trị gãy xương, bong gân, tổn thương mô mềm.', 250000),
-(N'Phẫu thuật khối u', N'Cắt bỏ các khối u lành tính hoặc ác tính dưới sự chỉ định của bác sĩ chuyên khoa.', 8000000),
-(N'Chăm sóc hậu phẫu', N'Theo dõi và chăm sóc bệnh nhân sau phẫu thuật để phục hồi nhanh chóng.', 300000),
+(N'Chăm sóc hậu phẫu', N'Theo dõi và chăm sóc bệnh nhân sau phẫu thuật để phục hồi nhanh chóng.', 300000);
 
--- Dịch vụ dành cho trẻ em
-(N'Khám sức khỏe cho trẻ em', N'Khám định kỳ, theo dõi sự phát triển thể chất và tinh thần của trẻ.', 150000),
-(N'Điều trị bệnh lý nhi khoa', N'Khám và điều trị các bệnh lý phổ biến ở trẻ em như viêm phổi, sốt, tiêu chảy.', 200000),
-(N'Khám chuyên sâu các vấn đề phát triển', N'Đánh giá và tư vấn về sự phát triển tâm lý, vận động của trẻ.', 300000),
-
--- Dịch vụ vật lý trị liệu
-(N'Vật lý trị liệu', N'Thực hiện các bài tập và phương pháp trị liệu như xoa bóp, châm cứu, sóng siêu âm để giúp phục hồi chức năng vận động.', 400000),
-(N'Điều trị đau cơ xương khớp', N'Điều trị đau lưng, đau khớp, thoát vị đĩa đệm và các bệnh lý cơ xương khớp.', 300000),
-(N'Tập phục hồi chức năng', N'Hướng dẫn bài tập phục hồi cho bệnh nhân sau chấn thương hoặc phẫu thuật.', 400000),
-(N'Thực hiện các liệu pháp nhiệt, điện', N'Sử dụng các phương pháp trị liệu như nhiệt, điện, sóng ngắn để giảm đau và viêm.', 350000),
-(N'Tư vấn về tư thế và vận động', N'Hướng dẫn tư thế đúng trong sinh hoạt, làm việc để phòng tránh bệnh lý xương khớp.', 200000),
-
--- Dịch vụ da liễu
-(N'Khám và điều trị các bệnh da liễu', N'Khám và điều trị các bệnh lý da như viêm da, dị ứng, nấm, bệnh lý da liễu khác.', 150000),
-(N'Thực hiện các liệu pháp laser', N'Điều trị nám, tàn nhang, sẹo bằng công nghệ laser hiện đại.', 1000000),
-(N'Điều trị mụn, nám, và các vấn đề về da khác', N'Điều trị mụn trứng cá, nám, tàn nhang bằng các phương pháp tiên tiến.', 800000),
-(N'Tư vấn chăm sóc da', N'Tư vấn cách chăm sóc da phù hợp với từng loại da và tình trạng da.', 200000),
-(N'Phẫu thuật da liễu', N'Điều trị các bệnh lý da bằng phương pháp phẫu thuật khi cần thiết.', 2500000),
--- Dịch vụ khác
-(N'Khám mắt tổng quát', N'Kiểm tra thị lực, đo khúc xạ, đánh giá tình trạng mắt và tư vấn chăm sóc mắt.', 150000),
-(N'Khám và điều trị tật khúc xạ', N'Khám và điều trị cận thị, viễn thị, loạn thị bằng kính hoặc phẫu thuật LASIK.', 200000),
-(N'Điều trị viêm kết mạc', N'Chẩn đoán và điều trị viêm kết mạc, viêm giác mạc, đau mắt đỏ.', 180000),
-(N'Khám thai kỳ', N'Khám và theo dõi sự phát triển của thai nhi qua các giai đoạn thai kỳ, thực hiện siêu âm, xét nghiệm.', 300000),
-(N'Siêu âm thai', N'Siêu âm theo dõi sự phát triển của thai nhi và các dấu hiệu bất thường trong thai kỳ.', 350000),
-(N'Tư vấn sức khỏe sinh sản', N'Tư vấn về sức khỏe sinh sản, kế hoạch hóa gia đình, điều trị vô sinh.', 150000),
-(N'Xét nghiệm tiền hôn nhân', N'Các xét nghiệm cần thiết để kiểm tra tình trạng sức khỏe trước khi kết hôn như HIV, viêm gan B, và các bệnh lý lây qua đường tình dục.', 250000),
-(N'Phẫu thuật sinh con', N'Phẫu thuật sinh mổ khi cần thiết cho những trường hợp thai kỳ gặp biến chứng.', 6000000),
-(N'Khám sau sinh', N'Khám sức khỏe phụ nữ sau sinh, theo dõi sức khỏe mẹ và bé, tư vấn về chế độ ăn uống và chăm sóc sau sinh.', 200000),
-(N'Khám sức khỏe phụ nữ tuổi mãn kinh', N'Khám và theo dõi sức khỏe phụ nữ trong giai đoạn mãn kinh, bao gồm kiểm tra nội tiết tố, loãng xương, huyết áp.', 250000);
-
-
---Invoice
+-- Invoice with updated serviceIds
 INSERT INTO Invoice (appointmentId, serviceId) 
 VALUES
 -- Appointment 1
 (1, 1), -- Khám tổng quát
-(1, 3), -- Xét nghiệm máu
-(1, 9), -- Tư vấn với bác sĩ
-(1, 13), -- Tư vấn dinh dưỡng
+(1, 11), -- Xét nghiệm máu
+(1, 3), -- Tư vấn với bác sĩ
+(1, 5), -- Tư vấn dinh dưỡng
 
 -- Appointment 2
 (2, 1), -- Khám tổng quát
-(2, 4), -- Xét nghiệm nước tiểu
-(2, 9), -- Tư vấn với bác sĩ
-(2, 18), -- Điều trị dị ứng
+(2, 12), -- Xét nghiệm nước tiểu
+(2, 3), -- Tư vấn với bác sĩ
+(2, 9), -- Điều trị dị ứng
 
 -- Appointment 3
 (3, 1), -- Khám tổng quát
-(3, 3), -- Xét nghiệm máu
-(3, 9), -- Tư vấn với bác sĩ
-(3, 7), -- Chẩn đoán hình ảnh
+(3, 11), -- Xét nghiệm máu
+(3, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 4
 (4, 1), -- Khám tổng quát
-(4, 3), -- Xét nghiệm máu
-(4, 9), -- Tư vấn với bác sĩ
-(4, 16), -- Chăm sóc hậu phẫu
+(4, 11), -- Xét nghiệm máu
+(4, 3), -- Tư vấn với bác sĩ
+(4, 17), -- Chăm sóc hậu phẫu
 
 -- Appointment 5
 (5, 1), -- Khám tổng quát
-(5, 5), -- Xét nghiệm sinh hóa
-(5, 9), -- Tư vấn với bác sĩ
-(5, 19), -- Khám sức khỏe phụ nữ tuổi mãn kinh
+(5, 13), -- Xét nghiệm sinh hóa
+(5, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 6
 (6, 1), -- Khám tổng quát
-(6, 6), -- Xét nghiệm vi sinh
-(6, 9), -- Tư vấn với bác sĩ
-(6, 18), -- Điều trị dị ứng
+(6, 14), -- Xét nghiệm vi sinh
+(6, 3), -- Tư vấn với bác sĩ
+(6, 9), -- Điều trị dị ứng
 
 -- Appointment 7
 (7, 1), -- Khám tổng quát
-(7, 4), -- Xét nghiệm nước tiểu
-(7, 9), -- Tư vấn với bác sĩ
-(7, 10), -- Phẫu thuật tai, mũi, họng
+(7, 12), -- Xét nghiệm nước tiểu
+(7, 3), -- Tư vấn với bác sĩ
+(7, 8), -- Phẫu thuật tai, mũi, họng
 
 -- Appointment 8
 (8, 1), -- Khám tổng quát
-(8, 5), -- Xét nghiệm sinh hóa
-(8, 9), -- Tư vấn với bác sĩ
-(8, 17), -- Khám mắt tổng quát
+(8, 13), -- Xét nghiệm sinh hóa
+(8, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 9
 (9, 1), -- Khám tổng quát
-(9, 4), -- Xét nghiệm nước tiểu
-(9, 9), -- Tư vấn với bác sĩ
-(9, 3), -- Chụp X-quang
+(9, 12), -- Xét nghiệm nước tiểu
+(9, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 10
 (10, 1), -- Khám tổng quát
-(10, 3), -- Xét nghiệm máu
-(10, 9), -- Tư vấn với bác sĩ
-(10, 18), -- Điều trị dị ứng
+(10, 11), -- Xét nghiệm máu
+(10, 3), -- Tư vấn với bác sĩ
+(10, 9), -- Điều trị dị ứng
 
 -- Appointment 11
 (11, 1), -- Khám tổng quát
-(11, 5), -- Xét nghiệm sinh hóa
-(11, 9), -- Tư vấn với bác sĩ
-(11, 12), -- Tư vấn với chuyên gia
+(11, 13), -- Xét nghiệm sinh hóa
+(11, 3), -- Tư vấn với bác sĩ
+(11, 4), -- Tư vấn với chuyên gia
 
 -- Appointment 12
 (12, 1), -- Khám tổng quát
-(12, 3), -- Xét nghiệm máu
-(12, 9), -- Tư vấn với bác sĩ
-(12, 10), -- Phẫu thuật tai, mũi, họng
+(12, 11), -- Xét nghiệm máu
+(12, 3), -- Tư vấn với bác sĩ
+(12, 8), -- Phẫu thuật tai, mũi, họng
 
 -- Appointment 13
 (13, 1), -- Khám tổng quát
-(13, 3), -- Xét nghiệm máu
-(13, 9), -- Tư vấn với bác sĩ
-(13, 18), -- Điều trị dị ứng
+(13, 11), -- Xét nghiệm máu
+(13, 3), -- Tư vấn với bác sĩ
+(13, 9), -- Điều trị dị ứng
 
 -- Appointment 14
 (14, 1), -- Khám tổng quát
-(14, 5), -- Xét nghiệm sinh hóa
-(14, 9), -- Tư vấn với bác sĩ
-(14, 19), -- Khám sức khỏe phụ nữ tuổi mãn kinh
+(14, 13), -- Xét nghiệm sinh hóa
+(14, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 15
 (15, 1), -- Khám tổng quát
-(15, 4), -- Xét nghiệm nước tiểu
-(15, 9), -- Tư vấn với bác sĩ
-(15, 17), -- Khám mắt tổng quát
+(15, 12), -- Xét nghiệm nước tiểu
+(15, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 16
 (16, 1), -- Khám tổng quát
-(16, 6), -- Xét nghiệm vi sinh
-(16, 9), -- Tư vấn với bác sĩ
-(16, 13), -- Tư vấn dinh dưỡng
+(16, 14), -- Xét nghiệm vi sinh
+(16, 3), -- Tư vấn với bác sĩ
+(16, 5), -- Tư vấn dinh dưỡng
 
 -- Appointment 17
 (17, 1), -- Khám tổng quát
-(17, 5), -- Xét nghiệm sinh hóa
-(17, 9), -- Tư vấn với bác sĩ
-(17, 16), -- Chăm sóc hậu phẫu
+(17, 13), -- Xét nghiệm sinh hóa
+(17, 3), -- Tư vấn với bác sĩ
+(17, 17), -- Chăm sóc hậu phẫu
 
 -- Appointment 18
 (18, 1), -- Khám tổng quát
-(18, 4), -- Xét nghiệm nước tiểu
-(18, 9), -- Tư vấn với bác sĩ
-(18, 17), -- Khám mắt tổng quát
+(18, 12), -- Xét nghiệm nước tiểu
+(18, 3), -- Tư vấn với bác sĩ
 
 -- Appointment 19
 (19, 1), -- Khám tổng quát
-(19, 3), -- Xét nghiệm máu
-(19, 9), -- Tư vấn với bác sĩ
-(19, 13); -- Tư vấn dinh dưỡng
+(19, 11), -- Xét nghiệm máu
+(19, 3), -- Tư vấn với bác sĩ
+(19, 5); -- Tư vấn dinh dưỡng
 
 
 
