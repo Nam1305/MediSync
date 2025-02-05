@@ -28,9 +28,9 @@ import util.BCrypt;
  */
 @WebServlet(name = "AddStaffServlet", urlPatterns = {"/AddStaffServlet"})
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024 * 2,  // 2MB
-    maxFileSize = 1024 * 1024 * 10,       // 10MB
-    maxRequestSize = 1024 * 1024 * 50     // 50MB
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
 public class AddStaffServlet extends HttpServlet {
 
@@ -101,8 +101,13 @@ public class AddStaffServlet extends HttpServlet {
             return;
         }
 
-        if (checkPhone(phone)) {
+        if (!checkPhone(phone)) {
             request.setAttribute("error", "Invalid phone number! It must start with 09, 08, or 03.");
+            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            return;
+        }
+        if (!checkPassword(password)) {
+            request.setAttribute("error", "Password must be at least 8 characters and include uppercase, lowercase, special character.");
             request.getRequestDispatcher("addStaff.jsp").forward(request, response);
             return;
         }
@@ -121,7 +126,7 @@ public class AddStaffServlet extends HttpServlet {
             request.getRequestDispatcher("addStaff.jsp").forward(request, response);
             return;
         }
-        Staff newStaff = new Staff(0, name, email, avatarPath, phone, password, dateOfBirth, position, gender, "Active", description, department, role);
+        Staff newStaff = new Staff(0, name, email, avatarPath, phone, hashedPassword, dateOfBirth, position, gender, "Active", description, department, role);
 
         boolean isAdded = staff.addStaff(newStaff);
 
@@ -138,7 +143,19 @@ public class AddStaffServlet extends HttpServlet {
     }
 
     private boolean checkPhone(String phone) {
-        return phone.matches("^(09|08|03)\\d{7}$");
+        return phone.matches("^(09|08|03)\\d{8}$");
+    }
+
+    private boolean checkPassword(String password) {
+        // Kiểm tra ít nhất 8 ký tự, có chữ hoa, chữ thường, và ký tự đặc biệt (bất kỳ vị trí nào)
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$";
+        // ^                 : Bắt đầu chuỗi
+        // (?=.*[a-z])       : Ít nhất một chữ cái thường (a-z)
+        // (?=.*[A-Z])       : Ít nhất một chữ cái hoa (A-Z)
+        // (?=.*[^a-zA-Z0-9]): Ít nhất một ký tự đặc biệt (không phải chữ hoặc số)
+        // .{8,}             : Ít nhất 8 ký tự trở lên (bất kỳ ký tự nào)
+        // $                 : Kết thúc chuỗi
+        return password.matches(passwordPattern);
     }
 
     /**

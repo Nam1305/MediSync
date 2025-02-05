@@ -19,23 +19,25 @@ public class DoctorDAO extends DBContext {
 
     DepartmentDAO departDao = new DepartmentDAO();
     RoleDAO roleDao = new RoleDAO();
-
+    PositionDAO positionDao = new PositionDAO();
+//    Position positionDao = 
     public List<Staff> getAllDoctor(Integer roleId, String status) {
-        List<Staff> listDoctor = new ArrayList<>();
-        String sql = "SELECT * FROM Staff"; // Câu SQL cơ bản
+    List<Staff> listDoctor = new ArrayList<>();
+    String sql = "SELECT * FROM Staff WHERE roleId != 1"; // Loại bỏ roleId = 1
 
-    // Nếu roleId không null, thêm điều kiện lọc
+    // Nếu roleId khác null, thêm điều kiện lọc
     if (roleId != null) {
-        sql += " where roleId = ?";
+        sql += " AND roleId = ?";
     }
-       if (status != null && !status.isEmpty()) {
+    if (status != null && !status.isEmpty()) {
         sql += " AND status = ?";
     }
+
     try {
         PreparedStatement ps = connection.prepareStatement(sql);
 
         int index = 1;
-        if (roleId != null ) {
+        if (roleId != null) {
             ps.setInt(index++, roleId);
         }
         if (status != null && !status.isEmpty()) {
@@ -43,30 +45,30 @@ public class DoctorDAO extends DBContext {
         }
 
         ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Staff doctor = new Staff();
-                doctor.setStaffId(rs.getInt(1));
-                doctor.setName(rs.getString(2));
-                doctor.setEmail(rs.getString(3));
-                doctor.setAvatar(rs.getString(4));
-                doctor.setPhone(rs.getString(5));
-                doctor.setPassword(rs.getString(6));
-                doctor.setDateOfBirth(rs.getDate(7));
-                doctor.setPosition(rs.getString(8));
-                doctor.setGender(rs.getString(9));
-                doctor.setStatus(rs.getString(10));
-                doctor.setDescription(rs.getString(11));
-                doctor.setRole(roleDao.getRoleById(rs.getInt(12)));
-                doctor.setDepartment(departDao.getDepartmentById(rs.getInt(13)));
-                
-                listDoctor.add(doctor);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return listDoctor;
-    }
+        while (rs.next()) {
+            int staffId = rs.getInt(1);
+            Staff doctor = new Staff();
+            doctor.setStaffId(staffId);
+            doctor.setName(rs.getString(2));
+            doctor.setEmail(rs.getString(3));
+            doctor.setAvatar(rs.getString(4));
+            doctor.setPhone(rs.getString(5));
+            doctor.setPassword(rs.getString(6));
+            doctor.setDateOfBirth(rs.getDate(7));
+            doctor.setPosition(positionDao.getPositionByStaffId(staffId));
+            doctor.setGender(rs.getString(9));
+            doctor.setStatus(rs.getString(10));
+            doctor.setDescription(rs.getString(11));
+            doctor.setRole(roleDao.getRoleById(rs.getInt(12)));
+            doctor.setDepartment(departDao.getDepartmentById(rs.getInt(13)));
 
+            listDoctor.add(doctor);
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return listDoctor;
+}
     public boolean addStaff(Staff staff) {
         // mặc định  status set = '1'
         String sql = "INSERT INTO Staff (name, email,avatar, phone, password, dateOfBirth, position, gender, status, description, roleId, departmentId) "

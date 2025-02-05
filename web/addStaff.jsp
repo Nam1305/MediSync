@@ -171,16 +171,7 @@
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
-                            <div class="search-bar p-0 d-none d-lg-block ms-2">
-                                <div id="search" class="menu-search mb-0">
-                                    <form role="search" method="get" id="searchform" class="searchform">
-                                        <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
-                                            <input type="submit" id="searchsubmit" value="Search">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            
                         </div>
 
                         <ul class="list-unstyled mb-0">
@@ -312,9 +303,9 @@
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                                    <li class="breadcrumb-item"><a href="doctors.html">Doctors</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Add Staff</li>
+                                   
+                                    <li class="breadcrumb-item"><a href="ListDoctor">Staff List</a></li>
+                                    
                                 </ul>
                             </nav>
                         </div>
@@ -327,16 +318,7 @@
                                             <img src="assets/images/doctors/01.jpg" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
                                         </div><!--end col-->
 
-                                        <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
-                                            <h5 class="">Upload your picture</h5>
-                                            <p class="text-muted mb-0">For best results, use an image at least 600px by 600px in either .jpg or .png format</p>
-                                        </div><!--end col-->
-
-                                        <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
-                                            <a href="#" class="btn btn-danger">Upload</a>
-                                            <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
+                                        
 
                                     <form class="mt-4" action="AddStaffServlet" method="POST" enctype="multipart/form-data">
                                         <div class="row">
@@ -410,8 +392,8 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Gender</label>
                                                     <select name="gender" class="form-control gender-name select2input" required>
-                                                        <option value="Male">Male</option>
-                                                        <option value="Female">Female</option>
+                                                        <option value="M">Male</option>
+                                                        <option value="F">Female</option>
                                                     </select>
                                                 </div>
                                             </div><!--end col-->
@@ -425,10 +407,19 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Position</label>
-                                                    <input name="position" id="position" type="text" class="form-control" placeholder="Position :" required>
+                                                     
+                                                    <select name="position" id="position" class="form-control department-name select2input" required>
+                                                        <option value="Doctor">Doctor</option>
+                                                        <option value="Expert">Expert</option>
+                                                        <option value="Receptionist">Receptionist</option>
+                                                    </select>
                                                 </div>
                                             </div><!--end col-->
-
+                                            <div>
+                                                <c:if test="${not empty error}">
+                                                    <div class="alert alert-danger mt-3">${error}</div>
+                                                </c:if>
+                                            </div>
                                            
                                         </div><!--end row-->
 
