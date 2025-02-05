@@ -21,7 +21,7 @@ public class DoctorDAO extends DBContext {
     RoleDAO roleDao = new RoleDAO();
     PositionDAO positionDao = new PositionDAO();
 //    Position positionDao = 
-    public List<Staff> getAllDoctor(Integer roleId, String status) {
+    public List<Staff> getAllDoctor(Integer roleId, String status,String searchQuery) {
     List<Staff> listDoctor = new ArrayList<>();
     String sql = "SELECT * FROM Staff WHERE roleId != 1"; // Loại bỏ roleId = 1
 
@@ -32,7 +32,9 @@ public class DoctorDAO extends DBContext {
     if (status != null && !status.isEmpty()) {
         sql += " AND status = ?";
     }
-
+     if (searchQuery != null && !searchQuery.isEmpty()) {
+        sql += " AND (name LIKE ? OR phone LIKE ?)";
+    }
     try {
         PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -43,7 +45,10 @@ public class DoctorDAO extends DBContext {
         if (status != null && !status.isEmpty()) {
             ps.setString(index++, status);
         }
-
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            ps.setString(index++, "%" + searchQuery + "%");
+            ps.setString(index++, "%" + searchQuery + "%");
+        }
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int staffId = rs.getInt(1);

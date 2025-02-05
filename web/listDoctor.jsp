@@ -181,11 +181,9 @@
                             </a>
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form role="search" action="ListDoctor" method="post" id="searchform" class="searchform">
-                                        <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
-                                            <input type="submit"value="Search">
-                                        </div>
+                                    <form action="ListDoctor" method="get" class="searchform">
+                                        <input type="text" class="form-control border rounded-pill" name="s" placeholder="Search by name or phone...">
+                                        <input type="submit" value="Search">
                                     </form>
                                 </div>
                             </div>
