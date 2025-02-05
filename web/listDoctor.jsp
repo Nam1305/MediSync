@@ -454,22 +454,22 @@
                             </div>
                         </div><!--end row-->
 
-<!--                        <div class="row text-center">
-                             PAGINATION START 
-                            <div class="col-12 mt-4">
-                                <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
-                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>
-                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
-                                    </ul>
-                                </div>
-                            </div>end col
-                             PAGINATION END 
-                        </div>end row-->
+                        <!--                        <div class="row text-center">
+                                                     PAGINATION START 
+                                                    <div class="col-12 mt-4">
+                                                        <div class="d-md-flex align-items-center text-center justify-content-between">
+                                                            <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
+                                                            <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                                                <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>
+                                                                <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                                                <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>end col
+                                                     PAGINATION END 
+                                                </div>end row-->
                     </div>
                 </div><!--end container-->
 
@@ -628,15 +628,10 @@
                                             <label class="form-label">Department</label>
                                             <select name="departmentId" id="departmentId" class="form-control">
                                                 <option value="1">Khoa nội tổng quát</option>
-                                                <option value="2">Khoa Ngoại tổng quát</option>
-                                                <option value="3">Khoa Nhi</option>
-                                                <option value="4">Khoa Sản</option>
-                                                <option value="5">Khoa Tai Mũi Họng</option>
-                                                <option value="6">Khoa Răng Hàm Mặt</option>
-                                                <option value="7">Khoa Da Liễu</option>
-                                                <option value="8">Khoa Mắt</option>
-                                                <option value="9">Khoa Xét Nghiệm</option>
-                                                <option value="10">Khoa Chẩn Đoán Hình Ảnh</option>
+                                                <option value="2">Khoa Tai Mũi Họng</option>
+                                                <option value="3">Khoa Xét Nghiệm</option>
+                                                <option value="4">Khoa Ngoại Cơ Bản</option>
+                                                <option value="5">Hành Chính</option>
                                             </select>
                                         </div>
                                     </div><!--end col-->

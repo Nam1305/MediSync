@@ -365,15 +365,11 @@
                                                     <label class="form-label">Departments</label>
                                                     <select name="departmentId" class="form-control department-name select2input" required>
                                                         <option value="1">Khoa nội tổng quát</option>
-                                                        <option value="2">Khoa Ngoại tổng quát</option>
-                                                        <option value="3">Khoa Nhi</option>
-                                                        <option value="4">Khoa Sản</option>
-                                                        <option value="5">Khoa Tai Mũi Họng</option>
-                                                        <option value="6">Khoa Răng Hàm Mặt</option>
-                                                        <option value="7">Khoa Da Liễu</option>
-                                                        <option value="8">Khoa Mắt</option>
-                                                        <option value="9">Khoa Xét Nghiệm</option>
-                                                        <option value="10">Khoa Chẩn Đoán Hình Ảnh</option>
+                                                        <option value="2">Khoa Tai Mũi Họng</option>
+                                                        <option value="3">Khoa Xét Nghiệm</option>
+                                                        <option value="4">Khoa Ngoại Cơ Bản</option>
+                                                        <option value="5">Hành Chính</option>
+                                                        
                                                     </select>
                                                 </div>
                                             </div><!--end col-->
