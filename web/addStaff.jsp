@@ -59,7 +59,7 @@
                             <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Doctors</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="ListDoctor">Doctors</a></li>
+                                    <li><a href="ListDoctor">Staffs</a></li>
                                     <li><a href="addStaff.jsp">Add Doctor</a></li>
                                     
                                 </ul>
@@ -308,13 +308,13 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Add New Doctor</h5>
+                            <h5 class="mb-0">Add New Staff</h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                                     <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
                                     <li class="breadcrumb-item"><a href="doctors.html">Doctors</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Add Doctor</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Add Staff</li>
                                 </ul>
                             </nav>
                         </div>
@@ -338,7 +338,7 @@
                                         </div><!--end col-->
                                     </div><!--end row-->
 
-                                    <form class="mt-4" action="AddStaffServlet" method="POST">
+                                    <form class="mt-4" action="AddStaffServlet" method="POST" enctype="multipart/form-data">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
@@ -353,11 +353,16 @@
                                                     <input name="email" id="email" type="email" class="form-control" placeholder="Your email :" required>
                                                 </div> 
                                             </div><!--end col-->
-
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Phone no.</label>
-                                                    <input name="phone" id="phone" type="text" class="form-control" placeholder="Phone no. :" required>
+                                                    <label class="form-label">Your Avatar</label>
+                                                    <input name="avatar" id="avatar" type="file" class="form-control" placeholder="Your avatar :" required>
+                                                </div> 
+                                            </div><!--end col-->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Phone no</label>
+                                                    <input name="phone" id="phone" type="text" class="form-control" placeholder="Phone no :" required>
                                                 </div>                                                                               
                                             </div><!--end col-->
 
@@ -367,7 +372,12 @@
                                                     <input name="password" id="password" type="password" class="form-control" placeholder="Password :" required>
                                                 </div>
                                             </div><!--end col-->
-
+                                             <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Date of Birth</label>
+                                                    <input name="dateOfBirth" id="dateOfBirth" type="date" class="form-control" required>
+                                                </div>
+                                            </div><!--end col-->
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Departments</label>
@@ -405,6 +415,12 @@
                                                     </select>
                                                 </div>
                                             </div><!--end col-->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Your Description</label>
+                                                    <input name="description" id="desctiption" type="text" class="form-control" placeholder="Your Description :" required>
+                                                </div> 
+                                            </div><!--end col-->
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
@@ -413,12 +429,7 @@
                                                 </div>
                                             </div><!--end col-->
 
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Date of Birth</label>
-                                                    <input name="dateOfBirth" id="dateOfBirth" type="date" class="form-control" required>
-                                                </div>
-                                            </div><!--end col-->
+                                           
                                         </div><!--end row-->
 
                                         <button type="submit" class="btn btn-primary">Add Staff</button>

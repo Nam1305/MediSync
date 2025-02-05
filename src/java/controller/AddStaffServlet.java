@@ -8,10 +8,14 @@ import dal.DoctorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.Date;
 import model.Department;
 import model.Role;
@@ -23,6 +27,11 @@ import util.BCrypt;
  * @author Acer
  */
 @WebServlet(name = "AddStaffServlet", urlPatterns = {"/AddStaffServlet"})
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 2,  // 2MB
+    maxFileSize = 1024 * 1024 * 10,       // 10MB
+    maxRequestSize = 1024 * 1024 * 50     // 50MB
+)
 public class AddStaffServlet extends HttpServlet {
 
     /**
@@ -34,8 +43,6 @@ public class AddStaffServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -64,20 +71,41 @@ public class AddStaffServlet extends HttpServlet {
             throws ServletException, IOException {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
+        Part filePart = request.getPart("avatar"); // Nhận file từ input name="avatar"
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        String uploadPath = getServletContext().getRealPath("/assets/image/doctors");
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs(); // Tạo thư mục nếu chưa tồn tại
+        }
+        String filePath = uploadPath + File.separator + fileName;
+        filePart.write(filePath); // Lưu file vào thư mục
+
+        // Đường dẫn ảnh lưu vào database
+        String avatarPath = "assets/image/doctors/" + fileName;
+
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         String gender = request.getParameter("gender");
         String position = request.getParameter("position");
+        String description = request.getParameter("description");
         String dateOfBirthStr = request.getParameter("dateOfBirth");
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         int roleId = Integer.parseInt(request.getParameter("roleId"));
-        if (isEmpty(name) || isEmpty(email) 
-            || isEmpty(phone) || isEmpty(password) 
-            || isEmpty(gender) || isEmpty(dateOfBirthStr)){
-        request.setAttribute("error", "All fields are required!");
-        request.getRequestDispatcher("addStaff.jsp").forward(request, response);
-        return;
-    }   
+
+        if (isEmpty(name) || isEmpty(email)
+                || isEmpty(phone) || isEmpty(password)
+                || isEmpty(gender) || isEmpty(dateOfBirthStr)) {
+            request.setAttribute("error", "All fields are required!");
+            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            return;
+        }
+
+        if (checkPhone(phone)) {
+            request.setAttribute("error", "Invalid phone number! It must start with 09, 08, or 03.");
+            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            return;
+        }
         //ép kiểu cho dateOfBirth
         java.sql.Date dateOfBirth = java.sql.Date.valueOf(dateOfBirthStr);
         //mã hóa password bằng hàm Bcrypt()
@@ -88,21 +116,29 @@ public class AddStaffServlet extends HttpServlet {
         department.setDepartmentId(departmentId);
         Role role = new Role();
         role.setRoleId(roleId);
-        Staff newStaff = new Staff(0, name, email, gender, phone, password, dateOfBirth, position, gender, "Active", position, department, role);
-      
+        if (staff.checkEmail(email)) {
+            request.setAttribute("error", "Email exists!");
+            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            return;
+        }
+        Staff newStaff = new Staff(0, name, email, avatarPath, phone, password, dateOfBirth, position, gender, "Active", description, department, role);
+
         boolean isAdded = staff.addStaff(newStaff);
 
         if (isAdded) {
-            
             response.sendRedirect("ListDoctor");
         } else {
-            request.setAttribute("error", "Failed to add staff. Please try again.");
+            request.setAttribute("error", " Please try again.");
             request.getRequestDispatcher("addStaff.jsp").forward(request, response);
         }
     }
 
     private boolean isEmpty(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    private boolean checkPhone(String phone) {
+        return phone.matches("^(09|08|03)\\d{7}$");
     }
 
     /**
