@@ -20,59 +20,91 @@ public class DoctorDAO extends DBContext {
     DepartmentDAO departDao = new DepartmentDAO();
     RoleDAO roleDao = new RoleDAO();
     PositionDAO positionDao = new PositionDAO();
-//    Position positionDao = 
-    public List<Staff> getAllDoctor(Integer roleId, String status,String searchQuery) {
-    List<Staff> listDoctor = new ArrayList<>();
-    String sql = "SELECT * FROM Staff WHERE roleId != 1"; // Loại bỏ roleId = 1
+  public List<Staff> getAllDoctor(Integer roleId, String status, String searchQuery, int page, int pageSize) {
+        List<Staff> listDoctor = new ArrayList<>();
+        String sql = "SELECT * FROM Staff WHERE roleId != 1"; // Loại bỏ roleId = 1
 
-    // Nếu roleId khác null, thêm điều kiện lọc
-    if (roleId != null) {
-        sql += " AND roleId = ?";
+        // Nếu roleId khác null, thêm điều kiện lọc
+        if (roleId != null) {
+            sql += " AND roleId = ?";
+        }
+//        nếu status! null thêm lọc theo status
+        if (status != null && !status.isEmpty()) {
+            sql += " AND status = ?";
+        }
+//        thêm tìm kiếm theo tên 
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            sql += " AND (name LIKE ? OR phone LIKE ?)";
+        }
+        //Thêm phân trang 
+        sql += " ORDER BY staffId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            int index = 1;
+            if (roleId != null) {
+                ps.setInt(index++, roleId);
+            }
+            if (status != null && !status.isEmpty()) {
+                ps.setString(index++, status);
+            }
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                ps.setString(index++, "%" + searchQuery + "%");
+                ps.setString(index++, "%" + searchQuery + "%");
+            }
+            // **Phân trang**: OFFSET = (page - 1) * pageSize, FETCH = pageSize
+            ps.setInt(index++, (page - 1) * pageSize);
+            ps.setInt(index++, pageSize);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int staffId = rs.getInt(1);
+                Staff doctor = new Staff();
+                doctor.setStaffId(staffId);
+                doctor.setName(rs.getString(2));
+                doctor.setEmail(rs.getString(3));
+                doctor.setAvatar(rs.getString(4));
+                doctor.setPhone(rs.getString(5));
+                doctor.setPassword(rs.getString(6));
+                doctor.setDateOfBirth(rs.getDate(7));
+                doctor.setPosition(positionDao.getPositionByStaffId(staffId));
+                doctor.setGender(rs.getString(9));
+                doctor.setStatus(rs.getString(10));
+                doctor.setDescription(rs.getString(11));
+                doctor.setRole(roleDao.getRoleById(rs.getInt(12)));
+                doctor.setDepartment(departDao.getDepartmentById(rs.getInt(13)));
+
+                listDoctor.add(doctor);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listDoctor;
     }
-    if (status != null && !status.isEmpty()) {
-        sql += " AND status = ?";
-    }
-     if (searchQuery != null && !searchQuery.isEmpty()) {
-        sql += " AND (name LIKE ? OR phone LIKE ?)";
-    }
+    public int getTotalDoctorCount(Integer roleId, String status, String searchQuery) {
+    String sql = "SELECT COUNT(*) FROM Staff WHERE roleId != 1"; // Đếm tất cả bác sĩ (trừ admin)
+
+    if (roleId != null) sql += " AND roleId = ?";
+    if (status != null && !status.isEmpty()) sql += " AND status = ?";
+    if (searchQuery != null && !searchQuery.isEmpty()) sql += " AND (name LIKE ? OR phone LIKE ?)";
+
     try {
         PreparedStatement ps = connection.prepareStatement(sql);
-
         int index = 1;
-        if (roleId != null) {
-            ps.setInt(index++, roleId);
-        }
-        if (status != null && !status.isEmpty()) {
-            ps.setString(index++, status);
-        }
+        if (roleId != null) ps.setInt(index++, roleId);
+        if (status != null && !status.isEmpty()) ps.setString(index++, status);
         if (searchQuery != null && !searchQuery.isEmpty()) {
             ps.setString(index++, "%" + searchQuery + "%");
             ps.setString(index++, "%" + searchQuery + "%");
         }
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            int staffId = rs.getInt(1);
-            Staff doctor = new Staff();
-            doctor.setStaffId(staffId);
-            doctor.setName(rs.getString(2));
-            doctor.setEmail(rs.getString(3));
-            doctor.setAvatar(rs.getString(4));
-            doctor.setPhone(rs.getString(5));
-            doctor.setPassword(rs.getString(6));
-            doctor.setDateOfBirth(rs.getDate(7));
-            doctor.setPosition(positionDao.getPositionByStaffId(staffId));
-            doctor.setGender(rs.getString(9));
-            doctor.setStatus(rs.getString(10));
-            doctor.setDescription(rs.getString(11));
-            doctor.setRole(roleDao.getRoleById(rs.getInt(12)));
-            doctor.setDepartment(departDao.getDepartmentById(rs.getInt(13)));
 
-            listDoctor.add(doctor);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1); // Lấy số lượng bác sĩ từ COUNT(*)
         }
     } catch (SQLException ex) {
         ex.printStackTrace();
     }
-    return listDoctor;
+    return 0;
 }
     public boolean addStaff(Staff staff) {
         // mặc định  status set = '1'

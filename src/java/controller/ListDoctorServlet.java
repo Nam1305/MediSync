@@ -58,20 +58,30 @@ public class ListDoctorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        // tạo đối tượng doctors và gọi phương thức getAllDOctor để lấy dữ liệu 
         DoctorDAO doctors = new DoctorDAO();
-        String searchQuery = request.getParameter("s"); 
+        int page = 1;
+        int pageSize = 5;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null) {
+            page = Integer.parseInt(pageParam);
+        }
+        String searchQuery = request.getParameter("s");
         String roleIdParam = request.getParameter("roleId"); // Lấy roleId từ request
         Integer roleId = null;
         String status = request.getParameter("status");
         if (roleIdParam != null && !roleIdParam.isEmpty()) {
             roleId = Integer.parseInt(roleIdParam); // Chuyển về Integer nếu có roleId
         }
-        List<Staff> listDoctor = doctors.getAllDoctor(roleId,status,searchQuery);
+        List<Staff> listDoctor = doctors.getAllDoctor(roleId, status, searchQuery,page, pageSize);
         // đóng gói listDoctor và request và truyền sang trang jsp để hiện thị dữ liệu 
+        int totalDoctors = doctors.getTotalDoctorCount(roleId, status, searchQuery);
+        int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
         request.setAttribute("listDoctor", listDoctor);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
         request.getRequestDispatcher("listDoctor.jsp").forward(request, response);
         response.setContentType("text/html;charset=UTF-8");
+
        
     } 
 

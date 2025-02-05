@@ -426,15 +426,36 @@
                                             </c:forEach>
                                         </tbody>
                                         <!--Tbody-end-->
-                                        <!--Tbody-end-->
-                                    </table>
 
+                                    </table>
+                                    <!-- Phân trang -->
+                                    <div class="pagination-container">
+                                        <ul class="pagination">
+                                            <c:if test="${currentPage > 1}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="ListDoctor?page=${currentPage - 1}">Previous</a>
+                                                </li>
+                                            </c:if>
+
+                                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                    <a class="page-link" href="ListDoctor?page=${i}">${i}</a>
+                                                </li>
+                                            </c:forEach>
+
+                                            <c:if test="${currentPage < totalPages}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="ListDoctor?page=${currentPage + 1}">Next</a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div><!--end row-->
 
-                        <div class="row text-center">
-                            <!-- PAGINATION START -->
+<!--                        <div class="row text-center">
+                             PAGINATION START 
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
                                     <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
@@ -446,9 +467,9 @@
                                         <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
                                     </ul>
                                 </div>
-                            </div><!--end col-->
-                            <!-- PAGINATION END -->
-                        </div><!--end row-->
+                            </div>end col
+                             PAGINATION END 
+                        </div>end row-->
                     </div>
                 </div><!--end container-->
 
