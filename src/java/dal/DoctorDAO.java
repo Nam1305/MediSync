@@ -20,7 +20,8 @@ public class DoctorDAO extends DBContext {
     DepartmentDAO departDao = new DepartmentDAO();
     RoleDAO roleDao = new RoleDAO();
     PositionDAO positionDao = new PositionDAO();
-  public List<Staff> getAllDoctor(Integer roleId, String status, String searchQuery, int page, int pageSize) {
+
+    public List<Staff> getAllDoctor(Integer roleId, String status, String searchQuery, int page, int pageSize) {
         List<Staff> listDoctor = new ArrayList<>();
         String sql = "SELECT * FROM Staff WHERE roleId != 1"; // Loại bỏ roleId = 1
 
@@ -80,32 +81,44 @@ public class DoctorDAO extends DBContext {
         }
         return listDoctor;
     }
+    
     public int getTotalDoctorCount(Integer roleId, String status, String searchQuery) {
-    String sql = "SELECT COUNT(*) FROM Staff WHERE roleId != 1"; // Đếm tất cả bác sĩ (trừ admin)
+        String sql = "SELECT COUNT(*) FROM Staff WHERE roleId != 1"; // Đếm tất cả bác sĩ (trừ admin)
 
-    if (roleId != null) sql += " AND roleId = ?";
-    if (status != null && !status.isEmpty()) sql += " AND status = ?";
-    if (searchQuery != null && !searchQuery.isEmpty()) sql += " AND (name LIKE ? OR phone LIKE ?)";
-
-    try {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        int index = 1;
-        if (roleId != null) ps.setInt(index++, roleId);
-        if (status != null && !status.isEmpty()) ps.setString(index++, status);
+        if (roleId != null) {
+            sql += " AND roleId = ?";
+        }
+        if (status != null && !status.isEmpty()) {
+            sql += " AND status = ?";
+        }
         if (searchQuery != null && !searchQuery.isEmpty()) {
-            ps.setString(index++, "%" + searchQuery + "%");
-            ps.setString(index++, "%" + searchQuery + "%");
+            sql += " AND (name LIKE ? OR phone LIKE ?)";
         }
 
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1); // Lấy số lượng bác sĩ từ COUNT(*)
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            int index = 1;
+            if (roleId != null) {
+                ps.setInt(index++, roleId);
+            }
+            if (status != null && !status.isEmpty()) {
+                ps.setString(index++, status);
+            }
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                ps.setString(index++, "%" + searchQuery + "%");
+                ps.setString(index++, "%" + searchQuery + "%");
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1); // Lấy số lượng bác sĩ từ COUNT(*)
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+        return 0;
     }
-    return 0;
-}
+
     public boolean addStaff(Staff staff) {
         // mặc định  status set = '1'
         String sql = "INSERT INTO Staff (name, email,avatar, phone, password, dateOfBirth, position, gender, status, description, roleId, departmentId) "
@@ -123,7 +136,6 @@ public class DoctorDAO extends DBContext {
             ps.setString(9, staff.getDescription());
             ps.setInt(10, staff.getRole().getRoleId());
             ps.setInt(11, staff.getDepartment().getDepartmentId());
-            
 
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0; // Return true if the doctor was added successfully
@@ -145,33 +157,72 @@ public class DoctorDAO extends DBContext {
             return false; // Return false nếu xóa staff thất bại 
         }
     }
-    
+
+//    public boolean updateStaff(Staff staff) {
+//        String sql = "UPDATE Staff SET name = ?, email = ?, avatar = ?,phone = ?, password = ?, dateOfBirth = ?, position = ?, gender = ?, status = ?, description =?, roleId = ?, departmentId = ? WHERE staffId = ?";
+//        try {
+//            PreparedStatement ps = connection.prepareStatement(sql);
+//            ps.setString(1, staff.getName());
+//            ps.setString(2, staff.getEmail());
+//            ps.setString(3, staff.getAvatar());
+//            ps.setString(4, staff.getPhone());
+//            ps.setString(5, staff.getPassword());
+//            ps.setDate(6, staff.getDateOfBirth());
+//            ps.setString(7, staff.getPosition());
+//            ps.setString(8, staff.getGender());
+//            ps.setString(9, staff.getStatus());
+//            ps.setString(10, staff.getDescription());
+//            ps.setInt(11, staff.getRole().getRoleId());
+//            ps.setInt(12, staff.getDepartment().getDepartmentId());
+//            ps.setInt(13, staff.getStaffId());
+//
+//            int rowsAffected = ps.executeUpdate();
+//            return rowsAffected > 0; // Return true nếu update thành công
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//            return false; // nếu update thất bại 
+//        }
+//    }
     public boolean updateStaff(Staff staff) {
-    String sql = "UPDATE Staff SET name = ?, email = ?, avatar = ?,phone = ?, password = ?, dateOfBirth = ?, position = ?, gender = ?, status = ?, description =?, roleId = ?, departmentId = ? WHERE staffId = ?";
+    // Kiểm tra xem avatar có bị thay đổi hay không
+    boolean hasAvatar = staff.getAvatar() != null && !staff.getAvatar().isEmpty();
+    
+    String sql = "UPDATE Staff SET name = ?, email = ?, phone = ?, password = ?, dateOfBirth = ?, position = ?, gender = ?, status = ?, description = ?, roleId = ?, departmentId = ?";
+    if (hasAvatar) {
+        sql += ", avatar = ?";  // Chỉ cập nhật avatar nếu có thay đổi
+    }
+    sql += " WHERE staffId = ?";
+    
     try {
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, staff.getName());
         ps.setString(2, staff.getEmail());
-        ps.setString(3, staff.getAvatar());
-        ps.setString(4, staff.getPhone());
-        ps.setString(5, staff.getPassword());
-        ps.setDate(6, staff.getDateOfBirth());
-        ps.setString(7, staff.getPosition());
-        ps.setString(8, staff.getGender());
-        ps.setString(9, staff.getStatus());
-        ps.setString(10, staff.getDescription());
-        ps.setInt(11, staff.getRole().getRoleId());
-        ps.setInt(12, staff.getDepartment().getDepartmentId());
-        ps.setInt(13, staff.getStaffId());
-        
+        ps.setString(3, staff.getPhone());
+        ps.setString(4, staff.getPassword());
+        ps.setDate(5, staff.getDateOfBirth());
+        ps.setString(6, staff.getPosition());
+        ps.setString(7, staff.getGender());
+        ps.setString(8, staff.getStatus());
+        ps.setString(9, staff.getDescription());
+        ps.setInt(10, staff.getRole().getRoleId());
+        ps.setInt(11, staff.getDepartment().getDepartmentId());
+
+        int index = 12;
+        if (hasAvatar) {
+            ps.setString(index++, staff.getAvatar());  // Chỉ set avatar nếu có
+        }
+        ps.setInt(index, staff.getStaffId());  // Set staffId vào cuối
+
         int rowsAffected = ps.executeUpdate();
-        return rowsAffected > 0; // Return true nếu update thành công
+        return rowsAffected > 0;
     } catch (SQLException ex) {
         ex.printStackTrace();
-        return false; // nếu update thất bại 
+        return false;
     }
 }
-     // Kiểm tra email đã tồn tại hay chưa
+
+    // Kiểm tra email đã tồn tại hay chưa
+
     public boolean checkEmail(String email) {
         String query = "SELECT COUNT(*) FROM Staff WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
