@@ -82,17 +82,17 @@ public class UpdateStaffServlet extends HttpServlet {
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         int roleId = Integer.parseInt(request.getParameter("roleId"));
 
-        // Lấy staff hiện tại
-        StaffDAO staffDao = new StaffDAO();
-        Staff existingStaff = staffDao.getStaffByEmail(email);
-        if (existingStaff == null) {
-            request.setAttribute("error", "Staff not found!");
-            request.getRequestDispatcher("ListDoctor").forward(request, response);
-            return;
-        }
-        // Giữ nguyên avatar cũ
-        String avatarPath = existingStaff.getAvatar();
-
+//        // Lấy staff hiện tại
+//        StaffDAO staffDao = new StaffDAO();
+//        Staff existingStaff = staffDao.getStaffByEmail(email);
+//        if (existingStaff == null) {
+//            request.setAttribute("error", "Staff not found!");
+//            request.getRequestDispatcher("ListDoctor").forward(request, response);
+//            return;
+//        }
+//        // Giữ nguyên avatar cũ
+//        String avatarPath = existingStaff.getAvatar();
+    
         // Lấy position hiện tại của nhân viên
         PositionDAO positionDao = new PositionDAO();
         String currentPosition = positionDao.getPositionByStaffId(staffId);
@@ -128,14 +128,14 @@ public class UpdateStaffServlet extends HttpServlet {
         role.setRoleId(roleId);
         DoctorDAO staff = new DoctorDAO();
         // Cập nhật thông tin nhân viên
-        Staff updateStaff = new Staff(staffId, name, email, avatarPath, phone, hashedPassword, dateOfBirth, position, gender, status, description, department, role);
+        Staff updateStaff = new Staff(staffId, name, email, "", phone, hashedPassword, dateOfBirth, position, gender, status, description, department, role);
         boolean isUpdate = staff.updateStaff(updateStaff);
 
         // Nếu cập nhật thành công và position thay đổi, lưu vào HistoryPosition
         if (isUpdate && !updateStaff.getPosition().equals(currentPosition)) {
             positionDao.insertPositionHistory(staffId, position);
         }
-
+         
         if (isUpdate) {
             response.sendRedirect("ListDoctor");
         } else {
@@ -163,7 +163,7 @@ public class UpdateStaffServlet extends HttpServlet {
         // $                 : Kết thúc chuỗi
         return password.matches(passwordPattern);
     }
-
+    
     /**
      * Returns a short description of the servlet.
      *

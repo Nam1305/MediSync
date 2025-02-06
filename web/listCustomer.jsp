@@ -53,16 +53,16 @@
                     </div>
 
                     <ul class="sidebar-menu pt-3">
-                        <li><a href="index.html"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                        <li><a href="adminDashBoard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                         <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
 
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Doctors</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="ListDoctor">Doctors</a></li>
-                                    <li><a href="addStaff.jsp">Add Doctor</a></li>
-                                    <li><a href="dr-profile.html">Profile</a></li>
+                                    <li><a href="ListDoctor">Staff list</a></li>
+                                    <li><a href="addStaff.jsp">Add Staff</a></li>
+                                  
                                 </ul>
                             </div>
                         </li>
