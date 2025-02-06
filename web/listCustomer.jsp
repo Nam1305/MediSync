@@ -362,31 +362,31 @@
                                     </div>
                                 </div>
                                 <!-- Thêm tham số 'page' vào form để đảm bảo nó luôn được gửi -->
-                                
-                            <!-- Nút gửi form -->
-                            <button type="submit" class="btn btn-primary">Lọc</button>
-                        </form>
 
-                        <div class="row">
-                            <div class="col-12 mt-4">
-                                <div class="table-responsive shadow rounded">
-                                    <table class="table table-center bg-white mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
-                                                <!--                                                <th class="border-bottom p-3">Age</th>-->
-                                                <th class="border-bottom p-3">Giới tính</th>
-                                                <!--                                                <th class="border-bottom p-3">Address</th>-->
-                                                <th class="border-bottom p-3">Địa chỉ</th>
-                                                <th class="border-bottom p-3">Số Điện Thoại</th>
-                                                <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
-                                                <th class="border-bottom p-3">Email</th>
-                                                <th class="border-bottom p-3">Trạng thái</th>
-                                                <th class="border-bottom p-3" style="min-width: 100px;"></th>
-                                            </tr>
-                                        </thead>
-                                        <!--tbody-start-->
+                                <!-- Nút gửi form -->
+                                <button type="submit" class="btn btn-primary">Lọc</button>
+                            </form>
+
+                            <div class="row">
+                                <div class="col-12 mt-4">
+                                    <div class="table-responsive shadow rounded">
+                                        <table class="table table-center bg-white mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
+                                                    <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
+                                                    <!--                                                <th class="border-bottom p-3">Age</th>-->
+                                                    <th class="border-bottom p-3">Giới tính</th>
+                                                    <!--                                                <th class="border-bottom p-3">Address</th>-->
+                                                    <th class="border-bottom p-3">Địa chỉ</th>
+                                                    <th class="border-bottom p-3">Số Điện Thoại</th>
+                                                    <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
+                                                    <th class="border-bottom p-3">Email</th>
+                                                    <th class="border-bottom p-3">Trạng thái</th>
+                                                    <th class="border-bottom p-3" style="min-width: 100px;"></th>
+                                                </tr>
+                                            </thead>
+                                            <!--tbody-start-->
                                         <c:set var="profile" value="${requestScope.profile}" />
 
                                         <tbody>
@@ -413,15 +413,18 @@
                                                         <a href="#" class="btn btn-icon btn-pills btn-soft-primary" 
                                                            data-bs-toggle="modal" 
                                                            data-bs-target="#viewprofile"
-                                                           data-customer-id="${customers.customerId}"
-                                                           data-customer-avatar="${customers.avatar}"
+                                                           data-customer-id="${customers.customerId}"                                                           
                                                            data-customer-name="${customers.name}"
                                                            data-customer-age="${customers.getAge()}"
                                                            data-customer-gender="${customers.gender}"
                                                            data-customer-department="${customers.getDepartment()}"
                                                            data-customer-doctor="${customers.getDoctor()}"
                                                            data-customer-date="${customers.getAppointmentDate()}"
-                                                           data-customer-time="${customers.getAppointmentTime()}">
+                                                           data-customer-time="${customers.getAppointmentTime()}"
+                                                           data-customer-avatar="${not empty customers.avatar ? 
+                                                                                   (customers.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(customers.avatar) : customers.avatar) 
+                                                                                   : pageContext.request.contextPath.concat('/default-avatar.png')}"
+                                                           >
 
                                                             <i class="uil uil-eye"></i>
                                                         </a>
@@ -696,71 +699,71 @@
         <script src="assets/js/app.js"></script>
 
         <script>
-
                                         document.addEventListener("DOMContentLoaded", function () {
                                             // Xử lý sự kiện khi nhấn "Xem chi tiết"
-                                            document.querySelectorAll('[data-bs-target="#viewprofile"]').forEach(button => {
-                                                button.addEventListener("click", function () {
-                                                    // Lấy dữ liệu từ data-attribute
-                                                    const customerId = this.getAttribute("data-customer-id");
-                                                    const customerName = this.getAttribute("data-customer-name");
-                                                    const customerGender = this.getAttribute("data-customer-gender");
-                                                    const customerAge = this.getAttribute("data-customer-age");
-                                                    const customerDepartment = this.getAttribute("data-customer-department");
-                                                    const customerDoctor = this.getAttribute("data-customer-doctor");
-                                                    const customerDate = this.getAttribute("data-customer-date");
-                                                    const customerTime = this.getAttribute("data-customer-time");
-                                                    const customerAvatar = this.getAttribute("data-customer-avatar");
+                                            document.addEventListener("click", function (event) {
+                                                const button = event.target.closest('[data-bs-target="#viewprofile"]');
+                                                if (!button)
+                                                    return;
 
-                                                    // Hiển thị dữ liệu trong modal "Xem chi tiết"
-                                                    document.getElementById("profileName").textContent = customerName;
-                                                    document.getElementById("profileAge").textContent = customerAge;
-                                                    document.getElementById("profileDepartment").textContent = customerDepartment;
-                                                    document.getElementById("profileDoctor").textContent = customerDoctor;
-                                                    document.getElementById("profileDate").textContent = customerDate;
-                                                    document.getElementById("profileTime").textContent = customerTime;
-                                                    document.getElementById("profileGender").textContent = customerGender;
-                                                    document.getElementById("profileAvatar").src = customerAvatar;
-                                                });
+                                                // Lấy dữ liệu từ data-attribute
+                                                const customerName = button.getAttribute("data-customer-name");
+                                                const customerGender = button.getAttribute("data-customer-gender");
+                                                const customerAge = button.getAttribute("data-customer-age");
+                                                const customerDepartment = button.getAttribute("data-customer-department");
+                                                const customerDoctor = button.getAttribute("data-customer-doctor");
+                                                const customerDate = button.getAttribute("data-customer-date");
+                                                const customerTime = button.getAttribute("data-customer-time");
+                                                const customerAvatar = button.getAttribute("data-customer-avatar");
+
+                                                // Hiển thị dữ liệu trong modal "Xem chi tiết"
+                                                document.getElementById("profileName").textContent = customerName;
+                                                document.getElementById("profileAge").textContent = customerAge;
+                                                document.getElementById("profileDepartment").textContent = customerDepartment;
+                                                document.getElementById("profileDoctor").textContent = customerDoctor;
+                                                document.getElementById("profileDate").textContent = customerDate;
+                                                document.getElementById("profileTime").textContent = customerTime;
+                                                document.getElementById("profileGender").textContent = customerGender;
+                                                document.getElementById("profileAvatar").src = customerAvatar;
                                             });
 
                                             // Xử lý sự kiện khi nhấn "Chỉnh sửa"
-                                            document.querySelectorAll('[data-bs-target="#editprofile"]').forEach(button => {
-                                                button.addEventListener("click", function () {
-                                                    // Lấy dữ liệu từ data-attribute
-                                                    const customerId = this.getAttribute("data-customer-id");
-                                                    const customerName = this.getAttribute("data-customer-name");
-                                                    const customerGender = this.getAttribute("data-customer-gender");
-                                                    const customerEmail = this.getAttribute("data-customer-email");
-                                                    const customerPhone = this.getAttribute("data-customer-phone");
-                                                    const customerAddress = this.getAttribute("data-customer-address");
-                                                    const customerDob = this.getAttribute("data-customer-dob");
+                                            document.addEventListener("click", function (event) {
+                                                const button = event.target.closest('[data-bs-target="#editprofile"]');
+                                                if (!button)
+                                                    return;
 
-                                                    // Điền dữ liệu vào form trong modal "Chỉnh sửa"
-                                                    document.getElementById("customerId").value = customerId;
-                                                    document.getElementById("full-name").value = customerName;
-                                                    document.getElementById("email").value = customerEmail;
-                                                    document.getElementById("number").value = customerPhone;
-                                                    document.getElementById("address").value = customerAddress;
-                                                    document.getElementById("dob").value = customerDob;
+                                                // Lấy dữ liệu từ data-attribute
+                                                const customerId = button.getAttribute("data-customer-id");
+                                                const customerName = button.getAttribute("data-customer-name");
+                                                const customerGender = button.getAttribute("data-customer-gender");
+                                                const customerEmail = button.getAttribute("data-customer-email");
+                                                const customerPhone = button.getAttribute("data-customer-phone");
+                                                const customerAddress = button.getAttribute("data-customer-address");
+                                                const customerDob = button.getAttribute("data-customer-dob");
 
-                                                    // Chọn giới tính
-                                                    if (customerGender === "M") {
-                                                        document.getElementById("male").checked = true;
-                                                    } else if (customerGender === "F") {
-                                                        document.getElementById("female").checked = true;
-                                                    }
-                                                });
+                                                // Điền dữ liệu vào form trong modal "Chỉnh sửa"
+                                                document.getElementById("customerId").value = customerId;
+                                                document.getElementById("full-name").value = customerName;
+                                                document.getElementById("email").value = customerEmail;
+                                                document.getElementById("number").value = customerPhone;
+                                                document.getElementById("address").value = customerAddress;
+                                                document.getElementById("dob").value = customerDob;
+
+                                                // Chọn giới tính
+                                                document.getElementById("male").checked = customerGender === "M";
+                                                document.getElementById("female").checked = customerGender === "F";
                                             });
 
                                             // Ẩn thông báo sau 5 giây nếu có
-                                            var statusMessage = document.getElementById("statusMess");
+                                            const statusMessage = document.getElementById("statusMess");
                                             if (statusMessage) {
-                                                setTimeout(function () {
+                                                setTimeout(() => {
                                                     statusMessage.style.display = "none";
                                                 }, 5000);
                                             }
                                         });
+
         </script>
 
     </body>

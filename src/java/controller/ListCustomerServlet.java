@@ -80,7 +80,6 @@ public class ListCustomerServlet extends HttpServlet {
             // Nếu không có giá trị tìm kiếm, hiển thị tất cả khách hàng
             handleListCustomers(request, response);
         }
-
     }
 
     @Override
