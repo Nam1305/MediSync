@@ -4,11 +4,28 @@ import model.Customer;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  *
  * @author DIEN MAY XANH
  */
 public class CustomerDAO extends DBContext {
+
+    private Customer mapResultSetToCustomer(ResultSet rs) throws SQLException {
+        Customer customer = new Customer();
+        customer.setCustomerId(rs.getInt("customerId"));
+        customer.setName(rs.getString("name"));
+        customer.setAvatar(rs.getString("avatar"));
+        customer.setEmail(rs.getString("email"));
+        customer.setPassword(rs.getString("password"));
+        customer.setAddress(rs.getString("address"));
+        customer.setDateOfBirth(rs.getDate("dateOfBirth"));
+        customer.setBloodType(rs.getString("bloodType"));
+        customer.setGender(rs.getString("gender"));
+        customer.setStatus(rs.getString("status"));
+        customer.setPhone(rs.getString("phone"));
+        return customer;
+    }
 
     public Customer getCustomerByEmail(String email) {
         String sql = "SELECT customerId, name, avatar, email, password, address, dateOfBirth, bloodType, gender, status, phone FROM Customer WHERE email = ?";
@@ -17,19 +34,7 @@ public class CustomerDAO extends DBContext {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerId(rs.getInt("customerId"));
-                customer.setName(rs.getString("name"));
-                customer.setAvatar(rs.getString("avatar"));
-                customer.setEmail(rs.getString("email"));
-                customer.setPassword(rs.getString("password"));
-                customer.setAddress(rs.getString("address"));
-                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
-                customer.setBloodType(rs.getString("bloodType"));
-                customer.setGender(rs.getString("gender"));
-                customer.setStatus(rs.getString("status"));
-                customer.setPhone(rs.getString("phone"));
-                return customer;
+                return mapResultSetToCustomer(rs);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -85,26 +90,14 @@ public class CustomerDAO extends DBContext {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerId(rs.getInt("customerId"));
-                customer.setName(rs.getString("name"));
-                customer.setAvatar(rs.getString("avatar"));
-                customer.setEmail(rs.getString("email"));
-                customer.setPassword(rs.getString("password"));
-                customer.setAddress(rs.getString("address"));
-                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
-                customer.setBloodType(rs.getString("bloodType"));
-                customer.setGender(rs.getString("gender"));
-                customer.setStatus(rs.getString("status"));
-                customer.setPhone(rs.getString("phone"));
-                listCustomer.add(customer);
+                listCustomer.add(mapResultSetToCustomer(rs));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return listCustomer;
     }
-    
+
     public int getTotalCustomer() {
         int total = 0;
         String sql = "SELECT COUNT(*) FROM Customer";
@@ -135,19 +128,7 @@ public class CustomerDAO extends DBContext {
             ps.setInt(2, pageSize);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerId(rs.getInt("customerId"));
-                customer.setName(rs.getString("name"));
-                customer.setAvatar(rs.getString("avatar"));
-                customer.setEmail(rs.getString("email"));
-                customer.setPassword(rs.getString("password"));
-                customer.setAddress(rs.getString("address"));
-                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
-                customer.setBloodType(rs.getString("bloodType"));
-                customer.setGender(rs.getString("gender"));
-                customer.setStatus(rs.getString("status"));
-                customer.setPhone(rs.getString("phone"));
-                listCustomer.add(customer);
+                            listCustomer.add(mapResultSetToCustomer(rs));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -169,19 +150,7 @@ public class CustomerDAO extends DBContext {
             ps.setInt(3, pageSize);  // FETCH NEXT
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerId(rs.getInt("customerId"));
-                customer.setName(rs.getString("name"));
-                customer.setAvatar(rs.getString("avatar"));
-                customer.setEmail(rs.getString("email"));
-                customer.setPassword(rs.getString("password"));
-                customer.setAddress(rs.getString("address"));
-                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
-                customer.setBloodType(rs.getString("bloodType"));
-                customer.setGender(rs.getString("gender"));
-                customer.setStatus(rs.getString("status"));
-                customer.setPhone(rs.getString("phone"));
-                listCustomer.add(customer);
+                     listCustomer.add(mapResultSetToCustomer(rs));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -203,19 +172,8 @@ public class CustomerDAO extends DBContext {
             ps.setInt(3, pageSize);  // FETCH NEXT
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerId(rs.getInt("customerId"));
-                customer.setName(rs.getString("name"));
-                customer.setAvatar(rs.getString("avatar"));
-                customer.setEmail(rs.getString("email"));
-                customer.setPassword(rs.getString("password"));
-                customer.setAddress(rs.getString("address"));
-                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
-                customer.setBloodType(rs.getString("bloodType"));
-                customer.setGender(rs.getString("gender"));
-                customer.setStatus(rs.getString("status"));
-                customer.setPhone(rs.getString("phone"));
-                listCustomer.add(customer);
+                   listCustomer.add(mapResultSetToCustomer(rs));
+
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -260,19 +218,7 @@ public class CustomerDAO extends DBContext {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerId(rs.getInt("customerId"));
-                customer.setName(rs.getString("name"));
-                customer.setAvatar(rs.getString("avatar"));
-                customer.setEmail(rs.getString("email"));
-                customer.setPassword(rs.getString("password"));
-                customer.setAddress(rs.getString("address"));
-                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
-                customer.setBloodType(rs.getString("bloodType"));
-                customer.setGender(rs.getString("gender"));
-                customer.setStatus(rs.getString("status"));
-                customer.setPhone(rs.getString("phone"));
-                listCustomer.add(customer);
+                listCustomer.add(mapResultSetToCustomer(rs));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -296,21 +242,8 @@ public class CustomerDAO extends DBContext {
 
             // Duyệt qua các kết quả và thêm vào danh sách
             while (rs.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerId(rs.getInt("customerId"));
-                customer.setName(rs.getString("name"));
-                customer.setAvatar(rs.getString("avatar"));
-                customer.setEmail(rs.getString("email"));
-                customer.setPassword(rs.getString("password"));
-                customer.setAddress(rs.getString("address"));
-                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
-                customer.setBloodType(rs.getString("bloodType"));
-                customer.setGender(rs.getString("gender"));
-                customer.setStatus(rs.getString("status"));
-                customer.setPhone(rs.getString("phone"));
-
                 // Thêm khách hàng vào danh sách
-                customers.add(customer);
+                customers.add(mapResultSetToCustomer(rs));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -391,7 +324,7 @@ public class CustomerDAO extends DBContext {
         }
         return false;
     }
-    
+
     public String getDepartmentByCustomerID(int customerId) {
         String departmentName = null;
         String sql = "SELECT d.departmentName AS Department "
@@ -495,6 +428,22 @@ public class CustomerDAO extends DBContext {
             e.printStackTrace();
         }
         return appointmentTime;
+    }
+
+    public Customer getCustomerByPhone(String phone) {
+        String sql = "select * from Customer where phone = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, phone);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+               return mapResultSetToCustomer(rs);
+            }
+        } catch (SQLException ex) {
+
+        }
+        return null;
     }
 
     public static void main(String[] args) {

@@ -65,7 +65,7 @@ public class RegisterServlet extends HttpServlet {
             customer.setPhone(phone);
             customer.setPassword(hashedPassword);
             customer.setEmail(email);
-            customer.setAvatar("https://thumbs.dreamstime.com/z/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg");            
+            customer.setAvatar("https://thumbs.dreamstime.com/z/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg");
             customer.setStatus("Active");
             customerDao.insertCustomer(customer);
             System.out.println(customer.toString());
@@ -90,17 +90,18 @@ public class RegisterServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         HttpSession session = request.getSession();
-        String name = request.getParameter("name");
+        String name = valid.normalizeFullName(request.getParameter("name"));
         request.setAttribute("name", name);
-        String phone = request.getParameter("phone");
+        String phone = request.getParameter("phone").trim();
         request.setAttribute("phone", phone);
-        String address = request.getParameter("address");
+        String address = request.getParameter("address").trim();
         request.setAttribute("address", address);
-        String email = request.getParameter("email");
+        String email = request.getParameter("email").trim();
         request.setAttribute("email", email);
-        String password = request.getParameter("password");
+        String password = request.getParameter("password").trim();
         request.setAttribute("password", password);
-        String confirm = request.getParameter("confirm");
+        String confirm = request.getParameter("confirm").trim();
+        request.setAttribute("confirm", confirm);
         Staff staff = staffDao.getStaffByEmail(email);
         Customer customer = customerDao.getCustomerByEmail(email);
         if (staff != null || customer != null) {
@@ -115,11 +116,17 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
+        if (customerDao.getCustomerByPhone(phone) != null) {
+            request.setAttribute("error", "Số điện thoại đã được sử dụng ở 1 tài khoản khác!");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+            return;
+        }
+
         SendEmail sendEmail = new SendEmail();
         String code = sendEmail.getRandom();
         VerifyCode verifyCode = new VerifyCode(code);
+        sendEmail.sendMailVerify(email, code);
         session.setAttribute("verifyCode", verifyCode);
-        boolean x = sendEmail.sendMailVerify(email, code);
         request.getRequestDispatcher("verify.jsp").forward(request, response);
 
     }

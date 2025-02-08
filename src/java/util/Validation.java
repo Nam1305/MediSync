@@ -9,7 +9,8 @@ package util;
  * @author DIEN MAY XANH
  */
 public class Validation {
-      public boolean validatePassword(String str) {
+
+    public boolean validatePassword(String str) {
         //check length of string
         if (str.length() < 6) {
             return false;
@@ -34,5 +35,25 @@ public class Validation {
         }
 
         return hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar;
+    }
+
+    public String normalizeFullName(String fullName) {
+        fullName = fullName.trim();
+
+        String[] nameParts = fullName.split("\\s+");
+
+        StringBuilder normalizedName = new StringBuilder();
+
+        for (int i = 0; i < nameParts.length; i++) {
+            String part = nameParts[i].substring(0, 1).toUpperCase() + nameParts[i].substring(1).toLowerCase();
+
+            if (i < nameParts.length - 1) {
+                part += " ";
+            }
+
+            normalizedName.append(part);
+        }
+
+        return normalizedName.toString();
     }
 }

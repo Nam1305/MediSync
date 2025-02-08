@@ -76,7 +76,7 @@
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" placeholder="Email" name="email" required="" ${email}>
+                                                <input type="email" class="form-control" placeholder="Email" name="email" required="" value="${email}">
                                             </div>
                                         </div>
 
@@ -94,7 +94,7 @@
                                             <div class="mb-3 position-relative">
                                                 <label class="form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
                                                 <div class="input-group">
-                                                    <input type="password" id="confirmPassword" class="form-control" placeholder="Xác nhận mật khẩu" required="" name="confirm" ${confirm}>
+                                                    <input type="password" id="confirmPassword" class="form-control" placeholder="Xác nhận mật khẩu" required="" name="confirm" value="${confirm}">
                                                     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="togglePasswordVisibility('confirmPassword', this)">Hiện</button>
                                                 </div>
                                             </div>

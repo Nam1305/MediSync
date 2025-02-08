@@ -175,7 +175,7 @@
 
                     <li class="list-inline-item mb-0 ms-1">
                         <div class="dropdown dropdown-primary">
-                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="${not empty staff.avatar && staff.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(staff.avatar) : staff.avatar}" 
+                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="${staff.avatar}" 
                                                                                                                                                                                         class="avatar avatar-md-sm rounded-circle border shadow" alt="">        </button>
                             <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
                                 <a class="dropdown-item d-flex align-items-center text-dark" href="doctor-profile.html">      
@@ -188,7 +188,7 @@
                                 <a class="dropdown-item text-dark" href="change-password">
                                     <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
                                 </a>
-                                <a class="dropdown-item text-dark" href="doctor-dashboard.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
+                                <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
 
                                 <div class="dropdown-divider border-top"></div>
                                 <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất </a>
@@ -236,13 +236,8 @@
                             </div>
 
                             <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
-                                <img src="${not empty staff.avatar && staff.avatar.contains('/uploads/') 
-                                            ? pageContext.request.contextPath.concat(staff.avatar) 
-                                            : staff.avatar}"
+                                <img src="${staff.avatar}"
                                      class="avatar avatar-md-sm rounded-circle border shadow" alt="">
-
-
-
 
                                 <h5 class="mt-3 mb-1">${staff.name}</h5>
                                 <p class="text-muted mb-0">${staff.department.departmentName}</p>
@@ -273,21 +268,25 @@
                                             <!-- Hiển thị ảnh đại diện -->
                                             <div class="avatar-wrapper">
                                                 <img id="avatarPreview" class="avatar-img" 
-                                                     src="${not empty staff.avatar && staff.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(staff.avatar) : staff.avatar}" 
+                                                     src="${staff.avatar}" 
                                                      alt="Avatar" 
-                                                     onclick="openImagePreview()">                                                <p class="text-muted mb-0">Để có kết quả tốt nhất, hãy sử dụng hình ảnh có kích thước ít nhất 256px x 256px ở định dạng .jpg hoặc .png</p>
+                                                     onclick="openImagePreview()"> 
+
+                                                <p class="text-muted mb-0">Để có kết quả tốt nhất, hãy sử dụng hình ảnh có kích thước ít nhất 256px x 256px ở định dạng .jpg hoặc .png</p>
                                             </div>
 
                                             <!-- Nút để chọn ảnh -->
                                             <div class="upload-btn-container">
                                                 <label class="upload-btn" for="avatarInput">Chọn ảnh</label>
-                                                <input type="file" id="avatarInput" name="avatar" accept=".jpg,.png" class="file-input" onchange="previewAvatar(event)">
+                                                <input type="file" id="avatarInput" name="avatar" accept=".jpg,.png" class="file-input" onchange="validateAndPreviewAvatar(event)">
                                             </div>
                                         </div>
 
                                         <!-- Nút submit form -->
                                         <div class="submit-btn-container">
                                             <button type="submit" class="submit-btn" id="submitBtn" style="display:none;">Cập nhật</button>
+                                            <p id="error-message-avatar" class="error-text"></p> <!-- Error message placeholder -->
+
                                         </div>
 
                                         <!-- Cửa sổ phóng to ảnh -->
@@ -339,7 +338,8 @@
 
                                         <div class="col-md-12 mb-3">
                                             <label for="description" class="form-label">Mô tả ngắn</label>
-                                            <textarea class="form-control" id="description" name="des" rows="4" style="width: 100%;">${staff.description}</textarea>
+                                            <textarea class="form-control" id="description" name="des" rows="4"  placeholder="Nhập tiểu sử của bạn (tối đa 500 từ)"  oninput="countWords()" style="width: 100%;">${staff.description}</textarea>
+                                            <p id="wordCount">0 / 500 từ</p>
                                         </div>
 
                                         <div class="col-md-6 mb-3">
@@ -352,7 +352,7 @@
                                         </div>
 
                                         <!-- Thông báo lỗi sẽ hiển thị ở đây -->
-                                        <div id="error-message" class="error-message"></div>
+                                        <div id="error-message" class="error-message">${error}</div>
 
                                         <div class="col-md-12">
                                             <button type="submit" class="btn btn-primary w-100">Lưu thay đổi</button>
@@ -378,32 +378,88 @@
         </footer>
         <script>
             function validateForm(event) {
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const dob = document.getElementById('dob').value;
                 const phonePattern = /^(0\d{9,10})$/;
                 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-                let error = "";
-                let errorMessage = document.getElementById('error-message');
+                let errorMessages = [];
+                let errorMessageDiv = document.getElementById('error-message');
 
-                // Xóa thông báo lỗi cũ nếu có
-                errorMessage.textContent = "";
+                // Xóa thông báo lỗi cũ
+                errorMessageDiv.innerHTML = "";
+                if (name === '') {
+                    errorMessages.push("Không được để trống tên.");
+                }
 
-                // Kiểm tra số điện thoại hợp lệ
                 if (!phonePattern.test(phone)) {
-                    error += "Số điện thoại không hợp lệ! Phải có 10-11 chữ số và bắt đầu bằng 0.\n";
+                    errorMessages.push("Số điện thoại không hợp lệ! Phải có 10-11 chữ số và bắt đầu bằng 0.");
                 }
 
                 // Kiểm tra email hợp lệ
                 if (!emailPattern.test(email)) {
-                    error += "Email không hợp lệ!\n";
+                    errorMessages.push("Email không hợp lệ!");
                 }
 
-                // Nếu có lỗi, hiển thị thông báo và ngừng submit form
-                if (error) {
-                    errorMessage.textContent = error;
-                    event.preventDefault();  // Chặn submit form
+                // Kiểm tra ngày sinh hợp lệ
+                if (dob) {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    const dobDate = new Date(dob);
+                    dobDate.setHours(0, 0, 0, 0);
+
+                    if (dobDate > today) {
+                        errorMessages.push("Ngày sinh không được sau ngày hiện tại.");
+                    }
+                } else {
+                    errorMessages.push("Vui lòng nhập ngày sinh.");
+                }
+
+                // Nếu có lỗi, hiển thị thông báo và ngăn chặn submit
+                if (errorMessages.length > 0) {
+                    errorMessageDiv.innerHTML = errorMessages.join("<br>");
+                    event.preventDefault(); // Chặn submit form
                 }
             }
+            function countWords() {
+                var textarea = document.getElementById("description");
+                var wordCountDisplay = document.getElementById("wordCount");
+                var words = textarea.value.trim().split(/\s+/); // Tách các từ dựa vào khoảng trắng
+                var maxWords = 500;
+
+                if (words.length > maxWords) {
+                    textarea.value = words.slice(0, maxWords).join(" "); // Chỉ giữ lại 500 từ
+                }
+
+                wordCountDisplay.textContent = words.length + " / " + maxWords + " từ";
+            }
+
+            function validateAndPreviewAvatar(event) {
+                var fileInput = document.getElementById('avatarInput');
+                var file = fileInput.files[0];
+                var errorMessage = document.getElementById('error-message-avatar');
+
+                // Kiểm tra định dạng file
+                var fileName = file.name.toLowerCase();
+                var fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
+                if (fileExtension !== 'jpg' && fileExtension !== 'png' && fileExtension !== 'jpeg') {
+                    // Hiển thị thông báo lỗi
+                    errorMessage.textContent = 'Vui lòng chọn một tệp hình ảnh có định dạng .jpg, .jpeg hoặc .png.';
+                    errorMessage.style.color = 'red'; // Set error message color to red
+                    fileInput.value = ''; // Xóa file đã chọn
+                    return;
+                } else {
+                    // Ẩn thông báo lỗi
+                    errorMessage.textContent = '';
+                }
+
+                // Nếu định dạng file hợp lệ, hiển thị preview ảnh
+                previewAvatar(event);
+            }
+
+
             function previewAvatar(event) {
                 const file = event.target.files[0]; // Lấy tệp người dùng chọn
                 if (file) {
@@ -411,11 +467,10 @@
                     reader.onload = function (e) {
                         document.getElementById('avatarPreview').src = e.target.result; // Thay đổi ảnh hiển thị
                         document.getElementById('submitBtn').style.display = 'block'; // Hiển thị nút "Cập nhật"
-                    }
+                    };
                     reader.readAsDataURL(file); // Đọc file dưới dạng Data URL
                 }
             }
-
             function openImagePreview() {
                 const avatarPreview = document.getElementById('avatarPreview');
                 const popup = document.getElementById('imagePreviewPopup');
