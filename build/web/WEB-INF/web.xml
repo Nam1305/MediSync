@@ -28,6 +28,14 @@
         <servlet-name>DoctorProfileServlet</servlet-name>
         <servlet-class>controller.doctor.DoctorProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListBlogServlet</servlet-name>
+        <servlet-class>controller.ListBlogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogDetailServlet</servlet-name>
+        <servlet-class>controller.BlogDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -55,5 +63,13 @@
     <servlet-mapping>
         <servlet-name>DoctorProfileServlet</servlet-name>
         <url-pattern>/doctorprofile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListBlogServlet</servlet-name>
+        <url-pattern>/listBlog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogDetailServlet</servlet-name>
+        <url-pattern>/blog-detail</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -9,9 +9,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,18 +28,7 @@
         <link rel="stylesheet" href="assets/css/tiny-slider.css"/>
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        <style>
-            .team-img {
-                width: 100%;
-                height: 200px;
-                overflow: hidden;
-            }
-            .team-img img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-        </style>
+
     </head>
 
     <body>
@@ -80,6 +66,16 @@
 
                 <!-- Start Dropdown -->
                 <ul class="dropdowns list-inline mb-0">
+                    <li class="list-inline-item mb-0">
+                        <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <div class="btn btn-icon btn-pills btn-primary"><i data-feather="settings" class="fea icon-sm"></i></div>
+                        </a>
+                    </li>
+
+                    <li class="list-inline-item mb-0 ms-1">
+                        <a href="javascript:void(0)" class="btn btn-icon btn-pills btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+                            <i class="uil uil-search"></i>
+                        </a>
                     </li>
 
                     <!-- Replace the profile dropdown section in home.jsp -->
@@ -89,11 +85,11 @@
                                 <c:when test="${staff != null || customer != null}">
                                     <!-- Logged in user -->
                                     <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="${pageContext.request.contextPath}/${staff != null ? staff.avatar : customer.avatar}" 
-                                             class="avatar avatar-ex-small rounded-circle" alt="">
+                                        <img src="${staff != null ? staff.avatar : customer.avatar}" class="avatar avatar-ex-small rounded-circle" alt="">
                                     </button>
                                     <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                        <a class="dropdown-item d-flex align-items-center text-dark">
+                                        <a class="dropdown-item d-flex align-items-center text-dark" href="profile">
+                                            <img src="${staff != null ? staff.avatar : customer.avatar}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                             <div class="flex-1 ms-2">
                                                 <span class="d-block mb-1">${staff != null ? staff.name : customer.name}</span>
                                                 <small class="text-muted">
@@ -109,24 +105,26 @@
                                             </div>
                                         </a>
                                         <a class="dropdown-item text-dark" href="change-password">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Change password
                                         </a>
                                         <c:if test="${staff != null}">
-                                            <a class="dropdown-item text-dark" href="doctorprofile">
+                                            <a class="dropdown-item text-dark" href="doctor-dashboard">
                                                 <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard
                                             </a>
                                         </c:if>
-
+                                        <a class="dropdown-item text-dark" href="profile">
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings
+                                        </a>
                                         <div class="dropdown-divider border-top"></div>
                                         <a class="dropdown-item text-dark" href="logout">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout
                                         </a>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <!-- Not logged in -->
                                     <a href="login" class="btn btn-soft-primary">
-                                        <i class="uil uil-user align-middle"></i> Đăng nhập
+                                        <i class="uil uil-user align-middle"></i> Login
                                     </a>
                                 </c:otherwise>
                             </c:choose>
@@ -139,7 +137,7 @@
                     <!-- Navigation Menu-->   
                     <ul class="navigation-menu nav-left nav-light">
                         <li class="parent-menu-item">
-                            <a href="home">Trang chủ</a><span class="menu-arrow"></span>
+                            <a href="home.jsp">Trang chủ</a><span class="menu-arrow"></span>
                         </li>
 
                         <li class="has-submenu parent-parent-menu-item">
@@ -237,12 +235,13 @@
                 </div>
             </div><!--end col-->
         </div><!--end row-->
+
         <div class="row">
             <c:forEach items="${departments}" var="dept">
                 <div class="col-xl-3 col-md-4 col-12 mt-5">
-                    <div class="card features feature-primary border-0 text-center d-flex flex-column justify-content-center align-items-center">
-                        <div class="icon rounded-md">
-                            <i class="ri-hospital-fill h3 mb-0"></i>
+                    <div class="card features feature-primary border-0">
+                        <div class="icon text-center rounded-md">
+                            <i class="ri-stethoscope-fill h3 mb-0"></i>
                         </div>
                         <div class="card-body p-0 mt-3">
                             <a href="departments.html" class="title text-dark h5">${dept.departmentName}</a>
@@ -268,8 +267,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-6 mt-4 pt-2">
                             <div class="card team border-0 rounded shadow overflow-hidden">
                                 <div class="team-img position-relative">
-                                    <img src="${pageContext.request.contextPath}/${doctor.avatar}" 
-                                         class="img-fluid" alt="${doctor.name}">
+                                    <img src="${doctor.avatar}" class="img-fluid" alt="${doctor.name}">
                                 </div>
                                 <div class="card-body content text-center">
                                     <a href="doctor-team-one.html" class="title text-dark h5 d-block mb-0">${doctor.name}</a>
@@ -278,7 +276,7 @@
                             </div>
                         </div>
                     </c:forEach>
-                </div>
+                </div><!--end col-->
 
                 <div class="col-12 mt-4 pt-2 text-center">
                     <a href="doctor-team-one.html" class="btn btn-primary">Xem thêm</a>
@@ -288,7 +286,9 @@
 </section><!--end section-->
 <!-- End -->
 
-<div class="container mt-100 mt-60" style="margin-top: -5%">
+
+//<!-- Sua o doan nay -->
+<div class="container mt-100 mt-60">
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="section-title mb-4 pb-2 text-center">
@@ -310,9 +310,9 @@
                                 <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
                             </li>
                         </ul>
-                        <a href="blog-detail.html" class="text-dark title h5">${blog.blogName}</a>
+                        <a href="blog-detail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
                         <div class="post-meta d-flex justify-content-between mt-3">
-                            <a href="blog-detail.html" class="link">Chi tiết <i class="mdi mdi-chevron-right align-middle"></i></a>
+                            <a href="blog-detail?blogId=${blog.blogId}" class="link">Chi tiết <i class="mdi mdi-chevron-right align-middle"></i></a>
                         </div>
                     </div>
                 </div>
@@ -320,7 +320,7 @@
         </c:forEach>
     </div><!--end col-->
     <div class="col-12 mt-4 pt-2 text-center">
-        <a href="Blogs.html" class="btn btn-primary">Xem thêm</a>
+        <a href="listBlog" class="btn btn-primary">Xem thêm</a>
     </div><!--end col-->
 </div><!--end row-->
 </div><!--end container-->

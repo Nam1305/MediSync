@@ -1,8 +1,9 @@
 <%-- 
-    Document   : home
-    Created on : Jan 10, 2025, 11:15:54 PM
-    Author     : DIEN MAY XANH
+    Document   : list-blog
+    Created on : Feb 2, 2025, 7:25:11 PM
+    Author     : Admin
 --%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -203,92 +204,8 @@
         </header><!--end header-->
         <!-- Navbar End -->
 
-        <!-- Start Hero -->
-        <section class="bg-half-260 d-table w-100" style="background: url('assets/images/bg/01.jpg') center;">
-            <div class="bg-overlay bg-overlay-dark"></div>
-            <div class="container">
-                <div class="row mt-5 mt-lg-0">
-                    <div class="col-12">
-                        <div class="heading-title">
-                            <h4 class="display-4 fw-bold text-white title-dark mt-3 mb-4">Gặp gỡ <br> Những bác sĩ tài giỏi nhất!</h4>
-
-                            <div class="mt-4 pt-2">
-                                <a href="booking-appointment.html" class="btn btn-primary">Tạo cuộc hẹn</a>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-        </section><!--end section-->
-        <!-- End Hero -->
-
-
-
-
-    </div><!--end container-->
 
     <div class="container mt-100 mt-60">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="section-title mb-4 pb-2 text-center">
-                    <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Các chuyên khoa</span>
-                </div>
-            </div><!--end col-->
-        </div><!--end row-->
-
-        <div class="row">
-            <c:forEach items="${departments}" var="dept">
-                <div class="col-xl-3 col-md-4 col-12 mt-5">
-                    <div class="card features feature-primary border-0">
-                        <div class="icon text-center rounded-md">
-                            <i class="ri-stethoscope-fill h3 mb-0"></i>
-                        </div>
-                        <div class="card-body p-0 mt-3">
-                            <a href="departments.html" class="title text-dark h5">${dept.departmentName}</a>
-                        </div>
-                    </div>
-                </div>
-            </c:forEach>
-        </div>
-
-        <!-- Start -->
-        <section class="section">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12">
-                        <div class="section-title mb-4 pb-2 text-center">
-                            <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Các bác sĩ tiêu biểu</span>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-
-                <div class="row align-items-center">
-                    <c:forEach items="${topDoctors}" var="doctor">
-                        <div class="col-xl-3 col-lg-3 col-md-6 mt-4 pt-2">
-                            <div class="card team border-0 rounded shadow overflow-hidden">
-                                <div class="team-img position-relative">
-                                    <img src="${doctor.avatar}" class="img-fluid" alt="${doctor.name}">
-                                </div>
-                                <div class="card-body content text-center">
-                                    <a href="doctor-team-one.html" class="title text-dark h5 d-block mb-0">${doctor.name}</a>
-                                    <small class="text-muted speciality">${doctor.department.departmentName}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div><!--end col-->
-
-                <div class="col-12 mt-4 pt-2 text-center">
-                    <a href="doctor-team-one.html" class="btn btn-primary">Xem thêm</a>
-                </div><!--end col-->
-            </div><!--end row-->
-    </div><!--end container-->
-</section><!--end section-->
-<!-- End -->
-
-
-//<!-- Sua o doan nay -->
-<div class="container mt-100 mt-60">
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="section-title mb-4 pb-2 text-center">
@@ -296,10 +213,9 @@
             </div>
         </div><!--end col-->
     </div><!--end row-->
-
-
+        
     <div class="row">
-        <c:forEach items="${blogs}" var="blog">
+        <c:forEach items="${listBlog}" var="blog">
             <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
                 <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
                     <img src="${blog.image}" class="img-fluid" alt="${blog.blogName}">
@@ -318,17 +234,14 @@
                 </div>
             </div>
         </c:forEach>
-    </div><!--end col-->
-    <div class="col-12 mt-4 pt-2 text-center">
-        <a href="listBlog" class="btn btn-primary">Xem thêm</a>
-    </div><!--end col-->
-</div><!--end row-->
+    </div>    
+</div><!--end row-->     
 </div><!--end container-->
 </section><!--end section-->
 <!-- End -->
-
-
-
+        
+        
+        
 <!-- Start -->
 <footer class="bg-footer" style="margin-top: 5%;">
     <div class="container">

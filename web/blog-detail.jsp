@@ -1,8 +1,10 @@
 <%-- 
-    Document   : home
-    Created on : Jan 10, 2025, 11:15:54 PM
-    Author     : DIEN MAY XANH
+    Document   : blog-detail
+    Created on : Feb 2, 2025, 10:11:23 PM
+    Author     : Admin
 --%>
+
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -202,182 +204,23 @@
             </div><!--end container-->
         </header><!--end header-->
         <!-- Navbar End -->
-
-        <!-- Start Hero -->
-        <section class="bg-half-260 d-table w-100" style="background: url('assets/images/bg/01.jpg') center;">
-            <div class="bg-overlay bg-overlay-dark"></div>
-            <div class="container">
-                <div class="row mt-5 mt-lg-0">
-                    <div class="col-12">
-                        <div class="heading-title">
-                            <h4 class="display-4 fw-bold text-white title-dark mt-3 mb-4">Gặp gỡ <br> Những bác sĩ tài giỏi nhất!</h4>
-
-                            <div class="mt-4 pt-2">
-                                <a href="booking-appointment.html" class="btn btn-primary">Tạo cuộc hẹn</a>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-        </section><!--end section-->
-        <!-- End Hero -->
-
-
-
-
-    </div><!--end container-->
-
-    <div class="container mt-100 mt-60">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="section-title mb-4 pb-2 text-center">
-                    <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Các chuyên khoa</span>
-                </div>
-            </div><!--end col-->
-        </div><!--end row-->
-
-        <div class="row">
-            <c:forEach items="${departments}" var="dept">
-                <div class="col-xl-3 col-md-4 col-12 mt-5">
-                    <div class="card features feature-primary border-0">
-                        <div class="icon text-center rounded-md">
-                            <i class="ri-stethoscope-fill h3 mb-0"></i>
-                        </div>
-                        <div class="card-body p-0 mt-3">
-                            <a href="departments.html" class="title text-dark h5">${dept.departmentName}</a>
-                        </div>
-                    </div>
-                </div>
-            </c:forEach>
+        
+    <div class="blog-detail-container">
+        <div class="blog-header">
+            <h1 class="blog-title">${blog.blogName}</h1>
         </div>
+        <p class="blog-meta">
+           Tác giả: ${blog.author} | Ngày: <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
+        </p>
 
-        <!-- Start -->
-        <section class="section">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12">
-                        <div class="section-title mb-4 pb-2 text-center">
-                            <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Các bác sĩ tiêu biểu</span>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-
-                <div class="row align-items-center">
-                    <c:forEach items="${topDoctors}" var="doctor">
-                        <div class="col-xl-3 col-lg-3 col-md-6 mt-4 pt-2">
-                            <div class="card team border-0 rounded shadow overflow-hidden">
-                                <div class="team-img position-relative">
-                                    <img src="${doctor.avatar}" class="img-fluid" alt="${doctor.name}">
-                                </div>
-                                <div class="card-body content text-center">
-                                    <a href="doctor-team-one.html" class="title text-dark h5 d-block mb-0">${doctor.name}</a>
-                                    <small class="text-muted speciality">${doctor.department.departmentName}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div><!--end col-->
-
-                <div class="col-12 mt-4 pt-2 text-center">
-                    <a href="doctor-team-one.html" class="btn btn-primary">Xem thêm</a>
-                </div><!--end col-->
-            </div><!--end row-->
-    </div><!--end container-->
-</section><!--end section-->
-<!-- End -->
-
-
-//<!-- Sua o doan nay -->
-<div class="container mt-100 mt-60">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <div class="section-title mb-4 pb-2 text-center">
-                <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog mới nhất</span>
-            </div>
-        </div><!--end col-->
-    </div><!--end row-->
-
-
-    <div class="row">
-        <c:forEach items="${blogs}" var="blog">
-            <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
-                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                    <img src="${blog.image}" class="img-fluid" alt="${blog.blogName}">
-                    <div class="card-body p-4">
-                        <ul class="list-unstyled mb-2">
-                            <li class="list-inline-item text-muted small me-3">
-                                <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
-                                <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
-                            </li>
-                        </ul>
-                        <a href="blog-detail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
-                        <div class="post-meta d-flex justify-content-between mt-3">
-                            <a href="blog-detail?blogId=${blog.blogId}" class="link">Chi tiết <i class="mdi mdi-chevron-right align-middle"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </c:forEach>
-    </div><!--end col-->
-    <div class="col-12 mt-4 pt-2 text-center">
-        <a href="listBlog" class="btn btn-primary">Xem thêm</a>
-    </div><!--end col-->
-</div><!--end row-->
-</div><!--end container-->
-</section><!--end section-->
-<!-- End -->
-
-
-
-<!-- Start -->
-<footer class="bg-footer" style="margin-top: 5%;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mb-4">
-                <p>Đội ngũ bác sĩ xuất sắc sẵn sàng cung cấp sự hỗ trợ kịp thời, điều trị khẩn cấp và tư vấn chuyên sâu cho gia đình bạn.</p>
-
-                <div class="mt-4">
-                    <h5 class="text-light title-dark footer-head">Địa chỉ</h5>
-                    <div id="google-map" style="height: 200px; width: 100%; overflow: hidden;">
-                        <!-- Nhúng Google Map tại đây -->
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d33006.67071116369!2d105.51462100371513!3d21.005883448895787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abc60e7d3f19%3A0x2be9d7d0b5abcbf4!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgSMOgIE7hu5lp!5e1!3m2!1svi!2s!4v1737175663000!5m2!1svi!2s" 
-                                width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-md-6">
-                <h5 class="text-light title-dark footer-head">Liên hệ với chúng tôi</h5>
-                <ul class="list-unstyled footer-list mt-4">
-                    <li class="d-flex align-items-center">
-                        <i data-feather="mail" class="fea icon-sm text-foot align-middle"></i>
-                        <a href="mailto:contact@fpt.edu.vn" class="text-foot ms-2">contact@fpt.edu.vn</a>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <i data-feather="phone" class="fea icon-sm text-foot align-middle"></i>
-                        <a href="tel:+152534468854" class="text-foot ms-2">+114</a>
-                    </li>
-                </ul>
-            </div><!--end col-->
-        </div><!--end row-->
-    </div><!--end container-->
-
-    <div class="container mt-5">
-        <div class="pt-4 footer-bar">
-            <div class="text-center">
-                <p class="mb-0">2025 © MediSync. Code backend by Group 3 - SE1885</p>
-            </div>
+        <div class="blog-content">
+           <p>${blog.content}</p>
         </div>
-    </div><!--end container-->
-</footer><!--end footer-->
-<!-- End -->
+    </div>
 
-
-
-
-
-
-
+    
+        
+        
 <!-- javascript -->
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <!-- SLIDER -->
@@ -389,5 +232,6 @@
 <script src="assets/js/feather.min.js"></script>
 <!-- Main Js -->
 <script src="assets/js/app.js"></script>
-</body>
+</body>        
 </html>
+
