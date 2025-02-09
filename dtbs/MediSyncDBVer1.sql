@@ -427,7 +427,7 @@ N'
     Nâng cao nhận thức về sức khỏe xương khớp là rất quan trọng. Hãy tìm hiểu về các yếu tố nguy cơ và cách chăm sóc xương khớp để thực hiện các biện pháp phòng ngừa hiệu quả.
 
      Ngăn ngừa các bệnh xương khớp không chỉ cải thiện chất lượng cuộc sống mà còn giúp bạn duy trì sự độc lập và hoạt động trong suốt cuộc đời. Hãy bắt đầu chăm sóc xương khớp từ hôm nay để có một tương lai khỏe mạnh hơn!',
-'assets/images/blog/02.jpg', N'Jack 3.5', '2023-05-01', 0, 0),
+'assets/images/blog/02.jpg', N'Jack 3.5', '2023-05-01', 1, 0),
 
 (N'Bí quyết chăm sóc da', 
 N'  Bí Quyết Chăm Sóc Da
@@ -467,7 +467,7 @@ N'  Bí Quyết Chăm Sóc Da
     Căng thẳng có thể ảnh hưởng đến sức khỏe da, dẫn đến các vấn đề như mụn, viêm da và lão hóa sớm. Thực hiện các hoạt động thư giãn như yoga, thiền hoặc tập thể dục để giảm căng thẳng.
 
      Chăm sóc da không chỉ là việc làm đẹp mà còn là cách thể hiện sự yêu thương bản thân. Hãy kiên trì thực hiện những bí quyết này để có làn da khỏe mạnh và rạng rỡ!',
-'assets/images/blog/06.jpg', 'David Johnson', '2023-06-01', 0, 0),
+'assets/images/blog/06.jpg', 'David Johnson', '2023-06-01', 1, 0),
 
 (N'Công nghệ hình ảnh y học hiện đại', 
 N'                                 Công Nghệ Hình Ảnh Y Học Hiện Đại

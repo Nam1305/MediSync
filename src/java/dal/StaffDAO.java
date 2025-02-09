@@ -58,14 +58,11 @@ public class StaffDAO extends DBContext {
         return null;
     }
 
-    /**
-     * Lấy thông tin tài khoản theo email (phương thức gốc được giữ nguyên)
-     */
-    public Staff getAccountByEmail(String email) {
-        String sql = "SELECT * FROM Staff WHERE email = ?";
+    public Staff getStaffByPhone(String phone) {
+        String sql = "SELECT * FROM Staff WHERE phone = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, email);
+            ps.setString(1, phone);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {

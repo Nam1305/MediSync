@@ -116,7 +116,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        if (customerDao.getCustomerByPhone(phone) != null) {
+        if (customerDao.getCustomerByPhone(phone) != null || staffDao.getStaffByPhone(phone) !=null) {
             request.setAttribute("error", "Số điện thoại đã được sử dụng ở 1 tài khoản khác!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;

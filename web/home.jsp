@@ -155,26 +155,24 @@
                                             </div>
                                         </a>
                                         <a class="dropdown-item text-dark" href="change-password">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Change password
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
                                         </a>
                                         <c:if test="${staff != null}">
-                                            <a class="dropdown-item text-dark" href="doctor-dashboard">
-                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard
+                                            <a class="dropdown-item text-dark" href="doctorprofile">
+                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Profile
                                             </a>
                                         </c:if>
-                                        <a class="dropdown-item text-dark" href="profile">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings
-                                        </a>
+                                  
                                         <div class="dropdown-divider border-top"></div>
                                         <a class="dropdown-item text-dark" href="logout">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất
                                         </a>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <!-- Not logged in -->
                                     <a href="login" class="btn btn-soft-primary">
-                                        <i class="uil uil-user align-middle"></i> Login
+                                        <i class="uil uil-user align-middle"></i> Đăng nhập
                                     </a>
                                 </c:otherwise>
                             </c:choose>
