@@ -28,7 +28,7 @@
         <link rel="stylesheet" href="assets/css/tiny-slider.css"/>
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        
+
 
         <style>
             .banner-section {
@@ -162,7 +162,7 @@
                                                 <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Profile
                                             </a>
                                         </c:if>
-                                  
+
                                         <div class="dropdown-divider border-top"></div>
                                         <a class="dropdown-item text-dark" href="logout">
                                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất
@@ -255,35 +255,64 @@
         <section class="banner-section">
             <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <c:forEach items="${banners}" var="banner" varStatus="status">
-                        <div class="carousel-item ${status.first ? 'active' : ''}"
-                             style="height: 500px; /* Adjust height as needed */">
-                            <div class="banner-image w-100 h-100" 
-                                 style="background: url('${banner.image}') center center no-repeat;
-                                 background-size: cover;
-                                 transition: opacity 0.5s ease-in-out;">
-                                <div class="bg-overlay bg-overlay-dark"></div>
-                                <div class="container h-100">
-                                    <div class="row h-100 align-items-center">
-                                        <div class="col-12">
-                                            <div class="heading-title">
-                                                <h4 class="display-4 fw-bold text-white title-dark mb-4">
-                                                    ${banner.blogName}
-                                                </h4>
-                                                <div class="mt-4">
-                                                    <a href="blog-detail?blogId=${banner.blogId}" class="btn btn-primary">
-                                                        Xem chi tiết
-                                                    </a>
+                    <c:choose>
+                        <c:when test="${empty banners}">
+                            <div class="carousel-item active" style="height: 500px;">
+                                <div class="banner-image w-100 h-100" 
+                                     style="background: url('assets/images/bg/01.jpg') center center no-repeat;
+                                     background-size: cover;
+                                     transition: opacity 0.5s ease-in-out;">
+                                    <div class="bg-overlay bg-overlay-dark"></div>
+                                    <div class="container h-100">
+                                        <div class="row h-100 align-items-center">
+                                            <div class="col-12">
+                                                <div class="heading-title">
+                                                    <h4 class="display-4 fw-bold text-white title-dark mb-4">
+                                                        ${banner.blogName}
+                                                    </h4>
+                                                    <div class="mt-4">
+                                                        <a href="blog-detail?blogId=${banner.blogId}" class="btn btn-primary">
+                                                            Xem chi tiết
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${banners}" var="banner" varStatus="status">
+                                <div class="carousel-item ${status.first ? 'active' : ''}"
+                                     style="height: 500px;">
+                                    <div class="banner-image w-100 h-100" 
+                                         style="background: url('${banner.image}') center center no-repeat;
+                                         background-size: cover;
+                                         transition: opacity 0.5s ease-in-out;">
+                                        <div class="bg-overlay bg-overlay-dark"></div>
+                                        <div class="container h-100">
+                                            <div class="row h-100 align-items-center">
+                                                <div class="col-12">
+                                                    <div class="heading-title">
+                                                        <h4 class="display-4 fw-bold text-white title-dark mb-4">
+                                                            ${banner.blogName}
+                                                        </h4>
+                                                        <div class="mt-4">
+                                                            <a href="blog-detail?blogId=${banner.blogId}" class="btn btn-primary">
+                                                                Xem chi tiết
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
-
                 <c:if test="${banners.size() > 1}">
                     <button class="carousel-control-prev" type="button" 
                             data-bs-target="#bannerCarousel" data-bs-slide="prev">
@@ -295,7 +324,6 @@
                         <span class="carousel-control-next-icon"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
-
                     <div class="carousel-indicators">
                         <c:forEach items="${banners}" var="banner" varStatus="status">
                             <button type="button" 
