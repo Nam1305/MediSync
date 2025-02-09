@@ -5,19 +5,19 @@ GO
 /*******************************************************************************
    Drop database if it exists
 ********************************************************************************/
-IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'MediSyncVer1_TestBed')
+IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'MediSyncVer1')
 BEGIN
-	ALTER DATABASE MediSyncVer1_TestBed SET OFFLINE WITH ROLLBACK IMMEDIATE;
-	ALTER DATABASE MediSyncVer1_TestBed SET ONLINE;
-	DROP DATABASE MediSyncVer1_TestBed;
+	ALTER DATABASE MediSyncVer1 SET OFFLINE WITH ROLLBACK IMMEDIATE;
+	ALTER DATABASE MediSyncVer1 SET ONLINE;
+	DROP DATABASE MediSyncVer1;
 END
 
 GO
 
-CREATE DATABASE MediSyncVer1_TestBed
+CREATE DATABASE MediSyncVer1
 GO
 
-USE MediSyncVer1_TestBed
+USE MediSyncVer1
 GO
 
 /*******************************************************************************
