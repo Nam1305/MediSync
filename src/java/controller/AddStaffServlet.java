@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Date;
 import model.Department;
 import model.Role;
@@ -71,19 +72,32 @@ public class AddStaffServlet extends HttpServlet {
             throws ServletException, IOException {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
-        Part filePart = request.getPart("avatar"); // Nhận file từ input name="avatar"
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String uploadPath = getServletContext().getRealPath("/assets/image/doctors");
+        String uploadPath = getServletContext().getRealPath("/uploads");
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs(); // Tạo thư mục nếu chưa tồn tại
         }
-        String filePath = uploadPath + File.separator + fileName;
-        filePart.write(filePath); // Lưu file vào thư mục
+
+        Part filePart = request.getPart("avatar");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        String contentType = filePart.getContentType();
+        if (contentType == null || !contentType.startsWith("image/")) {
+            request.setAttribute("error", "Only image files are allowed.");
+            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            return;
+        }
+        // Nếu không có file được chọn, đặt ảnh mặc định
+        if (fileName == null || fileName.trim().isEmpty()) {
+            fileName = "default-avatar.png";
+        } else {
+            // Tránh trùng tên file bằng cách thêm timestamp
+            fileName = System.currentTimeMillis() + "_" + fileName;
+            String filePath = uploadPath + File.separator + fileName;
+            filePart.write(filePath); // Lưu file vào thư mục
+        }
 
         // Đường dẫn ảnh lưu vào database
-        String avatarPath = "assets/image/doctors/" + fileName;
-
+        String avatarPath = request.getContextPath() + "/uploads/" + fileName;
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         String gender = request.getParameter("gender");
@@ -113,9 +127,19 @@ public class AddStaffServlet extends HttpServlet {
         }
         //ép kiểu cho dateOfBirth
         java.sql.Date dateOfBirth = java.sql.Date.valueOf(dateOfBirthStr);
+        if (dateOfBirth.toLocalDate().isAfter(LocalDate.now())) {
+            request.setAttribute("error", "Ngày sinh không hợp lệ!");
+            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            return;
+        }
         //mã hóa password bằng hàm Bcrypt()
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         DoctorDAO staff = new DoctorDAO();
+        if (staff.checkPhoneExists(phone)) {
+            request.setAttribute("error", "Phone number already exists!");
+            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            return;
+        }
         // // Khởi tạo đối tượng Department
         Department department = new Department();
         department.setDepartmentId(departmentId);

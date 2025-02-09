@@ -396,23 +396,8 @@
                                                             <i class="uil uil-eye"></i>
                                                         </a>
                                                         <!-- Edit button with data-* attributes for customer info -->
-                                                        <a href="#" class="btn btn-icon btn-pills btn-soft-success" 
-                                                           data-bs-toggle="modal" 
-                                                           data-bs-target="#editprofile"
-                                                           data-staff-id = "${doctors.staffId}"
-                                                           data-staff-name ="${doctors.name} "
-                                                           data-staff-email="${doctors.email}"
-                                                           data-staff-gender="${doctors.gender}"
-                                                           data-staff-position ="${doctors.position}"
-                                                           data-staff-department="${doctors.department.departmentName}"
-                                                           data-staff-phone="${doctors.phone}"
-                                                           data-staff-dateOfBirth="${doctors.dateOfBirth}"
-                                                           data-staff-status="${doctors.status}"
-                                                           data-staff-description ="${doctors.description}"
-                                                           data-staff-departmentId= "${doctors.department.departmentId}"
-                                                           data-staff-roleId ="${doctors.role.roleId}">
-
-                                                            <i class="uil uil-pen"></i>
+                                                       <a href="UpdateStaffServlet?id=${doctors.staffId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                            <i class="uil uil-pen"></i> 
                                                         </a>
                                                         <form id="deleteForm${doctors.staffId}" action="deleteStaffServlet" method="post" style="display: inline;">
                                                             <input type="hidden" name="id" value="${doctors.staffId}">
@@ -536,7 +521,7 @@
         </div>
         <!-- Offcanvas End -->
 
-        <!-- Modal start -->
+<!--         Modal start 
         <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -546,7 +531,7 @@
                     </div>
                     <div class="modal-body p-3 pt-4">
                         <form class="mt-4" method="post" action="UpdateStaffServlet">
-                            <!-- Input Hidden -->
+                             Input Hidden 
                             <input type="hidden" name="staffId" id="staffId">
 
                             <div class="row">
@@ -555,35 +540,35 @@
                                         <label class="form-label">Name</label>
                                         <input name="name" id="name" type="text" class="form-control" placeholder="Name">
                                     </div>
-                                </div><!--end col-->
+                                </div>end col
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Email</label>
                                         <input name="email" id="email" type="email" class="form-control" placeholder="Email">
                                     </div>
-                                </div><!--end col-->
+                                </div>end col
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Phone</label>
                                         <input name="phone" id="phone" type="text" class="form-control" placeholder="Phone">
                                     </div>
-                                </div><!--end col-->
+                                </div>end col
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Password</label>
                                         <input name="password" id="password" type="password" class="form-control" placeholder="Password">
                                     </div>
-                                </div><!--end col-->
+                                </div>end col
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Date of Birth</label>
                                         <input name="dateOfBirth" id="dateOfBirth" type="date" class="form-control">
                                     </div>
-                                </div><!--end col-->
+                                </div>end col
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -595,7 +580,7 @@
                                             <option value="Receptionist">Receptionist</option>
                                         </select>
                                     </div>
-                                </div><!--end col-->
+                                </div>end col
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -605,7 +590,7 @@
                                             <option value="F">Female</option>
                                         </select>
                                     </div>
-                                </div><!--end col-->
+                                </div>end col
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -615,14 +600,14 @@
                                             <option value="Inactive">Inactive</option>
                                         </select>
                                     </div>
-                                </div><!--end col-->
+                                </div>end col
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Description</label>
                                             <input name="description" id="description" type="text" class="form-control" placeholder="Description">
                                         </div>
-                                    </div><!--end col-->
+                                    </div>end col
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Department</label>
@@ -634,7 +619,7 @@
                                                 <option value="5">Hành Chính</option>
                                             </select>
                                         </div>
-                                    </div><!--end col-->
+                                    </div>end col
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -645,21 +630,21 @@
                                                 <option value="4">Receptionist</option>
                                             </select>
                                         </div>
-                                    </div><!--end col-->
-                                </div><!--end row-->
+                                    </div>end col
+                                </div>end row
 
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
-                                    </div><!--end col-->
-                                </div><!--end row-->
-                        </form><!--end form-->
+                                    </div>end col
+                                </div>end row
+                        </form>end form
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Modal end -->
-
+         Modal end 
+-->
 
         <!-- Profile Start -->
         <div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
@@ -728,7 +713,7 @@
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
 
-        <script>
+<!--        <script>
                                         document.addEventListener("DOMContentLoaded", function () {
                                             // Lấy tất cả các nút "Sửa" (edit buttons)
                                             const editButtons = document.querySelectorAll('[data-bs-target="#editprofile"]');
@@ -774,7 +759,7 @@
                                                 statusMessage.style.display = 'none';
                                             }, 5000);
                                         }
-        </script>
+        </script>-->
 
 
     </body>
