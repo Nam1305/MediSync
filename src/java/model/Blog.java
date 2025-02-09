@@ -10,27 +10,24 @@ public class Blog {
     private String image;
     private String author;
     private Date date;
-    private String blogType;
+    private int typeId;
     private int selectedBanner;
 
     // Default constructor
     public Blog() {
     }
 
-    // Full constructor
-    public Blog(int blogId, String blogName, String content, String image, 
-                String author, Date date, String blogType, int selectedBanner) {
+    public Blog(int blogId, String blogName, String content, String image, String author, Date date, int typeId, int selectedBanner) {
         this.blogId = blogId;
         this.blogName = blogName;
         this.content = content;
         this.image = image;
         this.author = author;
         this.date = date;
-        this.blogType = blogType;
+        this.typeId = typeId;
         this.selectedBanner = selectedBanner;
     }
 
-    // Getters and Setters
     public int getBlogId() {
         return blogId;
     }
@@ -79,12 +76,12 @@ public class Blog {
         this.date = date;
     }
 
-    public String getBlogType() {
-        return blogType;
+    public int getTypeId() {
+        return typeId;
     }
 
-    public void setBlogType(String blogType) {
-        this.blogType = blogType;
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
 
     public int getSelectedBanner() {
@@ -97,15 +94,8 @@ public class Blog {
 
     @Override
     public String toString() {
-        return "Blog{" +
-                "blogId=" + blogId +
-                ", blogName='" + blogName + '\'' +
-                ", content='" + content + '\'' +
-                ", image='" + image + '\'' +
-                ", author='" + author + '\'' +
-                ", date=" + date +
-                ", blogType='" + blogType + '\'' +
-                ", selectedBanner=" + selectedBanner +
-                '}';
+        return "Blog{" + "blogId=" + blogId + ", blogName=" + blogName + ", content=" + content + ", image=" + image + ", author=" + author + ", date=" + date + ", typeId=" + typeId + ", selectedBanner=" + selectedBanner + '}';
     }
+
+    
 }

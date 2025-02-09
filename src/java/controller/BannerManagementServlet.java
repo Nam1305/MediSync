@@ -102,7 +102,7 @@ public class BannerManagementServlet extends HttpServlet {
             newBanner.setBlogName(request.getParameter("bannerName"));
             newBanner.setContent(request.getParameter("bannerContent"));
             newBanner.setImage(UPLOAD_DIR + fileName);
-            newBanner.setBlogType("banner");
+            newBanner.setTypeId(1);
             newBanner.setSelectedBanner(1);
 
             blogDAO.addNewBanner(newBanner);

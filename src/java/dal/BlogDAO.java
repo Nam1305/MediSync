@@ -13,7 +13,7 @@ public class BlogDAO extends DBContext {
 
     public List<Blog> getRandomBlogs() {
         List<Blog> blogs = new ArrayList<>();
-        String sql = "SELECT TOP 3 * FROM Blog WHERE blogType = 'blog' ORDER BY NEWID()";
+        String sql = "SELECT TOP 3 blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE typeId = 0 ORDER BY NEWID();";
 
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -27,7 +27,7 @@ public class BlogDAO extends DBContext {
 
     public List<Blog> getAllBlogs() {
         List<Blog> listBlog = new ArrayList<>();
-        String sql = "SELECT * FROM Blog WHERE blogType = 'blog' ORDER BY date DESC";
+        String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE typeId = 0 ORDER BY date DESC;";
 
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -40,7 +40,7 @@ public class BlogDAO extends DBContext {
     }
 
     public Blog getBlogById(int blogId) {
-        String sql = "SELECT * FROM Blog WHERE blogId = ?";
+        String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE blogId = ?;";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, blogId);
@@ -57,7 +57,7 @@ public class BlogDAO extends DBContext {
 
     public List<Blog> getActiveBanners() {
         List<Blog> banners = new ArrayList<>();
-        String sql = "SELECT * FROM Blog WHERE blogType = 'banner' AND selectedBanner = 1";
+        String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE typeId = 1 AND selectedBanner = 1;";
 
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -77,7 +77,7 @@ public class BlogDAO extends DBContext {
                 rs.getString("image"),
                 rs.getString("author"),
                 rs.getDate("date"),
-                rs.getString("blogType"),
+                rs.getInt("typeId"),
                 rs.getInt("selectedBanner")
         );
     }
@@ -85,10 +85,10 @@ public class BlogDAO extends DBContext {
     public List<Blog> getAllBlogsForBanner(int page, int itemsPerPage, String searchQuery, String sortOrder) {
         List<Blog> blogs = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT * FROM (");
-        sql.append("  SELECT *, ROW_NUMBER() OVER (ORDER BY date ");
+        sql.append("SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM (");
+        sql.append("  SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner, ROW_NUMBER() OVER (ORDER BY date ");
         sql.append(sortOrder.equalsIgnoreCase("asc") ? "ASC" : "DESC");
-        sql.append("  ) AS RowNum FROM Blog WHERE blogType = 'banner'");
+        sql.append("  ) AS RowNum FROM Blog WHERE typeId = 1");
 
         // Add search condition if search query is provided
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
@@ -123,7 +123,7 @@ public class BlogDAO extends DBContext {
     }
 
     public int getTotalBannersCount(String searchQuery) {
-        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Blog WHERE blogType = 'banner'");
+        StringBuilder sql = new StringBuilder("SELECT COUNT(blogId, blogName, [content], image, author, date, typeId, selectedBanner) FROM Blog WHERE typeId = 1");
 
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
             sql.append(" AND blogName LIKE ?");
@@ -158,14 +158,14 @@ public class BlogDAO extends DBContext {
     }
 
     public void addNewBanner(Blog banner) {
-        String sql = "INSERT INTO Blog (blogName, content, image, blogType, selectedBanner, date, author) "
+        String sql = "INSERT INTO Blog (blogName, content, image, typeId, selectedBanner, date, author) "
                 + "VALUES (?, ?, ?, ?, ?, GETDATE(), 'Admin')";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, banner.getBlogName());
             ps.setString(2, banner.getContent());
             ps.setString(3, banner.getImage());
-            ps.setString(4, banner.getBlogType());
+            ps.setInt(4, banner.getTypeId());
             ps.setInt(5, banner.getSelectedBanner());
             ps.executeUpdate();
         } catch (SQLException ex) {

@@ -272,12 +272,9 @@
                                                 <h4 class="display-4 fw-bold text-white title-dark mb-4">
                                                     ${banner.blogName}
                                                 </h4>
-                                                <p class="text-white-50 para-desc mb-0">
-                                                    ${banner.content}
-                                                </p>
                                                 <div class="mt-4">
-                                                    <a href="booking-appointment.html" class="btn btn-primary">
-                                                        Tạo cuộc hẹn
+                                                    <a href="blog-detail?blogId=${banner.blogId}" class="btn btn-primary">
+                                                        Xem chi tiết
                                                     </a>
                                                 </div>
                                             </div>
