@@ -37,13 +37,17 @@ CREATE TABLE Appointment (
   PRIMARY KEY (appointmentId));
 
 CREATE TABLE Blog (
-  blogId   int IDENTITY NOT NULL, 
-  blogName nvarchar(MAX) NULL, 
-  content  nvarchar(MAX) NULL, 
-  image    nvarchar(MAX) NULL, 
-  author   nvarchar(255) NULL, 
-  [date]   date NULL, 
-  PRIMARY KEY (blogId));
+  blogId         INT IDENTITY NOT NULL, 
+  blogName       NVARCHAR(MAX) NULL, 
+  content        NVARCHAR(MAX) NULL, 
+  image          NVARCHAR(MAX) NULL, 
+  author         NVARCHAR(255) NULL, 
+  [date]         DATE NULL, 
+  blogType       NVARCHAR(10) CHECK (blogType IN ('blog', 'banner')) NULL,
+  selectedBanner TINYINT CHECK (selectedBanner IN (0, 1)) DEFAULT 0 NULL, 
+  PRIMARY KEY (blogId)
+);
+
 
 CREATE TABLE Comment (
   commentId  int IDENTITY NOT NULL, 
@@ -278,9 +282,9 @@ INSERT INTO Customer (name, avatar, email, password, address, phone, dateOfBirth
 (N'Trương Thu Hương', 'assets/images/client/01.jpg', 'thuhoangtruong@example.com', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', N'Số 112, Đường Hoa, Quận 11, TP.HCM', '0709871234', '1996-12-12', 'A+', 'F', 'Active');
 
 --Blog
-INSERT INTO Blog (blogName, content, image, author, [date]) VALUES
+INSERT INTO Blog (blogName, content, image, author, [date], blogType, selectedBanner) VALUES
 (N'Bí quyết sống khỏe',N'Để có một cuộc sống khỏe mạnh, bạn cần duy trì một chế độ ăn uống cân bằng, tập thể dục thường xuyên và ngủ đủ giấc. Chế độ ăn uống là yếu tố quan trọng nhất, hãy bổ sung rau xanh, trái cây và tránh xa các thực phẩm chế biến sẵn. Ngoài ra, việc tập thể dục ít nhất 30 phút mỗi ngày sẽ giúp cơ thể dẻo dai và cải thiện sức khỏe tim mạch. Cuối cùng, một giấc ngủ chất lượng từ 7-8 tiếng mỗi đêm sẽ giúp bạn tái tạo năng lượng và tinh thần minh mẫn hơn.',
-'assets/images/blog/03.jpg', 'Anonymous', '2023-01-01'),
+'assets/images/blog/03.jpg', 'Anonymous', '2023-01-01', 'blog', 0),
 
 (N'Những tiến bộ trong tim mạch', 
 N'                   Những Tiến Bộ Trong Y Tế Về Tim Mạch
@@ -308,7 +312,7 @@ N'                   Những Tiến Bộ Trong Y Tế Về Tim Mạch
     Y học chính xác và trí tuệ nhân tạo đang hứa hẹn mang đến những bước tiến mới trong việc chẩn đoán và điều trị bệnh tim, từ đó cải thiện hiệu quả điều trị và chăm sóc sức khỏe tim mạch.
 
     Những tiến bộ này không chỉ nâng cao chất lượng cuộc sống mà còn kéo dài tuổi thọ cho bệnh nhân mắc bệnh tim mạch.',
-'assets/images/blog/07.jpg', N'Chiến thần', '2023-02-01'),
+'assets/images/blog/07.jpg', N'Chiến thần', '2023-02-01', 'blog', 0),
 
 (N'Tất cả về chứng đau nửa đầu', 
 N'   Tất Cả Về Chứng Đau Nửa Đầu
@@ -358,7 +362,7 @@ N'   Tất Cả Về Chứng Đau Nửa Đầu
     - Tránh các thực phẩm và đồ uống có thể gây ra cơn đau.
 
      Chứng đau nửa đầu có thể ảnh hưởng lớn đến chất lượng cuộc sống, nhưng với sự hiểu biết và biện pháp điều trị phù hợp, bạn có thể kiểm soát tốt tình trạng này. Nếu bạn gặp phải cơn đau nửa đầu thường xuyên, hãy tham khảo ý kiến bác sĩ để có phương pháp điều trị thích hợp.',
-'assets/images/blog/05.jpg', 'Ben Davis', '2023-03-01'),
+'assets/images/blog/05.jpg', 'Ben Davis', '2023-03-01', 'blog', 0),
 
 (N'Chăm sóc sức khỏe trẻ em', 
 N'                                 Chăm Sóc Sức Khỏe Trẻ Em
@@ -394,7 +398,7 @@ N'                                 Chăm Sóc Sức Khỏe Trẻ Em
     Giáo dục sức khỏe cần được bắt đầu từ khi trẻ còn nhỏ. Hướng dẫn trẻ về tầm quan trọng của việc giữ gìn sức khỏe, vệ sinh cá nhân và cách chăm sóc bản thân sẽ giúp trẻ hình thành thói quen lành mạnh trong tương lai.
 
      Chăm sóc sức khỏe trẻ em là trách nhiệm của tất cả mọi người. Hãy cùng nhau tạo ra một môi trường lành mạnh và an toàn để giúp trẻ phát triển tốt nhất có thể.',
-'assets/images/blog/09.jpg', 'Michael Jackson', '2023-04-01'),
+'assets/images/blog/09.jpg', 'Michael Jackson', '2023-04-01', 'blog', 0),
 
 (N'Ngăn ngừa các bệnh xương khớp', 
 N'
@@ -409,7 +413,7 @@ N'
     Nâng cao nhận thức về sức khỏe xương khớp là rất quan trọng. Hãy tìm hiểu về các yếu tố nguy cơ và cách chăm sóc xương khớp để thực hiện các biện pháp phòng ngừa hiệu quả.
 
      Ngăn ngừa các bệnh xương khớp không chỉ cải thiện chất lượng cuộc sống mà còn giúp bạn duy trì sự độc lập và hoạt động trong suốt cuộc đời. Hãy bắt đầu chăm sóc xương khớp từ hôm nay để có một tương lai khỏe mạnh hơn!',
-'assets/images/blog/02.jpg', N'Jack 3.5', '2023-05-01'),
+'assets/images/blog/02.jpg', N'Jack 3.5', '2023-05-01', 'blog', 0),
 
 (N'Bí quyết chăm sóc da', 
 N'  Bí Quyết Chăm Sóc Da
@@ -449,7 +453,7 @@ N'  Bí Quyết Chăm Sóc Da
     Căng thẳng có thể ảnh hưởng đến sức khỏe da, dẫn đến các vấn đề như mụn, viêm da và lão hóa sớm. Thực hiện các hoạt động thư giãn như yoga, thiền hoặc tập thể dục để giảm căng thẳng.
 
      Chăm sóc da không chỉ là việc làm đẹp mà còn là cách thể hiện sự yêu thương bản thân. Hãy kiên trì thực hiện những bí quyết này để có làn da khỏe mạnh và rạng rỡ!',
-'assets/images/blog/06.jpg', 'David Johnson', '2023-06-01'),
+'assets/images/blog/06.jpg', 'David Johnson', '2023-06-01', 'blog', 0),
 
 (N'Công nghệ hình ảnh y học hiện đại', 
 N'                                 Công Nghệ Hình Ảnh Y Học Hiện Đại
@@ -489,7 +493,7 @@ N'                                 Công Nghệ Hình Ảnh Y Học Hiện Đạ
     Với sự phát triển không ngừng của công nghệ, có thể kỳ vọng sẽ xuất hiện nhiều phương pháp hình ảnh mới, cải thiện khả năng chẩn đoán và điều trị. Việc tích hợp công nghệ số và dữ liệu lớn sẽ mở ra nhiều cơ hội trong lĩnh vực chăm sóc sức khỏe.
 
      Công nghệ hình ảnh y học hiện đại không chỉ giúp phát hiện sớm bệnh tật mà còn nâng cao chất lượng chăm sóc sức khỏe cho bệnh nhân. Việc ứng dụng công nghệ này trong thực tiễn sẽ tiếp tục đóng góp vào sự tiến bộ của y học trong tương lai.',
-'assets/images/blog/09.jpg', 'Sophia Martinez', '2023-07-01'),
+'assets/images/blog/09.jpg', 'Sophia Martinez', '2023-07-01', 'blog', 0),
 
 (N'Hỗ trợ bệnh nhân ung thư', 
 N'     Hỗ Trợ Bệnh Nhân Ung Thư
@@ -529,7 +533,7 @@ N'     Hỗ Trợ Bệnh Nhân Ung Thư
     Tập luyện nhẹ nhàng như đi bộ, yoga hoặc thiền có thể giúp cải thiện tâm trạng và sức khỏe tổng thể. Hãy khuyến khích bệnh nhân tham gia vào các hoạt động thể chất phù hợp với tình trạng sức khỏe của họ.
 
      Hỗ trợ bệnh nhân ung thư là một quá trình toàn diện, bao gồm sự kết hợp giữa y tế, tâm lý và dinh dưỡng. Bằng cách cung cấp sự hỗ trợ và chăm sóc toàn diện, chúng ta có thể giúp bệnh nhân ung thư sống khỏe mạnh và có chất lượng cuộc sống tốt hơn trong suốt quá trình điều trị.',
-'assets/images/blog/04.jpg', 'Daniel Lee', '2023-08-01'),
+'assets/images/blog/04.jpg', 'Daniel Lee', '2023-08-01', 'blog', 0),
 
 (N'Kiểm soát căng thẳng trong cuộc sống', 
 N'   Kiểm Soát Căng Thẳng Trong Cuộc Sống
@@ -569,7 +573,7 @@ N'   Kiểm Soát Căng Thẳng Trong Cuộc Sống
     Dành thời gian cho sở thích và hoạt động giải trí giúp bạn thư giãn và thoát khỏi áp lực hàng ngày. Hãy tìm những hoạt động mà bạn yêu thích, như đọc sách, nghe nhạc hoặc vẽ.
 
      Kiểm soát căng thẳng là một kỹ năng cần thiết trong cuộc sống hiện đại. Bằng cách áp dụng những phương pháp trên, bạn có thể cải thiện sức khỏe tinh thần và tận hưởng cuộc sống một cách trọn vẹn hơn. Hãy bắt đầu từ hôm nay để xây dựng một cuộc sống không căng thẳng!',
-'assets/images/blog/08.jpg', 'Olivia Garcia', '2023-09-01'),
+'assets/images/blog/08.jpg', 'Olivia Garcia', '2023-09-01', 'blog', 0),
 
 (N'Đột phá trong phẫu thuật', 
 N'Đột Phá Trong Phẫu Thuật
@@ -609,7 +613,7 @@ N'Đột Phá Trong Phẫu Thuật
     Nghiên cứu liên tục trong lĩnh vực phẫu thuật đã dẫn đến việc phát triển các liệu pháp mới, như liệu pháp gen và liệu pháp miễn dịch, mở ra hy vọng cho những bệnh nhân mắc bệnh hiểm nghèo.
 
      Đột phá trong phẫu thuật không chỉ nâng cao chất lượng điều trị mà còn mang lại hy vọng mới cho bệnh nhân. Với sự phát triển không ngừng của công nghệ và nghiên cứu, tương lai của ngành phẫu thuật hứa hẹn sẽ tiếp tục có những bước tiến lớn.',
-'assets/images/blog/01.jpg', 'James Miller', '2023-10-01');
+'assets/images/blog/01.jpg', 'James Miller', '2023-10-01', 'blog', 0);
 
 
 

@@ -125,7 +125,7 @@
                                     <li><a href="terms.html">Terms & Policy</a></li>
                                     <li><a href="privacy.html">Privacy Policy</a></li>
                                     <li><a href="error.html">404 !</a></li>
-                                    <li><a href="blank-page.html">Blank Page</a></li>
+                                    <li><a href="manage-banners">Manage Banners</a></li>
                                 </ul>
                             </div>
                         </li>
