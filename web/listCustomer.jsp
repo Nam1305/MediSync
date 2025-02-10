@@ -62,7 +62,7 @@
                                 <ul>
                                     <li><a href="ListDoctor">Staff list</a></li>
                                     <li><a href="addStaff.jsp">Add Staff</a></li>
-                                  
+
                                 </ul>
                             </div>
                         </li>
@@ -186,47 +186,6 @@
                         </div>
 
                         <ul class="list-unstyled mb-0">
-                            <!--                            <li class="list-inline-item mb-0">
-                                                            <div class="dropdown dropdown-primary">
-                                                                <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/language/american.png" class="avatar avatar-ex-small rounded-circle p-2" alt=""></button>
-                                                                <div class="dropdown-menu dd-menu drop-ups dropdown-menu-end bg-white shadow border-0 mt-3 p-2" data-simplebar style="height: 175px;">
-                                                                    <a href="javascript:void(0)" class="d-flex align-items-center">
-                                                                        <img src="assets/images/language/chinese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                                            <small class="text-dark mb-0">Chinese</small>
-                                                                        </div>
-                                                                    </a>
-                            
-                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                                                        <img src="assets/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                                            <small class="text-dark mb-0">European</small>
-                                                                        </div>
-                                                                    </a>
-                            
-                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                                                        <img src="assets/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                                            <small class="text-dark mb-0">Indian</small>
-                                                                        </div>
-                                                                    </a>
-                            
-                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                                                        <img src="assets/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                                            <small class="text-dark mb-0">Japanese</small>
-                                                                        </div>
-                                                                    </a>
-                            
-                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                                                        <img src="assets/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                                            <small class="text-dark mb-0">Russian</small>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </li>-->
 
                             <li class="list-inline-item mb-0 ms-1">
                                 <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -387,9 +346,8 @@
                                                 </tr>
                                             </thead>
                                             <!--tbody-start-->
-                                        <c:set var="profile" value="${requestScope.profile}" />
 
-                                        <tbody>
+                                            <tbody>
                                             <c:forEach var="customers" items="${customers}">
                                                 <tr>
                                                     <th class="p-3">${customers.customerId}</th>
@@ -402,7 +360,14 @@
                                                             </div>
                                                         </a>
                                                     </td>
-                                                    <td class="p-3">${customers.gender}</td>
+<!--                                                    <td class="p-3">${customers.gender}</td>-->
+                                                    <td class="p-3">
+                                                        <c:choose>
+                                                            <c:when test="${customers.gender.trim() == 'M'}">Nam</c:when>
+                                                            <c:when test="${customers.gender.trim() == 'F'}">Nữ</c:when>
+                                                            <c:otherwise>Khác</c:otherwise>
+                                                        </c:choose>
+                                                    </td>
                                                     <td class="p-3">${customers.address}</td>
                                                     <td class="p-3">${customers.phone}</td>
                                                     <td class="p-3">${customers.dateOfBirth}</td>
@@ -410,35 +375,11 @@
                                                     <td class="p-3"><span class="badge bg-soft-success">${customers.status}</span></td>
                                                     <!--                                                    <td class="p-3"></td>-->
                                                     <td class="text-end p-3">
-                                                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary" 
-                                                           data-bs-toggle="modal" 
-                                                           data-bs-target="#viewprofile"
-                                                           data-customer-id="${customers.customerId}"                                                           
-                                                           data-customer-name="${customers.name}"
-                                                           data-customer-age="${customers.getAge()}"
-                                                           data-customer-gender="${customers.gender}"
-                                                           data-customer-department="${customers.getDepartment()}"
-                                                           data-customer-doctor="${customers.getDoctor()}"
-                                                           data-customer-date="${customers.getAppointmentDate()}"
-                                                           data-customer-time="${customers.getAppointmentTime()}"
-                                                           data-customer-avatar="${not empty customers.avatar ? 
-                                                                                   (customers.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(customers.avatar) : customers.avatar) 
-                                                                                   : pageContext.request.contextPath.concat('/default-avatar.png')}"
-                                                           >
-
+                                                        <a href="viewCustomerDetail?id=${customers.customerId}" class="btn btn-icon btn-pills btn-soft-primary">
                                                             <i class="uil uil-eye"></i>
                                                         </a>
                                                         <!-- Edit button with data-* attributes for customer info -->
-                                                        <a href="#" class="btn btn-icon btn-pills btn-soft-success" 
-                                                           data-bs-toggle="modal" 
-                                                           data-bs-target="#editprofile"
-                                                           data-customer-id="${customers.customerId}"
-                                                           data-customer-name="${customers.name}"
-                                                           data-customer-gender="${customers.gender}"
-                                                           data-customer-email="${customers.email}"
-                                                           data-customer-phone="${customers.phone}"
-                                                           data-customer-address="${customers.address}"
-                                                           data-customer-dob="${customers.dateOfBirth}">
+                                                        <a href="editCustomer?id=${customers.customerId}" class="btn btn-icon btn-pills btn-soft-success" >
                                                             <i class="uil uil-pen"></i>
                                                         </a>
                                                         <a href="deleteCustomer?id=${customers.customerId}" class="btn btn-icon btn-pills btn-soft-danger"><i class="uil uil-trash"></i></a>
@@ -553,139 +494,139 @@
         <!-- Offcanvas End -->
 
         <!-- Modal start -->
-        <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom p-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Profile Settings</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-3 pt-4">
-                        <form class="mt-4" method="POST" action="editCustomer">
-                            <!--input hidden-->
-                            <input type="hidden" name="customerId" id="customerId">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Họ và Tên</label>
-                                        <input name="full-name" id="full-name" type="text" class="form-control" placeholder="Full name:">
-                                    </div>
-                                </div><!--end col-->
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Giới tính</label>
-                                        <div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="male" value="M">
-                                                <label class="form-check-label" for="male">Male</label>
+        <!--        <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom p-3">
+                                <h5 class="modal-title" id="exampleModalLabel">Profile Settings</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-3 pt-4">
+                                <form class="mt-4" method="POST" action="editCustomer">
+                                    input hidden
+                                    <input type="hidden" name="customerId" id="customerId">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Họ và Tên</label>
+                                                <input name="full-name" id="full-name" type="text" class="form-control" placeholder="Full name:">
                                             </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="female" value="F">
-                                                <label class="form-check-label" for="female">Female</label>
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Giới tính</label>
+                                                <div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="male" value="M">
+                                                        <label class="form-check-label" for="male">Male</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" id="female" value="F">
+                                                        <label class="form-check-label" for="female">Female</label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div><!--end col-->
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Your Email</label>
-                                        <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
-                                    </div>
-                                </div><!--end col-->
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Số Điện Thoại</label>
-                                        <input name="number" id="number" type="text" class="form-control" placeholder="Phone number:">
-                                    </div>
-                                </div><!--end col-->
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Địa chỉ</label>
-                                        <input name="address" id="address" type="text" class="form-control" placeholder="Your address:">
-                                    </div>
-                                </div><!--end col-->
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Ngày sinh</label>
-                                        <input name="dob" id="dob" type="date" class="form-control" placeholder="Your date of birth:">
-                                    </div>
-                                </div><!--end col-->
-
-                            </div><!--end row-->
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <input type="submit" id="submit" name="send" class="btn btn-primary" value="Lưu thay đổi">
-                                </div><!--end col-->
-                            </div><!--end row-->
-                        </form><!--end form-->
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Your Email</label>
+                                                <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
+                                            </div>
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Số Điện Thoại</label>
+                                                <input name="number" id="number" type="text" class="form-control" placeholder="Phone number:">
+                                            </div>
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Địa chỉ</label>
+                                                <input name="address" id="address" type="text" class="form-control" placeholder="Your address:">
+                                            </div>
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Ngày sinh</label>
+                                                <input name="dob" id="dob" type="date" class="form-control" placeholder="Your date of birth:">
+                                            </div>
+                                        </div>end col
+        
+                                    </div>end row
+        
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <input type="submit" id="submit" name="send" class="btn btn-primary" value="Lưu thay đổi">
+                                        </div>end col
+                                    </div>end row
+                                </form>end form
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </div>-->
         <!-- Modal end -->
 
         <!-- Profile-Start -->
-        <div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom p-3">
-                        <h5 class="modal-title" id="exampleModalLabel1">Thông tin chi tiết</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-3 pt-4">
-                        <div class="d-flex align-items-center">
-                            <!--Avatar-Detail-Profile  -->
-                            <img id="profileAvatar" src="" class="avatar avatar-small rounded-pill" alt="">
-                            <h5 class="mb-0 ms-3" id="profileName"></h5>
+        <!--        <div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom p-3">
+                                <h5 class="modal-title" id="exampleModalLabel1">Thông tin chi tiết</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-3 pt-4">
+                                <div class="d-flex align-items-center">
+                                    Avatar-Detail-Profile  
+                                    <img id="profileAvatar" src="" class="avatar avatar-small rounded-pill" alt="">
+                                    <h5 class="mb-0 ms-3" id="profileName"></h5>
+                                </div>
+                                <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
+                                    <li>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="d-flex">
+                                                <h6>Age:</h6>
+                                                <p class="text-muted ms-2" id="profileAge"></p>
+                                            </li>
+        
+                                            <li class="d-flex">
+                                                <h6>Gender:</h6>
+                                                <p class="text-muted ms-2" id="profileGender"></p>
+                                            </li>
+        
+                                            <li class="d-flex">
+                                                <h6 class="mb-0">Department:</h6>
+                                                <p class="text-muted ms-2 mb-0" id="profileDepartment"></p>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="d-flex">
+                                                <h6>Date:</h6>
+                                                <p class="text-muted ms-2" id="profileDate"></p>
+                                            </li>
+        
+                                            <li class="d-flex">
+                                                <h6>Time:</h6>
+                                                <p class="text-muted ms-2" id="profileTime"></p>
+                                            </li>
+        
+                                            <li class="d-flex">
+                                                <h6 class="mb-0">Doctor:</h6>
+                                                <p class="text-muted ms-2 mb-0" id="profileDoctor"></p>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
-                            <li>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="d-flex">
-                                        <h6>Age:</h6>
-                                        <p class="text-muted ms-2" id="profileAge"></p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6>Gender:</h6>
-                                        <p class="text-muted ms-2" id="profileGender"></p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6 class="mb-0">Department:</h6>
-                                        <p class="text-muted ms-2 mb-0" id="profileDepartment"></p>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="d-flex">
-                                        <h6>Date:</h6>
-                                        <p class="text-muted ms-2" id="profileDate"></p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6>Time:</h6>
-                                        <p class="text-muted ms-2" id="profileTime"></p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6 class="mb-0">Doctor:</h6>
-                                        <p class="text-muted ms-2 mb-0" id="profileDoctor"></p>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
                     </div>
-                </div>
-            </div>
-        </div>
+                </div>-->
         <!-- Profile End -->
         <!-- Modal end -->
 
@@ -697,74 +638,6 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
-
-        <script>
-                                        document.addEventListener("DOMContentLoaded", function () {
-                                            // Xử lý sự kiện khi nhấn "Xem chi tiết"
-                                            document.addEventListener("click", function (event) {
-                                                const button = event.target.closest('[data-bs-target="#viewprofile"]');
-                                                if (!button)
-                                                    return;
-
-                                                // Lấy dữ liệu từ data-attribute
-                                                const customerName = button.getAttribute("data-customer-name");
-                                                const customerGender = button.getAttribute("data-customer-gender");
-                                                const customerAge = button.getAttribute("data-customer-age");
-                                                const customerDepartment = button.getAttribute("data-customer-department");
-                                                const customerDoctor = button.getAttribute("data-customer-doctor");
-                                                const customerDate = button.getAttribute("data-customer-date");
-                                                const customerTime = button.getAttribute("data-customer-time");
-                                                const customerAvatar = button.getAttribute("data-customer-avatar");
-
-                                                // Hiển thị dữ liệu trong modal "Xem chi tiết"
-                                                document.getElementById("profileName").textContent = customerName;
-                                                document.getElementById("profileAge").textContent = customerAge;
-                                                document.getElementById("profileDepartment").textContent = customerDepartment;
-                                                document.getElementById("profileDoctor").textContent = customerDoctor;
-                                                document.getElementById("profileDate").textContent = customerDate;
-                                                document.getElementById("profileTime").textContent = customerTime;
-                                                document.getElementById("profileGender").textContent = customerGender;
-                                                document.getElementById("profileAvatar").src = customerAvatar;
-                                            });
-
-                                            // Xử lý sự kiện khi nhấn "Chỉnh sửa"
-                                            document.addEventListener("click", function (event) {
-                                                const button = event.target.closest('[data-bs-target="#editprofile"]');
-                                                if (!button)
-                                                    return;
-
-                                                // Lấy dữ liệu từ data-attribute
-                                                const customerId = button.getAttribute("data-customer-id");
-                                                const customerName = button.getAttribute("data-customer-name");
-                                                const customerGender = button.getAttribute("data-customer-gender");
-                                                const customerEmail = button.getAttribute("data-customer-email");
-                                                const customerPhone = button.getAttribute("data-customer-phone");
-                                                const customerAddress = button.getAttribute("data-customer-address");
-                                                const customerDob = button.getAttribute("data-customer-dob");
-
-                                                // Điền dữ liệu vào form trong modal "Chỉnh sửa"
-                                                document.getElementById("customerId").value = customerId;
-                                                document.getElementById("full-name").value = customerName;
-                                                document.getElementById("email").value = customerEmail;
-                                                document.getElementById("number").value = customerPhone;
-                                                document.getElementById("address").value = customerAddress;
-                                                document.getElementById("dob").value = customerDob;
-
-                                                // Chọn giới tính
-                                                document.getElementById("male").checked = customerGender === "M";
-                                                document.getElementById("female").checked = customerGender === "F";
-                                            });
-
-                                            // Ẩn thông báo sau 5 giây nếu có
-                                            const statusMessage = document.getElementById("statusMess");
-                                            if (statusMessage) {
-                                                setTimeout(() => {
-                                                    statusMessage.style.display = "none";
-                                                }, 5000);
-                                            }
-                                        });
-
-        </script>
 
     </body>
 

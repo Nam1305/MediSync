@@ -1,6 +1,5 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,7 +64,7 @@
                                 <ul>
                                     <li><a href="ListDoctor">Doctors</a></li>
                                     <li><a href="addStaff.jsp">Add Doctor</a></li>
-                                    
+
                                 </ul>
                             </div>
                         </li>
@@ -188,53 +187,7 @@
                         </div>
 
                         <ul class="list-unstyled mb-0">
-                            <!--                            <li class="list-inline-item mb-0">
-                                                            <div class="dropdown dropdown-primary">
-                                                                <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/language/american.png" class="avatar avatar-ex-small rounded-circle p-2" alt=""></button>
-                                                                <div class="dropdown-menu dd-menu drop-ups dropdown-menu-end bg-white shadow border-0 mt-3 p-2" data-simplebar style="height: 175px;">
-                                                                    <a href="javascript:void(0)" class="d-flex align-items-center">
-                                                                        <img src="assets/images/language/chinese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                                            <small class="text-dark mb-0">Chinese</small>
-                                                                        </div>
-                                                                    </a>
-                            
-                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                                                        <img src="assets/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                                            <small class="text-dark mb-0">European</small>
-                                                                        </div>
-                                                                    </a>
-                            
-                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                                                        <img src="assets/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                                            <small class="text-dark mb-0">Indian</small>
-                                                                        </div>
-                                                                    </a>
-                            
-                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                                                        <img src="assets/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                                            <small class="text-dark mb-0">Japanese</small>
-                                                                        </div>
-                                                                    </a>
-                            
-                                                                    <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
-                                                                        <img src="assets/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
-                                                                        <div class="flex-1 text-left ms-2 overflow-hidden">
-                                                                            <small class="text-dark mb-0">Russian</small>
-                                                                        </div>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </li>-->
 
-                            <!--                            <li class="list-inline-item mb-0 ms-1">
-                                                            <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                                                <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="settings" class="fea icon-sm"></i></div>
-                                                            </a>
-                                                        </li>-->
 
                             <li class="list-inline-item mb-0 ms-1">
                                 <div class="dropdown dropdown-primary">
@@ -350,7 +303,8 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Họ và Tên</label>
-                                                    <input name="full-name" id="full-name" type="text" class="form-control" placeholder="Full Name:">
+                                                    <input name="full-name" id="full-name" type="text" 
+                                                           class="form-control" placeholder="Full Name:" value="${fullName}">
                                                 </div>
                                             </div><!--end col-->   
 
@@ -358,11 +312,11 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Giới tính</label>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="gender" id="male" value="M" checked>
+                                                        <input class="form-check-input" type="radio" name="gender" id="male" value="M" checked  ${gender == 'M' ? 'checked' : ''}>
                                                         <label class="form-check-label" for="male">Nam</label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="gender" id="female" value="F">
+                                                        <input class="form-check-input" type="radio" name="gender" id="female" value="F" ${gender == 'F' ? 'checked' : ''}>
                                                         <label class="form-check-label" for="female">Nữ</label>
                                                     </div>
                                                 </div>
@@ -371,28 +325,28 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Your Email</label>
-                                                    <input name="email" id="email" type="email" class="form-control" placeholder="Your email:">
+                                                    <input name="email" id="email" type="email" class="form-control" placeholder="Your email:" value="${email}">
                                                 </div> 
                                             </div><!--end col-->
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Số Điện Thoại</label>
-                                                    <input name="number" id="number" type="text" class="form-control" placeholder="Phone number:">
+                                                    <input name="number" id="number" type="text" class="form-control" placeholder="Phone number:" value="${phoneNumber}">
                                                 </div>                                                                               
                                             </div><!--end col-->
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Ngày sinh</label>
-                                                    <input name="date" type="text" class="flatpickr flatpickr-input form-control" id="checkin-date">
+                                                    <input name="date" type="text" class="flatpickr flatpickr-input form-control" id="checkin-date" value="${dateOfBirth}">
                                                 </div>
                                             </div><!--end col-->
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label"> Mật Khẩu</label>
-                                                    <input name="password" type="text" class="form-control" placeholder="Your password :">
+                                                    <label class="form-label">Mật Khẩu</label>
+                                                    <input name="password" type="password" class="form-control" placeholder="Your password :">
                                                 </div>
                                             </div><!--end col-->
 
@@ -403,12 +357,24 @@
                                                 </div> 
                                             </div><!--end col-->
 
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Xác nhận mật khẩu</label>
+                                                    <input name="confirmPassword" type="password" class="form-control" placeholder="Your password :">
+                                                </div>
+                                            </div><!--end col-->
+
                                             <!-- Hiển thị thông báo lỗi chung -->
-                                            <div>
-                                                <c:if test="${not empty error}">
-                                                    <div class="alert alert-danger mt-3">${error}</div>
-                                                </c:if>
-                                            </div>
+                                            <c:if test="${not empty errors}">
+                                                <div class="alert alert-danger mt-3">
+
+                                                    <c:forEach var="error" items="${errors}">
+                                                        <p>${error}</p>
+                                                    </c:forEach>
+
+                                                </div>
+                                            </c:if>
+
                                             <!-- End Error Message -->
 
                                             <!-- Hiển thị thông báo thành công nếu có -->

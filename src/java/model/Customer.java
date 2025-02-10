@@ -37,6 +37,20 @@ public class Customer {
         this.phone = phone;
     }
 
+    public Customer(int customerId, String name, String avatar, String email, String address, Date dateOfBirth, String gender, String phone) {
+        this.customerId = customerId;
+        this.name = name;
+        this.avatar = avatar;
+        this.email = email;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.phone = phone;
+    }
+    
+    
+    
+
     public Customer(String name, String avatar, String email, String password, Date dateOfBirth, String status, String phone) {
         this.name = name;
         this.avatar = avatar;

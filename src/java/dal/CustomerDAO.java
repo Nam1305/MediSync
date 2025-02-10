@@ -4,11 +4,36 @@ import model.Customer;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  *
  * @author DIEN MAY XANH
  */
 public class CustomerDAO extends DBContext {
+
+    public Customer getCustomerById(int customerId) {
+        String sql = "SELECT name, gender, email, phone, address, dateOfBirth, avatar FROM Customer WHERE customerId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(customerId); // customerId lấy từ tham số
+                customer.setName(rs.getString("name"));
+                customer.setGender(rs.getString("gender").trim());
+                customer.setEmail(rs.getString("email"));
+                customer.setPhone(rs.getString("phone"));
+                customer.setAddress(rs.getString("address"));
+                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
+                customer.setAvatar(rs.getString("avatar"));
+                return customer;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 
     public Customer getCustomerByEmail(String email) {
         String sql = "SELECT customerId, name, avatar, email, password, address, dateOfBirth, bloodType, gender, status, phone FROM Customer WHERE email = ?";
@@ -104,7 +129,7 @@ public class CustomerDAO extends DBContext {
         }
         return listCustomer;
     }
-    
+
     public int getTotalCustomer() {
         int total = 0;
         String sql = "SELECT COUNT(*) FROM Customer";
@@ -392,6 +417,58 @@ public class CustomerDAO extends DBContext {
         return false;
     }
     
+    public boolean isPhoneExists(String phone) {
+        String query = "SELECT COUNT(*) FROM Customer WHERE phone = ? AND status = 'Active'";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, phone);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in isPhoneExists: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    
+    
+    public boolean checkEmailOtherCustomer(String email, int customerId) {
+        String query = "SELECT COUNT(*) FROM Customer WHERE email = ? AND customerId != ? and status = 'Active'";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, email);
+            ps.setInt(2,customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in checkEmailOtherPeople: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean checkPhoneOtherCustomer(String phone, int customerId) {
+        String query = "SELECT COUNT(*) FROM Customer WHERE phone = ? AND customerId != ? and status = 'Active'";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, phone);
+            ps.setInt(2,customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in isPhoneExists: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public String getDepartmentByCustomerID(int customerId) {
         String departmentName = null;
         String sql = "SELECT d.departmentName AS Department "
@@ -496,9 +573,11 @@ public class CustomerDAO extends DBContext {
         }
         return appointmentTime;
     }
+    
+    
 
     public static void main(String[] args) {
         CustomerDAO d = new CustomerDAO();
-        System.out.println(d.getCustomerByEmail("hoangduc060704@gmail.com"));
+        
     }
 }
