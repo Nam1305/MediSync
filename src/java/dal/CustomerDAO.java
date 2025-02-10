@@ -5,13 +5,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author DIEN MAY XANH
- */
+
 public class CustomerDAO extends DBContext {
 
-<<<<<<< HEAD
     public Customer getCustomerById(int customerId) {
         String sql = "SELECT name, gender, email, phone, address, dateOfBirth, avatar FROM Customer WHERE customerId = ?";
         try {
@@ -34,7 +30,8 @@ public class CustomerDAO extends DBContext {
             ex.printStackTrace();
         }
         return null;
-=======
+    }
+
     private Customer mapResultSetToCustomer(ResultSet rs) throws SQLException {
         Customer customer = new Customer();
         customer.setCustomerId(rs.getInt("customerId"));
@@ -49,7 +46,6 @@ public class CustomerDAO extends DBContext {
         customer.setStatus(rs.getString("status"));
         customer.setPhone(rs.getString("phone"));
         return customer;
->>>>>>> c0770034fbcf6b04bb5df0d5a0b36fbd2106ae67
     }
 
     public Customer getCustomerByEmail(String email) {
@@ -349,7 +345,7 @@ public class CustomerDAO extends DBContext {
         }
         return false;
     }
-<<<<<<< HEAD
+
     
     public boolean isPhoneExists(String phone) {
         String query = "SELECT COUNT(*) FROM Customer WHERE phone = ? AND status = 'Active'";
@@ -402,8 +398,7 @@ public class CustomerDAO extends DBContext {
         }
         return false;
     }
-=======
->>>>>>> c0770034fbcf6b04bb5df0d5a0b36fbd2106ae67
+
 
     public String getDepartmentByCustomerID(int customerId) {
         String departmentName = null;
