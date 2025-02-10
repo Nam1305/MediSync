@@ -257,22 +257,22 @@
                 <div class="carousel-inner">
                     <c:choose>
                         <c:when test="${empty banners}">
-                            <div class="carousel-item active" style="height: 500px;">
+                            <div class="carousel-item active" style="width: 100vw; height: 100vh;">
                                 <div class="banner-image w-100 h-100" 
                                      style="background: url('assets/images/bg/01.jpg') center center no-repeat;
                                      background-size: cover;
                                      transition: opacity 0.5s ease-in-out;">
                                     <div class="bg-overlay bg-overlay-dark"></div>
                                     <div class="container h-100">
-                                        <div class="row h-100 align-items-center">
+                                        <div class="row h-100 align-items-center justify-content-center text-center">
                                             <div class="col-12">
                                                 <div class="heading-title">
                                                     <h4 class="display-4 fw-bold text-white title-dark mb-4">
-                                                        ${banner.blogName}
+                                                        Chào mừng đến với trang web của chúng tôi!
                                                     </h4>
                                                     <div class="mt-4">
-                                                        <a href="blog-detail?blogId=${banner.blogId}" class="btn btn-primary">
-                                                            Xem chi tiết
+                                                        <a href="blog.html" class="btn btn-primary">
+                                                            Xem thêm
                                                         </a>
                                                     </div>
                                                 </div>
@@ -284,15 +284,15 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach items="${banners}" var="banner" varStatus="status">
-                                <div class="carousel-item ${status.first ? 'active' : ''}"
-                                     style="height: 500px;">
+                                <div class="carousel-item ${status.first ? 'active' : ''}" 
+                                     style="width: 100vw; height: 100vh;">
                                     <div class="banner-image w-100 h-100" 
                                          style="background: url('${banner.image}') center center no-repeat;
                                          background-size: cover;
                                          transition: opacity 0.5s ease-in-out;">
                                         <div class="bg-overlay bg-overlay-dark"></div>
                                         <div class="container h-100">
-                                            <div class="row h-100 align-items-center">
+                                            <div class="row h-100 align-items-center justify-content-center text-center">
                                                 <div class="col-12">
                                                     <div class="heading-title">
                                                         <h4 class="display-4 fw-bold text-white title-dark mb-4">
@@ -313,6 +313,7 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
+
                 <c:if test="${banners.size() > 1}">
                     <button class="carousel-control-prev" type="button" 
                             data-bs-target="#bannerCarousel" data-bs-slide="prev">
@@ -338,6 +339,7 @@
                 </c:if>
             </div>
         </section>
+
         <!-- End Hero -->
 
 
@@ -354,21 +356,21 @@
                 </div>
             </div><!--end col-->
         </div><!--end row-->
-
         <div class="row">
             <c:forEach items="${departments}" var="dept">
                 <div class="col-xl-3 col-md-4 col-12 mt-5">
-                    <div class="card features feature-primary border-0">
-                        <div class="icon text-center rounded-md">
-                            <i class="ri-stethoscope-fill h3 mb-0"></i>
+                    <div class="card features feature-primary border-0 d-flex flex-column align-items-center text-center p-3">
+                        <div class="icon rounded-md">
+                            <i class="ri-hospital-fill h3 mb-2"></i> 
                         </div>
-                        <div class="card-body p-0 mt-3">
-                            <a href="departments.html" class="title text-dark h5">${dept.departmentName}</a>
+                        <div class="card-body p-0 mt-2">
+                            <a href="departments.html" class="title text-dark h5 d-block">${dept.departmentName}</a>
                         </div>
                     </div>
                 </div>
             </c:forEach>
         </div>
+
 
         <!-- Start -->
         <section class="section">
@@ -381,12 +383,12 @@
                     </div><!--end col-->
                 </div><!--end row-->
 
-                <div class="row align-items-center">
+                <div class="row d-flex flex-wrap justify-content-center">
                     <c:forEach items="${topDoctors}" var="doctor">
-                        <div class="col-xl-3 col-lg-3 col-md-6 mt-4 pt-2">
-                            <div class="card team border-0 rounded shadow overflow-hidden">
+                        <div class="col-xl-3 col-lg-3 col-md-6 mt-4 pt-2 d-flex">
+                            <div class="card team border-0 rounded shadow overflow-hidden w-100">
                                 <div class="team-img position-relative">
-                                    <img src="${doctor.avatar}" class="img-fluid" alt="${doctor.name}">
+                                    <img src="${doctor.avatar}" class="img-fluid w-100" alt="${doctor.name}" style="height: 250px; object-fit: cover;">
                                 </div>
                                 <div class="card-body content text-center">
                                     <a href="doctor-team-one.html" class="title text-dark h5 d-block mb-0">${doctor.name}</a>
@@ -395,11 +397,12 @@
                             </div>
                         </div>
                     </c:forEach>
-                </div><!--end col-->
+                </div><!--end row-->
 
                 <div class="col-12 mt-4 pt-2 text-center">
                     <a href="doctor-team-one.html" class="btn btn-primary">Xem thêm</a>
                 </div><!--end col-->
+
             </div><!--end row-->
     </div><!--end container-->
 </section><!--end section-->
@@ -407,7 +410,7 @@
 
 
 //<!-- Sua o doan nay -->
-<div class="container mt-100 mt-60">
+<div class="container mt-100 mt-60" style="margin-top: -5%;">
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="section-title mb-4 pb-2 text-center">
@@ -416,13 +419,15 @@
         </div><!--end col-->
     </div><!--end row-->
 
-
     <div class="row">
         <c:forEach items="${blogs}" var="blog">
-            <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
-                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                    <img src="${blog.image}" class="img-fluid" alt="${blog.blogName}">
-                    <div class="card-body p-4">
+            <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2 d-flex">
+                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden d-flex flex-column w-100">
+                    <!-- Đảm bảo ảnh có kích thước đồng đều -->
+                    <div style="width: 100%; height: 250px; overflow: hidden;">
+                        <img src="${blog.image}" class="img-fluid w-100 h-100" alt="${blog.blogName}" style="object-fit: cover;">
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column flex-grow-1">
                         <ul class="list-unstyled mb-2">
                             <li class="list-inline-item text-muted small me-3">
                                 <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
@@ -430,17 +435,19 @@
                             </li>
                         </ul>
                         <a href="blog-detail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
-                        <div class="post-meta d-flex justify-content-between mt-3">
+                        <div class="post-meta mt-auto d-flex justify-content-between mt-3">
                             <a href="blog-detail?blogId=${blog.blogId}" class="link">Chi tiết <i class="mdi mdi-chevron-right align-middle"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </c:forEach>
-    </div><!--end col-->
+    </div><!--end row-->
+
     <div class="col-12 mt-4 pt-2 text-center">
         <a href="listBlog" class="btn btn-primary">Xem thêm</a>
     </div><!--end col-->
+
 </div><!--end row-->
 </div><!--end container-->
 </section><!--end section-->
