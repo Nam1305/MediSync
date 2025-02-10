@@ -50,12 +50,12 @@
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
                         <a href="landing/index-two.html">
-                        <!--<a href="index.html">-->
+                            <!--<a href="index.html">-->
                             <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
                             <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
                         </a>
                     </div>
-                    
+
                     <ul class="sidebar-menu pt-3">
                         <li><a href="adminDashBoard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
                         <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
@@ -66,7 +66,7 @@
                                 <ul>
                                     <li><a href="ListDoctor">Doctors</a></li>
                                     <li><a href="addStaff.jsp">Add Staff</a></li>
-                                    
+
                                 </ul>
                             </div>
                         </li>
@@ -126,7 +126,7 @@
                                     <li><a href="terms.html">Terms & Policy</a></li>
                                     <li><a href="privacy.html">Privacy Policy</a></li>
                                     <li><a href="error.html">404 !</a></li>
-                                    <li><a href="blank-page.html">Blank Page</a></li>
+                                    <li><a href="manage-banners">Manage Banners</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -187,7 +187,7 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <ul class="list-unstyled mb-0">
                             <li class="list-inline-item mb-0">
                                 <div class="dropdown dropdown-primary">
@@ -199,28 +199,28 @@
                                                 <small class="text-dark mb-0">Chinese</small>
                                             </div>
                                         </a>
-        
+
                                         <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
                                             <img src="assets/images/language/european.png" class="avatar avatar-client rounded-circle shadow" alt="">
                                             <div class="flex-1 text-left ms-2 overflow-hidden">
                                                 <small class="text-dark mb-0">European</small>
                                             </div>
                                         </a>
-        
+
                                         <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
                                             <img src="assets/images/language/indian.png" class="avatar avatar-client rounded-circle shadow" alt="">
                                             <div class="flex-1 text-left ms-2 overflow-hidden">
                                                 <small class="text-dark mb-0">Indian</small>
                                             </div>
                                         </a>
-        
+
                                         <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
                                             <img src="assets/images/language/japanese.png" class="avatar avatar-client rounded-circle shadow" alt="">
                                             <div class="flex-1 text-left ms-2 overflow-hidden">
                                                 <small class="text-dark mb-0">Japanese</small>
                                             </div>
                                         </a>
-        
+
                                         <a href="javascript:void(0)" class="d-flex align-items-center mt-2">
                                             <img src="assets/images/language/russian.png" class="avatar avatar-client rounded-circle shadow" alt="">
                                             <div class="flex-1 text-left ms-2 overflow-hidden">
@@ -241,7 +241,7 @@
                                 <div class="dropdown dropdown-primary">
                                     <button type="button" class="btn btn-icon btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="mail" class="fea icon-sm"></i></button>
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">4 <span class="visually-hidden">unread mail</span></span>
-                                    
+
                                     <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 px-2 py-2" data-simplebar style="height: 320px; width: 300px;">
                                         <a href="#" class="d-flex align-items-center justify-content-between py-2">
                                             <div class="d-inline-flex position-relative overflow-hidden">
@@ -328,7 +328,7 @@
                                     </div>
                                 </div>
                             </div><!--end col-->
-                            
+
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
                                 <div class="card features feature-primary rounded border-0 shadow p-4">
                                     <div class="d-flex align-items-center">
@@ -342,7 +342,7 @@
                                     </div>
                                 </div>
                             </div><!--end col-->
-                            
+
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
                                 <div class="card features feature-primary rounded border-0 shadow p-4">
                                     <div class="d-flex align-items-center">
@@ -356,7 +356,7 @@
                                     </div>
                                 </div>
                             </div><!--end col-->
-                            
+
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
                                 <div class="card features feature-primary rounded border-0 shadow p-4">
                                     <div class="d-flex align-items-center">
@@ -368,10 +368,10 @@
                                             <p class="text-muted mb-0">Vehicles</p>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div><!--end col-->
-                            
+
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
                                 <div class="card features feature-primary rounded border-0 shadow p-4">
                                     <div class="d-flex align-items-center">
@@ -385,7 +385,7 @@
                                     </div>
                                 </div>
                             </div><!--end col-->
-                            
+
                             <div class="col-xl-2 col-lg-4 col-md-4 mt-4">
                                 <div class="card features feature-primary rounded border-0 shadow p-4">
                                     <div class="d-flex align-items-center">
@@ -406,7 +406,7 @@
                                 <div class="card shadow border-0 p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h6 class="align-items-center mb-0">Patients visit by Gender</h6>
-                                        
+
                                         <div class="mb-0 position-relative">
                                             <select class="form-select form-control" id="yearchart">
                                                 <option selected>2020</option>
@@ -423,7 +423,7 @@
                                 <div class="card shadow border-0 p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h6 class="align-items-center mb-0">Patients by Department</h6>
-                                        
+
                                         <div class="mb-0 position-relative">
                                             <select class="form-select form-control" id="dailychart">
                                                 <option selected>Today</option>
@@ -559,7 +559,7 @@
                                                         <img src="assets/images/doctors/02.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Hey Christopher</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>59 min ago</small>
@@ -575,7 +575,7 @@
                                                         <img src="assets/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Hello Cristino</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>45 min ago</small>
@@ -591,7 +591,7 @@
                                                         <img src="assets/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">How can i help you?</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>44 min ago</small>
@@ -607,7 +607,7 @@
                                                         <img src="assets/images/doctors/02.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Nice to meet you</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>42 min ago</small>
@@ -623,7 +623,7 @@
                                                         <img src="assets/images/doctors/02.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Hope you are doing fine?</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>40 min ago</small>
@@ -639,7 +639,7 @@
                                                         <img src="assets/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">I'm good thanks for asking</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>45 min ago</small>
@@ -655,7 +655,7 @@
                                                         <img src="assets/images/doctors/02.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">I am intrested to know more about your prices and services you offer</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>35 min ago</small>
@@ -671,7 +671,7 @@
                                                         <img src="assets/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Sure please check below link to find more useful information <a href="https://1.envato.market/landrick" target="_blank" class="text-primary">https://shreethemes.in/landrick/</a></p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>25 min ago</small>
@@ -687,7 +687,7 @@
                                                         <img src="assets/images/doctors/02.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Thank you 😊</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>20 min ago</small>
@@ -703,7 +703,7 @@
                                                         <img src="assets/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                                         <i class="mdi mdi-checkbox-blank-circle text-success on-off align-text-bottom"></i>
                                                     </div>
-                                                        
+
                                                     <div class="flex-1 chat-msg" style="max-width: 500px;">
                                                         <p class="text-muted small shadow px-3 py-2 bg-white rounded mb-1">Welcome</p>
                                                         <small class="text-muted msg-time"><i class="uil uil-clock-nine me-1"></i>18 min ago</small>
@@ -733,7 +733,7 @@
                                     <div class="p-4 border-bottom">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h6 class="mb-0"><i class="uil uil-user text-primary me-1 h5"></i> Patients Reviews</h6>
-                                            
+
                                             <div class="mb-0 position-relative">
                                                 <select class="form-select form-control" id="dailypatient">
                                                     <option selected>New</option>
@@ -917,7 +917,7 @@
             </div>
         </div>
         <!-- Offcanvas End -->
-        
+
         <!-- javascript -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->
@@ -929,7 +929,7 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
-        
+
     </body>
 
 </html>

@@ -1,41 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// Blog.java
 package model;
 
 import java.sql.Date;
 
-/**
- *
- * @author ADK_Altmile
- */
-//Them boi Nguyen Dinh Chinh  1-2-25 
-
 public class Blog {
-
     private int blogId;
     private String blogName;
     private String content;
     private String image;
     private String author;
     private Date date;
+    private int typeId;
+    private int selectedBanner;
 
-    // Constructor không tham số
+    // Default constructor
     public Blog() {
     }
 
-    // Constructor đầy đủ tham số
-    public Blog(int blogId, String blogName, String content, String image, String author, Date date) {
+    public Blog(int blogId, String blogName, String content, String image, String author, Date date, int typeId, int selectedBanner) {
         this.blogId = blogId;
         this.blogName = blogName;
         this.content = content;
         this.image = image;
         this.author = author;
         this.date = date;
+        this.typeId = typeId;
+        this.selectedBanner = selectedBanner;
     }
 
-    // Getter và Setter
     public int getBlogId() {
         return blogId;
     }
@@ -84,16 +76,26 @@ public class Blog {
         this.date = date;
     }
 
-    // toString để debug nhanh
+    public int getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
+    }
+
+    public int getSelectedBanner() {
+        return selectedBanner;
+    }
+
+    public void setSelectedBanner(int selectedBanner) {
+        this.selectedBanner = selectedBanner;
+    }
+
     @Override
     public String toString() {
-        return "Blog{"
-                + "blogId=" + blogId
-                + ", blogName='" + blogName + '\''
-                + ", content='" + content + '\''
-                + ", image='" + image + '\''
-                + ", author='" + author + '\''
-                + ", date=" + date
-                + '}';
+        return "Blog{" + "blogId=" + blogId + ", blogName=" + blogName + ", content=" + content + ", image=" + image + ", author=" + author + ", date=" + date + ", typeId=" + typeId + ", selectedBanner=" + selectedBanner + '}';
     }
+
+    
 }

@@ -18,20 +18,21 @@ import model.Department;
 
 @WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
 public class HomeServlet extends HttpServlet {
-    
+
     private final DoctorDAO doctorDAO;
     private final BlogDAO blogDAO;
     private final DepartmentDAO departmentDAO;
 
-    
     public HomeServlet() {
         this.doctorDAO = new DoctorDAO();
         this.blogDAO = new BlogDAO();
         this.departmentDAO = new DepartmentDAO();
     }
-    
+
     private boolean isUserLoggedIn(HttpSession session) {
-        if (session == null) return false;
+        if (session == null) {
+            return false;
+        }
         Staff staff = (Staff) session.getAttribute("staff");
         Customer customer = (Customer) session.getAttribute("customer");
         return staff != null || customer != null;
@@ -43,12 +44,12 @@ public class HomeServlet extends HttpServlet {
         try {
             // Get session without creating a new one if it doesn't exist
             HttpSession session = request.getSession(false);
-            
+
             // Check login status and set appropriate attributes
             if (isUserLoggedIn(session)) {
                 Staff staff = (Staff) session.getAttribute("staff");
                 Customer customer = (Customer) session.getAttribute("customer");
-                
+
                 // Set the logged-in user info for the view
                 if (staff != null) {
                     request.setAttribute("staff", staff);
@@ -57,9 +58,12 @@ public class HomeServlet extends HttpServlet {
                 }
             }
 
+            List<Blog> activeBanners = blogDAO.getActiveBanners();
+            request.setAttribute("banners", activeBanners);
+
             List<Department> departments = departmentDAO.getDepartmentsWithKhoa();
             request.setAttribute("departments", departments);
-            
+
             // Get top rated doctors
             List<Staff> topDoctors = doctorDAO.getTopRatedDoctors();
             request.setAttribute("topDoctors", topDoctors);
@@ -70,7 +74,7 @@ public class HomeServlet extends HttpServlet {
 
             // Forward to the home page
             request.getRequestDispatcher("home.jsp").forward(request, response);
-            
+
         } catch (ServletException | IOException e) {
             // Log the error and handle it appropriately
             e.printStackTrace();

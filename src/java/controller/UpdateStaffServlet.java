@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import model.Department;
 import model.Role;
 import model.Staff;
@@ -54,7 +55,30 @@ public class UpdateStaffServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+    String staffIdStr = request.getParameter("id");
+        try {
+            int staffId = Integer.parseInt(staffIdStr);
+            DoctorDAO staff = new DoctorDAO();
+            Staff currentstaff = staff.getStaffById(staffId);
+            if (currentstaff != null) {
+                // Nếu tìm thấy nhân viên, gửi thông tin đến trang update.jsp
+                request.setAttribute("staff", currentstaff); // Đặt đối tượng Dish vào attribute
+                request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
+            } else {
+                // Nếu không tìm thấy nhân viên , thông báo lỗi
+                request.setAttribute("error", "Dish with ID " + staffId + " not found.");
+                request.getRequestDispatcher("updateDish.jsp").forward(request, response); // Quay lại danh sách
+            }
+        }catch (NumberFormatException e) {
+            // Xử lý lỗi nếu id không phải là số nguyên
+            request.setAttribute("error", "Invalid ID format.");
+            request.getRequestDispatcher("listDoctor").forward(request, response); // Quay lại danh sách
+        } catch (Exception e) {
+            // Xử lý các lỗi khác
+            System.out.println(e);
+            request.setAttribute("error", "An unexpected error occurred.");
+            request.getRequestDispatcher("listDoctor").forward(request, response); // Quay lại danh sách
+        }
     }
 
     /**
@@ -92,7 +116,6 @@ public class UpdateStaffServlet extends HttpServlet {
 //        }
 //        // Giữ nguyên avatar cũ
 //        String avatarPath = existingStaff.getAvatar();
-    
         // Lấy position hiện tại của nhân viên
         PositionDAO positionDao = new PositionDAO();
         String currentPosition = positionDao.getPositionByStaffId(staffId);
@@ -100,23 +123,28 @@ public class UpdateStaffServlet extends HttpServlet {
         // Kiểm tra điều kiện dữ liệu đầu vào
         if (isEmpty(name) || isEmpty(email) || isEmpty(phone) || isEmpty(password) || isEmpty(gender) || isEmpty(dateOfBirthStr)) {
             request.setAttribute("error", "All fields are required!");
-            request.getRequestDispatcher("ListDoctor").forward(request, response);
+            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
             return;
         }
 
         if (!checkPhone(phone)) {
             request.setAttribute("error", "Invalid phone number! It must start with 09, 08, or 03.");
-            request.getRequestDispatcher("ListDoctor").forward(request, response);
+            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
             return;
         }
 
         if (!checkPassword(password)) {
             request.setAttribute("error", "Password must be at least 8 characters and include uppercase, lowercase, special character.");
-            request.getRequestDispatcher("ListDoctor").forward(request, response);
+            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
             return;
         }
-
+        // ép kiểu cho dob
         java.sql.Date dateOfBirth = java.sql.Date.valueOf(dateOfBirthStr);
+        if (dateOfBirth.toLocalDate().isAfter(LocalDate.now())) {
+            request.setAttribute("error", "Ngày sinh không hợp lệ!");
+            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            return;
+        }
         //Mã hóa mật khẩu
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
@@ -127,6 +155,11 @@ public class UpdateStaffServlet extends HttpServlet {
         Role role = new Role();
         role.setRoleId(roleId);
         DoctorDAO staff = new DoctorDAO();
+        if (staff.checkPhoneExists(phone)) {
+            request.setAttribute("error", "Phone number already exists!");
+            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
+            return;
+        }
         // Cập nhật thông tin nhân viên
         Staff updateStaff = new Staff(staffId, name, email, "", phone, hashedPassword, dateOfBirth, position, gender, status, description, department, role);
         boolean isUpdate = staff.updateStaff(updateStaff);
@@ -135,12 +168,12 @@ public class UpdateStaffServlet extends HttpServlet {
         if (isUpdate && !updateStaff.getPosition().equals(currentPosition)) {
             positionDao.insertPositionHistory(staffId, position);
         }
-         
+
         if (isUpdate) {
             response.sendRedirect("ListDoctor");
         } else {
             request.setAttribute("error", "Failed to update staff");
-            request.getRequestDispatcher("ListDoctor").forward(request, response);
+            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
         }
     }
 
@@ -163,7 +196,7 @@ public class UpdateStaffServlet extends HttpServlet {
         // $                 : Kết thúc chuỗi
         return password.matches(passwordPattern);
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *

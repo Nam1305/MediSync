@@ -236,6 +236,47 @@ public class DoctorDAO extends DBContext {
         }
         return false;
     }
+      public Staff getStaffById(int staffId) {
+        String sql = "SELECT * FROM Staff WHERE staffId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, staffId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Staff staff = new Staff();
+                staff.setStaffId(rs.getInt("staffId"));
+                staff.setName(rs.getString("name"));
+                staff.setEmail(rs.getString("email"));
+                staff.setAvatar(rs.getString("avatar"));
+                staff.setPhone(rs.getString("phone"));
+                staff.setPassword(rs.getString("password"));
+                staff.setDateOfBirth(rs.getDate("dateOfBirth"));
+                staff.setPosition(positionDao.getPositionByStaffId(staffId));
+                staff.setGender(rs.getString("gender"));
+                staff.setStatus(rs.getString("status"));
+                staff.setDescription(rs.getString("description"));
+                staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
+                staff.setDepartment(departDao.getDepartmentById(rs.getInt("departmentId")));
+                return staff;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null; // Trả về null nếu không tìm thấy nhân viên
+    }
+
+    public boolean checkPhoneExists(String phone) {
+        String sql = "SELECT TOP 1 phone FROM Staff WHERE phone = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, phone);
+            ResultSet rs = ps.executeQuery();
+            return rs.next(); // Nếu có dữ liệu, số điện thoại đã tồn tại
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false; // Mặc định trả về false nếu có lỗi
+    }
 //    public static void main(String[] args) {
 //        DoctorDAO doctor = new DoctorDAO();
 //        System.out.println(doctor.getAllDoctor());

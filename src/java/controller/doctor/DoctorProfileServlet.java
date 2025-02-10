@@ -4,6 +4,7 @@
  */
 package controller.doctor;
 
+import dal.CustomerDAO;
 import dal.DepartmentDAO;
 import dal.StaffDAO;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.util.List;
 import model.Department;
 import model.Staff;
 import java.sql.*;
+import util.Validation;
 
 /**
  *
@@ -33,8 +35,10 @@ import java.sql.*;
 )
 public class DoctorProfileServlet extends HttpServlet {
 
+    Validation valid = new Validation();
     DepartmentDAO depart = new DepartmentDAO();
     StaffDAO std = new StaffDAO();
+    CustomerDAO ctm = new CustomerDAO();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -78,17 +82,39 @@ public class DoctorProfileServlet extends HttpServlet {
                 : request.getParameter("action");
         HttpSession session = request.getSession();
         Staff st = (Staff) session.getAttribute("staff");
+        List<Department> listd = depart.getAllDepartment();
         switch (action) {
             case "updateprofile":
-                st.setName(request.getParameter("name"));
-                st.setEmail(request.getParameter("email"));
-                st.setPhone(request.getParameter("phone"));
+                if (std.checkExitEMail(request.getParameter("email").trim(), st.getStaffId()) != null
+                        || ctm.getCustomerByEmail(request.getParameter("email").trim()) != null) {
+                    request.setAttribute("error", "Email này đã được tài khoản khác sử dụng!");
+                    session.setAttribute("staff", st);
+                    request.setAttribute("listd", listd);
+
+                    request.getRequestDispatcher("doctorProfile.jsp").forward(request, response);
+                    return;
+
+                }
+                if (std.checkExitPhone(request.getParameter("phone").trim(), st.getStaffId()) != null
+                        || ctm.getCustomerByPhone(request.getParameter("phone").trim()) != null) {
+                    request.setAttribute("error", "Số điện thoại này đã được tài khoản khác sử dụng!");
+                    session.setAttribute("staff", st);
+                    request.setAttribute("listd", listd);
+
+                    request.getRequestDispatcher("doctorProfile.jsp").forward(request, response);
+                    return;
+                }
+                st.setName(valid.normalizeFullName(request.getParameter("name")));
+                st.setEmail(request.getParameter("email").trim());
+                st.setPhone(request.getParameter("phone").trim());
                 st.setDateOfBirth(Date.valueOf(request.getParameter("dob")));
                 st.setGender(request.getParameter("gender"));
-                st.setDescription(request.getParameter("des"));
+                st.setDescription(request.getParameter("des").trim());
                 int depid = Integer.parseInt(request.getParameter("depart"));
                 st.setDepartment(depart.getDepartmentById(depid));
                 std.updateProfile(st);
+                request.setAttribute("listd", listd);
+
                 break;
             case "updateavatar":
                 String uploadFolder = request.getServletContext().getRealPath("/uploads");
@@ -101,13 +127,16 @@ public class DoctorProfileServlet extends HttpServlet {
                 if (!imageFilename.equals("")) {
                     imagePart.write(Paths.get(uploadPath.toString(), imageFilename).toString());
                 }
-                std.updateAvatar(st.getStaffId(), "/uploads/" + imageFilename);
-                st.setAvatar("/uploads/" + imageFilename);
+
+                String avt = request.getContextPath() + "/uploads/" + imageFilename;
+                std.updateAvatar(st.getStaffId(), avt);
+                st.setAvatar(avt);
+                request.setAttribute("listd", listd);
 
                 break;
         }
         session.setAttribute("staff", st);
-        doGet(request, response);
+        request.getRequestDispatcher("doctorProfile.jsp").forward(request, response);
     }
 
     /**

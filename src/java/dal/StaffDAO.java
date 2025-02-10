@@ -13,13 +13,9 @@ import model.Staff;
  */
 public class StaffDAO extends DBContext {
 
-    protected final DepartmentDAO departDao;
-    protected final RoleDAO roleDao;
-
-    public StaffDAO() {
-        this.departDao = new DepartmentDAO();
-        this.roleDao = new RoleDAO();
-    }
+    DepartmentDAO departDao = new DepartmentDAO();
+    RoleDAO roleDao = new RoleDAO();
+    PositionDAO posDao = new PositionDAO();
 
     /**
      * Chuyển đổi dữ liệu từ ResultSet sang đối tượng Staff
@@ -33,7 +29,7 @@ public class StaffDAO extends DBContext {
         staff.setPhone(rs.getString("phone"));
         staff.setPassword(rs.getString("password"));
         staff.setDateOfBirth(rs.getDate("dateOfBirth"));
-        staff.setPosition(rs.getString("position"));
+        staff.setPosition(posDao.getPositionByStaffId(rs.getInt("staffId")));
         staff.setGender(rs.getString("gender"));
         staff.setStatus(rs.getString("status"));
         staff.setDescription(rs.getString("description"));
@@ -62,14 +58,11 @@ public class StaffDAO extends DBContext {
         return null;
     }
 
-    /**
-     * Lấy thông tin tài khoản theo email (phương thức gốc được giữ nguyên)
-     */
-    public Staff getAccountByEmail(String email) {
-        String sql = "SELECT * FROM Staff WHERE email = ?";
+    public Staff getStaffByPhone(String phone) {
+        String sql = "SELECT * FROM Staff WHERE phone = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, email);
+            ps.setString(1, phone);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -131,5 +124,43 @@ public class StaffDAO extends DBContext {
             ps.executeUpdate();
         } catch (SQLException e) {
         }
+    }
+
+    public Staff checkExitEMail(String email, int id) {
+        String sql = "select * \n"
+                + "from Staff\n"
+                + "where email = ?\n"
+                + "     and staffId != ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email.trim());
+            ps.setInt(2, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return mapResultSetToStaff(rs);
+            }
+        } catch (SQLException ex) {
+
+        }
+        return null;
+    }
+
+    public Staff checkExitPhone(String phone, int id) {
+        String sql = "select * \n"
+                + "from Staff\n"
+                + "where phone = ?\n"
+                + "     and staffId != ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, phone.trim());
+            ps.setInt(2, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return mapResultSetToStaff(rs);
+            }
+        } catch (SQLException ex) {
+
+        }
+        return null;
     }
 }
