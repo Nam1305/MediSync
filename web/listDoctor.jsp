@@ -329,6 +329,8 @@
                                     <option value="Active">Active</option>
                                     <option value="Inactive">Inactive</option>
                                 </select>
+                                <label for="statusFilter">PageSize</label>
+                                <input type="number" name="pageSize">
                                 <button type="submit">Filter</button>
                             </form>
 
@@ -757,12 +759,12 @@
                                                     }, 5000);
                                                 }
                 </script>-->
-        <script>
+<!--        <script>
                                         function updatePageSize() {
                                             var pageSize = document.getElementById("pageSize").value;
                                             window.location.href = "ListDoctor?page=1&pageSize=" + pageSize;
                                         }
-        </script>
+        </script>-->
 
     </body>
 

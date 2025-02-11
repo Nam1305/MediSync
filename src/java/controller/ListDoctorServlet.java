@@ -47,32 +47,39 @@ public class ListDoctorServlet extends HttpServlet {
         }
     } 
 
-//    private String normalizationSearchQuery(String searchQuery){
-//        return searchQuery.trim().replaceAll("\\s+","");
-//    }
+    private String normalizationSearchQuery(String searchQuery){
+        return searchQuery.trim().replaceAll("\\s+"," ");
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         DoctorDAO doctors = new DoctorDAO();
         int page = 1;
         int pageSize = 5;
+        String PageSize = request.getParameter("pageSize");
+        if(PageSize!= null){
+            pageSize = Integer.parseInt(PageSize);
+        }
         String pageParam = request.getParameter("page");
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
         }
 //        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        String searchQueryNormalized = "";
         String searchQuery = request.getParameter("s");
-        
-//      String searchQueryNormalized = normalizationSearchQuery(searchQuery);
+        if(searchQuery!= null){
+            searchQueryNormalized = normalizationSearchQuery(searchQuery);
+        }
+
         String roleIdParam = request.getParameter("roleId"); // Lấy roleId từ request
         Integer roleId = null;
         String status = request.getParameter("status");
         if (roleIdParam != null && !roleIdParam.isEmpty()) {
             roleId = Integer.parseInt(roleIdParam); // Chuyển về Integer nếu có roleId
         }
-        List<Staff> listDoctor = doctors.getAllDoctor(roleId, status, searchQuery,page, pageSize);
+        List<Staff> listDoctor = doctors.getAllDoctor(roleId, status, searchQueryNormalized,page, pageSize);
         // đóng gói listDoctor và request và truyền sang trang jsp để hiện thị dữ liệu 
-        int totalDoctors = doctors.getTotalDoctorCount(roleId, status, searchQuery);
+        int totalDoctors = doctors.getTotalDoctorCount(roleId, status, searchQueryNormalized);
         int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
         request.setAttribute("listDoctor", listDoctor);
         request.setAttribute("currentPage", page);
