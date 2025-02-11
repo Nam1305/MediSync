@@ -336,20 +336,7 @@
 
                         </div>
 
-                        <div class="row" >
-                            <div class="col-sm-12">
-                                <c:if test="${not empty status}">
-                                    <c:choose>
-                                        <c:when test="${status == 'success'}">
-                                            <div class="alert alert-success" id="statusMess">Staff edited successfully!</div>
-                                        </c:when>
-                                        <c:when test="${status == 'fail'}">
-                                            <div class="alert alert-danger" id="statusMess">Failed to edit Staff. Please try again.</div>
-                                        </c:when>
-                                    </c:choose>
-                                </c:if>
-                            </div>
-                        </div>
+
                         <!-- navbar-of-table -->
                         <div class="row">
                             <div class="col-12 mt-4">
@@ -392,11 +379,11 @@
                                                     <td class="p-3">${doctors.status}</td>
                                                     <td class="text-end p-3">
                                                         <!-- Action Buttons -->
-                                                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary" data-bs-toggle="modal" data-bs-target="#viewprofile">
+                                                        <a href="ViewStaffDetail?id=${doctors.staffId}" class="btn btn-icon btn-pills btn-soft-primary" >
                                                             <i class="uil uil-eye"></i>
                                                         </a>
                                                         <!-- Edit button with data-* attributes for customer info -->
-                                                       <a href="UpdateStaffServlet?id=${doctors.staffId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                        <a href="UpdateStaffServlet?id=${doctors.staffId}" class="btn btn-icon btn-pills btn-soft-success">
                                                             <i class="uil uil-pen"></i> 
                                                         </a>
                                                         <form id="deleteForm${doctors.staffId}" action="deleteStaffServlet" method="post" style="display: inline;">
@@ -415,26 +402,36 @@
                                     </table>
                                     <!-- Phân trang -->
                                     <div class="pagination-container">
+<!--                                        <div class="d-flex align-items-center mb-3">
+                                            <label for="pageSize" class="me-2">Số lượng trên trang:</label>
+                                            <select id="pageSize" class="form-select w-auto" onchange="updatePageSize()">
+                                                <option value="5" ${pageSize == 5 ? 'selected' : ''}>5</option>
+                                                <option value="10" ${pageSize == 10 ? 'selected' : ''}>10</option>
+                                                <option value="20" ${pageSize == 20 ? 'selected' : ''}>20</option>
+                                                <option value="50" ${pageSize == 50 ? 'selected' : ''}>50</option>
+                                            </select>
+                                        </div>-->
                                         <ul class="pagination">
                                             <c:if test="${currentPage > 1}">
                                                 <li class="page-item">
-                                                    <a class="page-link" href="ListDoctor?page=${currentPage - 1}">Previous</a>
+                                                    <a class="page-link" href="ListDoctor?page=${currentPage - 1}&pageSize=${pageSize}">Previous</a>
                                                 </li>
                                             </c:if>
 
                                             <c:forEach var="i" begin="1" end="${totalPages}">
                                                 <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                    <a class="page-link" href="ListDoctor?page=${i}">${i}</a>
+                                                    <a class="page-link" href="ListDoctor?page=${i}&pageSize=${pageSize}">${i}</a>
                                                 </li>
                                             </c:forEach>
 
                                             <c:if test="${currentPage < totalPages}">
                                                 <li class="page-item">
-                                                    <a class="page-link" href="ListDoctor?page=${currentPage + 1}">Next</a>
+                                                    <a class="page-link" href="ListDoctor?page=${currentPage + 1}&pageSize=${pageSize}">Next</a>
                                                 </li>
                                             </c:if>
                                         </ul>
                                     </div>
+
                                 </div>
                             </div>
                         </div><!--end row-->
@@ -521,130 +518,130 @@
         </div>
         <!-- Offcanvas End -->
 
-<!--         Modal start 
-        <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom p-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Profile Settings</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-3 pt-4">
-                        <form class="mt-4" method="post" action="UpdateStaffServlet">
-                             Input Hidden 
-                            <input type="hidden" name="staffId" id="staffId">
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Name</label>
-                                        <input name="name" id="name" type="text" class="form-control" placeholder="Name">
-                                    </div>
-                                </div>end col
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Email</label>
-                                        <input name="email" id="email" type="email" class="form-control" placeholder="Email">
-                                    </div>
-                                </div>end col
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Phone</label>
-                                        <input name="phone" id="phone" type="text" class="form-control" placeholder="Phone">
-                                    </div>
-                                </div>end col
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Password</label>
-                                        <input name="password" id="password" type="password" class="form-control" placeholder="Password">
-                                    </div>
-                                </div>end col
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Date of Birth</label>
-                                        <input name="dateOfBirth" id="dateOfBirth" type="date" class="form-control">
-                                    </div>
-                                </div>end col
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Position</label>
-
-                                        <select name="position" id="position" class="form-control">
-                                            <option value="Doctor">Doctor</option>
-                                            <option value="Expert">Expert</option>
-                                            <option value="Receptionist">Receptionist</option>
-                                        </select>
-                                    </div>
-                                </div>end col
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Gender</label>
-                                        <select name="gender" id="gender" class="form-control">
-                                            <option value="M">Male</option>
-                                            <option value="F">Female</option>
-                                        </select>
-                                    </div>
-                                </div>end col
-
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Status</label>
-                                        <select name="status" id="status" class="form-control">
-                                            <option value="Active">Active</option>
-                                            <option value="Inactive">Inactive</option>
-                                        </select>
-                                    </div>
-                                </div>end col
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Description</label>
-                                            <input name="description" id="description" type="text" class="form-control" placeholder="Description">
-                                        </div>
-                                    </div>end col
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Department</label>
-                                            <select name="departmentId" id="departmentId" class="form-control">
-                                                <option value="1">Khoa nội tổng quát</option>
-                                                <option value="2">Khoa Tai Mũi Họng</option>
-                                                <option value="3">Khoa Xét Nghiệm</option>
-                                                <option value="4">Khoa Ngoại Cơ Bản</option>
-                                                <option value="5">Hành Chính</option>
-                                            </select>
-                                        </div>
-                                    </div>end col
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Role</label>
-                                            <select name="roleId" id="roleId" class="form-control">
-                                                <option value="2">Doctor</option>
-                                                <option value="3">Expert</option>
-                                                <option value="4">Receptionist</option>
-                                            </select>
-                                        </div>
-                                    </div>end col
-                                </div>end row
-
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
-                                    </div>end col
-                                </div>end row
-                        </form>end form
+        <!--         Modal start 
+                <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom p-3">
+                                <h5 class="modal-title" id="exampleModalLabel">Profile Settings</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-3 pt-4">
+                                <form class="mt-4" method="post" action="UpdateStaffServlet">
+                                     Input Hidden 
+                                    <input type="hidden" name="staffId" id="staffId">
+        
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Name</label>
+                                                <input name="name" id="name" type="text" class="form-control" placeholder="Name">
+                                            </div>
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Email</label>
+                                                <input name="email" id="email" type="email" class="form-control" placeholder="Email">
+                                            </div>
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Phone</label>
+                                                <input name="phone" id="phone" type="text" class="form-control" placeholder="Phone">
+                                            </div>
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Password</label>
+                                                <input name="password" id="password" type="password" class="form-control" placeholder="Password">
+                                            </div>
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Date of Birth</label>
+                                                <input name="dateOfBirth" id="dateOfBirth" type="date" class="form-control">
+                                            </div>
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Position</label>
+        
+                                                <select name="position" id="position" class="form-control">
+                                                    <option value="Doctor">Doctor</option>
+                                                    <option value="Expert">Expert</option>
+                                                    <option value="Receptionist">Receptionist</option>
+                                                </select>
+                                            </div>
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Gender</label>
+                                                <select name="gender" id="gender" class="form-control">
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                </select>
+                                            </div>
+                                        </div>end col
+        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Status</label>
+                                                <select name="status" id="status" class="form-control">
+                                                    <option value="Active">Active</option>
+                                                    <option value="Inactive">Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>end col
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Description</label>
+                                                    <input name="description" id="description" type="text" class="form-control" placeholder="Description">
+                                                </div>
+                                            </div>end col
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Department</label>
+                                                    <select name="departmentId" id="departmentId" class="form-control">
+                                                        <option value="1">Khoa nội tổng quát</option>
+                                                        <option value="2">Khoa Tai Mũi Họng</option>
+                                                        <option value="3">Khoa Xét Nghiệm</option>
+                                                        <option value="4">Khoa Ngoại Cơ Bản</option>
+                                                        <option value="5">Hành Chính</option>
+                                                    </select>
+                                                </div>
+                                            </div>end col
+        
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Role</label>
+                                                    <select name="roleId" id="roleId" class="form-control">
+                                                        <option value="2">Doctor</option>
+                                                        <option value="3">Expert</option>
+                                                        <option value="4">Receptionist</option>
+                                                    </select>
+                                                </div>
+                                            </div>end col
+                                        </div>end row
+        
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
+                                            </div>end col
+                                        </div>end row
+                                </form>end form
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-         Modal end 
--->
+                 Modal end 
+        -->
 
         <!-- Profile Start -->
         <div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
@@ -713,54 +710,59 @@
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
 
-<!--        <script>
-                                        document.addEventListener("DOMContentLoaded", function () {
-                                            // Lấy tất cả các nút "Sửa" (edit buttons)
-                                            const editButtons = document.querySelectorAll('[data-bs-target="#editprofile"]');
-
-                                            // Thêm sự kiện click cho mỗi nút "Sửa"
-                                            editButtons.forEach(button => {
-                                                button.addEventListener('click', function () {
-                                                    // Lấy dữ liệu từ các thuộc tính data-* của nút đã nhấn
-                                                    const staffId = this.getAttribute('data-staff-id');
-                                                    const staffName = this.getAttribute('data-staff-name');
-                                                    const staffPhone = this.getAttribute('data-staff-phone');
-                                                    const staffEmail = this.getAttribute('data-staff-email');
-                                                    const staffPosition = this.getAttribute('data-staff-position');
-                                                    const staffGender = this.getAttribute('data-staff-gender');
-                                                    const staffDateOfBirth = this.getAttribute('data-staff-dateOfBirth');
-                                                    const staffStatus = this.getAttribute('data-staff-status');
-                                                    const staffDescription = this.getAttribute('data-staff-description');
-                                                    const departmentId = this.getAttribute('data-staff-departmentId');
-                                                    const roleId = this.getAttribute('data-staff-roleId');
-
-                                                    // Điền dữ liệu vào các trường trong form của modal
-                                                    document.getElementById('staffId').value = staffId;
-                                                    document.getElementById('name').value = staffName;
-                                                    document.getElementById('phone').value = staffPhone;
-                                                    document.getElementById('email').value = staffEmail;
-                                                    document.getElementById('position').value = staffPosition;
-                                                    document.getElementById('gender').value = staffGender;
-                                                    document.getElementById('dateOfBirth').value = staffDateOfBirth;
-                                                    document.getElementById('status').value = staffStatus;
-                                                    document.getElementById('description').value = staffDescription;
-
-                                                    // Cập nhật lựa chọn trong các ô chọn Department và Role
-                                                    document.getElementById('departmentId').value = departmentId;
-                                                    document.getElementById('roleId').value = roleId;
+        <!--        <script>
+                                                document.addEventListener("DOMContentLoaded", function () {
+                                                    // Lấy tất cả các nút "Sửa" (edit buttons)
+                                                    const editButtons = document.querySelectorAll('[data-bs-target="#editprofile"]');
+        
+                                                    // Thêm sự kiện click cho mỗi nút "Sửa"
+                                                    editButtons.forEach(button => {
+                                                        button.addEventListener('click', function () {
+                                                            // Lấy dữ liệu từ các thuộc tính data-* của nút đã nhấn
+                                                            const staffId = this.getAttribute('data-staff-id');
+                                                            const staffName = this.getAttribute('data-staff-name');
+                                                            const staffPhone = this.getAttribute('data-staff-phone');
+                                                            const staffEmail = this.getAttribute('data-staff-email');
+                                                            const staffPosition = this.getAttribute('data-staff-position');
+                                                            const staffGender = this.getAttribute('data-staff-gender');
+                                                            const staffDateOfBirth = this.getAttribute('data-staff-dateOfBirth');
+                                                            const staffStatus = this.getAttribute('data-staff-status');
+                                                            const staffDescription = this.getAttribute('data-staff-description');
+                                                            const departmentId = this.getAttribute('data-staff-departmentId');
+                                                            const roleId = this.getAttribute('data-staff-roleId');
+        
+                                                            // Điền dữ liệu vào các trường trong form của modal
+                                                            document.getElementById('staffId').value = staffId;
+                                                            document.getElementById('name').value = staffName;
+                                                            document.getElementById('phone').value = staffPhone;
+                                                            document.getElementById('email').value = staffEmail;
+                                                            document.getElementById('position').value = staffPosition;
+                                                            document.getElementById('gender').value = staffGender;
+                                                            document.getElementById('dateOfBirth').value = staffDateOfBirth;
+                                                            document.getElementById('status').value = staffStatus;
+                                                            document.getElementById('description').value = staffDescription;
+        
+                                                            // Cập nhật lựa chọn trong các ô chọn Department và Role
+                                                            document.getElementById('departmentId').value = departmentId;
+                                                            document.getElementById('roleId').value = roleId;
+                                                        });
+                                                    });
                                                 });
-                                            });
-                                        });
-
-                                        // Tự động ẩn thông báo status sau 5 giây
-                                        var statusMessage = document.getElementById('statusMess');
-                                        if (statusMessage) {
-                                            setTimeout(function () {
-                                                statusMessage.style.display = 'none';
-                                            }, 5000);
+        
+                                                // Tự động ẩn thông báo status sau 5 giây
+                                                var statusMessage = document.getElementById('statusMess');
+                                                if (statusMessage) {
+                                                    setTimeout(function () {
+                                                        statusMessage.style.display = 'none';
+                                                    }, 5000);
+                                                }
+                </script>-->
+        <script>
+                                        function updatePageSize() {
+                                            var pageSize = document.getElementById("pageSize").value;
+                                            window.location.href = "ListDoctor?page=1&pageSize=" + pageSize;
                                         }
-        </script>-->
-
+        </script>
 
     </body>
 

@@ -23,7 +23,7 @@ public class DoctorDAO extends DBContext {
 
     public List<Staff> getAllDoctor(Integer roleId, String status, String searchQuery, int page, int pageSize) {
         List<Staff> listDoctor = new ArrayList<>();
-        String sql = "SELECT * FROM Staff WHERE roleId != 1"; // Loại bỏ roleId = 1
+        String sql = "SELECT staffId, name , email , avatar , phone , password , dateOfBirth, position, gender, status, description, roleId, departmentId FROM Staff WHERE roleId != 1"; // Loại bỏ roleId = 1
 
         // Nếu roleId khác null, thêm điều kiện lọc
         if (roleId != null) {
@@ -236,8 +236,23 @@ public class DoctorDAO extends DBContext {
         }
         return false;
     }
+        public boolean checkEmailExistsCurrentStaff(String email, int staffId) {
+    String query = "SELECT COUNT(*) FROM Staff WHERE email = ? AND staffId != ?";
+    try (
+         PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setString(1, email);
+        ps.setInt(2, staffId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) > 0; // Nếu số lượng > 0, nghĩa là đã tồn tại số điện thoại
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
       public Staff getStaffById(int staffId) {
-        String sql = "SELECT * FROM Staff WHERE staffId = ?";
+        String sql = "SELECT staffId, name , email , avatar , phone , password , dateOfBirth, position, gender, status, description, roleId, departmentId FROM Staff WHERE staffId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, staffId);
@@ -277,6 +292,21 @@ public class DoctorDAO extends DBContext {
         }
         return false; // Mặc định trả về false nếu có lỗi
     }
+    public boolean checkPhoneExistsCurrentStaff(String phone, int staffId) {
+    String query = "SELECT COUNT(*) FROM Staff WHERE phone = ? AND staffId != ?";
+    try (
+         PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setString(1, phone);
+        ps.setInt(2, staffId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) > 0; // Nếu số lượng > 0, nghĩa là đã tồn tại số điện thoại
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
 //    public static void main(String[] args) {
 //        DoctorDAO doctor = new DoctorDAO();
 //        System.out.println(doctor.getAllDoctor());

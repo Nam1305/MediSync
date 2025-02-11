@@ -103,35 +103,35 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input name="name" id="name" type="text" class="form-control" placeholder="Name">
+                        <input name="name" id="name" type="text" class="form-control" placeholder="Name" value ="${staff.name}">
                     </div>
                 </div><!--end col-->
 
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input name="email" id="email" type="email" class="form-control" placeholder="Email">
+                        <input name="email" id="email" type="email" class="form-control" placeholder="Email" value ="${staff.email}">
                     </div>
                 </div><!--end col-->
 
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Phone</label>
-                        <input name="phone" id="phone" type="text" class="form-control" placeholder="Phone">
+                        <input name="phone" id="phone" type="text" class="form-control" placeholder="Phone" value ="${staff.phone}" >
                     </div>
                 </div><!--end col-->
 
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Password</label>
-                        <input name="password" id="password" type="password" class="form-control" placeholder="Password">
+                        <input name="password" id="password" type="password" class="form-control" placeholder="Password" value ="${staff.password}" >
                     </div>
                 </div><!--end col-->
 
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Date of Birth</label>
-                        <input name="dateOfBirth" id="dateOfBirth" type="date" class="form-control">
+                        <input name="dateOfBirth" id="dateOfBirth" type="date" class="form-control"value ="${staff.dateOfBirth}">
                     </div>
                 </div><!--end col-->
 
@@ -170,7 +170,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label">Description</label>
-                            <input name="description" id="description" type="text" class="form-control" placeholder="Description">
+                            <input name="description" id="description" type="text" class="form-control" placeholder="Description" value ="${staff.description}">
                         </div>
                     </div><!--end col-->
                     <div class="col-md-6">
@@ -203,6 +203,12 @@
                         <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
                     </div><!--end col-->
                 </div><!--end row-->
+                <div>
+                    <c:if test="${not empty error}">
+                        <div class="alert alert-danger mt-3">${error}</div>
+                    </c:if>
+                </div>
+
         </form><!--end form-->
     </body>
 </html>
