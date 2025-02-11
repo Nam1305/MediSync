@@ -17,7 +17,9 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import model.Department;
 import model.Role;
 import model.Staff;
@@ -70,6 +72,8 @@ public class AddStaffServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        List<String> error = new ArrayList<>();
+        // lấy dữ liệu từ request 
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String uploadPath = getServletContext().getRealPath("/uploads");
@@ -107,13 +111,41 @@ public class AddStaffServlet extends HttpServlet {
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         int roleId = Integer.parseInt(request.getParameter("roleId"));
 
-        if (isEmpty(name) || isEmpty(email)
-                || isEmpty(phone) || isEmpty(password)
-                || isEmpty(gender) || isEmpty(dateOfBirthStr)) {
-            request.setAttribute("error", "All fields are required!");
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+        // Kiểm tra điều kiện dữ liệu đầu vào
+        if (isEmpty(name)) {
+            error.add("Name must not null!");
+        }
+        if (isEmpty(email)) {
+            error.add("Email must not null !");
+        }
+        if (isEmpty(phone)) {
+            error.add("Phone must not null!");
+        }
+        if (isEmpty(password)) {
+            error.add("Password must not null!");
+        }
+        if (isEmpty(gender)) {
+            error.add("Gender must not null!");
+        }
+        if (isEmpty(dateOfBirthStr)) {
+            error.add("Date of birth must not null!");
+        }
+        if(isEmpty(position)){
+            error.add("position must not null!");
+        }
+        
+        if(isEmpty(description)){
+            error.add("description must not null!");
+        }
+        
+
+        // Nếu có lỗi, gửi lại danh sách lỗi
+        if (!error.isEmpty()) {
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
             return;
         }
+
 
         if (!checkPhone(phone)) {
             request.setAttribute("error", "Invalid phone number! It must start with 09, 08, or 03.");

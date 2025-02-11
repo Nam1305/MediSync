@@ -77,4 +77,11 @@ public class SendEmail {
                 + "If you did not make this change, please contact our support team immediately.";
         return sendEmail(toEmail, subject, content);
     }
+
+    public boolean sendPasswordForCustomer(String toEmail, String password) {
+        String subject = "You have been created an account!";
+        String content = "Use: " + password + " to sign in!";        
+        return sendEmail(toEmail, subject, content);
+    }
+    
 }

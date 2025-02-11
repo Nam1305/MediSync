@@ -13,15 +13,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 import model.Staff;
 
 /**
  *
  * @author Acer
  */
-@WebServlet(name="ListDoctorServlet", urlPatterns={"/ListDoctor"})
-public class ListDoctorServlet extends HttpServlet {
+@WebServlet(name="ViewStaffDetailServlet", urlPatterns={"/ViewStaffDetail"})
+public class ViewStaffDetailServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,56 +37,50 @@ public class ListDoctorServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListDoctorServlet</title>");  
+            out.println("<title>Servlet ViewStaffDetailServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListDoctorServlet at  " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ViewStaffDetailServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     } 
 
-    private String normalizationSearchQuery(String searchQuery){
-        return searchQuery.trim().replaceAll("\\s+"," ");
-    }
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /** 
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        DoctorDAO doctors = new DoctorDAO();
-        int page = 1;
-        int pageSize = 5;
-        String PageSize = request.getParameter("pageSize");
-        if(PageSize!= null){
-            pageSize = Integer.parseInt(PageSize);
+        String staffIdStr = request.getParameter("id");
+        try {
+            int staffId = Integer.parseInt(staffIdStr);
+            DoctorDAO staff = new DoctorDAO();
+            Staff currentstaff = staff.getStaffById(staffId);
+            if (currentstaff != null) {
+                // Nếu tìm thấy nhân viên, gửi thông tin đến trang update.jsp
+                request.setAttribute("staff", currentstaff); // Đặt đối tượng Dish vào attribute
+                request.getRequestDispatcher("staffDetail.jsp").forward(request, response);
+            } else {
+                // Nếu không tìm thấy nhân viên , thông báo lỗi
+                request.setAttribute("error", "Dish with ID " + staffId + " not found.");
+                request.getRequestDispatcher("staffDetail").forward(request, response); // Quay lại danh sách
+            }
+        } catch (NumberFormatException e) {
+            // Xử lý lỗi nếu id không phải là số nguyên
+            request.setAttribute("error", "Invalid ID format.");
+            request.getRequestDispatcher("listDoctor").forward(request, response); // Quay lại danh sách
+        } catch (Exception e) {
+            // Xử lý các lỗi khác
+            System.out.println(e);
+            request.setAttribute("error", "An unexpected error occurred.");
+            request.getRequestDispatcher("listDoctor").forward(request, response); // Quay lại danh sách
         }
-        String pageParam = request.getParameter("page");
-        if (pageParam != null) {
-            page = Integer.parseInt(pageParam);
-        }
-//        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        String searchQueryNormalized = "";
-        String searchQuery = request.getParameter("s");
-        if(searchQuery!= null){
-            searchQueryNormalized = normalizationSearchQuery(searchQuery);
-        }
-
-        String roleIdParam = request.getParameter("roleId"); // Lấy roleId từ request
-        Integer roleId = null;
-        String status = request.getParameter("status");
-        if (roleIdParam != null && !roleIdParam.isEmpty()) {
-            roleId = Integer.parseInt(roleIdParam); // Chuyển về Integer nếu có roleId
-        }
-        List<Staff> listDoctor = doctors.getAllDoctor(roleId, status, searchQueryNormalized,page, pageSize);
-        // đóng gói listDoctor và request và truyền sang trang jsp để hiện thị dữ liệu 
-        int totalDoctors = doctors.getTotalDoctorCount(roleId, status, searchQueryNormalized);
-        int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
-        request.setAttribute("listDoctor", listDoctor);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("totalPages", totalPages);
-        request.getRequestDispatcher("listDoctor.jsp").forward(request, response);
-        response.setContentType("text/html;charset=UTF-8");
-
-       
     } 
 
     /** 

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import model.Customer;
 import util.BCrypt;
+import util.SendEmail;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -140,6 +141,10 @@ public class AddCustomerServlet extends HttpServlet {
         Customer newCustomer = new Customer(fullName.trim(), email.trim(), hashedPassword, dateOfBirth, gender, phoneNumber.trim());
         //add Customer
         customerDao.addCustomer(newCustomer, request.getContextPath() + "/uploads/" + imageFilename);
+        SendEmail sendEmail = new SendEmail();
+        
+//        sendEmail.sendPasswordForCustomer(email, password);
+        System.out.println(sendEmail.sendPasswordForCustomer(email, password));
         request.setAttribute("success", "Thêm thành công!");
         request.setAttribute("fullName", fullName);
         request.setAttribute("gender", gender);
