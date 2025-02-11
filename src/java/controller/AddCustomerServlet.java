@@ -139,7 +139,7 @@ public class AddCustomerServlet extends HttpServlet {
 
         Customer newCustomer = new Customer(fullName.trim(), email.trim(), hashedPassword, dateOfBirth, gender, phoneNumber.trim());
         //add Customer
-        customerDao.addCustomer(newCustomer, "/uploads/" + imageFilename);
+        customerDao.addCustomer(newCustomer, request.getContextPath() + "/uploads/" + imageFilename);
         request.setAttribute("success", "Thêm thành công!");
         request.setAttribute("fullName", fullName);
         request.setAttribute("gender", gender);

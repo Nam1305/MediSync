@@ -356,7 +356,7 @@
                                                     <td class="py-3">
                                                         <a href="#" class="text-dark">
                                                             <div class="d-flex align-items-center">
-                                                                <img src="${not empty customers.avatar && customers.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(customers.avatar) : customers.avatar}" 
+                                                                <img src="${customers.avatar}" 
                                                                      class="avatar avatar-md-sm rounded-circle shadow" alt="">
                                                                 <span class="ms-2">${customers.name}</span>
                                                             </div>

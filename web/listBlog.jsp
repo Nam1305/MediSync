@@ -209,10 +209,10 @@
     <div class="row justify-content-center">
         <div class="col-12 text-center">
             <div class="section-title mb-4 pb-2">
-                <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog nổi bật</span>
+<!--                <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog nổi bật</span>-->
             </div>
         </div>
-    </div><!--end row-->
+    </div>
 
 <!-- thanh tim kiem -->
 <div class="row mb-4">

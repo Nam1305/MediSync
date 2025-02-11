@@ -82,7 +82,7 @@ public class ListCustomerServlet extends HttpServlet {
     }
 
     private String normalizeSearchQuery(String query) {
-        return query.trim().replaceAll("\\s+", ""); // Loại bỏ khoảng trắng dư thừa
+        return query.trim().replaceAll("\\s+", " "); // Loại bỏ khoảng trắng dư thừa
     }
 
     private void handleSearchCustomers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
