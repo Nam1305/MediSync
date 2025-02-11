@@ -303,7 +303,7 @@
                         <form action="listCustomer" method="get">
                             <input type="hidden" name="page" value="${requestScope.currentPage != null ? requestScope.currentPage : 1}" />
                             <div class="d-flex justify-content-between mb-3">
-                                <div class="d-flex">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
                                     <!-- Dropdown menu để chọn trạng thái -->
                                     <select class="form-select me-2" name="status">
                                         <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả</option>
@@ -312,41 +312,44 @@
                                         </select>
 
                                         <!-- Dropdown menu để chọn giới tính -->
-                                        <select class="form-select" name="gender">
+                                        <select class="form-select me-2" name="gender">
                                             <option value="" <c:if test="${empty gender}">selected</c:if>>Tất cả</option>
                                         <option value="M" <c:if test="${gender == 'M'}">selected</c:if>>Nam</option>
                                         <option value="F" <c:if test="${gender == 'F'}">selected</c:if>>Nữ</option>
                                         </select>
-                                    </div>
-                                </div>
-                                <!-- Thêm tham số 'page' vào form để đảm bảo nó luôn được gửi -->
 
-                                <!-- Nút gửi form -->
-                                <button type="submit" class="btn btn-primary">Lọc</button>
-                            </form>
+                                        <input type="number" class="form-control me-2" name="pageSize" min="1" max="${requestScope.totalCustomers}" 
+                                           value="${not empty pageSize ? pageSize : 10}" placeholder="Số lượng/trang" style="width: 150px;">
+                                </div>    
+                            </div>
+                            <!-- Thêm tham số 'page' vào form để đảm bảo nó luôn được gửi -->
 
-                            <div class="row">
-                                <div class="col-12 mt-4">
-                                    <div class="table-responsive shadow rounded">
-                                        <table class="table table-center bg-white mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
-                                                    <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
-                                                    <!--                                                <th class="border-bottom p-3">Age</th>-->
-                                                    <th class="border-bottom p-3">Giới tính</th>
-                                                    <!--                                                <th class="border-bottom p-3">Address</th>-->
-                                                    <th class="border-bottom p-3">Địa chỉ</th>
-                                                    <th class="border-bottom p-3">Số Điện Thoại</th>
-                                                    <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
-                                                    <th class="border-bottom p-3">Email</th>
-                                                    <th class="border-bottom p-3">Trạng thái</th>
-                                                    <th class="border-bottom p-3" style="min-width: 100px;"></th>
-                                                </tr>
-                                            </thead>
-                                            <!--tbody-start-->
+                            <!-- Nút gửi form -->
+                            <button type="submit" class="btn btn-primary">Lọc</button>
+                        </form>
 
-                                            <tbody>
+                        <div class="row">
+                            <div class="col-12 mt-4">
+                                <div class="table-responsive shadow rounded">
+                                    <table class="table table-center bg-white mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
+                                                <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
+                                                <!--                                                <th class="border-bottom p-3">Age</th>-->
+                                                <th class="border-bottom p-3">Giới tính</th>
+                                                <!--                                                <th class="border-bottom p-3">Address</th>-->
+                                                <th class="border-bottom p-3">Địa chỉ</th>
+                                                <th class="border-bottom p-3">Số Điện Thoại</th>
+                                                <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
+                                                <th class="border-bottom p-3">Email</th>
+                                                <th class="border-bottom p-3">Trạng thái</th>
+                                                <th class="border-bottom p-3" style="min-width: 100px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <!--tbody-start-->
+
+                                        <tbody>
                                             <c:forEach var="customers" items="${customers}">
                                                 <tr>
                                                     <th class="p-3">${customers.customerId}</th>
@@ -402,7 +405,7 @@
                                         <!--                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>-->
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage - 1}" aria-label="Previous">Prev</a>
+                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage - 1}&?pageSize=${requestScope.pageSize}" aria-label="Previous">Prev</a>
                                             </li>
                                         </c:if>
                                         <!--                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
@@ -411,13 +414,13 @@
 
                                         <c:forEach var="i" begin="1" end="${totalPages}" step="1">
                                             <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${i}">${i}</a>
+                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${i}&?pageSize=${requestScope.pageSize}">${i}</a>
                                             </li>
                                         </c:forEach>
                                         <!--                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>-->
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage + 1}" aria-label="Next">Next</a>
+                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage + 1}&?pageSize=${requestScope.pageSize}" aria-label="Next">Next</a>
                                             </li>
                                         </c:if>
                                     </ul>

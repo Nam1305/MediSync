@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 import model.Blog;
 
 /**
@@ -58,11 +59,20 @@ public class ListBlogServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        String searchQuery = request.getParameter("search");
         BlogDAO blogDAO = new BlogDAO();
         List<Blog> listBlog = blogDAO.getAllBlogs();
 
+        // Nếu có từ khóa tìm kiếm, lọc danh sách blog
+        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            listBlog = listBlog.stream()
+                .filter(blog -> blog.getBlogName().toLowerCase().contains(searchQuery.toLowerCase()))
+                .collect(Collectors.toList());
+        }
+
         request.setAttribute("listBlog", listBlog);
-        request.getRequestDispatcher("listBlog.jsp").forward(request, response);    } 
+        request.getRequestDispatcher("listBlog.jsp").forward(request, response);     
+    } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.

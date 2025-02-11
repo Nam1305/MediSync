@@ -21,9 +21,21 @@ public class ListCustomerServlet extends HttpServlet {
         //lấy tham số từ url status và gender
         String status = request.getParameter("status");//trạng thái tài khoản
         String gender = request.getParameter("gender");//gioi tinh
-
-        //paging
+        String pageSizeParam = request.getParameter("pageSize");//số lượng customer muốn lọc ra
+        //tính tổng số customer
+        int totalCustomers = customerDao.getTotalCustomer();
+        //PAGING
         int pageSize = 10;  // Số khách hàng mỗi trang
+        if (pageSizeParam != null && !pageSizeParam.trim().isEmpty()) {
+            try {
+                int parsedPageSize = Integer.parseInt(pageSizeParam);
+                if (parsedPageSize >= 1 && parsedPageSize <= totalCustomers) { // Giới hạn hợp lệ từ 1 đến 100
+                    pageSize = parsedPageSize;
+                }
+            } catch (NumberFormatException e) {
+                pageSize = 10; // Nếu lỗi, đặt về mặc định
+            }
+        }
         int currentPage = 1;  // Trang mặc định là trang 1
         String pageParam = request.getParameter("page");
         if (pageParam != null && !pageParam.trim().isEmpty()) {
@@ -33,6 +45,9 @@ public class ListCustomerServlet extends HttpServlet {
                 currentPage = 1; // Nếu lỗi, đặt mặc định là 1
             }
         }
+        
+        // Tính toán số lượng trang
+        int totalPages = (int) Math.ceil((double) totalCustomers / pageSize);
 
         List<Customer> customers;
 
@@ -51,9 +66,7 @@ public class ListCustomerServlet extends HttpServlet {
             customers = customerDao.getCustomerByPage(currentPage, pageSize);
         }
 
-        // Tính toán số lượng trang
-        int totalCustomers = customerDao.getTotalCustomer();
-        int totalPages = (int) Math.ceil((double) totalCustomers / pageSize);
+        
 
         // Đặt danh sách khách hàng vào thuộc tính của request
         request.setAttribute("customers", customers);
@@ -68,11 +81,16 @@ public class ListCustomerServlet extends HttpServlet {
         request.getRequestDispatcher("listCustomer.jsp").forward(request, response);
     }
 
+    private String normalizeSearchQuery(String query) {
+        return query.trim().replaceAll("\\s+", ""); // Loại bỏ khoảng trắng dư thừa
+    }
+
     private void handleSearchCustomers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String searchQuery = request.getParameter("s");
-        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+        String searchQueryNormalized = normalizeSearchQuery(searchQuery);
+        if (searchQueryNormalized != null && !searchQueryNormalized.trim().isEmpty()) {
             CustomerDAO customerDao = new CustomerDAO();
-            List<Customer> customers = customerDao.searchCustomers(searchQuery);
+            List<Customer> customers = customerDao.searchCustomers(searchQueryNormalized);
             // Đặt kết quả tìm kiếm vào thuộc tính của request
             request.setAttribute("customers", customers);
             request.getRequestDispatcher("listCustomer.jsp").forward(request, response);

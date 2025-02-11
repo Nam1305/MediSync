@@ -27,7 +27,7 @@ public class BlogDAO extends DBContext {
 
     public List<Blog> getAllBlogs() {
         List<Blog> listBlog = new ArrayList<>();
-        String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE typeId = 0 ORDER BY date DESC;";
+        String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE typeId = 0;";
 
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {

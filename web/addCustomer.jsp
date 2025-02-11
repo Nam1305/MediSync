@@ -176,12 +176,12 @@
                             </a>
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    <form role="search" method="get" id="searchform" class="searchform">
+<!--                                    <form role="search" method="get" id="searchform" class="searchform">
                                         <div>
                                             <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Search Keywords...">
                                             <input type="submit" id="searchsubmit" value="Search">
                                         </div>
-                                    </form>
+                                    </form>-->
                                 </div>
                             </div>
                         </div>
