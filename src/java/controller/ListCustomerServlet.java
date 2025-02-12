@@ -93,6 +93,7 @@ public class ListCustomerServlet extends HttpServlet {
             List<Customer> customers = customerDao.searchCustomers(searchQueryNormalized);
             // Đặt kết quả tìm kiếm vào thuộc tính của request
             request.setAttribute("customers", customers);
+            request.setAttribute("searchQuery", searchQuery);
             request.getRequestDispatcher("listCustomer.jsp").forward(request, response);
         } else {
             // Nếu không có giá trị tìm kiếm, hiển thị tất cả khách hàng

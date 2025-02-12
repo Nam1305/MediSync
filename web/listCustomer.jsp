@@ -175,7 +175,7 @@
                                 <div id="search" class="menu-search mb-0">
                                     <form role="search" method="post" id="searchform" class="searchform" action="listCustomer">
                                         <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Tìm kiếm bệnh nhân: tên, sđt" style="width: 100%; max-width: 600px;">
+                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Tìm kiếm bệnh nhân: tên, sđt" style="width: 100%; max-width: 600px;" value="${requestScope.searchQuery}">
                                             <input type="hidden" name="action" value="search">
                                             <input type="submit" id="searchsubmit" value="Search">
                                         </div>
