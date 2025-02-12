@@ -345,8 +345,8 @@
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Mật Khẩu</label>
-                                                    <input name="password" type="password" class="form-control" placeholder="Your password :">
+                                                    <label class="form-label">Địa chỉ</label>
+                                                    <input name="address" type="text" class="flatpickr flatpickr-input form-control" value="${address}"  placeholder="Your address :" required>
                                                 </div>
                                             </div><!--end col-->
 
@@ -355,13 +355,6 @@
                                                     <label class="form-label">Your Avatar</label>
                                                     <input name="avatar" id="avatar" type="file" class="form-control" placeholder="Your avatar :" required>
                                                 </div> 
-                                            </div><!--end col-->
-
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Xác nhận mật khẩu</label>
-                                                    <input name="confirmPassword" type="password" class="form-control" placeholder="Your password :">
-                                                </div>
                                             </div><!--end col-->
 
                                             <!-- Hiển thị thông báo lỗi chung -->

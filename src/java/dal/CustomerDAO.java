@@ -64,7 +64,7 @@ public class CustomerDAO extends DBContext {
     }
 
     public void addCustomer(Customer customer, String imagePath) {
-        String sql = "INSERT INTO Customer (name, email, password, dateOfBirth, gender, phone, avatar, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Customer (name, email, password, dateOfBirth, gender, phone, avatar, status, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, customer.getName());          // name
@@ -75,7 +75,7 @@ public class CustomerDAO extends DBContext {
             ps.setString(6, customer.getPhone());         // phone
             ps.setString(7, imagePath);                 // avatar path
             ps.setString(8, "Active");                   // status (mặc định là Active)
-
+            ps.setString(9, customer.getAddress()); 
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Error in addCustomer: " + ex.getMessage());
