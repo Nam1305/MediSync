@@ -15,9 +15,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
-import java.io.File;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +97,6 @@ public class UpdateStaffServlet extends HttpServlet {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
-        String password = request.getParameter("password");
         String dateOfBirthStr = request.getParameter("dateOfBirth");
         String position = request.getParameter("position");
         String gender = request.getParameter("gender");
@@ -122,9 +118,7 @@ public class UpdateStaffServlet extends HttpServlet {
         if (isEmpty(phone)) {
             error.add("Phone must not null!");
         }
-        if (isEmpty(password)) {
-            error.add("Password must not null!");
-        }
+       
         if (isEmpty(gender)) {
             error.add("Gender must not null!");
         }
@@ -155,11 +149,7 @@ public class UpdateStaffServlet extends HttpServlet {
             return;
         }
 
-        if (!checkPassword(password)) {
-            request.setAttribute("error", "Password must be at least 8 characters and include uppercase, lowercase, special character.");
-            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
-            return;
-        }
+       
         // ép kiểu cho dob
         java.sql.Date dateOfBirth = java.sql.Date.valueOf(dateOfBirthStr);
         if (dateOfBirth.toLocalDate().isAfter(LocalDate.now())) {
@@ -167,9 +157,7 @@ public class UpdateStaffServlet extends HttpServlet {
             request.getRequestDispatcher("addStaff.jsp").forward(request, response);
             return;
         }
-        //Mã hóa mật khẩu
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-
+        
         // Tạo đối tượng Department và Role
         Department department = new Department();
         department.setDepartmentId(departmentId);
@@ -177,6 +165,9 @@ public class UpdateStaffServlet extends HttpServlet {
         Role role = new Role();
         role.setRoleId(roleId);
         DoctorDAO staff = new DoctorDAO();
+        Staff currentstaff = staff.getStaffById(staffId);
+//        String hashedPassword = BCrypt.hashpw(currentstaff.getPassword(), BCrypt.gensalt());
+         String hashedPassword = currentstaff.getPassword();
         if (staff.checkPhoneExistsCurrentStaff(phone, staffId)) {
             request.setAttribute("error", "Phone number already exists!");
             request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
@@ -212,17 +203,17 @@ public class UpdateStaffServlet extends HttpServlet {
         return value == null || value.trim().isEmpty();
     }
 
-    private boolean checkPassword(String password) {
-        // Kiểm tra ít nhất 8 ký tự, có chữ hoa, chữ thường, và ký tự đặc biệt (bất kỳ vị trí nào)
-        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$";
-        // ^                 : Bắt đầu chuỗi
-        // (?=.*[a-z])       : Ít nhất một chữ cái thường (a-z)
-        // (?=.*[A-Z])       : Ít nhất một chữ cái hoa (A-Z)
-        // (?=.*[^a-zA-Z0-9]): Ít nhất một ký tự đặc biệt (không phải chữ hoặc số)
-        // .{8,}             : Ít nhất 8 ký tự trở lên (bất kỳ ký tự nào)
-        // $                 : Kết thúc chuỗi
-        return password.matches(passwordPattern);
-    }
+//    private boolean checkPassword(String password) {
+//        // Kiểm tra ít nhất 8 ký tự, có chữ hoa, chữ thường, và ký tự đặc biệt (bất kỳ vị trí nào)
+//        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$";
+//        // ^                 : Bắt đầu chuỗi
+//        // (?=.*[a-z])       : Ít nhất một chữ cái thường (a-z)
+//        // (?=.*[A-Z])       : Ít nhất một chữ cái hoa (A-Z)
+//        // (?=.*[^a-zA-Z0-9]): Ít nhất một ký tự đặc biệt (không phải chữ hoặc số)
+//        // .{8,}             : Ít nhất 8 ký tự trở lên (bất kỳ ký tự nào)
+//        // $                 : Kết thúc chuỗi
+//        return password.matches(passwordPattern);
+//    }
 
     /**
      * Returns a short description of the servlet.

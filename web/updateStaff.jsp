@@ -121,12 +121,6 @@
                     </div>
                 </div><!--end col-->
 
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input name="password" id="password" type="password" class="form-control" placeholder="Password" value ="${staff.password}" >
-                    </div>
-                </div><!--end col-->
 
                 <div class="col-md-6">
                     <div class="mb-3">
@@ -199,7 +193,7 @@
                 </div><!--end row-->
 
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                         <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
                     </div><!--end col-->
                 </div><!--end row-->

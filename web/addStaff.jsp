@@ -348,12 +348,7 @@
                                                 </div>                                                                               
                                             </div><!--end col-->
 
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Password</label>
-                                                    <input name="password" id="password" type="password" class="form-control" placeholder="Password :" required>
-                                                </div>
-                                            </div><!--end col-->
+                                           
                                              <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Date of Birth</label>

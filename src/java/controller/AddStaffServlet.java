@@ -24,6 +24,7 @@ import model.Department;
 import model.Role;
 import model.Staff;
 import util.BCrypt;
+import util.GeneratePassword;
 import util.SendEmail;
 
 /**
@@ -74,6 +75,7 @@ public class AddStaffServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<String> error = new ArrayList<>();
+        GeneratePassword generatePassword = new GeneratePassword();
         // lấy dữ liệu từ request 
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -104,7 +106,7 @@ public class AddStaffServlet extends HttpServlet {
         // Đường dẫn ảnh lưu vào database
         String avatarPath = request.getContextPath() + "/uploads/" + fileName;
         String phone = request.getParameter("phone");
-        String password = request.getParameter("password");
+        String password = generatePassword.generateRandomPassword(8);
         String gender = request.getParameter("gender");
         String position = request.getParameter("position");
         String description = request.getParameter("description");
@@ -122,9 +124,7 @@ public class AddStaffServlet extends HttpServlet {
         if (isEmpty(phone)) {
             error.add("Phone must not null!");
         }
-        if (isEmpty(password)) {
-            error.add("Password must not null!");
-        }
+        
         if (isEmpty(gender)) {
             error.add("Gender must not null!");
         }
@@ -153,11 +153,7 @@ public class AddStaffServlet extends HttpServlet {
             request.getRequestDispatcher("addStaff.jsp").forward(request, response);
             return;
         }
-        if (!checkPassword(password)) {
-            request.setAttribute("error", "Password must be at least 8 characters and include uppercase, lowercase, special character.");
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
-            return;
-        }
+        
         //ép kiểu cho dateOfBirth
         java.sql.Date dateOfBirth = java.sql.Date.valueOf(dateOfBirthStr);
         if (dateOfBirth.toLocalDate().isAfter(LocalDate.now())) {
@@ -205,17 +201,17 @@ public class AddStaffServlet extends HttpServlet {
         return phone.matches("^(09|08|03)\\d{8}$");
     }
 
-    private boolean checkPassword(String password) {
-        // Kiểm tra ít nhất 8 ký tự, có chữ hoa, chữ thường, và ký tự đặc biệt (bất kỳ vị trí nào)
-        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$";
-        // ^                 : Bắt đầu chuỗi
-        // (?=.*[a-z])       : Ít nhất một chữ cái thường (a-z)
-        // (?=.*[A-Z])       : Ít nhất một chữ cái hoa (A-Z)
-        // (?=.*[^a-zA-Z0-9]): Ít nhất một ký tự đặc biệt (không phải chữ hoặc số)
-        // .{8,}             : Ít nhất 8 ký tự trở lên (bất kỳ ký tự nào)
-        // $                 : Kết thúc chuỗi
-        return password.matches(passwordPattern);
-    }
+//    private boolean checkPassword(String password) {
+//        // Kiểm tra ít nhất 8 ký tự, có chữ hoa, chữ thường, và ký tự đặc biệt (bất kỳ vị trí nào)
+//        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$";
+//        // ^                 : Bắt đầu chuỗi
+//        // (?=.*[a-z])       : Ít nhất một chữ cái thường (a-z)
+//        // (?=.*[A-Z])       : Ít nhất một chữ cái hoa (A-Z)
+//        // (?=.*[^a-zA-Z0-9]): Ít nhất một ký tự đặc biệt (không phải chữ hoặc số)
+//        // .{8,}             : Ít nhất 8 ký tự trở lên (bất kỳ ký tự nào)
+//        // $                 : Kết thúc chuỗi
+//        return password.matches(passwordPattern);
+//    }
 
     /**
      * Returns a short description of the servlet.
