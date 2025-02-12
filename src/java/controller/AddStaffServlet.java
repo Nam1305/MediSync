@@ -24,6 +24,7 @@ import model.Department;
 import model.Role;
 import model.Staff;
 import util.BCrypt;
+import util.SendEmail;
 
 /**
  *
@@ -188,6 +189,8 @@ public class AddStaffServlet extends HttpServlet {
 
         if (isAdded) {
             response.sendRedirect("ListDoctor");
+            SendEmail sendPassword = new SendEmail();
+            sendPassword.sendPasswordForStaff(email, password);
         } else {
             request.setAttribute("error", " Please try again.");
             request.getRequestDispatcher("addStaff.jsp").forward(request, response);

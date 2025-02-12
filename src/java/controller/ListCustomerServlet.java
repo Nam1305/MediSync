@@ -77,7 +77,7 @@ public class ListCustomerServlet extends HttpServlet {
         // Đặt trạng thái và giới tính vào thuộc tính của request (để hiển thị trên giao diện nếu cần)
         request.setAttribute("status", status);
         request.setAttribute("gender", gender);
-
+        request.setAttribute("pageSize", pageSize);
         request.getRequestDispatcher("listCustomer.jsp").forward(request, response);
     }
 

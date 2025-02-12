@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import dal.DoctorDAO;
@@ -20,54 +19,74 @@ import model.Staff;
  *
  * @author Acer
  */
-@WebServlet(name="ListDoctorServlet", urlPatterns={"/ListDoctor"})
+@WebServlet(name = "ListDoctorServlet", urlPatterns = {"/ListDoctor"})
 public class ListDoctorServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListDoctorServlet</title>");  
+            out.println("<title>Servlet ListDoctorServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListDoctorServlet at  " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListDoctorServlet at  " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
-
-    private String normalizationSearchQuery(String searchQuery){
-        return searchQuery.trim().replaceAll("\\s+"," ");
     }
+
+    private String normalizationSearchQuery(String searchQuery) {
+        return searchQuery.trim().replaceAll("\\s+", " ");
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         DoctorDAO doctors = new DoctorDAO();
         int page = 1;
         int pageSize = 5;
-        String PageSize = request.getParameter("pageSize");
-        if(PageSize!= null){
-            pageSize = Integer.parseInt(PageSize);
+        // Lấy pageSize từ request, giữ nguyên nếu đã có giá trị
+        String pageSizeParam = request.getParameter("pageSize");
+        if (pageSizeParam != null && !pageSizeParam.isEmpty()) {
+            try {
+                pageSize = Integer.parseInt(pageSizeParam);
+                if (pageSize <= 0) {
+                    pageSize = 5; // Tránh pageSize không hợp lệ
+                }
+            } catch (NumberFormatException e) {
+                pageSize = 5;
+            }
         }
+
+        // Lấy số trang từ request
         String pageParam = request.getParameter("page");
-        if (pageParam != null) {
-            page = Integer.parseInt(pageParam);
+        if (pageParam != null && !pageParam.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageParam);
+                if (page < 1) {
+                    page = 1; // Tránh lỗi về trang âm
+                }
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
         }
-//        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+
         String searchQueryNormalized = "";
         String searchQuery = request.getParameter("s");
-        if(searchQuery!= null){
+        if (searchQuery != null) {
             searchQueryNormalized = normalizationSearchQuery(searchQuery);
         }
 
@@ -77,21 +96,22 @@ public class ListDoctorServlet extends HttpServlet {
         if (roleIdParam != null && !roleIdParam.isEmpty()) {
             roleId = Integer.parseInt(roleIdParam); // Chuyển về Integer nếu có roleId
         }
-        List<Staff> listDoctor = doctors.getAllDoctor(roleId, status, searchQueryNormalized,page, pageSize);
+        List<Staff> listDoctor = doctors.getAllDoctor(roleId, status, searchQueryNormalized, page, pageSize);
         // đóng gói listDoctor và request và truyền sang trang jsp để hiện thị dữ liệu 
         int totalDoctors = doctors.getTotalDoctorCount(roleId, status, searchQueryNormalized);
         int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
         request.setAttribute("listDoctor", listDoctor);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("pageSize", pageSize);
         request.getRequestDispatcher("listDoctor.jsp").forward(request, response);
         response.setContentType("text/html;charset=UTF-8");
 
-       
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -99,12 +119,13 @@ public class ListDoctorServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

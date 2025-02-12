@@ -405,7 +405,7 @@
                                         <!--                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>-->
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage - 1}&?pageSize=${requestScope.pageSize}" aria-label="Previous">Prev</a>
+                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage - 1}&pageSize=${requestScope.pageSize}" aria-label="Previous">Prev</a>
                                             </li>
                                         </c:if>
                                         <!--                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
@@ -414,13 +414,13 @@
 
                                         <c:forEach var="i" begin="1" end="${totalPages}" step="1">
                                             <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${i}&?pageSize=${requestScope.pageSize}">${i}</a>
+                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${i}&pageSize=${requestScope.pageSize}">${i}</a>
                                             </li>
                                         </c:forEach>
                                         <!--                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>-->
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage + 1}&?pageSize=${requestScope.pageSize}" aria-label="Next">Next</a>
+                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage + 1}&pageSize=${requestScope.pageSize}" aria-label="Next">Next</a>
                                             </li>
                                         </c:if>
                                     </ul>

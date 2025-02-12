@@ -45,7 +45,7 @@
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
-                        <a href="index.html">
+                        <a href="home">
                             <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
                             <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
                         </a>
@@ -393,12 +393,7 @@
                                                     </select>
                                                 </div>
                                             </div><!--end col-->
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Your Description</label>
-                                                    <input name="description" id="desctiption" type="text" class="form-control" placeholder="Your Description :" required>
-                                                </div> 
-                                            </div><!--end col-->
+                                            
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
@@ -411,9 +406,15 @@
                                                     </select>
                                                 </div>
                                             </div><!--end col-->
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Your Description</label>
+                                                    <input name="description" id="desctiption" type="text" class="form-control" placeholder="Your Description :" required>
+                                                </div> 
+                                            </div><!--end col-->
                                             <div>
                                                 <c:if test="${not empty error}">
-                                                    <div class="alert alert-danger mt-3">${error}</div>
+                                                    <div style="color: red">${error}</div>
                                                 </c:if>
                                             </div>
                                            
@@ -433,7 +434,7 @@
                                 <div class="row align-items-center">
                                     <div class="col">
                                         <div class="text-sm-start text-center">
-                                            <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
+                                            <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © MediSync. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="index.html" target="_blank" class="text-reset">Phúc Sơn</a>.</p>
                                         </div>
                                     </div><!--end col-->
                                 </div><!--end row-->

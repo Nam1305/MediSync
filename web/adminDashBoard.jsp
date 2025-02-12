@@ -61,10 +61,10 @@
                         <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Doctors</a>
+                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Staff</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="ListDoctor">Doctors</a></li>
+                                    <li><a href="ListDoctor">List Staff </a></li>
                                     <li><a href="addStaff.jsp">Add Staff</a></li>
 
                                 </ul>

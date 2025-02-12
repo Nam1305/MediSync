@@ -27,6 +27,57 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <style>
+            form:not([id^="deleteForm"]) {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background: #fff;
+                padding: 8px;
+                border-radius: 6px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Label styling */
+            form:not([id^="deleteForm"]) label {
+                font-weight: bold;
+                color: #555;
+                font-size: 12px;
+            }
+
+            /* Select and Input styling */
+            form:not([id^="deleteForm"]) select,
+            form:not([id^="deleteForm"]) input[type="number"] {
+                padding: 3px 5px;
+                font-size: 12px;
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                outline: none;
+                transition: border-color 0.3s;
+                width: 60px;
+            }
+
+            form:not([id^="deleteForm"]) select:focus,
+            form:not([id^="deleteForm"]) input[type="number"]:focus {
+                border-color: #28a745;
+            }
+
+            /* Button styling */
+            form:not([id^="deleteForm"]) button {
+                background: #28a745;
+                color: white;
+                border: none;
+                padding: 3px 6px;
+                font-size: 12px;
+                border-radius: 3px;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+
+            form:not([id^="deleteForm"]) button:hover {
+                background: #218838;
+            }
+        </style>
         <script type="text/javascript">
             function doDelete(id) {
                 if (confirm("Are you sure you want to delete doctor with ID: " + id + "?")) {
@@ -52,7 +103,7 @@
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
                     <div class="sidebar-brand">
-                        <a href="index.html">
+                        <a href="home">
                             <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
                             <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
                         </a>
@@ -63,7 +114,7 @@
                         <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Doctors</a>
+                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Staff</a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="ListDoctor">Staffs</a></li>
@@ -106,6 +157,7 @@
                                 </ul>
                             </div>
                         </li>
+
 
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
@@ -314,7 +366,8 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Staff List</h5>
+                            <h5 class="mb-0" style="color: #218838">Staff List</h5>
+
                             <form action="ListDoctor" method="get">
                                 <label for="roleFilter">Filter by Role:</label>
                                 <select name="roleId" id="roleFilter">
@@ -337,7 +390,7 @@
 
 
                         </div>
-
+                        <h5><a href="addStaff.jsp" style="color : #218838">Add Staff</a></h5>
 
                         <!-- navbar-of-table -->
                         <div class="row">
@@ -404,15 +457,6 @@
                                     </table>
                                     <!-- Phân trang -->
                                     <div class="pagination-container">
-<!--                                        <div class="d-flex align-items-center mb-3">
-                                            <label for="pageSize" class="me-2">Số lượng trên trang:</label>
-                                            <select id="pageSize" class="form-select w-auto" onchange="updatePageSize()">
-                                                <option value="5" ${pageSize == 5 ? 'selected' : ''}>5</option>
-                                                <option value="10" ${pageSize == 10 ? 'selected' : ''}>10</option>
-                                                <option value="20" ${pageSize == 20 ? 'selected' : ''}>20</option>
-                                                <option value="50" ${pageSize == 50 ? 'selected' : ''}>50</option>
-                                            </select>
-                                        </div>-->
                                         <ul class="pagination">
                                             <c:if test="${currentPage > 1}">
                                                 <li class="page-item">
@@ -759,12 +803,12 @@
                                                     }, 5000);
                                                 }
                 </script>-->
-<!--        <script>
-                                        function updatePageSize() {
-                                            var pageSize = document.getElementById("pageSize").value;
-                                            window.location.href = "ListDoctor?page=1&pageSize=" + pageSize;
-                                        }
-        </script>-->
+        <!--        <script>
+                                                function updatePageSize() {
+                                                    var pageSize = document.getElementById("pageSize").value;
+                                                    window.location.href = "ListDoctor?page=1&pageSize=" + pageSize;
+                                                }
+                </script>-->
 
     </body>
 
