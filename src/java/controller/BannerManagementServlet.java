@@ -7,15 +7,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import model.Blog;
+import model.Staff;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.Normalizer;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 @WebServlet(name = "BannerManagementServlet", urlPatterns = {"/manage-banners"})
 @MultipartConfig(
@@ -33,10 +33,36 @@ public class BannerManagementServlet extends HttpServlet {
         this.blogDAO = new BlogDAO();
     }
 
+    private boolean validateSession(HttpServletRequest request, HttpServletResponse response) 
+            throws IOException {
+        HttpSession session = request.getSession(false);
+        
+        // Check if session exists and user is logged in
+        if (session == null || session.getAttribute("staff") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return false;
+        }
+
+        // Check if logged-in user is an admin
+        Staff staff = (Staff) session.getAttribute("staff");
+        
+        // Change the comparison to be case-insensitive
+        if (staff.getPosition() == null || staff.getRole().getRoleId() != 1) {
+            response.sendRedirect(request.getContextPath() + "/home");
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Get pagination parameters
+        // Validate session before processing the request
+        if (!validateSession(request, response)) {
+            return;
+        }
+
         int page = 1;
         try {
             page = Integer.parseInt(request.getParameter("page"));
@@ -44,13 +70,14 @@ public class BannerManagementServlet extends HttpServlet {
             // Keep default page 1
         }
 
-        // Get search and sort parameters
-        String searchQuery = request.getParameter("search");
+        // Normalize search query
+        String searchQuery = normalizeSearchText(request.getParameter("search"));
+
         String sortOrder = request.getParameter("sortOrder");
         if (sortOrder == null) {
             sortOrder = "desc"; // Default sort order
         }
-        // Get paginated and filtered results
+
         int totalItems = blogDAO.getTotalBannersCount(searchQuery);
         int totalPages = (int) Math.ceil((double) totalItems / ITEMS_PER_PAGE);
 
@@ -61,15 +88,10 @@ public class BannerManagementServlet extends HttpServlet {
                 sortOrder
         );
 
-        // Get currently selected banners
-        List<Blog> activeBanners = blogDAO.getActiveBanners();
-
-        // Set attributes for JSP
         request.setAttribute("blogs", allBlogs);
-        request.setAttribute("activeBanners", activeBanners);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
-        request.setAttribute("searchQuery", searchQuery);
+        request.setAttribute("searchQuery", request.getParameter("search")); // Giữ giá trị gốc cho form
         request.setAttribute("sortOrder", sortOrder);
 
         request.getRequestDispatcher("manage-banners.jsp").forward(request, response);
@@ -78,10 +100,13 @@ public class BannerManagementServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (!validateSession(request, response)) {
+            return;
+        }
+
         String action = request.getParameter("action");
 
         if ("updateBanner".equals(action)) {
-            // Handle selecting existing blog as banner
             int blogId = Integer.parseInt(request.getParameter("blogId"));
             boolean setAsBanner = Boolean.parseBoolean(request.getParameter("setAsBanner"));
             blogDAO.updateBannerStatus(blogId, setAsBanner);
@@ -114,5 +139,19 @@ public class BannerManagementServlet extends HttpServlet {
     private String getFileExtension(Part part) {
         String submittedFileName = part.getSubmittedFileName();
         return submittedFileName.substring(submittedFileName.lastIndexOf("."));
+    }
+
+    private String normalizeSearchText(String text) {
+        if (text == null) {
+            return "";
+        }
+
+        // Trim và loại bỏ nhiều dấu cách liên tiếp
+        String normalized = text.trim().replaceAll("\\s+", " ");
+
+        // Chuyển về chữ thường
+        normalized = normalized.toLowerCase();
+
+        return normalized;
     }
 }

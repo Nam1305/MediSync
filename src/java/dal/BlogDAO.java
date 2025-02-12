@@ -54,7 +54,7 @@ public class BlogDAO extends DBContext {
         }
         return null;
     }
-    
+
     public List<Blog> getBlogs(String search, String sort) {
         List<Blog> list = new ArrayList<>();
         String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE blogName LIKE ? ORDER BY date ";
@@ -69,16 +69,15 @@ public class BlogDAO extends DBContext {
             ps.setString(1, "%" + (search != null ? search : "") + "%");
             ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
-            list.add(mapResultSetToBlog(rs));
-        }
+            while (rs.next()) {
+                list.add(mapResultSetToBlog(rs));
+            }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
+        }
+        return list;
     }
-    return list;
-}
-
 
     public List<Blog> getActiveBanners() {
         List<Blog> banners = new ArrayList<>();
@@ -111,13 +110,14 @@ public class BlogDAO extends DBContext {
         List<Blog> blogs = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM (");
-        sql.append("  SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner, ROW_NUMBER() OVER (ORDER BY date ");
+        sql.append("  SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner, ");
+        sql.append("  ROW_NUMBER() OVER (ORDER BY date ");
         sql.append(sortOrder.equalsIgnoreCase("asc") ? "ASC" : "DESC");
-        sql.append("  ) AS RowNum FROM Blog WHERE typeId = 1");
+        sql.append("  ) AS RowNum FROM Blog WHERE typeId = 1"); // Điều kiện cơ bản
 
-        // Add search condition if search query is provided
+        // Thêm điều kiện tìm kiếm vào TRONG phạm vi của typeId = 1
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-            sql.append(" AND blogName LIKE ?");
+            sql.append(" AND (LOWER(blogName) LIKE LOWER(?) OR LOWER(content) LIKE LOWER(?))");
         }
 
         sql.append(") AS PagedResults WHERE RowNum BETWEEN ? AND ?");
@@ -125,8 +125,9 @@ public class BlogDAO extends DBContext {
         try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
             int parameterIndex = 1;
 
-            // Set search parameter if exists
+            // Set search parameters if exists
             if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+                ps.setString(parameterIndex++, "%" + searchQuery + "%");
                 ps.setString(parameterIndex++, "%" + searchQuery + "%");
             }
 
@@ -148,15 +149,17 @@ public class BlogDAO extends DBContext {
     }
 
     public int getTotalBannersCount(String searchQuery) {
-        StringBuilder sql = new StringBuilder("SELECT COUNT(blogId, blogName, [content], image, author, date, typeId, selectedBanner) FROM Blog WHERE typeId = 1");
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Blog WHERE typeId = 1"); // Điều kiện cơ bản
 
+        // Thêm điều kiện tìm kiếm vào TRONG phạm vi của typeId = 1
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-            sql.append(" AND blogName LIKE ?");
+            sql.append(" AND (LOWER(blogName) LIKE LOWER(?) OR LOWER(content) LIKE LOWER(?))");
         }
 
         try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
             if (searchQuery != null && !searchQuery.trim().isEmpty()) {
                 ps.setString(1, "%" + searchQuery + "%");
+                ps.setString(2, "%" + searchQuery + "%");
             }
 
             try (ResultSet rs = ps.executeQuery()) {
