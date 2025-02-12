@@ -185,7 +185,7 @@
                     <!-- Navigation Menu-->   
                     <ul class="navigation-menu nav-left nav-light">
                         <li class="parent-menu-item">
-                            <a href="home.jsp">Trang chủ</a><span class="menu-arrow"></span>
+                            <a href="home">Trang chủ</a><span class="menu-arrow"></span>
                         </li>
 
                         <li class="has-submenu parent-parent-menu-item">
