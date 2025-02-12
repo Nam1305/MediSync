@@ -278,14 +278,14 @@
                                             <!-- Nút để chọn ảnh -->
                                             <div class="upload-btn-container">
                                                 <label class="upload-btn" for="avatarInput">Chọn ảnh</label>
-                                                <input type="file" id="avatarInput" name="avatar" accept=".jpg,.png" class="file-input" onchange="validateAndPreviewAvatar(event)">
+                                                <input type="file" id="avatarInput" name="avatar" accept=".jpg,.png" class="file-input" onchange="previewAvatar(event)">
                                             </div>
                                         </div>
 
                                         <!-- Nút submit form -->
                                         <div class="submit-btn-container">
                                             <button type="submit" class="submit-btn" id="submitBtn" style="display:none;">Cập nhật</button>
-                                            <p id="error-message-avatar" class="error-text"></p> <!-- Error message placeholder -->
+                                            <p class="error-message">${erroravatar}</p>
 
                                         </div>
 
@@ -434,29 +434,6 @@
                 }
 
                 wordCountDisplay.textContent = words.length + " / " + maxWords + " từ";
-            }
-
-            function validateAndPreviewAvatar(event) {
-                var fileInput = document.getElementById('avatarInput');
-                var file = fileInput.files[0];
-                var errorMessage = document.getElementById('error-message-avatar');
-
-                // Kiểm tra định dạng file
-                var fileName = file.name.toLowerCase();
-                var fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
-                if (fileExtension !== 'jpg' && fileExtension !== 'png' && fileExtension !== 'jpeg') {
-                    // Hiển thị thông báo lỗi
-                    errorMessage.textContent = 'Vui lòng chọn một tệp hình ảnh có định dạng .jpg, .jpeg hoặc .png.';
-                    errorMessage.style.color = 'red'; // Set error message color to red
-                    fileInput.value = ''; // Xóa file đã chọn
-                    return;
-                } else {
-                    // Ẩn thông báo lỗi
-                    errorMessage.textContent = '';
-                }
-
-                // Nếu định dạng file hợp lệ, hiển thị preview ảnh
-                previewAvatar(event);
             }
 
 

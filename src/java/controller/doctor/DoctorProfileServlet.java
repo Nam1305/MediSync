@@ -124,14 +124,29 @@ public class DoctorProfileServlet extends HttpServlet {
                 }
                 Part imagePart = request.getPart("avatar");
                 String imageFilename = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
+
                 if (!imageFilename.equals("")) {
+                    String fileExtension = "";
+                    int dotIndex = imageFilename.lastIndexOf('.');
+                    if (dotIndex > 0 && dotIndex < imageFilename.length() - 1) {
+                        fileExtension = imageFilename.substring(dotIndex + 1).toLowerCase();
+                    }
+                    if (fileExtension.equals("jpg") || fileExtension.equals("jpeg") || fileExtension.equals("png")) {
+                        imagePart.write(Paths.get(uploadPath.toString(), imageFilename).toString());
+                        String avt = request.getContextPath() + "/uploads/" + imageFilename;
+                        std.updateAvatar(st.getStaffId(), avt);
+                        st.setAvatar(avt);
+                        request.setAttribute("listd", listd);
+                    } else {
+                        request.setAttribute("erroravatar", "Định dạng tệp không hợp lệ. Vui lòng chọn tệp .jpg, .jpeg hoặc .png.");
+                        session.setAttribute("staff", st);
+                        request.setAttribute("listd", listd);
+                        request.getRequestDispatcher("doctorProfile.jsp").forward(request, response);
+
+                        return;
+                    }
                     imagePart.write(Paths.get(uploadPath.toString(), imageFilename).toString());
                 }
-
-                String avt = request.getContextPath() + "/uploads/" + imageFilename;
-                std.updateAvatar(st.getStaffId(), avt);
-                st.setAvatar(avt);
-                request.setAttribute("listd", listd);
 
                 break;
         }
