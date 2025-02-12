@@ -136,9 +136,9 @@
 
                 <div id="navigation">
                     <!-- Navigation Menu-->   
-                    <ul class="navigation-menu nav-left nav-light">
+                    <ul class="navigation-menu nav-left">
                         <li class="parent-menu-item">
-                            <a href="home.jsp">Trang chủ</a><span class="menu-arrow"></span>
+                            <a href="home">Trang chủ</a><span class="menu-arrow"></span>
                         </li>
 
                         <li class="has-submenu parent-parent-menu-item">
@@ -184,13 +184,7 @@
                                 <li><a href="aboutus.html" class="sub-menu-item"> About Us</a></li>
                                 <li><a href="departments.html" class="sub-menu-item">Departments</a></li>
                                 <li><a href="faqs.html" class="sub-menu-item">FAQs</a></li>
-                                <li class="has-submenu parent-menu-item">
-                                    <a href="javascript:void(0)" class="menu-item"> Blogs </a><span class="submenu-arrow"></span>
-                                    <ul class="submenu">
-                                        <li><a href="blogs.html" class="sub-menu-item">Blogs</a></li>
-                                        <li><a href="blog-detail.html" class="sub-menu-item">Blog Details</a></li>
-                                    </ul>
-                                </li>
+                                <li><a href="blogs.html" class="sub-menu-item">Blogs</a></li>
                                 <li><a href="terms.html" class="sub-menu-item">Terms & Policy</a></li>
                                 <li><a href="privacy.html" class="sub-menu-item">Privacy Policy</a></li>
                                 <li><a href="error.html" class="sub-menu-item">404 !</a></li>
@@ -209,21 +203,33 @@
     <div class="row justify-content-center">
         <div class="col-12 text-center">
             <div class="section-title mb-4 pb-2">
-                <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog nổi bật</span>
+<!--                <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog nổi bật</span>-->
             </div>
         </div>
-    </div><!--end row-->
+    </div>
 
-<!-- thanh tim kiem -->
-<div class="row mb-4">
-    <div class="col-md-6 offset-md-6 text-end">
+    <div class="row mb-4">
+        <!-- Thanh sap xep -->
+        <div class="col-md-6">
+           <form action="listBlog" method="get" class="d-flex">
+            <label class="me-2 align-self-center fw-bold">Sắp xếp:</label>
+            <select name="sort" class="form-select me-2" onchange="this.form.submit()" style="max-width: 200px;">
+                <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Mới nhất</option>
+                <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Cũ nhất</option>
+            </select>
+        </form>
+    </div>
+
+    <!-- Thanh tim kiem -->
+    <div class="col-md-6 text-end">
         <form action="listBlog" method="get" class="d-flex justify-content-end">
             <input type="text" name="search" class="form-control me-2" 
                    placeholder="Tìm kiếm blog..." value="${param.search}" style="max-width: 300px;">
             <button type="submit" class="btn btn-success">Tìm</button>
         </form>
     </div>
-</div>
+    </div>
+
 
 
     <!-- list blog -->

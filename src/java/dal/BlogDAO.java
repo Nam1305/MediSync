@@ -54,6 +54,31 @@ public class BlogDAO extends DBContext {
         }
         return null;
     }
+    
+    public List<Blog> getBlogs(String search, String sort) {
+        List<Blog> list = new ArrayList<>();
+        String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE blogName LIKE ? ORDER BY date ";
+
+        if ("asc".equals(sort)) {
+            sql += "ASC";
+        } else {
+            sql += "DESC";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + (search != null ? search : "") + "%");
+            ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            list.add(mapResultSetToBlog(rs));
+        }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+    }
+    return list;
+}
+
 
     public List<Blog> getActiveBanners() {
         List<Blog> banners = new ArrayList<>();

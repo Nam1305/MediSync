@@ -9,20 +9,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import model.Customer;
 import util.BCrypt;
+import util.GeneratePassword;
+import util.SendEmail;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -34,23 +32,24 @@ import util.BCrypt;
 public class AddCustomerServlet extends HttpServlet {
 
     CustomerDAO customerDao = new CustomerDAO();
+    GeneratePassword generatePassword = new GeneratePassword();
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
     private static final String PHONE_REGEX = "^(09|03)\\d{8}$";
-    private static final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}$";
     private static final String IMAGE_REGEX = ".*\\.(png|jpg|jpeg)$";
-
+    
     private void handleAddCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<String> errors = new ArrayList<>();
-
+        
         // Lấy dữ liệu từ form
         String fullName = request.getParameter("full-name");
         String gender = request.getParameter("gender");
         String email = request.getParameter("email");
         String phoneNumber = request.getParameter("number");
         String dateOfBirthString = request.getParameter("date");
-        String password = request.getParameter("password");
+        String address = request.getParameter("address");
+        String password = generatePassword.generateRandomPassword(8);
         Part imagePart = request.getPart("avatar");// Lấy file ảnh từ form
-        String confirmPassWord = request.getParameter("confirmPassword");
+        
 
         //Customer customer = new Customer(fullName,);
         // Kiểm tra dữ liệu nhập
@@ -61,6 +60,10 @@ public class AddCustomerServlet extends HttpServlet {
         if (gender == null || gender.trim().isEmpty()) {
             errors.add("Vui lòng chọn giới tính!");
         }
+        
+        if (address == null || address.trim().isEmpty()) {
+            errors.add("Vui lòng nhập địa chỉ!");
+        }
 
         if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
             errors.add("Vui lòng điền Số điện thoại!");
@@ -68,18 +71,6 @@ public class AddCustomerServlet extends HttpServlet {
             errors.add("Số điện thoại phải bắt đầu bằng 09 hoặc 03 và có 10 số!");
         } else if (customerDao.isPhoneExists(phoneNumber)) {
             errors.add("Số điện thoại đã tồn tại!");
-        }
-
-        if (password == null || password.trim().isEmpty()) {
-            errors.add("Vui lòng nhập mật khẩu!");
-        } else if (!password.matches(PASSWORD_REGEX)) {
-            errors.add("Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái in hoa, chữ cái thường, số và ký tự đặc biệt!");
-        }
-
-        if (confirmPassWord == null || confirmPassWord.trim().isEmpty()) {
-            errors.add("Vui lòng nhập xác nhận mật khẩu!");
-        } else if (!password.equals(confirmPassWord)) {
-            errors.add("Xác nhận mật khẩu không trùng khớp với mật khẩu đã nhập!");
         }
 
         Date dateOfBirth = null;
@@ -118,6 +109,7 @@ public class AddCustomerServlet extends HttpServlet {
             request.setAttribute("email", email);
             request.setAttribute("phoneNumber", phoneNumber);
             request.setAttribute("dateOfBirth", dateOfBirthString);
+            request.setAttribute("adress", address);
             request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
             return;
         }
@@ -132,14 +124,17 @@ public class AddCustomerServlet extends HttpServlet {
             Files.createDirectory(uploadPath);
         }
 
-//         imageFilename = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
         if (!imageFilename.equals("")) {
             imagePart.write(Paths.get(uploadPath.toString(), imageFilename).toString());
         }
 
-        Customer newCustomer = new Customer(fullName.trim(), email.trim(), hashedPassword, dateOfBirth, gender, phoneNumber.trim());
-        //add Customer
-        customerDao.addCustomer(newCustomer, "/uploads/" + imageFilename);
+        Customer newCustomer = new Customer(fullName.trim(), email.trim(), hashedPassword, dateOfBirth, gender, phoneNumber.trim(), address.trim());
+        //add Customer vào database
+        customerDao.addCustomer(newCustomer, request.getContextPath() + "/uploads/" + imageFilename);
+        //gửi email password được sinh ra cho người dùng
+        SendEmail sendEmail = new SendEmail();        
+        sendEmail.sendPasswordForCustomer(email, password);
+        
         request.setAttribute("success", "Thêm thành công!");
         request.setAttribute("fullName", fullName);
         request.setAttribute("gender", gender);

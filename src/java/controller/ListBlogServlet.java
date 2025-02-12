@@ -59,19 +59,19 @@ public class ListBlogServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String searchQuery = request.getParameter("search");
         BlogDAO blogDAO = new BlogDAO();
-        List<Blog> listBlog = blogDAO.getAllBlogs();
+        
+        String search = request.getParameter("search");
+        String sort = request.getParameter("sort");
 
-        // Nếu có từ khóa tìm kiếm, lọc danh sách blog
-        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-            listBlog = listBlog.stream()
-                .filter(blog -> blog.getBlogName().toLowerCase().contains(searchQuery.toLowerCase()))
-                .collect(Collectors.toList());
-        }
+        // Lấy danh sách blog theo tìm kiếm và sắp xếp
+        List<Blog> listBlog = blogDAO.getBlogs(search, sort);
 
         request.setAttribute("listBlog", listBlog);
-        request.getRequestDispatcher("listBlog.jsp").forward(request, response);     
+        request.setAttribute("search", search);
+        request.setAttribute("sort", sort);
+
+        request.getRequestDispatcher("listBlog.jsp").forward(request, response);
     } 
 
     /** 

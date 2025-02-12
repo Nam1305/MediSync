@@ -63,7 +63,7 @@ public class Customer {
     
     
 
-    public Customer(String name, String email, String password, Date dateOfBirth, String gender, String phone) {
+    public Customer(String name, String email, String password, Date dateOfBirth, String gender, String phone, String address) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -71,6 +71,7 @@ public class Customer {
         this.gender = gender;
         this.phone = phone;
         this.status = "Active"; // Mặc định trạng thái là Active
+        this.address = address;
     }
 
     public Customer(int customerId, String name, String avatar, String email, String password, String address, Date dateOfBirth, String bloodType, String gender, String status, String phone) {
