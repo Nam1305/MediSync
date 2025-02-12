@@ -4638,16 +4638,13 @@ footer.footer-bar {
 }
 
 .blog-detail-container {
-    width: 60%;
-    margin: 40px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 95px 14px 24px !important;
+    min-height: calc(100vh - 56px) !important;
+    position: relative
 }
 
 .blog-header {
-    text-align: center;
+    text-align: left;
     margin-top: 35px;
 }
 

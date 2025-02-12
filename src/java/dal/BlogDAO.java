@@ -25,7 +25,7 @@ public class BlogDAO extends DBContext {
         return blogs;
     }
 
-    public List<Blog> getAllBlogs() {
+        public List<Blog> getAllBlogs() {
         List<Blog> listBlog = new ArrayList<>();
         String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE typeId = 0;";
 
@@ -57,7 +57,7 @@ public class BlogDAO extends DBContext {
 
     public List<Blog> getBlogs(String search, String sort) {
         List<Blog> list = new ArrayList<>();
-        String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE blogName LIKE ? ORDER BY date ";
+        String sql = "SELECT * FROM Blog WHERE blogName LIKE ? ORDER BY date ";
 
         if ("asc".equals(sort)) {
             sql += "ASC";

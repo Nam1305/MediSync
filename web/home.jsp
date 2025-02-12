@@ -408,7 +408,7 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="section-title mb-4 pb-2 text-center">
-                <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog mới nhất</span>
+                <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog nổi bật</span>
             </div>
         </div><!--end col-->
     </div><!--end row-->

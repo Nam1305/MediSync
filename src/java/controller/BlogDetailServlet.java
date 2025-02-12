@@ -14,6 +14,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.Blog;
 import dal.BlogDAO;
 import jakarta.servlet.annotation.WebServlet;
+import model.Comment;
+import dal.CommentDAO;
+import java.util.List;
+
 /**
  *
  * @author Admin
@@ -56,34 +60,33 @@ public class BlogDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        // Lấy tham số blogId từ URL
         String blogIdRaw = request.getParameter("blogId");
         
-        // Kiểm tra xem blogId có hợp lệ không
         if (blogIdRaw == null || blogIdRaw.isEmpty()) {
-            response.sendRedirect("listBlog"); // Chuyển về danh sách blog nếu thiếu ID
+            response.sendRedirect("listBlog");
             return;
         }
         
         try {
             int blogId = Integer.parseInt(blogIdRaw);
             BlogDAO blogDAO = new BlogDAO();
+            CommentDAO commentDAO = new CommentDAO();
+            
             Blog blog = blogDAO.getBlogById(blogId);
+            List<Comment> comments = commentDAO.getCommentsByBlogId(blogId);
             
             if (blog == null) {
-                response.sendRedirect("listBlog"); // Nếu không tìm thấy blog, chuyển về danh sách
+                response.sendRedirect("listBlog");
                 return;
             }
             
-            // Gửi dữ liệu blog sang blog-detail.jsp
             request.setAttribute("blog", blog);
+            request.setAttribute("comments", comments);
             request.getRequestDispatcher("blog-detail.jsp").forward(request, response);
         } catch (NumberFormatException e) {
-            response.sendRedirect("listBlog"); // Chuyển về danh sách nếu blogId không hợp lệ
+            response.sendRedirect("listBlog");
         }
-    
-        
-    } 
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.

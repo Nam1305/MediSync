@@ -199,109 +199,150 @@
         <!-- Navbar End -->
 
 
-<div class="container mt-100 mt-60">
-    <div class="row justify-content-center">
-        <div class="col-12 text-center">
-            <div class="section-title mb-4 pb-2">
-<!--                <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog nổi bật</span>-->
+        <div class="container mt-100 mt-60">
+            <div class="row justify-content-center">
+                <div class="col-12 text-center">
+                    <div class="section-title mb-4 pb-2">
+                        <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Danh sách blog</span>
+                    </div>
+                </div>
+            </div><!--end row-->
+
+            <div class="row mb-4">
+                <!-- sort -->
+                <div class="col-md-6">
+                    <form action="listBlog" method="get" class="d-flex">
+                        <label class="me-2 align-self-center fw-bold">Sắp xếp:</label>
+                        <select name="sort" class="form-select me-2" onchange="this.form.submit()" style="max-width: 200px;">
+                            <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Mới nhất</option>
+                            <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Cũ nhất</option>
+                        </select>
+                    </form>
+                </div>
+
+                <!-- search bar -->
+                <div class="col-md-6 text-end">
+                    <form action="listBlog" method="get" class="d-flex justify-content-end">
+                        <input type="text" name="search" class="form-control me-2" 
+                               placeholder="Tìm kiếm blog..." value="${param.search}" style="max-width: 300px;">
+                        <button type="submit" class="btn btn-success">Tìm</button>
+                    </form>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <!-- Thanh sap xep -->
-        <div class="col-md-6">
-           <form action="listBlog" method="get" class="d-flex">
-            <label class="me-2 align-self-center fw-bold">Sắp xếp:</label>
-            <select name="sort" class="form-select me-2" onchange="this.form.submit()" style="max-width: 200px;">
-                <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Mới nhất</option>
-                <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Cũ nhất</option>
-            </select>
-        </form>
-    </div>
-
-    <!-- Thanh tim kiem -->
-    <div class="col-md-6 text-end">
-        <form action="listBlog" method="get" class="d-flex justify-content-end">
-            <input type="text" name="search" class="form-control me-2" 
-                   placeholder="Tìm kiếm blog..." value="${param.search}" style="max-width: 300px;">
-            <button type="submit" class="btn btn-success">Tìm</button>
-        </form>
-    </div>
-    </div>
 
 
 
-    <!-- list blog -->
-    <div class="row">
-        <c:forEach items="${listBlog}" var="blog">
-            <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
-                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                    <img src="${blog.image}" class="img-fluid" alt="${blog.blogName}">
-                    <div class="card-body p-4">
-                        <ul class="list-unstyled mb-2">
-                            <li class="list-inline-item text-muted small me-3">
-                                <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
-                                <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
-                            </li>
-                        </ul>
-                        <a href="blog-detail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
-                        <div class="post-meta d-flex justify-content-between mt-3">
-                            <a href="blog-detail?blogId=${blog.blogId}" class="link">Chi tiết <i class="mdi mdi-chevron-right align-middle"></i></a>
+            <!-- list blog -->
+            <div class="row">
+                <c:forEach items="${listBlog}" var="blog">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4 pt-2">
+                        <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
+                            <img src="${blog.image}" class="img-fluid" alt="${blog.blogName}">
+                            <div class="card-body p-4">
+                                <ul class="list-unstyled mb-2">
+                                    <li class="list-inline-item text-muted small me-3">
+                                        <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
+                                        <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
+                                    </li>
+                                    <li class="list-inline-item text-muted small">
+                                        <i class="uil uil-clock text-dark h6 me-1"></i>5 phút đọc
+                                    </li>
+                                </ul>
+                                <a href="blog-detail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
+                                <div class="post-meta d-flex justify-content-between mt-3">
+                                    <ul class="list-unstyled mb-0">
+                                        <li class="list-inline-item me-2 mb-0"><a href="blog-detail" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
+                                        <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>4</a></li>
+                                    </ul>
+                                    <a href="blog-detail?blogId=${blog.blogId}" class="link">Chi Tiết<i class="mdi mdi-chevron-right align-middle"></i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </c:forEach>
             </div>
-        </c:forEach>
-    </div>    
-</div><!--end container-->
-</section><!--end section-->
-<!-- End -->
-        
-        
-        
-<!-- Start -->
-<footer class="bg-footer" style="margin-top: 5%;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mb-4">
-                <p>Đội ngũ bác sĩ xuất sắc sẵn sàng cung cấp sự hỗ trợ kịp thời, điều trị khẩn cấp và tư vấn chuyên sâu cho gia đình bạn.</p>
 
-                <div class="mt-4">
-                    <h5 class="text-light title-dark footer-head">Địa chỉ</h5>
-                    <div id="google-map" style="height: 200px; width: 100%; overflow: hidden;">
-                        <!-- Nhúng Google Map tại đây -->
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d33006.67071116369!2d105.51462100371513!3d21.005883448895787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abc60e7d3f19%3A0x2be9d7d0b5abcbf4!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgSMOgIE7hu5lp!5e1!3m2!1svi!2s!4v1737175663000!5m2!1svi!2s" 
-                                width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <div class="row">
+                <!-- Phân trang -->
+                <div class="col-12 mt-4">
+                    <ul class="pagination justify-content-end mb-0 list-unstyled">
+                        <!-- Nút "Prev" -->
+                        <c:if test="${requestScope.currentPage > 1}">
+                            <li class="page-item">
+                                <a class="page-link" 
+                                   href="listBlog?page=${requestScope.currentPage - 1}&pageSize=${requestScope.pageSize}" 
+                                   aria-label="Previous">Prev</a>
+                            </li>
+                        </c:if>
+
+                        <!-- Hiển thị danh sách trang -->
+                        <c:forEach var="i" begin="1" end="${requestScope.totalPages}">
+                            <li class="page-item ${i == requestScope.currentPage ? 'active' : ''}">
+                                <a class="page-link" 
+                                   href="listBlog?page=${i}&pageSize=${requestScope.pageSize}">${i}</a>
+                            </li>
+                        </c:forEach>
+
+                        <!-- Nút "Next" -->
+                        <c:if test="${requestScope.currentPage < requestScope.totalPages}">
+                            <li class="page-item">
+                                <a class="page-link" 
+                                   href="listBlog?page=${requestScope.currentPage + 1}&pageSize=${requestScope.pageSize}" 
+                                   aria-label="Next">Next</a>
+                            </li>
+                        </c:if>
+                    </ul><!--end pagination-->
+                </div><!--end col-->
+            </div><!--end row-->
+
+
+        </div><!--end container-->
+        <!-- End -->
+
+
+
+        <!-- Start -->
+        <footer class="bg-footer" style="margin-top: 5%;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <p>Đội ngũ bác sĩ xuất sắc sẵn sàng cung cấp sự hỗ trợ kịp thời, điều trị khẩn cấp và tư vấn chuyên sâu cho gia đình bạn.</p>
+
+                        <div class="mt-4">
+                            <h5 class="text-light title-dark footer-head">Địa chỉ</h5>
+                            <div id="google-map" style="height: 200px; width: 100%; overflow: hidden;">
+                                <!-- Nhúng Google Map tại đây -->
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d33006.67071116369!2d105.51462100371513!3d21.005883448895787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abc60e7d3f19%3A0x2be9d7d0b5abcbf4!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgSMOgIE7hu5lp!5e1!3m2!1svi!2s!4v1737175663000!5m2!1svi!2s" 
+                                        width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-md-6">
+                        <h5 class="text-light title-dark footer-head">Liên hệ với chúng tôi</h5>
+                        <ul class="list-unstyled footer-list mt-4">
+                            <li class="d-flex align-items-center">
+                                <i data-feather="mail" class="fea icon-sm text-foot align-middle"></i>
+                                <a href="mailto:contact@fpt.edu.vn" class="text-foot ms-2">contact@fpt.edu.vn</a>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <i data-feather="phone" class="fea icon-sm text-foot align-middle"></i>
+                                <a href="tel:+152534468854" class="text-foot ms-2">+114</a>
+                            </li>
+                        </ul>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+
+            <div class="container mt-5">
+                <div class="pt-4 footer-bar">
+                    <div class="text-center">
+                        <p class="mb-0">2025 © MediSync. Code backend by Group 3 - SE1885</p>
                     </div>
                 </div>
-            </div><!--end col-->
-
-            <div class="col-md-6">
-                <h5 class="text-light title-dark footer-head">Liên hệ với chúng tôi</h5>
-                <ul class="list-unstyled footer-list mt-4">
-                    <li class="d-flex align-items-center">
-                        <i data-feather="mail" class="fea icon-sm text-foot align-middle"></i>
-                        <a href="mailto:contact@fpt.edu.vn" class="text-foot ms-2">contact@fpt.edu.vn</a>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <i data-feather="phone" class="fea icon-sm text-foot align-middle"></i>
-                        <a href="tel:+152534468854" class="text-foot ms-2">+114</a>
-                    </li>
-                </ul>
-            </div><!--end col-->
-        </div><!--end row-->
-    </div><!--end container-->
-
-    <div class="container mt-5">
-        <div class="pt-4 footer-bar">
-            <div class="text-center">
-                <p class="mb-0">2025 © MediSync. Code backend by Group 3 - SE1885</p>
-            </div>
-        </div>
-    </div><!--end container-->
-</footer><!--end footer-->
-<!-- End -->
+            </div><!--end container-->
+        </footer><!--end footer-->
+        <!-- End -->
 
 
 
@@ -309,16 +350,16 @@
 
 
 
-<!-- javascript -->
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<!-- SLIDER -->
-<script src="assets/js/tiny-slider.js"></script>
-<script src="assets/js/tiny-slider-init.js"></script>
-<!-- Counter -->
-<script src="assets/js/counter.init.js"></script>
-<!-- Icons -->
-<script src="assets/js/feather.min.js"></script>
-<!-- Main Js -->
-<script src="assets/js/app.js"></script>
-</body>
+        <!-- javascript -->
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <!-- SLIDER -->
+        <script src="assets/js/tiny-slider.js"></script>
+        <script src="assets/js/tiny-slider-init.js"></script>
+        <!-- Counter -->
+        <script src="assets/js/counter.init.js"></script>
+        <!-- Icons -->
+        <script src="assets/js/feather.min.js"></script>
+        <!-- Main Js -->
+        <script src="assets/js/app.js"></script>
+    </body>
 </html>

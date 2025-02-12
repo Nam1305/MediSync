@@ -198,35 +198,237 @@
             </div><!--end container-->
         </header><!--end header-->
         <!-- Navbar End -->
-        
-    <div class="blog-detail-container">
-        <div class="blog-header">
-            <h1 class="blog-title">${blog.blogName}</h1>
-        </div>
-        <p class="blog-meta">
-           Tác giả: ${blog.author} | Ngày: <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
-        </p>
 
-        <div class="blog-content">
-            <img src="${blog.image}" alt="${blog.blogName}" style="width: 100%; height: auto;">
-           <p>${blog.content}</p>
-        </div>
-    </div>
+        <div class="container-fluid">
+            <div class="blog-detail-container">
+                <div class="d-md-flex justify-content-between">
+                    <div>
+                        <h4 class="mb-0">${blog.blogName}</h4>
 
-    
-        
-        
-<!-- javascript -->
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<!-- SLIDER -->
-<script src="assets/js/tiny-slider.js"></script>
-<script src="assets/js/tiny-slider-init.js"></script>
-<!-- Counter -->
-<script src="assets/js/counter.init.js"></script>
-<!-- Icons -->
-<script src="assets/js/feather.min.js"></script>
-<!-- Main Js -->
-<script src="assets/js/app.js"></script>
-</body>        
+                        <ul class="list-unstyled mt-2 mb-0">
+                            <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> ${blog.author}</li>
+                            <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> ${blog.date}</li>
+                        </ul>
+                    </div>
+                </div>       
+
+                <div class="row">
+                    <div class="col-lg-8 col-lg-7 mt-4">
+                        <div class="card rounded shadow border-0 overflow-hidden">
+                            <img src="${blog.image}" class="img-fluid" alt="">
+
+                            <div class="p-4">
+                                <!-- <ul class="list-unstyled">
+                                    <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> Calvin Carlo</li>
+                                    <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> 1st January, 2021</li>
+                                </ul> -->
+                                <p class="text-muted mb-0">${blog.content}</p>
+
+                                <h5 class="card-title mt-4 mb-0">Comments :</h5>
+
+                                <ul class="media-list list-unstyled mb-0">
+                                    <li class="mt-4">
+                                        <ul>
+                                            <c:forEach var="comment" items="${comments}">
+                                                <li class="mt-4">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="d-flex align-items-center">
+                                                            <a class="pe-3" href="#">
+                                                                <img src="${comment.avatar}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                                            </a>
+                                                            <div class="commentor-detail">
+                                                                <h6 class="mb-0">
+                                                                    <a href="javascript:void(0)" class="text-dark media-heading">${comment.name}</a>
+                                                                </h6>
+                                                                <small class="text-muted">
+                                                                    <fmt:formatDate value="${comment.date}" pattern="dd/MM/yyyy"/>
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                        <a href="#" class="text-muted"><i class="mdi mdi-reply"></i> Reply</a>
+                                                    </div>
+                                                    <div class="mt-3">
+                                                        <p class="text-muted font-italic p-3 bg-light rounded">"${comment.content}"</p>
+                                                    </div>
+                                                </li>
+                                            </c:forEach>
+                                        </ul>
+
+
+                                        <ul class="list-unstyled ps-4 ps-md-5 sub-comment">
+                                            <li class="mt-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex align-items-center">
+                                                        <a class="pe-3" href="#">
+                                                            <img src="../assets/images/client/01.jpg" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                                        </a>
+                                                        <div class="commentor-detail">
+                                                            <h6 class="mb-0"><a href="javascript:void(0)" class="text-dark media-heading">Random Guy</a></h6>
+                                                            <small class="text-muted">17th August, 2024</small>
+                                                        </div>
+                                                    </div>
+                                                    <a href="#" class="text-muted"><i class="mdi mdi-reply"></i> Reply</a>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <p class="text-muted font-italic p-3 bg-light rounded">"<3"</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <h5 class="card-title mt-4 mb-0">Leave A Comment :</h5>
+
+                                <form class="mt-3">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Your Comment</label>
+                                                <textarea id="message" placeholder="Your Comment" rows="5" name="message" class="form-control" required=""></textarea>
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Name <span class="text-danger">*</span></label>
+                                                <input id="name" name="name" type="text" placeholder="Name" class="form-control" required="">
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Your Email <span class="text-danger">*</span></label>
+                                                <input id="email" type="email" placeholder="Email" name="email" class="form-control" required="">
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-md-12">
+                                            <div class="send d-grid">
+                                                <button type="submit" class="btn btn-primary">Send Message</button>
+                                            </div>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                </form><!--end form-->
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-4 col-md-5 mt-4">
+                        <div class="card border-0 sidebar sticky-bar rounded shadow">
+                            <div class="card-body">
+                                <!-- RECENT POST -->
+                                <div class="widget mb-4 pb-2">
+                                    <h5 class="widget-title">Recent Post</h5>
+                                    <div class="mt-4">
+                                        <div class="clearfix post-recent">
+                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/07.jpg" class="img-fluid rounded"></a></div>
+                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Consultant Business</a><span class="text-muted mt-2">15th June, 2019</span></div>
+                                        </div>
+                                        <div class="clearfix post-recent">
+                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/08.jpg" class="img-fluid rounded"></a></div>
+                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Look On The Glorious Balance</a> <span class="text-muted mt-2">15th June, 2019</span></div>
+                                        </div>
+                                        <div class="clearfix post-recent">
+                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/01.jpg" class="img-fluid rounded"></a></div>
+                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Research Financial.</a> <span class="text-muted mt-2">15th June, 2019</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- RECENT POST -->
+
+                                <!-- TAG CLOUDS -->
+                                <div class="widget mb-4 pb-2">
+                                    <h5 class="widget-title">Tags Cloud</h5>
+                                    <div class="tagcloud mt-4">
+                                        <a href="jvascript:void(0)" class="rounded">Business</a>
+                                        <a href="jvascript:void(0)" class="rounded">Finance</a>
+                                        <a href="jvascript:void(0)" class="rounded">Marketing</a>
+                                        <a href="jvascript:void(0)" class="rounded">Fashion</a>
+                                        <a href="jvascript:void(0)" class="rounded">Bride</a>
+                                        <a href="jvascript:void(0)" class="rounded">Lifestyle</a>
+                                        <a href="jvascript:void(0)" class="rounded">Travel</a>
+                                        <a href="jvascript:void(0)" class="rounded">Beauty</a>
+                                        <a href="jvascript:void(0)" class="rounded">Video</a>
+                                        <a href="jvascript:void(0)" class="rounded">Audio</a>
+                                    </div>
+                                </div>
+                                <!-- TAG CLOUDS -->
+
+                                <!-- SOCIAL -->
+                                <div class="widget">
+                                    <h5 class="widget-title">Follow us</h5>
+                                    <ul class="list-unstyled social-icon mb-0 mt-4">
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="facebook" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="instagram" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="twitter" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="linkedin" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="github" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="youtube" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="gitlab" class="fea icon-sm fea-social"></i></a></li>
+                                    </ul><!--end icon-->
+                                </div>
+                                <!-- SOCIAL -->
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->        
+            </div>    
+
+            <!-- Start -->
+            <footer class="bg-footer" style="margin-top: 5%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <p>Đội ngũ bác sĩ xuất sắc sẵn sàng cung cấp sự hỗ trợ kịp thời, điều trị khẩn cấp và tư vấn chuyên sâu cho gia đình bạn.</p>
+
+                            <div class="mt-4">
+                                <h5 class="text-light title-dark footer-head">Địa chỉ</h5>
+                                <div id="google-map" style="height: 200px; width: 100%; overflow: hidden;">
+                                    <!-- Nhúng Google Map tại đây -->
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d33006.67071116369!2d105.51462100371513!3d21.005883448895787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abc60e7d3f19%3A0x2be9d7d0b5abcbf4!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgSMOgIE7hu5lp!5e1!3m2!1svi!2s!4v1737175663000!5m2!1svi!2s" 
+                                            width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                </div>
+                            </div>
+                        </div><!--end col-->
+
+                        <div class="col-md-6">
+                            <h5 class="text-light title-dark footer-head">Liên hệ với chúng tôi</h5>
+                            <ul class="list-unstyled footer-list mt-4">
+                                <li class="d-flex align-items-center">
+                                    <i data-feather="mail" class="fea icon-sm text-foot align-middle"></i>
+                                    <a href="mailto:contact@fpt.edu.vn" class="text-foot ms-2">contact@fpt.edu.vn</a>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <i data-feather="phone" class="fea icon-sm text-foot align-middle"></i>
+                                    <a href="tel:+152534468854" class="text-foot ms-2">+114</a>
+                                </li>
+                            </ul>
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div><!--end container-->
+
+                <div class="container mt-5">
+                    <div class="pt-4 footer-bar">
+                        <div class="text-center">
+                            <p class="mb-0">2025 © MediSync. Code backend by Group 3 - SE1885</p>
+                        </div>
+                    </div>
+                </div><!--end container-->
+            </footer><!--end footer-->
+            <!-- End -->                                
+
+
+            <!-- javascript -->
+            <script src="assets/js/bootstrap.bundle.min.js"></script>
+            <!-- SLIDER -->
+            <script src="assets/js/tiny-slider.js"></script>
+            <script src="assets/js/tiny-slider-init.js"></script>
+            <!-- Counter -->
+            <script src="assets/js/counter.init.js"></script>
+            <!-- Icons -->
+            <script src="assets/js/feather.min.js"></script>
+            <!-- Main Js -->
+            <script src="assets/js/app.js"></script>
+    </body>        
 </html>
 
