@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.admin;
 
 import dal.DoctorDAO;
+import dal.PositionDAO;
+import dal.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,31 +15,23 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
-import java.io.File;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import model.Department;
 import model.Role;
 import model.Staff;
 import util.BCrypt;
-import util.GeneratePassword;
-import util.SendEmail;
 
 /**
  *
  * @author Acer
  */
-@WebServlet(name = "AddStaffServlet", urlPatterns = {"/AddStaffServlet"})
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+@WebServlet(name = "UpdateStaffServlet", urlPatterns = {"/UpdateStaffServlet"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
-        maxRequestSize = 1024 * 1024 * 50 // 50MB
-)
-public class AddStaffServlet extends HttpServlet {
+        maxRequestSize = 1024 * 1024 * 50)
+public class UpdateStaffServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,7 +54,30 @@ public class AddStaffServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
+        String staffIdStr = request.getParameter("id");
+        try {
+            int staffId = Integer.parseInt(staffIdStr);
+            DoctorDAO staff = new DoctorDAO();
+            Staff currentstaff = staff.getStaffById(staffId);
+            if (currentstaff != null) {
+                // Nếu tìm thấy nhân viên, gửi thông tin đến trang update.jsp
+                request.setAttribute("staff", currentstaff); // Đặt đối tượng Dish vào attribute
+                request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
+            } else {
+                // Nếu không tìm thấy nhân viên , thông báo lỗi
+                request.setAttribute("error", "Dish with ID " + staffId + " not found.");
+                request.getRequestDispatcher("updateDish.jsp").forward(request, response); // Quay lại danh sách
+            }
+        } catch (NumberFormatException e) {
+            // Xử lý lỗi nếu id không phải là số nguyên
+            request.setAttribute("error", "Invalid ID format.");
+            request.getRequestDispatcher("listDoctor").forward(request, response); // Quay lại danh sách
+        } catch (Exception e) {
+            // Xử lý các lỗi khác
+            System.out.println(e);
+            request.setAttribute("error", "An unexpected error occurred.");
+            request.getRequestDispatcher("listDoctor").forward(request, response); // Quay lại danh sách
+        }
     }
 
     /**
@@ -75,44 +92,21 @@ public class AddStaffServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<String> error = new ArrayList<>();
-        GeneratePassword generatePassword = new GeneratePassword();
-        // lấy dữ liệu từ request 
+        // Lấy thông tin từ request
+        int staffId = Integer.parseInt(request.getParameter("staffId"));
         String name = request.getParameter("name");
         String email = request.getParameter("email");
-        String uploadPath = getServletContext().getRealPath("/uploads");
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs(); // Tạo thư mục nếu chưa tồn tại
-        }
-
-        Part filePart = request.getPart("avatar");
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String contentType = filePart.getContentType();
-        if (contentType == null || !contentType.startsWith("image/")) {
-            request.setAttribute("error", "Only image files are allowed.");
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
-            return;
-        }
-        // Nếu không có file được chọn, đặt ảnh mặc định
-        if (fileName == null || fileName.trim().isEmpty()) {
-            fileName = "default-avatar.png";
-        } else {
-            // Tránh trùng tên file bằng cách thêm timestamp
-            fileName = System.currentTimeMillis() + "_" + fileName;
-            String filePath = uploadPath + File.separator + fileName;
-            filePart.write(filePath); // Lưu file vào thư mục
-        }
-
-        // Đường dẫn ảnh lưu vào database
-        String avatarPath = request.getContextPath() + "/uploads/" + fileName;
         String phone = request.getParameter("phone");
-        String password = generatePassword.generateRandomPassword(8);
-        String gender = request.getParameter("gender");
-        String position = request.getParameter("position");
-        String description = request.getParameter("description");
         String dateOfBirthStr = request.getParameter("dateOfBirth");
+        String position = request.getParameter("position");
+        String gender = request.getParameter("gender");
+        String status = request.getParameter("status");
+        String description = request.getParameter("description");
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         int roleId = Integer.parseInt(request.getParameter("roleId"));
+
+        PositionDAO positionDao = new PositionDAO();
+        String currentPosition = positionDao.getPositionByStaffId(staffId);
 
         // Kiểm tra điều kiện dữ liệu đầu vào
         if (isEmpty(name)) {
@@ -124,7 +118,7 @@ public class AddStaffServlet extends HttpServlet {
         if (isEmpty(phone)) {
             error.add("Phone must not null!");
         }
-        
+       
         if (isEmpty(gender)) {
             error.add("Gender must not null!");
         }
@@ -134,7 +128,9 @@ public class AddStaffServlet extends HttpServlet {
         if(isEmpty(position)){
             error.add("position must not null!");
         }
-        
+        if(isEmpty(status)){
+            error.add("status must not null!");
+        }
         if(isEmpty(description)){
             error.add("description must not null!");
         }
@@ -147,58 +143,64 @@ public class AddStaffServlet extends HttpServlet {
             return;
         }
 
-
         if (!checkPhone(phone)) {
             request.setAttribute("error", "Invalid phone number! It must start with 09, 08, or 03.");
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
             return;
         }
-        
-        //ép kiểu cho dateOfBirth
+
+       
+        // ép kiểu cho dob
         java.sql.Date dateOfBirth = java.sql.Date.valueOf(dateOfBirthStr);
         if (dateOfBirth.toLocalDate().isAfter(LocalDate.now())) {
             request.setAttribute("error", "Ngày sinh không hợp lệ!");
             request.getRequestDispatcher("addStaff.jsp").forward(request, response);
             return;
         }
-        //mã hóa password bằng hàm Bcrypt()
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        DoctorDAO staff = new DoctorDAO();
-        if (staff.checkPhoneExists(phone)) {
-            request.setAttribute("error", "Phone number already exists!");
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
-            return;
-        }
-        // // Khởi tạo đối tượng Department
+        
+        // Tạo đối tượng Department và Role
         Department department = new Department();
         department.setDepartmentId(departmentId);
+
         Role role = new Role();
         role.setRoleId(roleId);
-        if (staff.checkEmail(email)) {
-            request.setAttribute("error", "Email exists!");
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+        DoctorDAO staff = new DoctorDAO();
+        Staff currentstaff = staff.getStaffById(staffId);
+//        String hashedPassword = BCrypt.hashpw(currentstaff.getPassword(), BCrypt.gensalt());
+         String hashedPassword = currentstaff.getPassword();
+        if (staff.checkPhoneExistsCurrentStaff(phone, staffId)) {
+            request.setAttribute("error", "Phone number already exists!");
+            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
             return;
         }
-        Staff newStaff = new Staff(0, name, email, avatarPath, phone, hashedPassword, dateOfBirth, position, gender, "Active", description, department, role);
-
-        boolean isAdded = staff.addStaff(newStaff);
-
-        if (isAdded) {
-            response.sendRedirect("ListDoctor");
-            SendEmail sendPassword = new SendEmail();
-            sendPassword.sendPasswordForStaff(email, password);
-        } else {
-            request.setAttribute("error", " Please try again.");
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+        if (staff.checkEmailExistsCurrentStaff(email, staffId)) {
+            request.setAttribute("error", "Email already exists!");
+            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
+            return;
         }
-    }
+        // Cập nhật thông tin nhân viên
+        Staff updateStaff = new Staff(staffId, name, email, "", phone, hashedPassword, dateOfBirth, position, gender, status, description, department, role);
+        boolean isUpdate = staff.updateStaff(updateStaff);
 
-    private boolean isEmpty(String value) {
-        return value == null || value.trim().isEmpty();
+        // Nếu cập nhật thành công và position thay đổi, lưu vào HistoryPosition
+        if (isUpdate && !updateStaff.getPosition().equals(currentPosition)) {
+            positionDao.insertPositionHistory(staffId, position);
+        }
+
+        if (isUpdate) {
+            response.sendRedirect("ListDoctor");
+        } else {
+            request.setAttribute("error", "Failed to update staff");
+            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
+        }
     }
 
     private boolean checkPhone(String phone) {
         return phone.matches("^(09|08|03)\\d{8}$");
+    }
+
+    private boolean isEmpty(String value) {
+        return value == null || value.trim().isEmpty();
     }
 
 //    private boolean checkPassword(String password) {

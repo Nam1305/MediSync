@@ -73,12 +73,6 @@
                             <input name="dob" id="dob" type="date" class="form-control" value="${customer.dateOfBirth}" required>
                         </div>
                     </div>
-                    <!--                    <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Ảnh đại diện</label>
-                                                <input type="file" name="avatar" id="avatar" class="form-control" src="${customer.avatar}">
-                                            </div>
-                                        </div>-->
                 </div>
                 <div class="row">
                     <div class="col-sm-12">

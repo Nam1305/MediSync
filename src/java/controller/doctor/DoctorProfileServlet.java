@@ -151,6 +151,7 @@ public class DoctorProfileServlet extends HttpServlet {
                 break;
         }
         session.setAttribute("staff", st);
+        request.setAttribute("success", "Cập nhật thành công!");
         request.getRequestDispatcher("doctorProfile.jsp").forward(request, response);
     }
 

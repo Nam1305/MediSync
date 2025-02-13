@@ -1,4 +1,4 @@
-package controller;
+package controller.admin;
 
 import com.google.gson.JsonObject;
 import dal.CustomerDAO;

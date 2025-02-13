@@ -111,53 +111,29 @@
 
                     <ul class="sidebar-menu pt-3">
                         <li><a href="adminDashBoard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                        <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
+                        <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Danh sách lịch hẹn</a></li>
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Staff</a>
+                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Nhân viên</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="ListDoctor">Staffs</a></li>
-                                    <li><a href="addStaff.jsp">Add Staff</a></li>
+                                    <li><a href="ListDoctor">Danh sách nhân viên</a></li>
+                                    <li><a href="addStaff.jsp">Thêm nhân viên</a></li>
 
                                 </ul>
                             </div>
                         </li>
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Patients</a>
+                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Bệnh nhân</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="listCustomer">All Patients</a></li>
-                                    <li><a href="addCustomer">Add Patients</a></li>
-                                    <li><a href="patient-profile.html">Profile</a></li>
+                                    <li><a href="listCustomer">Danh sách bệnh nhân</a></li>
+                                    <li><a href="addCustomer">Thêm bệnh nhân</a></li>
+                                   
                                 </ul>
                             </div>
                         </li>
-
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Apps</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="chat.html">Chat</a></li>
-                                    <li><a href="email.html">Email</a></li>
-                                    <li><a href="calendar.html">Calendar</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Pharmacy</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="shop.html">Shop</a></li>
-                                    <li><a href="product-detail.html">Shop Detail</a></li>
-                                    <li><a href="shopcart.html">Shopcart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
 
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
@@ -169,7 +145,7 @@
                             </div>
                         </li>
 
-                        <li class="sidebar-dropdown">
+<!--                        <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Pages</a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -183,9 +159,9 @@
                                     <li><a href="manage-banners">Manage Banners</a></li>
                                 </ul>
                             </div>
-                        </li>
+                        </li>-->
 
-                        <li class="sidebar-dropdown">
+<!--                        <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -196,12 +172,12 @@
                                     <li><a href="thankyou.html">Thank you...!</a></li>
                                 </ul>
                             </div>
-                        </li>
+                        </li>-->
 
 
-                        <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
+<!--                        <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
 
-                        <li><a href="landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
+                        <li><a href="landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>-->
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -353,9 +329,9 @@
                                             </div>
                                         </a>
                                         <a class="dropdown-item text-dark" href="adminDashBoard"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                        <a class="dropdown-item text-dark" href="dr-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
+                                        <a class="dropdown-item text-dark" href="dr-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Thông tin cá nhân</a>
                                         <div class="dropdown-divider border-top"></div>
-                                        <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
+                                        <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất</a>
                                     </div>
                                 </div>
                             </li>
@@ -366,7 +342,7 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0" style="color: #218838">Staff List</h5>
+                            <h5 class="mb-0" style="color: #218838">Danh sách nhân viên</h5>
 
                             <form action="ListDoctor" method="get">
                                 <label for="roleFilter">Filter by Role:</label>
@@ -390,7 +366,7 @@
 
 
                         </div>
-                        <h5><a href="addStaff.jsp" style="color : #218838">Add Staff</a></h5>
+<!--                        <h5><a href="addStaff.jsp" style="color : #218838">Add Staff</a></h5>-->
 
                         <!-- navbar-of-table -->
                         <div class="row">

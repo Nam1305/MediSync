@@ -24,6 +24,11 @@
                 font-size: 14px;
                 margin-bottom: 10px;
             }
+             .success-message {
+                color: green;
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
             /* Cấu trúc chính của form */
             .form-container {
                 width: 100%;
@@ -255,12 +260,15 @@
                     </div>
 
                     <div class="col-xl-8 col-lg-8 col-md-7 mt-4 pt-2 mt-sm-0 pt-sm-0">
+                        <p class="success-message">${success}</p>
+
                         <!-- Change Avatar Form -->
                         <div class="rounded shadow mt-4">
                             <div class="p-4 border-bottom">
                                 <h5 class="mb-0">Đổi ảnh đại diện</h5>
 
                             </div>
+
                             <div class="p-4 border-bottom">
                                 <form id="avatarForm" method="post" enctype="multipart/form-data" action="doctorprofile?action=updateavatar">
                                     <div class="form-container">

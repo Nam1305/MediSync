@@ -1,4 +1,4 @@
-package controller;
+package controller.admin;
 
 import dal.CustomerDAO;
 import java.io.IOException;
