@@ -24,7 +24,7 @@
                 font-size: 14px;
                 margin-bottom: 10px;
             }
-             .success-message {
+            .success-message {
                 color: green;
                 font-size: 14px;
                 margin-bottom: 10px;
@@ -193,7 +193,7 @@
                                 <a class="dropdown-item text-dark" href="change-password">
                                     <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
                                 </a>
-                                <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
+                                <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span>Profile</a>
 
                                 <div class="dropdown-divider border-top"></div>
                                 <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất </a>
@@ -248,14 +248,47 @@
                                 <p class="text-muted mb-0">${staff.department.departmentName}</p>
                             </div>
 
-                            <ul class="list-unstyled sidebar-nav mb-0">
-                                <li class="navbar-item"><a href="doctor-appointment.html" class="navbar-link"><i class="ri-calendar-check-line align-middle navbar-icon"></i> Lịch hẹn</a></li>
-                                <li class="navbar-item"><a href="doctor-schedule.html" class="navbar-link"><i class="ri-timer-line align-middle navbar-icon"></i> Lịch làm việc</a></li>
-                                <li class="navbar-item"><a href="invoices.html" class="navbar-link"><i class="ri-pages-line align-middle navbar-icon"></i>Hóa đơn</a></li>
-                                <li class="navbar-item"><a href="doctor-profile-setting.html" class="navbar-link"><i class="ri-user-settings-line align-middle navbar-icon"></i>Profile</a></li>
-                                <li class="navbar-item"><a href="patient-list.html" class="navbar-link"><i class="ri-empathize-line align-middle navbar-icon"></i> Bệnh nhân</a></li>
-                                <li class="navbar-item"><a href="patient-review.html" class="navbar-link"><i class="ri-chat-1-line align-middle navbar-icon"></i> Đánh giá của bệnh nhân</a></li>
-                            </ul>
+                            <c:choose>
+                                <c:when test="${staff.role.roleId == 2 || staff.role.roleId == 3}">
+                                    <ul class="list-unstyled sidebar-nav mb-0">
+                                        <li class="navbar-item">
+                                            <a href="doctor-appointment.html" class="navbar-link">
+                                                <i class="ri-calendar-check-line align-middle navbar-icon"></i> Lịch hẹn
+                                            </a>
+                                        </li>
+                                        <li class="navbar-item">
+                                            <a href="doctor-schedule.html" class="navbar-link">
+                                                <i class="ri-timer-line align-middle navbar-icon"></i> Lịch làm việc
+                                            </a>
+                                        </li>
+                                        <li class="navbar-item">
+                                            <a href="invoices.html" class="navbar-link">
+                                                <i class="ri-pages-line align-middle navbar-icon"></i> Hóa đơn
+                                            </a>
+                                        </li>
+                                        <li class="navbar-item">
+                                            <a href="doctor-profile-setting.html" class="navbar-link">
+                                                <i class="ri-user-settings-line align-middle navbar-icon"></i> Profile
+                                            </a>
+                                        </li>
+                                        <li class="navbar-item">
+                                            <a href="patient-list.html" class="navbar-link">
+                                                <i class="ri-empathize-line align-middle navbar-icon"></i> Bệnh nhân
+                                            </a>
+                                        </li>
+                                        <li class="navbar-item">
+                                            <a href="patient-review.html" class="navbar-link">
+                                                <i class="ri-chat-1-line align-middle navbar-icon"></i> Đánh giá của bệnh nhân
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </c:when>
+                                <c:otherwise>
+                                    <div style="font-size: 20px; color: #333; background-color: #f8f9fa; padding: 15px; border-radius: 5px; border: 1px solid #ccc; margin-top: 20px; font-weight: bold; text-align: center;">
+                                        Tôi là ${staff.role.role}
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
 
