@@ -40,6 +40,10 @@
         <servlet-name>BannerManagementServlet</servlet-name>
         <servlet-class>controller.BannerManagementServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ScheduleServlet</servlet-name>
+        <servlet-class>controller.doctor.ScheduleServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -79,5 +83,9 @@
     <servlet-mapping>
         <servlet-name>BannerManagementServlet</servlet-name>
         <url-pattern>/manage-banners</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ScheduleServlet</servlet-name>
+        <url-pattern>/schedule</url-pattern>
     </servlet-mapping>
 </web-app>
