@@ -692,40 +692,43 @@ INSERT INTO Comment (content, [date], blogId, customerId) VALUES
 (N'Bài viết tốt nhưng có thể bổ sung thêm số liệu.', '2023-10-10', 10, 10);
 
  
---Appointment 
-INSERT INTO Appointment ([date], startTime, endTime, appType, status, staffId, customerId) 
-VALUES
--- StaffId 1
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'Chờ xác nhận', 1, 1),
-('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'Đã Chấp Nhận', 1, 2),
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'Đã Thanh Toán', 1, 3),
+-- Appointment
+-- Các thuộc tính: pending, cancelled, confirmed, paid
+INSERT INTO Appointment ([date], startTime, endTime, appType, status, staffId, customerId)  
+VALUES  
+-- StaffId 1  
+('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'pending', 1, 1),  
+('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'confirmed', 1, 2),  
+('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'paid', 1, 3),  
 
--- StaffId 2
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'Đã Hủy', 2, 4),
-('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'Chờ xác nhận', 2, 5),
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'Không Đến', 2, 6),
+-- StaffId 2  
+('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'cancelled', 2, 4),  
+('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'pending', 2, 5),  
+('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'noshow', 2, 6),  
 
--- StaffId 3
-('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'Đã Chấp Nhận', 3, 7),
-('2025-01-26', '08:00:00', '08:30:00', 'Offline', 'Đã Đến', 3, 8),
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'Đã Thanh Toán', 3, 9),
+-- StaffId 3  
+('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'confirmed', 3, 7),  
+('2025-01-26', '08:00:00', '08:30:00', 'Offline', 'confirmed', 3, 8),  
+('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'paid', 3, 9),  
 
--- StaffId 5
-('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'Đã Chấp Nhận', 5, 10),
-('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'Không Đến', 5, 1),
+-- StaffId 5  
+('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'confirmed', 5, 10),  
+('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'noshow', 5, 1),  
 
--- StaffId 7
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'Chờ xác nhận', 7, 3),
-('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'Đã Thanh Toán', 7, 4),
-('2025-01-27', '13:00:00', '13:30:00', 'Offline', 'Đã Chấp Nhận', 7, 5),
--- StaffId 8
-('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'Đã Hủy', 8, 6),
-('2025-01-26', '08:00:00', '08:30:00', 'Offline', 'Đã Đến', 8, 7),
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'Chờ xác nhận', 8, 8),
+-- StaffId 7  
+('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'cancelled', 7, 3),  
+('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'paid', 7, 4),  
+('2025-01-27', '13:00:00', '13:30:00', 'Offline', 'confirmed', 7, 5),  
 
--- StaffId 9
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'Không Đến', 9, 9),
-('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'Đã Chấp Nhận', 9, 10);
+-- StaffId 8  
+('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'cancelled', 8, 6),  
+('2025-01-26', '08:00:00', '08:30:00', 'Offline', 'paid', 8, 7),  
+('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'pending', 8, 8),  
+
+-- StaffId 9  
+('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'paid', 9, 9),  
+('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'confirmed', 9, 10);  
+
 --Prescription 
 -- Đơn thuốc 1
 INSERT INTO Prescription (appointmentId, medicineName, totalQuantity, dosage, note) 
