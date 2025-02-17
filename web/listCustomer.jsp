@@ -87,22 +87,6 @@
                             </div>
                         </li>
 
-<!--                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="signup.html">Signup</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                                    <li><a href="lock-screen.html">Lock Screen</a></li>
-                                    <li><a href="thankyou.html">Thank you...!</a></li>
-                                </ul>
-                            </div>
-                        </li>-->
-
-<!--                        <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
-
-                        <li><a href="landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>-->
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -261,10 +245,37 @@
                                 </c:if>
                             </div>
                         </div>
+                        <!--                        <form action="listCustomer" method="get">
+                                                    <input type="hidden" name="page" value="${requestScope.currentPage != null ? requestScope.currentPage : 1}" />
+                                                    <div class="d-flex justify-content-between mb-3">
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                             Dropdown menu để chọn trạng thái 
+                                                            <select class="form-select me-2" name="status">
+                                                                <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả</option>
+                                                                <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
+                                                                <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
+                                                                </select>
+                        
+                                                                 Dropdown menu để chọn giới tính 
+                                                                <select class="form-select me-2" name="gender">
+                                                                    <option value="" <c:if test="${empty gender}">selected</c:if>>Tất cả</option>
+                                                                <option value="M" <c:if test="${gender == 'M'}">selected</c:if>>Nam</option>
+                                                                <option value="F" <c:if test="${gender == 'F'}">selected</c:if>>Nữ</option>
+                                                                </select>
+                        
+                                                                <input type="number" class="form-control me-2" name="pageSize" min="1" max="${requestScope.totalCustomers}" 
+                                                                   value="${not empty pageSize ? pageSize : 10}" placeholder="Số lượng/trang" style="width: 150px;">
+                                                        </div>    
+                                                    </div>
+                                                     Thêm tham số 'page' vào form để đảm bảo nó luôn được gửi 
+                        
+                                                     Nút gửi form 
+                                                    <button type="submit" class="btn btn-primary">Lọc</button>
+                                                </form>-->
                         <form action="listCustomer" method="get">
                             <input type="hidden" name="page" value="${requestScope.currentPage != null ? requestScope.currentPage : 1}" />
-                            <div class="d-flex justify-content-between mb-3">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex justify-content-end mb-3">
+                                <div class="d-flex align-items-center">
                                     <!-- Dropdown menu để chọn trạng thái -->
                                     <select class="form-select me-2" name="status">
                                         <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả</option>
@@ -279,16 +290,15 @@
                                         <option value="F" <c:if test="${gender == 'F'}">selected</c:if>>Nữ</option>
                                         </select>
 
+                                        <!-- Input số lượng/trang -->
                                         <input type="number" class="form-control me-2" name="pageSize" min="1" max="${requestScope.totalCustomers}" 
                                            value="${not empty pageSize ? pageSize : 10}" placeholder="Số lượng/trang" style="width: 150px;">
+
+                                    <!-- Nút gửi form -->
+                                    <button type="submit" class="btn btn-primary">Lọc</button>
                                 </div>    
                             </div>
-                            <!-- Thêm tham số 'page' vào form để đảm bảo nó luôn được gửi -->
-
-                            <!-- Nút gửi form -->
-                            <button type="submit" class="btn btn-primary">Lọc</button>
                         </form>
-
                         <div class="row">
                             <div class="col-12 mt-4">
                                 <div class="table-responsive shadow rounded">
