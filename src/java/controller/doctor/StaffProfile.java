@@ -33,7 +33,7 @@ import util.Validation;
         maxFileSize = 10 * 1024 * 1024, // 10MB
         maxRequestSize = 50 * 1024 * 1024 // 50MB
 )
-public class DoctorProfileServlet extends HttpServlet {
+public class StaffProfile extends HttpServlet {
 
     Validation valid = new Validation();
     DepartmentDAO depart = new DepartmentDAO();
@@ -60,7 +60,7 @@ public class DoctorProfileServlet extends HttpServlet {
         request.setAttribute("listd", listd);
         Staff staff = (Staff) session.getAttribute("staff");
         request.setAttribute("staff", staff);
-        request.getRequestDispatcher("doctorProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("staffProfile.jsp").forward(request, response);
     }
 
     /**
@@ -91,7 +91,7 @@ public class DoctorProfileServlet extends HttpServlet {
                     session.setAttribute("staff", st);
                     request.setAttribute("listd", listd);
 
-                    request.getRequestDispatcher("doctorProfile.jsp").forward(request, response);
+                    request.getRequestDispatcher("staffProfile.jsp").forward(request, response);
                     return;
 
                 }
@@ -101,7 +101,7 @@ public class DoctorProfileServlet extends HttpServlet {
                     session.setAttribute("staff", st);
                     request.setAttribute("listd", listd);
 
-                    request.getRequestDispatcher("doctorProfile.jsp").forward(request, response);
+                    request.getRequestDispatcher("staffProfile.jsp").forward(request, response);
                     return;
                 }
                 st.setName(valid.normalizeFullName(request.getParameter("name")));
@@ -127,6 +127,7 @@ public class DoctorProfileServlet extends HttpServlet {
 
                 if (!imageFilename.equals("")) {
                     String fileExtension = "";
+                    imageFilename = System.currentTimeMillis() + "_" + imageFilename;
                     int dotIndex = imageFilename.lastIndexOf('.');
                     if (dotIndex > 0 && dotIndex < imageFilename.length() - 1) {
                         fileExtension = imageFilename.substring(dotIndex + 1).toLowerCase();
@@ -141,7 +142,7 @@ public class DoctorProfileServlet extends HttpServlet {
                         request.setAttribute("erroravatar", "Định dạng tệp không hợp lệ. Vui lòng chọn tệp .jpg, .jpeg hoặc .png.");
                         session.setAttribute("staff", st);
                         request.setAttribute("listd", listd);
-                        request.getRequestDispatcher("doctorProfile.jsp").forward(request, response);
+                        request.getRequestDispatcher("staffProfile.jsp").forward(request, response);
 
                         return;
                     }
@@ -152,7 +153,7 @@ public class DoctorProfileServlet extends HttpServlet {
         }
         session.setAttribute("staff", st);
         request.setAttribute("success", "Cập nhật thành công!");
-        request.getRequestDispatcher("doctorProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("staffProfile.jsp").forward(request, response);
     }
 
     /**

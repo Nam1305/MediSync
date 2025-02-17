@@ -162,6 +162,11 @@
                                                 <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Profile
                                             </a>
                                         </c:if>
+                                        <c:if test="${staff != null}">
+                                            <a class="dropdown-item text-dark" href="schedule">
+                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> DashBoard
+                                            </a>
+                                        </c:if>
 
                                         <div class="dropdown-divider border-top"></div>
                                         <a class="dropdown-item text-dark" href="logout">

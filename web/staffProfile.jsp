@@ -4,6 +4,7 @@
     Author     : DIEN MAY XANH
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
@@ -24,10 +25,21 @@
                 font-size: 14px;
                 margin-bottom: 10px;
             }
-             .success-message {
+            .success-message {
                 color: green;
                 font-size: 14px;
                 margin-bottom: 10px;
+            }
+            .alert {
+                display: none;
+                padding: 15px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+            }
+            .alert-success {
+                background-color: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
             }
             /* Cấu trúc chính của form */
             .form-container {
@@ -193,7 +205,9 @@
                                 <a class="dropdown-item text-dark" href="change-password">
                                     <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
                                 </a>
-                                <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
+                                <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span>Profile</a>
+                                <a class="dropdown-item text-dark" href="schedule"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span>Dashboard</a>
+
 
                                 <div class="dropdown-divider border-top"></div>
                                 <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất </a>
@@ -232,40 +246,21 @@
 
 
         <section class="bg-dashboard">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row justify-content-center">
-                    <div class="col-xl-4 col-lg-4 col-md-5 col-12">
-                        <div class="rounded shadow overflow-hidden sticky-bar">
-                            <div class="card border-0">
-                                <img src="assets/images/doctors/profile-bg.jpg" class="img-fluid" alt="">
+
+                    <!-- Main Content -->
+                    <div class="col-xl-9 col-lg-8 col-md-7 col-12 mt-4 pt-2 mt-sm-0 pt-sm-0">
+                        <c:if test="${not empty success}">
+                            <div id="successMessage" class="alert alert-success text-center" style="display: block;">
+                                ${success}
                             </div>
-
-                            <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
-                                <img src="${staff.avatar}"
-                                     class="avatar avatar-md-sm rounded-circle border shadow" alt="">
-
-                                <h5 class="mt-3 mb-1">${staff.name}</h5>
-                                <p class="text-muted mb-0">${staff.department.departmentName}</p>
-                            </div>
-
-                            <ul class="list-unstyled sidebar-nav mb-0">
-                                <li class="navbar-item"><a href="doctor-appointment.html" class="navbar-link"><i class="ri-calendar-check-line align-middle navbar-icon"></i> Lịch hẹn</a></li>
-                                <li class="navbar-item"><a href="doctor-schedule.html" class="navbar-link"><i class="ri-timer-line align-middle navbar-icon"></i> Lịch làm việc</a></li>
-                                <li class="navbar-item"><a href="invoices.html" class="navbar-link"><i class="ri-pages-line align-middle navbar-icon"></i>Hóa đơn</a></li>
-                                <li class="navbar-item"><a href="doctor-profile-setting.html" class="navbar-link"><i class="ri-user-settings-line align-middle navbar-icon"></i>Profile</a></li>
-                                <li class="navbar-item"><a href="patient-list.html" class="navbar-link"><i class="ri-empathize-line align-middle navbar-icon"></i> Bệnh nhân</a></li>
-                                <li class="navbar-item"><a href="patient-review.html" class="navbar-link"><i class="ri-chat-1-line align-middle navbar-icon"></i> Đánh giá của bệnh nhân</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-8 col-lg-8 col-md-7 mt-4 pt-2 mt-sm-0 pt-sm-0">
-                        <p class="success-message">${success}</p>
+                        </c:if>
 
                         <!-- Change Avatar Form -->
                         <div class="rounded shadow mt-4">
                             <div class="p-4 border-bottom">
-                                <h5 class="mb-0">Đổi ảnh đại diện</h5>
+                                <h5 class="mb-0 text-center">Đổi ảnh đại diện</h5>
 
                             </div>
 
@@ -308,10 +303,17 @@
                             </div>
                         </div>
 
+
+
                         <!-- Update Profile Form -->
                         <div class="rounded shadow mt-4">
                             <div class="p-4 border-bottom">
-                                <h5 class="mb-0">Cập nhật thông tin cá nhân</h5>
+                                <h5 class="mb-0 text-center">Cập nhật thông tin cá nhân</h5>
+                                <c:if test="${not empty error}">
+                                    <div id="errorMessage" class="alert alert-danger text-center" style="display: block;">
+                                        ${error}
+                                    </div>
+                                </c:if>
                             </div>
                             <div class="p-4">
                                 <form onsubmit="validateForm(event)" method="post" action="doctorprofile?action=updateprofile">
@@ -347,7 +349,7 @@
                                         <div class="col-md-12 mb-3">
                                             <label for="description" class="form-label">Mô tả ngắn</label>
                                             <textarea class="form-control" id="description" name="des" rows="4"  placeholder="Nhập tiểu sử của bạn (tối đa 500 từ)"  oninput="countWords()" style="width: 100%;">${staff.description}</textarea>
-                                            <p id="wordCount">0 / 500 từ</p>
+                                            <p id="wordCount"> ${fn:length(staff.description)} / 500 từ</p>
                                         </div>
 
                                         <div class="col-md-6 mb-3">
@@ -360,20 +362,20 @@
                                         </div>
 
                                         <!-- Thông báo lỗi sẽ hiển thị ở đây -->
-                                        <div id="error-message" class="error-message">${error}</div>
+                                        <div id="error-message" class="error-message"></div>
 
                                         <div class="col-md-12">
                                             <button type="submit" class="btn btn-primary w-100">Lưu thay đổi</button>
                                         </div>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
-                    </div>
+                    </div><!-- End Main Content -->
                 </div>
             </div>
         </section>
+
 
         <footer class="footer bg-dark footer-bar">
             <div class="container">
@@ -385,6 +387,7 @@
             </div>
         </footer>
         <script>
+
             function validateForm(event) {
                 const name = document.getElementById('name').value.trim();
                 const email = document.getElementById('email').value.trim();
@@ -468,6 +471,21 @@
                 const popup = document.getElementById('imagePreviewPopup');
                 popup.style.display = 'none';
             }
+
+
+            function hideMessageAfterDelay(elementId, delay) {
+                const messageElement = document.getElementById(elementId);
+                if (messageElement) {
+                    setTimeout(() => {
+                        messageElement.style.display = 'none';
+                    }, delay);
+                }
+            }
+
+            // Gọi hàm cho cả hai phần tử với thời gian trì hoãn 4000 ms
+            hideMessageAfterDelay('errorMessage', 3000);
+            hideMessageAfterDelay('successMessage', 3000);
+
         </script>
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>
