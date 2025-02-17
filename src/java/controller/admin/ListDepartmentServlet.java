@@ -1,10 +1,10 @@
-package controller.admin;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-import dal.DoctorDAO;
+package controller.admin;
+
+import dal.DepartmentDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,13 +12,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import model.Department;
 
 /**
  *
  * @author Acer
  */
-@WebServlet(urlPatterns = {"/deleteStaffServlet"})
-public class DeleteStaffServlet extends HttpServlet {
+@WebServlet(name = "ListDepartmentServlet", urlPatterns = {"/ListDepartment"})
+public class ListDepartmentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +40,10 @@ public class DeleteStaffServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet deleteStaffServlet</title>");
+            out.println("<title>Servlet ListDepartmentServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet deleteStaffServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListDepartmentServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,7 +61,11 @@ public class DeleteStaffServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        DepartmentDAO department = new DepartmentDAO();
+        List<Department> listDepartment = department.getAllDepartments();
+        request.setAttribute("listDepartment", listDepartment);
+        request.getRequestDispatcher("listDepartment.jsp").forward(request, response);
+
     }
 
     /**
@@ -72,23 +79,7 @@ public class DeleteStaffServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String Staffid = request.getParameter("id");
-        int staffId = Integer.parseInt(Staffid);
-        
-        DoctorDAO staff = new DoctorDAO();
-        if(staff.getStaffById(staffId)== null){
-            request.setAttribute("error", "Not found staff. Please try again.");
-            request.getRequestDispatcher("ListDoctor").forward(request, response);
-        }
-        boolean isDelete = staff.deleteStaff(staffId);
-
-        if (isDelete) {
-           response.sendRedirect("ListDoctor");
-        } else {
-            request.setAttribute("error", "Failed to delete staff. Please try again.");
-            request.getRequestDispatcher("ListDoctor").forward(request, response);
-        }
-
+            
     }
 
     /**

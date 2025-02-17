@@ -63,7 +63,7 @@
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="ListDoctor">Danh sách bác sĩ</a></li>
-                                    <li><a href="addStaff.jsp">Thêm bác sĩ</a></li>
+                                    <li><a href="AddStaffServlet">Thêm bác sĩ</a></li>
 
                                 </ul>
                             </div>
@@ -79,7 +79,16 @@
                                 </ul>
                             </div>
                         </li>
-                        
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Phòng Ban</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="ListDepartment">Danh sách Phòng Ban</a></li>
+                                    <li><a href="AddDepartment">Thêm Phòng Ban</a></li>
+
+                                </ul>
+                            </div>
+                        </li>
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
                             <div class="sidebar-submenu">

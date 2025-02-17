@@ -1,5 +1,10 @@
+<%-- 
+    Document   : addDepartment
+    Created on : Feb 17, 2025, 2:47:22 PM
+    Author     : Acer
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -254,13 +259,15 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Thêm Nhân Viên</h5>
+                            <h5 class="mb-0">Thêm Phòng Ban</h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'ListDoctor'">
-                                            Danh Sách Nhân Viên
-                                        </button></li>
+
+                                    <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'ListDepartment'">
+                                        Danh Sách Phòng Ban
+                                    </button>
+
                                 </ul>
                             </nav>
                         </div>
@@ -269,96 +276,16 @@
                             <div class="col-lg-8 mt-4">
                                 <div class="card border-0 p-4 rounded shadow">
                                     <div class="row align-items-center">
-                                        <div class="col-lg-2 col-md-4">
-                                            <img src="assets/images/doctors/01.jpg" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
-                                        </div><!--end col-->
 
-
-
-                                        <form class="mt-4" action="AddStaffServlet" method="POST" enctype="multipart/form-data">
+                                        <form class="mt-4" action="AddDepartment" method="post" >
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Họ và tên</label>
-                                                        <input name="name" id="name" type="text" class="form-control" placeholder="Full Name :" required>
-                                                    </div>
-                                                </div><!--end col-->
-
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Email</label>
-                                                        <input name="email" id="email" type="email" class="form-control" placeholder="Your email :" required>
-                                                    </div> 
-                                                </div><!--end col-->
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Avatar</label>
-                                                        <input name="avatar" id="avatar" type="file" class="form-control" placeholder="Your avatar :" required>
-                                                    </div> 
-                                                </div><!--end col-->
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Số Điện Thoại</label>
-                                                        <input name="phone" id="phone" type="text" class="form-control" placeholder="Phone no :" required>
-                                                    </div>                                                                               
-                                                </div><!--end col-->
-
-
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Ngày Sinh</label>
-                                                        <input name="dateOfBirth" id="dateOfBirth" type="date" class="form-control" required>
-                                                    </div>
-                                                </div><!--end col-->
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Phòng Ban</label>
-                                                        <select name="departmentId" class="form-control department-name select2input" required>
-                                                            <c:forEach var="department" items="${requestScope.listDepartment}">
-                                                                <option value="${department.departmentId}">${department.departmentName}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                    </div>
-                                                </div><!--end col-->
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Role</label>
-                                                        <select name="roleId" class="form-control department-name select2input" required>
-                                                            <option value="2">Doctor</option>
-                                                            <option value="3">Expert</option>
-                                                            <option value="4">Receptionist</option>
-                                                        </select>
-                                                    </div>
-                                                </div><!--end col-->
-
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Giới Tính</label>
-                                                        <select name="gender" class="form-control gender-name select2input" required>
-                                                            <option value="M">Male</option>
-                                                            <option value="F">Female</option>
-                                                        </select>
-                                                    </div>
-                                                </div><!--end col-->
-
-
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Vị trí Làm việc </label>
-
-                                                        <select name="position" id="position" class="form-control department-name select2input" required>
-                                                            <option value="Doctor">Doctor</option>
-                                                            <option value="Expert">Expert</option>
-                                                            <option value="Receptionist">Receptionist</option>
-                                                        </select>
-                                                    </div>
-                                                </div><!--end col-->
                                                 <div class="col-md-12">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Giới Thiệu Bản Thân</label>
-                                                        <input name="description" id="desctiption" type="text" class="form-control" placeholder="Your Description :" required>
-                                                    </div> 
+                                                        <label class="form-label">Tên Phòng Ban</label>
+                                                        <input name="departmentname" id="departmentname" type="text" class="form-control" placeholder="Tên Phòng Ban" required>
+                                                    </div>
                                                 </div><!--end col-->
+
                                                 <div>
                                                     <c:if test="${not empty error}">
                                                         <div style="color: red">${error}</div>
@@ -367,7 +294,7 @@
 
                                             </div><!--end row-->
 
-                                            <button type="submit" class="btn btn-primary">Thêm Nhân Viên</button>
+                                            <button type="submit" class="btn btn-primary">Thêm Phòng Ban </button>
                                         </form>
 
 
@@ -438,62 +365,7 @@
                         </div>
                         <!-- Offcanvas End -->
 
-                        <!-- View Appintment Start -->
-                        <div class="modal fade" id="viewappointment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header border-bottom p-3">
-                                        <h5 class="modal-title" id="exampleModalLabel">Appointment Detail</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body p-3 pt-4">
-                                        <div class="d-flex align-items-center">
-                                            <img src="assets/images/client/01.jpg" class="avatar avatar-small rounded-pill" alt="">
-                                            <h5 class="mb-0 ms-3">Howard Tanner</h5>
-                                        </div>
-                                        <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
-                                            <li>
-                                                <ul class="list-unstyled mb-0">
-                                                    <li class="d-flex">
-                                                        <h6>Age:</h6>
-                                                        <p class="text-muted ms-2">25 year old</p>
-                                                    </li>
 
-                                                    <li class="d-flex">
-                                                        <h6>Gender:</h6>
-                                                        <p class="text-muted ms-2">Male</p>
-                                                    </li>
-
-                                                    <li class="d-flex">
-                                                        <h6 class="mb-0">Department:</h6>
-                                                        <p class="text-muted ms-2 mb-0">Cardiology</p>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <ul class="list-unstyled mb-0">
-                                                    <li class="d-flex">
-                                                        <h6>Date:</h6>
-                                                        <p class="text-muted ms-2">20th Dec 2020</p>
-                                                    </li>
-
-                                                    <li class="d-flex">
-                                                        <h6>Time:</h6>
-                                                        <p class="text-muted ms-2">11:00 AM</p>
-                                                    </li>
-
-                                                    <li class="d-flex">
-                                                        <h6 class="mb-0">Doctor:</h6>
-                                                        <p class="text-muted ms-2 mb-0">Dr. Calvin Carlo</p>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- View Appintment End -->
 
                         <!-- Accept Appointment Start -->
                         <div class="modal fade" id="acceptappointment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

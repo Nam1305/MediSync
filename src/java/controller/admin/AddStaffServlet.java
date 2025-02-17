@@ -4,9 +4,10 @@
  */
 package controller.admin;
 
+import dal.DepartmentDAO;
 import dal.DoctorDAO;
+import dal.PositionDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,7 +19,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 import model.Department;
 import model.Role;
@@ -37,7 +38,10 @@ import util.SendEmail;
         maxFileSize = 1024 * 1024 * 10, // 10MB
         maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
+
 public class AddStaffServlet extends HttpServlet {
+
+    private static final String IMAGE_REGEX = ".*\\.(png|jpg|jpeg)$";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,7 +64,11 @@ public class AddStaffServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
+        DepartmentDAO department = new DepartmentDAO();
+        List<Department> listDepartment = department.getActiveDepartment();
+        request.setAttribute("listDepartment", listDepartment);
+        request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+        
     }
 
     /**
@@ -88,8 +96,18 @@ public class AddStaffServlet extends HttpServlet {
         Part filePart = request.getPart("avatar");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String contentType = filePart.getContentType();
+        // Danh sách đuôi file hợp lệ
+        List<String> allowedExtensions = Arrays.asList("png", "jpg", "jpeg");
+
         if (contentType == null || !contentType.startsWith("image/")) {
             request.setAttribute("error", "Only image files are allowed.");
+            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            return;
+        }
+        // Kiểm tra đuôi file (đảm bảo không bị giả mạo MIME type)
+        String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+        if (!allowedExtensions.contains(fileExtension)) {
+            request.setAttribute("error", "Invalid file format. Only PNG, JPG, and JPEG are allowed.");
             request.getRequestDispatcher("addStaff.jsp").forward(request, response);
             return;
         }
@@ -124,21 +142,20 @@ public class AddStaffServlet extends HttpServlet {
         if (isEmpty(phone)) {
             error.add("Phone must not null!");
         }
-        
+
         if (isEmpty(gender)) {
             error.add("Gender must not null!");
         }
         if (isEmpty(dateOfBirthStr)) {
             error.add("Date of birth must not null!");
         }
-        if(isEmpty(position)){
+        if (isEmpty(position)) {
             error.add("position must not null!");
         }
-        
-        if(isEmpty(description)){
+
+        if (isEmpty(description)) {
             error.add("description must not null!");
         }
-        
 
         // Nếu có lỗi, gửi lại danh sách lỗi
         if (!error.isEmpty()) {
@@ -147,13 +164,12 @@ public class AddStaffServlet extends HttpServlet {
             return;
         }
 
-
         if (!checkPhone(phone)) {
             request.setAttribute("error", "Invalid phone number! It must start with 09, 08, or 03.");
             request.getRequestDispatcher("addStaff.jsp").forward(request, response);
             return;
         }
-        
+
         //ép kiểu cho dateOfBirth
         java.sql.Date dateOfBirth = java.sql.Date.valueOf(dateOfBirthStr);
         if (dateOfBirth.toLocalDate().isAfter(LocalDate.now())) {
@@ -181,9 +197,10 @@ public class AddStaffServlet extends HttpServlet {
         }
         Staff newStaff = new Staff(0, name, email, avatarPath, phone, hashedPassword, dateOfBirth, position, gender, "Active", description, department, role);
 
-        boolean isAdded = staff.addStaff(newStaff);
-
-        if (isAdded) {
+        int staffId = staff.addStaff(newStaff);
+        PositionDAO positiondao = new PositionDAO();
+        if (staffId > 0) {
+            positiondao.insertPositionHistory(staffId, position);
             response.sendRedirect("ListDoctor");
             SendEmail sendPassword = new SendEmail();
             sendPassword.sendPasswordForStaff(email, password);
@@ -200,18 +217,6 @@ public class AddStaffServlet extends HttpServlet {
     private boolean checkPhone(String phone) {
         return phone.matches("^(09|08|03)\\d{8}$");
     }
-
-//    private boolean checkPassword(String password) {
-//        // Kiểm tra ít nhất 8 ký tự, có chữ hoa, chữ thường, và ký tự đặc biệt (bất kỳ vị trí nào)
-//        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$";
-//        // ^                 : Bắt đầu chuỗi
-//        // (?=.*[a-z])       : Ít nhất một chữ cái thường (a-z)
-//        // (?=.*[A-Z])       : Ít nhất một chữ cái hoa (A-Z)
-//        // (?=.*[^a-zA-Z0-9]): Ít nhất một ký tự đặc biệt (không phải chữ hoặc số)
-//        // .{8,}             : Ít nhất 8 ký tự trở lên (bất kỳ ký tự nào)
-//        // $                 : Kết thúc chuỗi
-//        return password.matches(passwordPattern);
-//    }
 
     /**
      * Returns a short description of the servlet.

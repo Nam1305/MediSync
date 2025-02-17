@@ -1,3 +1,8 @@
+<%-- 
+    Document   : listDepartment
+    Created on : Feb 14, 2025, 8:38:51 PM
+    Author     : Acer
+--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -129,7 +134,7 @@
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="ListDoctor">Danh sách nhân viên</a></li>
-                                    <li><a href="AddStaffServlet">Thêm nhân viên</a></li>
+                                    <li><a href="addStaff.jsp">Thêm nhân viên</a></li>
 
                                 </ul>
                             </div>
@@ -145,16 +150,18 @@
                                 </ul>
                             </div>
                         </li>
+
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Phòng Ban</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="ListDepartment">Danh sách Phòng Ban</a></li>
+                                    <li><a href="listDepartment">Danh sách Phòng Ban</a></li>
                                     <li><a href="AddDepartment">Thêm Phòng Ban</a></li>
 
                                 </ul>
                             </div>
                         </li>
+
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
                             <div class="sidebar-submenu">
@@ -315,7 +322,7 @@
                                                 <small class="text-muted">Orthopedic</small>
                                             </div>
                                         </a>
-                                        <a class="dropdown-item text-dark" href="adminDashBoard.jsp"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
+                                        <a class="dropdown-item text-dark" href="adminDashBoard"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
                                         <a class="dropdown-item text-dark" href="dr-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Thông tin cá nhân</a>
                                         <div class="dropdown-divider border-top"></div>
                                         <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất</a>
@@ -329,35 +336,12 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0" style="color: #218838">Danh sách nhân viên</h5>
-
-                            <form action="ListDoctor" method="get">
-                                <label for="roleFilter">Filter by Role:</label>
-                                <select name="roleId" id="roleFilter">
-                                    <option value="">All</option>
-                                    <option value="2">Bác sĩ</option>
-                                    <option value="3">Chuyên gia</option>
-                                    <option value="4">Lễ tân</option>
-                                </select>
-                                <label for="statusFilter">Filter by Status:</label>
-                                <select name="status" id="statusFilter">
-                                    <option value="">All</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
-                                <label for="statusFilter">PageSize</label>
-                                <input type="number" name="pageSize">
-                                <button type="submit">Filter</button>
-                            </form>
-
-
+                            <h5 class="mb-0" style="color: #218838">Danh sách phòng ban</h5>
 
                         </div>
-                        <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddStaffServlet'">
-                            Thêm Nhân Viên
+                        <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddDepartment'">
+                            Thêm Phòng Ban
                         </button>
-
-                        <!-- navbar-of-table -->
                         <div class="row">
                             <div class="col-12 mt-4">
                                 <div class="table-responsive shadow rounded">
@@ -365,13 +349,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
-                                                <th class="border-bottom p-3">Giới Tính</th>
-                                                <th class="border-bottom p-3">Vị trí </th>
-                                                <th class="border-bottom p-3">Phòng ban</th>
-                                                <th class="border-bottom p-3">số điện thoại</th>
-                                                <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
-                                                <th class="border-bottom p-3">Email</th>
+                                                <th class="border-bottom p-3" style="min-width: 180px;">Tên Phòng Ban</th>
                                                 <th class="border-bottom p-3">Status</th>
 
                                                 <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
@@ -379,38 +357,21 @@
                                         </thead>
                                         <!--tbody-start-->
                                         <tbody>
-                                            <c:forEach var="doctors" items="${listDoctor}">
+                                            <c:forEach var="department" items="${listDepartment}">
                                                 <tr>
-                                                    <td class="p-3">${doctors.staffId}</td>
-                                                    <td class="py-3">
-                                                        <a href="#" class="text-dark">
-                                                            <div class="d-flex align-items-center">
-                                                                <img src="${doctors.avatar}" 
-                                                                     class="avatar avatar-md-sm rounded-circle shadow" alt="">
-
-                                                                <span class="ms-2">${doctors.name}</span>
-                                                            </div>
-                                                        </a>
-                                                    </td>
-                                                    <td class="p-3">${doctors.gender}</td>
-                                                    <td class="p-3">${doctors.position}</td>
-                                                    <td class="p-3">${doctors.department.departmentName}</td>
-                                                    <td class="p-3">${doctors.phone}</td>
-                                                    <td class="p-3">${doctors.dateOfBirth}</td>
-                                                    <td class="p-3">${doctors.email}</td>
-                                                    <td class="p-3">${doctors.status}</td>
-                                                    <td class="text-end p-3">
+                                                    <td class="p-3">${department.departmentId}</td>
+                                                    <td class="p-3">${department.departmentName}</td>
+                                                    <td class="p-3">${department.status}</td>
+                                                    <td class=" p-3">
                                                         <!-- Action Buttons -->
-                                                        <a href="ViewStaffDetail?id=${doctors.staffId}" class="btn btn-icon btn-pills btn-soft-primary" >
-                                                            <i class="uil uil-eye"></i>
-                                                        </a>
+
                                                         <!-- Edit button with data-* attributes for customer info -->
-                                                        <a href="UpdateStaffServlet?id=${doctors.staffId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                        <a href="#" class="btn btn-icon btn-pills btn-soft-success">
                                                             <i class="uil uil-pen"></i> 
                                                         </a>
-                                                        <form id="deleteForm${doctors.staffId}" action="deleteStaffServlet" method="post" style="display: inline;">
-                                                            <input type="hidden" name="id" value="${doctors.staffId}">
-                                                            <a href="#" onclick="doDelete(${doctors.staffId})" class="btn btn-icon btn-pills btn-soft-danger">
+                                                        <form id="deleteForm${department.departmentId}" action="DeleteDepartment" method="post" style="display: inline;">
+                                                            <input type="hidden" name="id" value="${department.departmentId}">
+                                                            <a href="#" onclick="doDelete(${department.departmentId})" class="btn btn-icon btn-pills btn-soft-danger">
                                                                 <i class="uil uil-trash"></i>
                                                             </a>
                                                         </form>
@@ -459,7 +420,8 @@
                             <!--PAGINATION END -->
                         </div>
                     </div>
-                </div><!--end container-->
+                </div>
+                <!--end container-->
 
                 <!-- Footer Start -->
                 <footer class="bg-white shadow py-3">

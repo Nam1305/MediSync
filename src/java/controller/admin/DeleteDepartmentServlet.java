@@ -1,10 +1,10 @@
-package controller.admin;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-import dal.DoctorDAO;
+package controller.admin;
+
+import dal.DepartmentDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,8 +17,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Acer
  */
-@WebServlet(urlPatterns = {"/deleteStaffServlet"})
-public class DeleteStaffServlet extends HttpServlet {
+@WebServlet(name = "DeleteDepartmentServlet", urlPatterns = {"/DeleteDepartment"})
+public class DeleteDepartmentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,10 @@ public class DeleteStaffServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet deleteStaffServlet</title>");
+            out.println("<title>Servlet DeleteDepartmentServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet deleteStaffServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteDepartmentServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -72,23 +72,24 @@ public class DeleteStaffServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String Staffid = request.getParameter("id");
-        int staffId = Integer.parseInt(Staffid);
-        
-        DoctorDAO staff = new DoctorDAO();
-        if(staff.getStaffById(staffId)== null){
-            request.setAttribute("error", "Not found staff. Please try again.");
-            request.getRequestDispatcher("ListDoctor").forward(request, response);
-        }
-        boolean isDelete = staff.deleteStaff(staffId);
+        String departmentIdSTr = request.getParameter("id");
+        try {
+            int departmentId = Integer.parseInt(departmentIdSTr);
+            DepartmentDAO department = new DepartmentDAO();
+            boolean isDelete = department.deleteDepartment(departmentId);
+            if(department.getDepartmentById(departmentId)== null){
+                request.setAttribute("error", "Not found department. Please try again.");
+                request.getRequestDispatcher("ListDepartment").forward(request, response);
+            }
+            if (isDelete) {
+                response.sendRedirect("ListDepartment");
+            } else {
+                request.setAttribute("error", "Failed to delete department. Please try again.");
+                request.getRequestDispatcher("ListDepartment").forward(request, response);
+            }
+        } catch (Exception e) {
 
-        if (isDelete) {
-           response.sendRedirect("ListDoctor");
-        } else {
-            request.setAttribute("error", "Failed to delete staff. Please try again.");
-            request.getRequestDispatcher("ListDoctor").forward(request, response);
         }
-
     }
 
     /**
