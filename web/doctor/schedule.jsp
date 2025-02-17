@@ -9,12 +9,12 @@
         <meta charset="utf-8" />
         <title>Schedule</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="<%= request.getContextPath() %>/assets/images/favicon.ico.png">
-        <link href="<%= request.getContextPath() %>/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="<%= request.getContextPath() %>/assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-        <link href="<%= request.getContextPath() %>/assets/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
-        <link href="<%= request.getContextPath() %>/assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -61,7 +61,9 @@
                     <!-- Schedule chiếm 3/4 -->
                     <div class="col-xl-9 col-lg-9 col-md-8 mt-4 pt-2 mt-sm-0 pt-sm-0">
                         <div class="schedule-container">
-                            <form action="schedule?action=adddate" method="post">
+                            <form action="schedule" 
+                                  method="get"
+                                  onsubmit="return confirm('Bạn có chắc chắn muốn đăng ký lịch không?');">
                                 <!-- Chọn ngày -->
                                 <label class="form-label">Chọn ngày: </label>
                                 <input type="date" id="selectedDate" class="form-control mb-3" name="datework" required>
@@ -70,15 +72,21 @@
                                 <label class="form-label">Chọn ca làm việc:</label>
                                 <select id="shiftSelect" class="form-select mb-3" required onchange="updateTime()">
                                     <option value="" disabled selected>Chọn ca</option>
-                                    <option value="08:00-12:00">Ca 1: 08:00 - 12:00</option> 
-                                    <option value="13:00-17:00">Ca 2: 13:00 - 17:00</option> 
-                                    <option value="18:00-22:00">Ca 3: 18:00 - 22:00</option> 
+                                    <option value="08:00-12:00">Ca 1: 08:00 - 12:00</option>
+                                    <option value="13:00-17:00">Ca 2: 13:00 - 17:00</option>
+                                    <option value="18:00-22:00">Ca 3: 18:00 - 22:00</option>
                                 </select>
-
+                                <input type="hidden" name="action" value="adddate">
                                 <input type="hidden" id="startTime" name="startTime">
                                 <input type="hidden" id="endTime" name="endTime">
+
+                                <!-- Nút đăng ký -->
                                 <button type="submit" class="btn btn-success w-100">Đăng ký</button>
+                                <div class="text-danger mt-2">
+                                    ${errorMessage}
+                                </div>
                             </form>
+
 
                             <h4 class="mt-4 text-center">Lịch làm việc đã đăng ký</h4>
 
@@ -113,7 +121,10 @@
                                         <c:forEach items="${listSchedule}" var="o" varStatus="status">
                                             <tr>
                                                 <td> <fmt:formatDate value="${o.date}" pattern="dd/MM/yyyy"/></td>
-                                                <td>${o.startTime} - ${o.endTime}</td>
+                                                <td>
+                                                    <fmt:formatDate value="${o.startTime}" pattern="HH:mm" /> - 
+                                                    <fmt:formatDate value="${o.endTime}" pattern="HH:mm" />
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
@@ -122,12 +133,13 @@
 
 
                         </div>
+
                         <div class="row text-center mt-4">
                             <div class="col-12">
-                                <div class="d-md-flex align-items-center justify-content-center">
+                                <div class="d-md-flex align-items-center justify-content-end">
 
 
-                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0 justify-content-end">
+                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <!-- Nút Trước -->
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
@@ -198,8 +210,9 @@
 
         </script>
 
-        <script src="<%= request.getContextPath() %>/assets/js/bootstrap.bundle.min.js"></script>
-        <script src="<%= request.getContextPath() %>/assets/js/feather.min.js"></script>
-        <script src="<%= request.getContextPath() %>/assets/js/app.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/feather.min.js"></script>
+        <script src="assets/js/app.js"></script>
+
     </body>
 </html>

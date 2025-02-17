@@ -75,6 +75,28 @@ public class StaffDAO extends DBContext {
         return null;
     }
 
+    public Staff getStaffById(int id) {
+        String sql = """
+                     Select staffid, name, email, avatar, 
+                     phone, password, dateofBirth, position,
+                     gender, status, description, roleId, 
+                     departmentId from Staff 
+                     WHERE staffId = ?""";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToStaff(rs);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      * Cập nhật mật khẩu của nhân viên
      */

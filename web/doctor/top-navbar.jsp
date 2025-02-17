@@ -11,12 +11,12 @@
         <meta charset="utf-8" />
         <title>Top Navbar</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="<%= request.getContextPath() %>/assets/images/favicon.ico.png">
-        <link href="<%= request.getContextPath() %>/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="<%= request.getContextPath() %>/assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-        <link href="<%= request.getContextPath() %>/assets/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="../assets/images/favicon.ico.png">
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/remixicon.css" rel="stylesheet" type="text/css" />
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
-        <link href="<%= request.getContextPath() %>/assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="../assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
     </head>
     <body>
         <div id="preloader">
@@ -64,13 +64,13 @@
 
                                     </div>
                                 </a>
-                                <a class="dropdown-item text-dark" href="<%= request.getContextPath() %>/change-password">
+                                <a class="dropdown-item text-dark" href="change-password">
                                     <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
                                 </a>
-                                <a class="dropdown-item text-dark" href="<%= request.getContextPath() %>/doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Profile</a>
+                                <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Profile</a>
                                 <a class="dropdown-item text-dark" href="schedule"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span>Dashboard</a>
                                 <div class="dropdown-divider border-top"></div>
-                                <a class="dropdown-item text-dark" href="<%= request.getContextPath() %>/logout">
+                                <a class="dropdown-item text-dark" href="logout">
                                     <span class="mb-0 d-inline-block me-1">
                                         <i class="uil uil-sign-out-alt align-middle h6"></i>
                                     </span> 
@@ -86,7 +86,7 @@
                     <!-- Navigation Menu-->   
                     <ul class="navigation-menu nav-left">
                         <li class="has-submenu parent-menu-item">
-                            <a href="<%= request.getContextPath() %>/home">Home</a><span class="menu-arrow"></span>
+                            <a href="home">Home</a><span class="menu-arrow"></span>
                         </li>
 
                         <li class="has-submenu parent-parent-menu-item">
@@ -96,7 +96,7 @@
                         <li class="has-submenu parent-parent-menu-item"><a href="javascript:void(0)">Pages</a><span class="menu-arrow"></span>
                             <ul class="submenu">
                                 <li class="has-submenu parent-menu-item">
-                                <li><a href="<%= request.getContextPath() %>/listBlog" class="sub-menu-item">Blogs</a></li>
+                                <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
                                 <li><a href="blog-detail.html" class="sub-menu-item">Blog Details</a></li>
                                 <li><a href="error.html" class="sub-menu-item">404 !</a></li>
                             </ul>

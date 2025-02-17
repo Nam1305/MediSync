@@ -1,41 +1,34 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package model;
-
 import java.sql.*;
-
-public class Appointment {
+/**
+ *
+ * @author DIEN MAY XANH
+ */
+public class Appointment {  
     private int appointmentId;
     private Date date;
-    private Time startTime;
-    private Time endTime;
-    private String appType;
+    private Time start, end;
+    private String type;
     private String status;
-    private int staffId;
-    private int customerId;
-    private int prescriptionId;
+    private Staff staff;
+    private Customer customer;
 
     public Appointment() {
     }
 
-    public Appointment(int appointmentId, Date date, Time startTime, Time endTime, String appType, String status) {
+    public Appointment(int appointmentId, Date date, Time start, Time end, String type, String status, Staff staff, Customer customer) {
         this.appointmentId = appointmentId;
         this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.appType = appType;
+        this.start = start;
+        this.end = end;
+        this.type = type;
         this.status = status;
-    }
-
-    public Appointment(int appointmentId, Date date, Time startTime, Time endTime, String appType, String status, int staffId, int customerId, int prescriptionId) {
-        this.appointmentId = appointmentId;
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.appType = appType;
-        this.status = status;
-        this.staffId = staffId;
-        this.customerId = customerId;
-        this.prescriptionId = prescriptionId;
+        this.staff = staff;
+        this.customer = customer;
     }
 
     public int getAppointmentId() {
@@ -54,28 +47,28 @@ public class Appointment {
         this.date = date;
     }
 
-    public Time getStartTime() {
-        return startTime;
+    public Time getStart() {
+        return start;
     }
 
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
+    public void setStart(Time start) {
+        this.start = start;
     }
 
-    public Time getEndTime() {
-        return endTime;
+    public Time getEnd() {
+        return end;
     }
 
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
+    public void setEnd(Time end) {
+        this.end = end;
     }
 
-    public String getAppType() {
-        return appType;
+    public String getType() {
+        return type;
     }
 
-    public void setAppType(String appType) {
-        this.appType = appType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getStatus() {
@@ -86,32 +79,26 @@ public class Appointment {
         this.status = status;
     }
 
-    public int getStaffId() {
-        return staffId;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setStaffId(int staffId) {
-        this.staffId = staffId;
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public int getPrescriptionId() {
-        return prescriptionId;
+    @Override
+    public String toString() {
+        return "Appointment{" + "appointmentId=" + appointmentId + ", date=" + date + ", start=" + start + ", end=" + end + ", type=" + type + ", status=" + status + ", staff=" + staff + ", customer=" + customer + '}';
     }
-
-    public void setPrescriptionId(int prescriptionId) {
-        this.prescriptionId = prescriptionId;
-    }
-    
-    
-    
     
     
     
