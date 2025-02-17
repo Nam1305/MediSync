@@ -125,7 +125,7 @@ public class ScheduleDAO extends DBContext {
     }
 
     public Schedule checkExistSchedule(Schedule schedule) {
-        String sql = "SELECT * FROM Schedule WHERE staffId = ? AND date = ? AND startTime = ?";
+        String sql = "SELECT leId, startTime, endTime, shift, date, staffId FROM Schedule WHERE staffId = ? AND date = ? AND startTime = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);

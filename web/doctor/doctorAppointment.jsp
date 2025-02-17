@@ -1,6 +1,6 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -54,7 +54,6 @@
     <body>
         <jsp:include page="top-navbar.jsp" />
 
-
         <section class="bg-dashboard">
             <div class="container-fluid">
                 <div class="row">
@@ -62,11 +61,33 @@
                         <div class="rounded shadow overflow-hidden sticky-bar">
                             <jsp:include page="left-navbar.jsp" />
                         </div>
-                    </div>  
+                    </div>
 
                     <div class="col-xl-9 col-lg-9 col-md-8 col-12 mt-4 pt-2 mt-sm-0 pt-sm-0">
                         <div class="table-container">
                             <h4 class="mb-3 text-center">Danh sách lịch hẹn</h4>
+                            <div class="mb-4">
+                                <form action="doctor/appointments.jsp" method="get" class="d-flex justify-content-between">
+                                    <input type="text" name="search" class="form-control" placeholder="Tìm kiếm bệnh nhân" value="${param.search}" style="width: 200px;">
+
+                                    <select name="status" class="form-control" style="width: 150px;">
+                                        <option value="">Tất cả trạng thái</option>
+                                        <option value="Pending" ${param.status == 'Pending' ? 'selected' : ''}>Chờ xác nhận</option>
+                                        <option value="Confirmed" ${param.status == 'Confirmed' ? 'selected' : ''}>Đã xác nhận</option>
+                                        <option value="Completed" ${param.status == 'Completed' ? 'selected' : ''}>Hoàn thành</option>
+                                        <option value="Cancelled" ${param.status == 'Cancelled' ? 'selected' : ''}>Đã hủy</option>
+                                    </select>
+
+                                    <input type="date" name="date" class="form-control" value="${param.date}" style="width: 150px;">
+
+                                    <!-- Input cho số bản ghi mỗi trang -->
+                                    <input type="number" name="pageSize" class="form-control" value="${param.pageSize != null ? param.pageSize : 10}" min="1" max="100" step="1" style="width: 150px;">
+
+                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                </form>
+
+
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead class="table-success">
@@ -82,22 +103,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
-                                        <c:forEach items="${listA}" var="appointment" >
+                                        <c:forEach items="${listA}" var="appointment">
                                             <tr>
                                                 <th class="p-3">${appointment.appointmentId}</th>
                                                 <td class="p-3">
                                                     <a href="#" class="text-dark">
                                                         <div class="d-flex align-items-center">
-                                                            <img src="${appointment.customer.avatar}" 
-                                                                 class="avatar avatar-md-sm rounded-circle shadow" alt="">
+                                                            <img src="${appointment.customer.avatar}" class="avatar avatar-md-sm rounded-circle shadow" alt="">
                                                             <span class="ms-2">${appointment.customer.name}</span>
                                                         </div>
                                                     </a>
                                                 </td>
                                                 <td class="p-3">
                                                     ${appointment.customer.gender == 'M' ? 'Nam' : 'Nữ'}
-                                                </td>                                              
+                                                </td>
                                                 <td class="p-3">${appointment.date}</td>
                                                 <td>
                                                     <fmt:formatDate value="${appointment.start}" pattern="HH:mm" /> - 
@@ -106,22 +125,18 @@
                                                 <td class="p-3">${appointment.type}</td>
                                                 <td class="p-3">${appointment.status}</td>
                                                 <td class="text-end p-3">
-                                                    <a href="doctor/doctorAppointmentDetail.jsp" class="btn btn-icon btn-pills btn-soft-primary" 
-                                                   
+                                                    <a href="doctor/doctorAppointmentDetail.jsp?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-primary">
                                                         <i class="uil uil-eye"></i>
                                                     </a>
-                                                    <a href="#" class="btn btn-icon btn-pills btn-soft-success" 
-                                                       data-bs-toggle="modal" data-bs-target="#acceptappointment">
+                                                    <a href="#" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#acceptappointment">
                                                         <i class="uil uil-check-circle"></i>
                                                     </a>
-                                                    <a href="#" class="btn btn-icon btn-pills btn-soft-danger" 
-                                                       data-bs-toggle="modal" data-bs-target="#cancelappointment">
+                                                    <a href="#" class="btn btn-icon btn-pills btn-soft-danger" data-bs-toggle="modal" data-bs-target="#cancelappointment">
                                                         <i class="uil uil-times-circle"></i>
                                                     </a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
-
                                     </tbody>
                                 </table>
                             </div>
@@ -168,32 +183,28 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Cancel Appointment End -->
+                        <!-- Pagination -->
                         <div class="col-12" style="margin-top: 1%;">
                             <div class="d-md-flex align-items-center justify-content-end">
                                 <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                    <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page=${currentPage - 1}">Trước</a></li>
+                                        <c:forEach begin="1" end="${totalPages}" var="page">
+                                        <li class="page-item ${page == currentPage ? 'active' : ''}">
+                                            <a class="page-link" href="?page=${page}">${page}</a>
+                                        </li>
+                                    </c:forEach>
+                                    <li class="page-item"><a class="page-link" href="?page=${currentPage + 1}">Sau</a></li>
                                 </ul>
                             </div>
                         </div>
-                    </div> 
-                </div> 
-            </div> 
+                    </div>
+                </div>
+            </div>
         </section>
-        <jsp:include page="footer.jsp" />
 
-
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/select2.min.js"></script>
-        <script src="assets/js/select2.init.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/feather.min.js"></script>
+        <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/app.js"></script>
-
     </body>
 
 </html>
