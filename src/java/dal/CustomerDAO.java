@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class CustomerDAO extends DBContext {
 
     public Customer getCustomerById(int customerId) {
@@ -75,7 +74,7 @@ public class CustomerDAO extends DBContext {
             ps.setString(6, customer.getPhone());         // phone
             ps.setString(7, imagePath);                 // avatar path
             ps.setString(8, "Active");                   // status (mặc định là Active)
-            ps.setString(9, customer.getAddress()); 
+            ps.setString(9, customer.getAddress());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Error in addCustomer: " + ex.getMessage());
@@ -149,7 +148,7 @@ public class CustomerDAO extends DBContext {
             ps.setInt(2, pageSize);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                            listCustomer.add(mapResultSetToCustomer(rs));
+                listCustomer.add(mapResultSetToCustomer(rs));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -171,7 +170,7 @@ public class CustomerDAO extends DBContext {
             ps.setInt(3, pageSize);  // FETCH NEXT
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                     listCustomer.add(mapResultSetToCustomer(rs));
+                listCustomer.add(mapResultSetToCustomer(rs));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -193,7 +192,7 @@ public class CustomerDAO extends DBContext {
             ps.setInt(3, pageSize);  // FETCH NEXT
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                   listCustomer.add(mapResultSetToCustomer(rs));
+                listCustomer.add(mapResultSetToCustomer(rs));
 
             }
         } catch (SQLException ex) {
@@ -346,7 +345,6 @@ public class CustomerDAO extends DBContext {
         return false;
     }
 
-    
     public boolean isPhoneExists(String phone) {
         String query = "SELECT COUNT(*) FROM Customer WHERE phone = ? AND status = 'Active'";
         try {
@@ -362,15 +360,13 @@ public class CustomerDAO extends DBContext {
         }
         return false;
     }
-    
-    
-    
+
     public boolean checkEmailOtherCustomer(String email, int customerId) {
         String query = "SELECT COUNT(*) FROM Customer WHERE email = ? AND customerId != ? and status = 'Active'";
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, email);
-            ps.setInt(2,customerId);
+            ps.setInt(2, customerId);
             ResultSet rs = ps.executeQuery();
             if (rs.next() && rs.getInt(1) > 0) {
                 return true;
@@ -381,13 +377,13 @@ public class CustomerDAO extends DBContext {
         }
         return false;
     }
-    
+
     public boolean checkPhoneOtherCustomer(String phone, int customerId) {
         String query = "SELECT COUNT(*) FROM Customer WHERE phone = ? AND customerId != ? and status = 'Active'";
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, phone);
-            ps.setInt(2,customerId);
+            ps.setInt(2, customerId);
             ResultSet rs = ps.executeQuery();
             if (rs.next() && rs.getInt(1) > 0) {
                 return true;
@@ -398,7 +394,6 @@ public class CustomerDAO extends DBContext {
         }
         return false;
     }
-
 
     public String getDepartmentByCustomerID(int customerId) {
         String departmentName = null;
@@ -504,8 +499,6 @@ public class CustomerDAO extends DBContext {
         }
         return appointmentTime;
     }
-    
-    
 
     public Customer getCustomerByPhone(String phone) {
         String sql = "select * from Customer where phone = ?";
@@ -515,7 +508,7 @@ public class CustomerDAO extends DBContext {
             ps.setString(1, phone);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-               return mapResultSetToCustomer(rs);
+                return mapResultSetToCustomer(rs);
             }
         } catch (SQLException ex) {
 
@@ -525,6 +518,5 @@ public class CustomerDAO extends DBContext {
 
     public static void main(String[] args) {
         CustomerDAO d = new CustomerDAO();
-        
     }
 }

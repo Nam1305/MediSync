@@ -33,7 +33,6 @@ CREATE TABLE Appointment (
   status         nvarchar(255) NULL, 
   staffId        int NOT NULL, 
   customerId     int NOT NULL, 
-  prescriptionId int NOT NULL, 
   PRIMARY KEY (appointmentId));
 
 CREATE TABLE Blog (
@@ -79,7 +78,8 @@ CREATE TABLE Customer (
 
 CREATE TABLE Department (
   departmentId   int IDENTITY NOT NULL, 
-  departmentName nvarchar(255) NULL, 
+  departmentName nvarchar(255) NULL,
+  status nvarchar(50) NULL,
   PRIMARY KEY (departmentId));
 
 CREATE TABLE FeedBack (
@@ -103,10 +103,14 @@ CREATE TABLE Invoice (
   serviceId     int NOT NULL);
 
 CREATE TABLE Prescription (
-  prescriptionId int IDENTITY NOT NULL, 
-  medisync       nvarchar(max) NULL, 
-  note           nvarchar(Max) NULL, 
-  PRIMARY KEY (prescriptionId));
+    prescriptionId INT IDENTITY(1,1) PRIMARY KEY,
+    appointmentId INT NOT NULL,  
+    medicineName NVARCHAR(255) NULL, 
+	totalQuantity NVARCHAR(255) NULL,
+    dosage NVARCHAR(255) NULL, 
+    note NVARCHAR(MAX) NULL,
+    FOREIGN KEY (appointmentId) REFERENCES Appointment(appointmentId)
+);
 
 CREATE TABLE Role (
   roleId int IDENTITY NOT NULL, 
@@ -126,7 +130,8 @@ CREATE TABLE Service (
   serviceId int IDENTITY NOT NULL, 
   content   nvarchar(MAX) NULL, 
   price     float(10) NULL, 
-  name      nvarchar(255) NULL, 
+  name      nvarchar(255) NULL,
+  status    nvarchar(50) NULL,
   PRIMARY KEY (serviceId));
 
 CREATE TABLE Staff (
@@ -146,10 +151,15 @@ CREATE TABLE Staff (
   PRIMARY KEY (staffId));
 
 CREATE TABLE TreatmentPlan (
-  treatmentPlanId int IDENTITY NOT NULL, 
-  content         nvarchar(max) NULL, 
-  appointmentId   int NOT NULL, 
-  PRIMARY KEY (treatmentPlanId));
+    treatmentId int IDENTITY primary key,
+    appointmentId INT UNIQUE ,  
+    symptoms NVARCHAR(1000) NOT NULL,
+    diagnosis NVARCHAR(500) NOT NULL, 
+    testResults NVARCHAR(1000),      
+    treatmentPlan NVARCHAR(2000) NOT NULL, 
+    followUp NVARCHAR(500),           
+    FOREIGN KEY (appointmentId) REFERENCES Appointment(appointmentId) 
+);
 
 ALTER TABLE Schedule ADD CONSTRAINT FKSchedule218952 FOREIGN KEY (staffId) REFERENCES Staff (staffId);
 ALTER TABLE HistoryPosition ADD CONSTRAINT FKHistoryPos627792 FOREIGN KEY (staffId) REFERENCES Staff (staffId);
@@ -161,7 +171,7 @@ ALTER TABLE Comment ADD CONSTRAINT FKComment198944 FOREIGN KEY (blogId) REFERENC
 ALTER TABLE FeedBack ADD CONSTRAINT FKFeedBack608448 FOREIGN KEY (customerId) REFERENCES Customer (customerId);
 ALTER TABLE Appointment ADD CONSTRAINT FKAppointmen292731 FOREIGN KEY (customerId) REFERENCES Customer (customerId);
 ALTER TABLE TreatmentPlan ADD CONSTRAINT FKTreatmentP272103 FOREIGN KEY (appointmentId) REFERENCES Appointment (appointmentId);
-ALTER TABLE Appointment ADD CONSTRAINT FKAppointmen409108 FOREIGN KEY (prescriptionId) REFERENCES Prescription (prescriptionId);
+
 ALTER TABLE Invoice ADD CONSTRAINT FKInvoice783203 FOREIGN KEY (appointmentId) REFERENCES Appointment (appointmentId);
 ALTER TABLE Invoice ADD CONSTRAINT FKInvoice648614 FOREIGN KEY (serviceId) REFERENCES Service (serviceId);
 ALTER TABLE Comment ADD CONSTRAINT FKComment502058 FOREIGN KEY (customerId) REFERENCES Customer (customerId);
@@ -179,12 +189,12 @@ INSERT INTO Role (role) VALUES
 ('Nhân viên hành chính');
 
 --Department
-INSERT INTO Department (departmentName) VALUES
-(N'Khoa Nội Tổng Quát'),
-(N'Khoa Tai Mũi Họng'),
-(N'Khoa Xét Nghiệm'),
-(N'Khoa Ngoại Cơ Bản'),
-(N'Hành Chính');
+INSERT INTO Department (departmentName,status) VALUES
+(N'Khoa Nội Tổng Quát',N'Active'),
+(N'Khoa Tai Mũi Họng',N'Active'),
+(N'Khoa Xét Nghiệm',N'Active'),
+(N'Khoa Ngoại Cơ Bản',N'Active'),
+(N'Hành Chính',N'Active');
 
 --Staff
 -- Insert Staff with corresponding departments
@@ -683,173 +693,139 @@ INSERT INTO Comment (content, [date], blogId, customerId) VALUES
 (N'Mình mong tác giả viết thêm về chủ đề này.', '2023-10-07', 10, 9),
 (N'Bài viết tốt nhưng có thể bổ sung thêm số liệu.', '2023-10-10', 10, 10);
 
+ 
+-- Appointment
+-- Các thuộc tính: pending, cancelled, confirmed, paid
+INSERT INTO Appointment ([date], startTime, endTime, appType, status, staffId, customerId)  
+VALUES  
+-- StaffId 1  
+('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'pending', 1, 1),  
+('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'confirmed', 1, 2),  
+('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'paid', 1, 3),  
+
+-- StaffId 2  
+('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'cancelled', 2, 4),  
+('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'pending', 2, 5),  
+('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'noshow', 2, 6),  
+
+-- StaffId 3  
+('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'confirmed', 3, 7),  
+('2025-01-26', '08:00:00', '08:30:00', 'Offline', 'confirmed', 3, 8),  
+('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'paid', 3, 9),  
+
+-- StaffId 5  
+('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'confirmed', 5, 10),  
+('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'noshow', 5, 1),  
+
+-- StaffId 7  
+('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'cancelled', 7, 3),  
+('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'paid', 7, 4),  
+('2025-01-27', '13:00:00', '13:30:00', 'Offline', 'confirmed', 7, 5),  
+
+-- StaffId 8  
+('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'cancelled', 8, 6),  
+('2025-01-26', '08:00:00', '08:30:00', 'Offline', 'paid', 8, 7),  
+('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'pending', 8, 8),  
+
+-- StaffId 9  
+('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'paid', 9, 9),  
+('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'confirmed', 9, 10);  
 
 --Prescription 
 -- Đơn thuốc 1
-INSERT INTO Prescription (medisync, note) 
+INSERT INTO Prescription (appointmentId, medicineName, totalQuantity, dosage, note) 
 VALUES 
-(N'Tổng: 5 vỉ Paracetamol, 2 vỉ Amoxicillin
- - Paracetamol 500mg - 2 viên/ngày - Sáng tối sau ăn
- - Amoxicillin 500mg - 3 viên/ngày - Sáng tối trước ăn', 
- N'Uống sau khi ăn, tránh dùng rượu bia, không sử dụng quá liều.'),
+-- Đơn thuốc 1
+(1, N'Paracetamol 500mg', N'5 vỉ', N'2 viên/ngày - Sáng tối sau ăn', N'Uống sau khi ăn, tránh dùng rượu bia, không sử dụng quá liều.'),
+(1, N'Amoxicillin 500mg', N'2 vỉ', N'3 viên/ngày - Sáng tối trước ăn', N'Uống sau khi ăn, tránh dùng rượu bia, không sử dụng quá liều.'),
 
 -- Đơn thuốc 2
-(N'Tổng: 3 vỉ Ibuprofen, 1 vỉ Vitamin C
- - Ibuprofen 200mg - 1 viên mỗi 8 giờ - Sau ăn
- - Vitamin C 500mg - 1 viên/ngày - Bất kỳ lúc nào', 
- N'Uống nhiều nước khi sử dụng, không dùng khi có vấn đề về dạ dày.'),
+(2, N'Ibuprofen 200mg', N'3 vỉ', N'1 viên mỗi 8 giờ - Sau ăn', N'Uống nhiều nước khi sử dụng, không dùng khi có vấn đề về dạ dày.'),
+(2, N'Vitamin C 500mg', N'1 vỉ', N'1 viên/ngày - Bất kỳ lúc nào', N'Uống nhiều nước khi sử dụng, không dùng khi có vấn đề về dạ dày.'),
 
 -- Đơn thuốc 3
-(N'Tổng: 2 vỉ Omeprazole
- - Omeprazole 20mg - 1 viên/ngày - Trước ăn sáng', 
- N'Không uống chung với sữa, nên uống vào buổi sáng để hiệu quả tốt nhất.'),
+(3, N'Omeprazole 20mg', N'2 vỉ', N'1 viên/ngày - Trước ăn sáng', N'Không uống chung với sữa, nên uống vào buổi sáng để hiệu quả tốt nhất.'),
 
 -- Đơn thuốc 4
-(N'Tổng: 4 vỉ Metformin
- - Metformin 500mg - 2 viên/ngày - Sáng tối sau ăn', 
- N'Tuân thủ theo hướng dẫn của bác sĩ, theo dõi đường huyết thường xuyên.'),
+(4, N'Metformin 500mg', N'4 vỉ', N'2 viên/ngày - Sáng tối sau ăn', N'Tuân thủ theo hướng dẫn của bác sĩ, theo dõi đường huyết thường xuyên.'),
 
 -- Đơn thuốc 5
-(N'Tổng: 2 vỉ Loratadine
- - Loratadine 10mg - 1 viên/ngày - Bất kỳ lúc nào', 
- N'Tránh tiếp xúc với ánh nắng quá lâu, không dùng chung với rượu bia.'),
+(5, N'Loratadine 10mg', N'2 vỉ', N'1 viên/ngày - Bất kỳ lúc nào', N'Tránh tiếp xúc với ánh nắng quá lâu, không dùng chung với rượu bia.'),
 
 -- Đơn thuốc 6
-(N'Tổng: 3 vỉ Diclofenac, 1 vỉ Pantoprazole
- - Diclofenac 50mg - 2 viên/ngày - Sáng tối sau ăn
- - Pantoprazole 40mg - 1 viên/ngày - Trước ăn sáng', 
- N'Không dùng quá liều, cẩn thận với người có bệnh dạ dày.'),
+(6, N'Diclofenac 50mg', N'3 vỉ', N'2 viên/ngày - Sáng tối sau ăn', N'Không dùng quá liều, cẩn thận với người có bệnh dạ dày.'),
+(6, N'Pantoprazole 40mg', N'1 vỉ', N'1 viên/ngày - Trước ăn sáng', N'Không dùng quá liều, cẩn thận với người có bệnh dạ dày.'),
 
 -- Đơn thuốc 7
-(N'Tổng: 2 vỉ Cetirizine
- - Cetirizine 10mg - 1 viên/ngày - Bất kỳ lúc nào', 
- N'Có thể gây buồn ngủ, không nên lái xe sau khi uống thuốc.'),
+(7, N'Cetirizine 10mg', N'2 vỉ', N'1 viên/ngày - Bất kỳ lúc nào', N'Có thể gây buồn ngủ, không nên lái xe sau khi uống thuốc.'),
 
 -- Đơn thuốc 8
-(N'Tổng: 2 vỉ Dexamethasone
- - Dexamethasone 0.5mg - 3 viên/ngày - Sáng trưa tối', 
- N'Không dùng kéo dài mà không có chỉ định của bác sĩ, có thể gây tác dụng phụ.'),
+(8, N'Dexamethasone 0.5mg', N'2 vỉ', N'3 viên/ngày - Sáng trưa tối', N'Không dùng kéo dài mà không có chỉ định của bác sĩ, có thể gây tác dụng phụ.'),
 
 -- Đơn thuốc 9
-(N'Tổng: 1 vỉ Azithromycin
- - Azithromycin 500mg - 1 viên/ngày - Trước ăn sáng - Dùng trong 3 ngày', 
- N'Không tự ý ngừng thuốc sớm, nên dùng đủ liệu trình theo chỉ định.'),
+(9, N'Azithromycin 500mg', N'1 vỉ', N'1 viên/ngày - Trước ăn sáng - Dùng trong 3 ngày', N'Không tự ý ngừng thuốc sớm, nên dùng đủ liệu trình theo chỉ định.'),
 
 -- Đơn thuốc 10
-(N'Tổng: 2 vỉ Atorvastatin
- - Atorvastatin 20mg - 1 viên/ngày - Buổi tối trước khi ngủ', 
- N'Tuân thủ chế độ ăn uống lành mạnh, hạn chế mỡ động vật.'),
+(10, N'Atorvastatin 20mg', N'2 vỉ', N'1 viên/ngày - Buổi tối trước khi ngủ', N'Tuân thủ chế độ ăn uống lành mạnh, hạn chế mỡ động vật.'),
 
 -- Đơn thuốc 11
-(N'Tổng: 2 vỉ Clopidogrel
- - Clopidogrel 75mg - 1 viên/ngày - Sau ăn sáng', 
- N'Thận xét tình trạng sức khỏe, tránh dùng khi có vết thương chảy máu.'),
+(11, N'Clopidogrel 75mg', N'2 vỉ', N'1 viên/ngày - Sau ăn sáng', N'Thận xét tình trạng sức khỏe, tránh dùng khi có vết thương chảy máu.'),
 
 -- Đơn thuốc 12
-(N'Tổng: 1 vỉ Simvastatin
- - Simvastatin 20mg - 1 viên/ngày - Buổi tối', 
- N'Giảm cholesterol, tránh ăn đồ ăn nhiều mỡ động vật.'),
+(12, N'Simvastatin 20mg', N'1 vỉ', N'1 viên/ngày - Buổi tối', N'Giảm cholesterol, tránh ăn đồ ăn nhiều mỡ động vật.'),
 
 -- Đơn thuốc 13
-(N'Tổng: 2 vỉ Tramadol
- - Tramadol 50mg - 1 viên mỗi 6 giờ khi cần thiết', 
- N'Chỉ dùng khi có cơn đau dữ dội, tránh dùng chung với thuốc ngủ.'),
+(13, N'Tramadol 50mg', N'2 vỉ', N'1 viên mỗi 6 giờ khi cần thiết', N'Chỉ dùng khi có cơn đau dữ dội, tránh dùng chung với thuốc ngủ.'),
 
 -- Đơn thuốc 14
-(N'Tổng: 3 vỉ Furosemide
- - Furosemide 40mg - 1 viên/ngày - Sáng', 
- N'Thận xét tình trạng cơ thể trước khi dùng, cẩn thận với người bị bệnh thận.'),
+(14, N'Furosemide 40mg', N'3 vỉ', N'1 viên/ngày - Sáng', N'Thận xét tình trạng cơ thể trước khi dùng, cẩn thận với người bị bệnh thận.'),
 
 -- Đơn thuốc 15
-(N'Tổng: 1 vỉ Levofloxacin
- - Levofloxacin 500mg - 1 viên/ngày - Trước ăn sáng', 
- N'Sử dụng đủ liệu trình, tránh ngừng thuốc giữa chừng.'),
+(15, N'Levofloxacin 500mg', N'1 vỉ', N'1 viên/ngày - Trước ăn sáng', N'Sử dụng đủ liệu trình, tránh ngừng thuốc giữa chừng.'),
 
 -- Đơn thuốc 16
-(N'Tổng: 2 vỉ Lorazepam
- - Lorazepam 1mg - 1 viên/ngày - Trước khi ngủ', 
- N'Không dùng chung với rượu, tránh lái xe sau khi uống thuốc.'),
+(16, N'Lorazepam 1mg', N'2 vỉ', N'1 viên/ngày - Trước khi ngủ', N'Không dùng chung với rượu, tránh lái xe sau khi uống thuốc.'),
 
 -- Đơn thuốc 17
-(N'Tổng: 1 vỉ Sertraline
- - Sertraline 50mg - 1 viên/ngày - Buổi sáng', 
- N'Thời gian điều trị có thể kéo dài, cần kiên nhẫn theo chỉ định bác sĩ.'),
+(17, N'Sertraline 50mg', N'1 vỉ', N'1 viên/ngày - Buổi sáng', N'Thời gian điều trị có thể kéo dài, cần kiên nhẫn theo chỉ định bác sĩ.'),
 
 -- Đơn thuốc 18
-(N'Tổng: 3 vỉ Hydrochlorothiazide
- - Hydrochlorothiazide 25mg - 1 viên/ngày - Sáng', 
- N'Thận xét tình trạng cơ thể trước khi dùng, cẩn thận với người bị bệnh tim.'),
+(18, N'Hydrochlorothiazide 25mg', N'3 vỉ', N'1 viên/ngày - Sáng', N'Thận xét tình trạng cơ thể trước khi dùng, cẩn thận với người bị bệnh tim.'),
 
 -- Đơn thuốc 19
-(N'Tổng: 2 vỉ Bisoprolol
- - Bisoprolol 5mg - 1 viên/ngày - Buổi sáng', 
- N'Kiểm tra huyết áp trước khi dùng thuốc.');
-
-
- 
---Appointment 
-INSERT INTO Appointment ([date], startTime, endTime, appType, status, staffId, customerId, prescriptionId) 
-VALUES
--- StaffId 1
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'Chờ xác nhận', 1, 1, 1),
-('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'Đã Chấp Nhận', 1, 2, 2),
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'Đã Thanh Toán', 1, 3, 3),
-
--- StaffId 2
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'Đã Hủy', 2, 4, 4),
-('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'Chờ xác nhận', 2, 5, 5),
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'Không Đến', 2, 6, 6),
-
--- StaffId 3
-('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'Đã Chấp Nhận', 3, 7, 7),
-('2025-01-26', '08:00:00', '08:30:00', 'Offline', 'Đã Đến', 3, 8, 8),
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'Đã Thanh Toán', 3, 9, 9),
-
--- StaffId 5
-('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'Đã Chấp Nhận', 5, 10, 10),
-('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'Không Đến', 5, 1, 11),
-
--- StaffId 7
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'Chờ xác nhận', 7, 3, 12),
-('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'Đã Thanh Toán', 7, 4, 13),
-('2025-01-27', '13:00:00', '13:30:00', 'Offline', 'Đã Chấp Nhận', 7, 5, 14),
-
--- StaffId 8
-('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'Đã Hủy', 8, 6, 15),
-('2025-01-26', '08:00:00', '08:30:00', 'Offline', 'Đã Đến', 8, 7, 16),
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'Chờ xác nhận', 8, 8, 17),
-
--- StaffId 9
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'Không Đến', 9, 9, 18),
-('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'Đã Chấp Nhận', 9, 10, 19);
+(19, N'Bisoprolol 5mg', N'2 vỉ', N'1 viên/ngày - Buổi sáng', N'Kiểm tra huyết áp trước khi dùng thuốc.');
 
 
 
-INSERT INTO Service (name, content, price) VALUES
+
+
+
+
+INSERT INTO Service (name, content, price, status) VALUES
 -- Khoa Nội Tổng Quát
-(N'Khám tổng quát', N'Bao gồm đo huyết áp, kiểm tra tim mạch, khám tổng quát hệ tiêu hóa, hô hấp, thần kinh và tư vấn sức khỏe.', 100000),
-(N'Khám sức khỏe định kỳ', N'Khám tổng quát định kỳ để theo dõi tình trạng sức khỏe, phát hiện sớm các bệnh lý tiềm ẩn.', 120000),
-(N'Tư vấn với bác sĩ', N'Tư vấn trực tiếp hoặc online với bác sĩ chuyên khoa về triệu chứng, hướng dẫn điều trị, đơn thuốc và chăm sóc sức khỏe.', 150000),
-(N'Tư vấn với chuyên gia', N'Gặp chuyên gia hàng đầu trong lĩnh vực y tế để có hướng dẫn điều trị chuyên sâu và kế hoạch chăm sóc sức khỏe cá nhân hoặc qua online.', 150000),
-(N'Tư vấn dinh dưỡng', N'Tư vấn chế độ ăn uống phù hợp với từng độ tuổi, tình trạng sức khỏe và bệnh lý.', 100000),
+(N'Khám tổng quát', N'Bao gồm đo huyết áp, kiểm tra tim mạch, khám tổng quát hệ tiêu hóa, hô hấp, thần kinh và tư vấn sức khỏe.', 100000,N'Active'),
+(N'Khám sức khỏe định kỳ', N'Khám tổng quát định kỳ để theo dõi tình trạng sức khỏe, phát hiện sớm các bệnh lý tiềm ẩn.', 120000,N'Active'),
+(N'Tư vấn với bác sĩ', N'Tư vấn trực tiếp hoặc online với bác sĩ chuyên khoa về triệu chứng, hướng dẫn điều trị, đơn thuốc và chăm sóc sức khỏe.', 150000,N'Active'),
+(N'Tư vấn với chuyên gia', N'Gặp chuyên gia hàng đầu trong lĩnh vực y tế để có hướng dẫn điều trị chuyên sâu và kế hoạch chăm sóc sức khỏe cá nhân hoặc qua online.', 150000,N'Active'),
+(N'Tư vấn dinh dưỡng', N'Tư vấn chế độ ăn uống phù hợp với từng độ tuổi, tình trạng sức khỏe và bệnh lý.', 100000,N'Active'),
 
 -- Khoa Tai-Mũi-Họng
-(N'Khám và điều trị viêm tai, mũi, họng', N'Khám và điều trị các bệnh lý về viêm họng, viêm xoang, viêm tai giữa.', 120000),
-(N'Nội soi tai, mũi, họng', N'Sử dụng nội soi để kiểm tra và chẩn đoán các bệnh lý vùng tai, mũi, họng.', 250000),
-(N'Phẫu thuật tai, mũi, họng', N'Thực hiện phẫu thuật tai, mũi, họng khi cần thiết như cắt amidan, nạo VA.', 3000000),
-(N'Điều trị dị ứng', N'Tư vấn và điều trị các bệnh lý dị ứng liên quan đến đường hô hấp, da liễu.', 180000),
-(N'Phục hồi chức năng thính giác', N'Hỗ trợ phục hồi thính lực với các bài tập và thiết bị trợ thính.', 500000),
+(N'Khám và điều trị viêm tai, mũi, họng', N'Khám và điều trị các bệnh lý về viêm họng, viêm xoang, viêm tai giữa.', 120000,N'Active'),
+(N'Nội soi tai, mũi, họng', N'Sử dụng nội soi để kiểm tra và chẩn đoán các bệnh lý vùng tai, mũi, họng.', 250000,N'Active'),
+(N'Phẫu thuật tai, mũi, họng', N'Thực hiện phẫu thuật tai, mũi, họng khi cần thiết như cắt amidan, nạo VA.', 3000000,N'Active'),
+(N'Điều trị dị ứng', N'Tư vấn và điều trị các bệnh lý dị ứng liên quan đến đường hô hấp, da liễu.', 180000,N'Active'),
+(N'Phục hồi chức năng thính giác', N'Hỗ trợ phục hồi thính lực với các bài tập và thiết bị trợ thính.', 500000,N'Active'),
 
 -- Khoa Xét nghiệm
-(N'Xét nghiệm máu', N'Xét nghiệm công thức máu, đường huyết, mỡ máu, chức năng gan, chức năng thận và các chỉ số sinh hóa khác.', 200000),
-(N'Xét nghiệm nước tiểu', N'Kiểm tra chức năng thận, đường huyết, và các chỉ số sức khỏe khác qua xét nghiệm nước tiểu.', 180000),
-(N'Xét nghiệm sinh hóa', N'Đánh giá chức năng gan, thận, đường huyết, mỡ máu qua các chỉ số sinh hóa.', 250000),
-(N'Xét nghiệm vi sinh', N'Phát hiện vi khuẩn, virus, nấm và ký sinh trùng gây bệnh.', 300000),
+(N'Xét nghiệm máu', N'Xét nghiệm công thức máu, đường huyết, mỡ máu, chức năng gan, chức năng thận và các chỉ số sinh hóa khác.', 200000,N'Active'),
+(N'Xét nghiệm nước tiểu', N'Kiểm tra chức năng thận, đường huyết, và các chỉ số sức khỏe khác qua xét nghiệm nước tiểu.', 180000,N'Active'),
+(N'Xét nghiệm sinh hóa', N'Đánh giá chức năng gan, thận, đường huyết, mỡ máu qua các chỉ số sinh hóa.', 250000,N'Active'),
+(N'Xét nghiệm vi sinh', N'Phát hiện vi khuẩn, virus, nấm và ký sinh trùng gây bệnh.', 300000,N'Active'),
 
 -- Khoa Ngoại cơ bản
-(N'Tiểu phẫu', N'Thực hiện các tiểu phẫu nhỏ như cắt u bướu nhỏ, xử lý áp xe, cắt bao quy đầu, khâu vết thương hở dưới gây tê tại chỗ.', 2000000),
-(N'Điều trị chấn thương', N'Can thiệp y tế để điều trị gãy xương, bong gân, tổn thương mô mềm.', 250000),
-(N'Chăm sóc hậu phẫu', N'Theo dõi và chăm sóc bệnh nhân sau phẫu thuật để phục hồi nhanh chóng.', 300000);
+(N'Tiểu phẫu', N'Thực hiện các tiểu phẫu nhỏ như cắt u bướu nhỏ, xử lý áp xe, cắt bao quy đầu, khâu vết thương hở dưới gây tê tại chỗ.', 2000000,N'Active'),
+(N'Điều trị chấn thương', N'Can thiệp y tế để điều trị gãy xương, bong gân, tổn thương mô mềm.', 250000,N'Active'),
+(N'Chăm sóc hậu phẫu', N'Theo dõi và chăm sóc bệnh nhân sau phẫu thuật để phục hồi nhanh chóng.', 300000,N'Active');
 
 -- Invoice with updated serviceIds
 INSERT INTO Invoice (appointmentId, serviceId) 
@@ -965,38 +941,38 @@ VALUES
 
 -- FeedBack
 INSERT INTO FeedBack (ratings, content, [date], staffId, customerId) VALUES
-(5, 'Bác sĩ rất tận tâm và chu đáo, giải thích kỹ càng mọi vấn đề.', '2023-01-05', 1, 1),
-(4, 'Bác sĩ tốt, nhưng thời gian chờ đợi hơi lâu.', '2023-01-06', 2, 2),
-(3, 'Bác sĩ ổn, nhưng có thể giải thích chi tiết hơn.', '2023-01-07', 3, 3),
-(5, 'Bác sĩ rất chuyên nghiệp, tôi rất hài lòng với việc khám chữa.', '2023-01-08', 5, 5),
-(2, 'Bác sĩ không lắng nghe và không giải thích rõ ràng.', '2023-01-09', 7, 7),
-(4, 'Bác sĩ tốt, nhưng có thể thân thiện hơn.', '2023-01-10', 8, 8),
-(5, 'Bác sĩ rất nhiệt tình và chuyên môn cao, tôi rất hài lòng.', '2023-01-11', 9, 9),
-(3, 'Bác sĩ ổn, nhưng cần cải thiện kỹ năng giao tiếp.', '2023-01-12', 1, 1),
-(4, 'Bác sĩ rất hiểu biết, chỉ có một vài vấn đề nhỏ cần cải thiện.', '2023-01-13', 2, 2),
-(5, 'Bác sĩ rất chuyên nghiệp, tôi sẽ quay lại khi cần.', '2023-01-14', 3, 3),
-(5, 'Bác sĩ rất chuyên nghiệp và tận tâm, giải thích rõ ràng về bệnh tình.', '2023-01-15', 1, 2),
-(4, 'Bác sĩ rất tận tình nhưng có thể cải thiện thêm thời gian khám.', '2023-01-16', 1, 3),
-(3, 'Bác sĩ tốt nhưng tôi mong muốn nhận được thêm sự tư vấn chi tiết hơn.', '2023-01-17', 1, 4),
-(4, 'Bác sĩ rất nhiệt tình, nhưng phòng khám cần cải thiện môi trường.', '2023-01-18', 2, 5),
-(5, 'Bác sĩ rất giỏi và luôn lắng nghe, tôi cảm thấy rất an tâm.', '2023-01-19', 2, 6),
-(3, 'Bác sĩ tốt, nhưng tôi cảm thấy chưa được giải thích đủ về tình trạng bệnh của mình.', '2023-01-20', 3, 7),
-(4, 'Bác sĩ rất hiểu biết, nhưng tôi mong muốn sự tư vấn kỹ hơn về phương pháp điều trị.', '2023-01-21', 3, 8),
-(5, 'Bác sĩ rất giỏi và thân thiện, tôi cảm thấy thoải mái khi đến khám.', '2023-01-22', 5, 9),
-(2, 'Bác sĩ không lắng nghe và không cung cấp đủ thông tin cần thiết.', '2023-01-23', 5, 10),
-(4, 'Bác sĩ rất tốt, nhưng vẫn có thể cải thiện thêm về cách giao tiếp với bệnh nhân.', '2023-01-24', 7, 1),
-(5, 'Bác sĩ rất chu đáo và chuyên nghiệp, sẽ quay lại nếu cần.', '2023-01-25', 7, 2),
-(3, 'Bác sĩ ổn, nhưng cần chú ý hơn đến sự thoải mái của bệnh nhân.', '2023-01-26', 8, 3),
-(4, 'Bác sĩ rất chuyên nghiệp, nhưng phòng khám cần cải thiện dịch vụ.', '2023-01-27', 8, 4),
-(5, 'Bác sĩ rất giỏi và nhiệt tình, tôi hài lòng với sự chăm sóc.', '2023-01-28', 9, 5),
-(3, 'Bác sĩ hiểu biết, nhưng tôi cần thêm lời khuyên về cách chăm sóc sức khỏe.', '2023-01-29', 9, 6),
-(4, 'Bác sĩ khá tốt, nhưng tôi muốn được giải thích chi tiết hơn về các phương pháp điều trị.', '2023-01-30', 1, 7),
-(5, 'Bác sĩ rất tận tâm và dễ gần, tôi cảm thấy yên tâm khi được điều trị bởi bác sĩ.', '2023-01-31', 2, 8),
-(4, 'Bác sĩ chuyên nghiệp, nhưng có thể cải thiện thêm về thời gian tư vấn.', '2023-02-01', 3, 9),
-(3, 'Bác sĩ rất giỏi, nhưng cần lắng nghe và trả lời câu hỏi của bệnh nhân kỹ hơn.', '2023-02-02', 5, 10),
-(5, 'Bác sĩ rất tốt, luôn giải thích chi tiết về bệnh tình và phương pháp điều trị.', '2023-02-03', 7, 1),
-(4, 'Bác sĩ rất giỏi, nhưng tôi muốn nhận thêm lời khuyên về cách chăm sóc sức khỏe sau điều trị.', '2023-02-04', 8, 2),
-(5, 'Bác sĩ tuyệt vời, luôn lắng nghe và rất chuyên nghiệp.', '2023-02-05', 9, 3);
+(5, N'Bác sĩ rất tận tâm và chu đáo, giải thích kỹ càng mọi vấn đề.', '2023-01-05', 1, 1),
+(4, N'Bác sĩ tốt, nhưng thời gian chờ đợi hơi lâu.', '2023-01-06', 2, 2),
+(3, N'Bác sĩ ổn, nhưng có thể giải thích chi tiết hơn.', '2023-01-07', 3, 3),
+(5, N'Bác sĩ rất chuyên nghiệp, tôi rất hài lòng với việc khám chữa.', '2023-01-08', 5, 5),
+(2, N'Bác sĩ không lắng nghe và không giải thích rõ ràng.', '2023-01-09', 7, 7),
+(4, N'Bác sĩ tốt, nhưng có thể thân thiện hơn.', '2023-01-10', 8, 8),
+(5, N'Bác sĩ rất nhiệt tình và chuyên môn cao, tôi rất hài lòng.', '2023-01-11', 9, 9),
+(3, N'Bác sĩ ổn, nhưng cần cải thiện kỹ năng giao tiếp.', '2023-01-12', 1, 1),
+(4, N'Bác sĩ rất hiểu biết, chỉ có một vài vấn đề nhỏ cần cải thiện.', '2023-01-13', 2, 2),
+(5, N'Bác sĩ rất chuyên nghiệp, tôi sẽ quay lại khi cần.', '2023-01-14', 3, 3),
+(5, N'Bác sĩ rất chuyên nghiệp và tận tâm, giải thích rõ ràng về bệnh tình.', '2023-01-15', 1, 2),
+(4, N'Bác sĩ rất tận tình nhưng có thể cải thiện thêm thời gian khám.', '2023-01-16', 1, 3),
+(3, N'Bác sĩ tốt nhưng tôi mong muốn nhận được thêm sự tư vấn chi tiết hơn.', '2023-01-17', 1, 4),
+(4, N'Bác sĩ rất nhiệt tình, nhưng phòng khám cần cải thiện môi trường.', '2023-01-18', 2, 5),
+(5, N'Bác sĩ rất giỏi và luôn lắng nghe, tôi cảm thấy rất an tâm.', '2023-01-19', 2, 6),
+(3, N'Bác sĩ tốt, nhưng tôi cảm thấy chưa được giải thích đủ về tình trạng bệnh của mình.', '2023-01-20', 3, 7),
+(4, N'Bác sĩ rất hiểu biết, nhưng tôi mong muốn sự tư vấn kỹ hơn về phương pháp điều trị.', '2023-01-21', 3, 8),
+(5, N'Bác sĩ rất giỏi và thân thiện, tôi cảm thấy thoải mái khi đến khám.', '2023-01-22', 5, 9),
+(2, N'Bác sĩ không lắng nghe và không cung cấp đủ thông tin cần thiết.', '2023-01-23', 5, 10),
+(4, N'Bác sĩ rất tốt, nhưng vẫn có thể cải thiện thêm về cách giao tiếp với bệnh nhân.', '2023-01-24', 7, 1),
+(5, N'Bác sĩ rất chu đáo và chuyên nghiệp, sẽ quay lại nếu cần.', '2023-01-25', 7, 2),
+(3, N'Bác sĩ ổn, nhưng cần chú ý hơn đến sự thoải mái của bệnh nhân.', '2023-01-26', 8, 3),
+(4, N'Bác sĩ rất chuyên nghiệp, nhưng phòng khám cần cải thiện dịch vụ.', '2023-01-27', 8, 4),
+(5, N'Bác sĩ rất giỏi và nhiệt tình, tôi hài lòng với sự chăm sóc.', '2023-01-28', 9, 5),
+(3, N'Bác sĩ hiểu biết, nhưng tôi cần thêm lời khuyên về cách chăm sóc sức khỏe.', '2023-01-29', 9, 6),
+(4, N'Bác sĩ khá tốt, nhưng tôi muốn được giải thích chi tiết hơn về các phương pháp điều trị.', '2023-01-30', 1, 7),
+(5, N'Bác sĩ rất tận tâm và dễ gần, tôi cảm thấy yên tâm khi được điều trị bởi bác sĩ.', '2023-01-31', 2, 8),
+(4, N'Bác sĩ chuyên nghiệp, nhưng có thể cải thiện thêm về thời gian tư vấn.', '2023-02-01', 3, 9),
+(3, N'Bác sĩ rất giỏi, nhưng cần lắng nghe và trả lời câu hỏi của bệnh nhân kỹ hơn.', '2023-02-02', 5, 10),
+(5, N'Bác sĩ rất tốt, luôn giải thích chi tiết về bệnh tình và phương pháp điều trị.', '2023-02-03', 7, 1),
+(4, N'Bác sĩ rất giỏi, nhưng tôi muốn nhận thêm lời khuyên về cách chăm sóc sức khỏe sau điều trị.', '2023-02-04', 8, 2),
+(5, N'Bác sĩ tuyệt vời, luôn lắng nghe và rất chuyên nghiệp.', '2023-02-05', 9, 3);
 
 --Schedule 
 INSERT INTO Schedule (startTime, endTime, [shift], [date], staffId) 
@@ -1039,121 +1015,81 @@ VALUES
 
 
 --TreatmentPlan
--- TreatmentPlan cho AppointmentId 1 (PrescriptionId 1)
-INSERT INTO TreatmentPlan (content, appointmentId) 
+INSERT INTO TreatmentPlan (appointmentId, symptoms, diagnosis, testResults, treatmentPlan, followUp) 
 VALUES 
-(N'Khám ban đầu: Bệnh nhân có triệu chứng sốt cao, đau đầu và đau cơ. 
-Chẩn đoán ban đầu: Nhiễm trùng do vi khuẩn. 
-Kết quả xét nghiệm: Cấy máu dương tính với vi khuẩn. 
-Lập kế hoạch điều trị: Kê đơn thuốc Paracetamol 500mg và Amoxicillin 500mg. Uống thuốc đúng liều để giảm sốt và tiêu diệt vi khuẩn. Theo dõi tình trạng bệnh nhân, tái khám sau 1 tuần.', 1),
+(1, N'Sốt cao, đau đầu, đau cơ', N'Nhiễm trùng do vi khuẩn', N'Cấy máu dương tính với vi khuẩn', 
+ N'Kê đơn Paracetamol 500mg và Amoxicillin 500mg. Uống thuốc đúng liều để giảm sốt và tiêu diệt vi khuẩn.', 
+ N'Tái khám sau 1 tuần'),
 
--- TreatmentPlan cho AppointmentId 2 (PrescriptionId 2)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng đau khớp, viêm, sốt nhẹ. 
-Chẩn đoán ban đầu: Viêm khớp do vi khuẩn. 
-Kết quả xét nghiệm: Xét nghiệm máu cho kết quả tăng bạch cầu. 
-Lập kế hoạch điều trị: Kê đơn thuốc Ibuprofen 200mg và Vitamin C. Ibuprofen để giảm viêm và đau, Vitamin C để tăng cường miễn dịch. Theo dõi tình trạng viêm, tái khám sau 7 ngày.', 2),
+(2, N'Đau khớp, viêm, sốt nhẹ', N'Viêm khớp do vi khuẩn', N'Xét nghiệm máu cho kết quả tăng bạch cầu', 
+ N'Kê đơn Ibuprofen 200mg và Vitamin C. Ibuprofen giúp giảm viêm và đau, Vitamin C tăng cường miễn dịch.', 
+ N'Tái khám sau 7 ngày'),
 
--- TreatmentPlan cho AppointmentId 3 (PrescriptionId 3)
-(N'Khám ban đầu: Bệnh nhân than phiền về khó tiêu và ợ chua. 
-Chẩn đoán ban đầu: Bệnh dạ dày (Viêm loét dạ dày). 
-Kết quả xét nghiệm: Nội soi dạ dày phát hiện viêm niêm mạc dạ dày. 
-Lập kế hoạch điều trị: Kê đơn thuốc Omeprazole 20mg. Omeprazole để ức chế axit dạ dày, giúp làm dịu viêm. Hướng dẫn bệnh nhân về chế độ ăn uống. Tái khám sau 1 tuần nếu triệu chứng không giảm.', 3),
+(3, N'Khó tiêu, ợ chua', N'Viêm loét dạ dày', N'Nội soi phát hiện viêm niêm mạc dạ dày', 
+ N'Kê đơn Omeprazole 20mg để ức chế axit dạ dày, giúp làm dịu viêm. Hướng dẫn bệnh nhân về chế độ ăn uống.', 
+ N'Tái khám sau 1 tuần nếu triệu chứng không giảm'),
 
--- TreatmentPlan cho AppointmentId 4 (PrescriptionId 4)
-(N'Khám ban đầu: Bệnh nhân có dấu hiệu tiểu đường, khát nước liên tục và tiểu nhiều. 
-Chẩn đoán ban đầu: Tiểu đường loại 2. 
-Kết quả xét nghiệm: Đường huyết cao, xét nghiệm HbA1c cho kết quả 8. 
-Lập kế hoạch điều trị: Kê đơn thuốc Metformin 500mg. Metformin giúp giảm đường huyết, bệnh nhân cần theo dõi chỉ số đường huyết tại nhà. Tái khám sau 2 tuần để kiểm tra tiến triển điều trị.', 4),
+(4, N'Khát nước, tiểu nhiều', N'Tiểu đường loại 2', N'Xét nghiệm HbA1c: 8', 
+ N'Kê đơn Metformin 500mg giúp giảm đường huyết, hướng dẫn theo dõi chỉ số đường huyết tại nhà.', 
+ N'Tái khám sau 2 tuần'),
 
--- TreatmentPlan cho AppointmentId 5 (PrescriptionId 5)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng dị ứng, ngứa ngáy và phát ban da. 
-Chẩn đoán ban đầu: Dị ứng thuốc hoặc thực phẩm. 
-Kết quả xét nghiệm: Xét nghiệm dị ứng da cho kết quả dương tính với một số thành phần trong thực phẩm. 
-Lập kế hoạch điều trị: Kê đơn thuốc Loratadine 10mg. Loratadine giúp giảm ngứa và phát ban. Hướng dẫn bệnh nhân tránh các tác nhân gây dị ứng. Tái khám nếu có triệu chứng trở lại.', 5),
+(5, N'Ngứa ngáy, phát ban', N'Dị ứng thuốc hoặc thực phẩm', N'Xét nghiệm dị ứng dương tính với một số thực phẩm', 
+ N'Kê đơn Loratadine 10mg giúp giảm ngứa và phát ban. Hướng dẫn bệnh nhân tránh tác nhân gây dị ứng.', 
+ N'Tái khám nếu có triệu chứng trở lại'),
 
--- TreatmentPlan cho AppointmentId 6 (PrescriptionId 6)
-(N'Khám ban đầu: Bệnh nhân đau lưng và khớp, đặc biệt là buổi sáng. 
-Chẩn đoán ban đầu: Viêm khớp dạng thấp. 
-Kết quả xét nghiệm: Cộng hưởng từ cho thấy viêm khớp, xét nghiệm máu cho kết quả tăng tốc độ lắng máu. 
-Lập kế hoạch điều trị: Kê đơn thuốc Diclofenac 50mg và Pantoprazole 40mg. Diclofenac giảm đau và viêm, Pantoprazole bảo vệ dạ dày khỏi tác dụng phụ của thuốc chống viêm. Tái khám sau 1 tuần nếu triệu chứng không giảm.', 6),
+(6, N'Đau lưng, cứng khớp buổi sáng', N'Viêm khớp dạng thấp', N'Cộng hưởng từ cho thấy viêm khớp', 
+ N'Kê đơn Diclofenac 50mg giảm đau và viêm, Pantoprazole 40mg bảo vệ dạ dày khỏi tác dụng phụ.', 
+ N'Tái khám sau 1 tuần nếu triệu chứng không giảm'),
 
--- TreatmentPlan cho AppointmentId 7 (PrescriptionId 7)
-(N'Khám ban đầu: Bệnh nhân bị ngứa mũi, hắt hơi và chảy nước mũi liên tục. 
-Chẩn đoán ban đầu: Viêm mũi dị ứng. 
-Kết quả xét nghiệm: Xét nghiệm dị ứng cho kết quả dương tính với phấn hoa. 
-Lập kế hoạch điều trị: Kê đơn thuốc Cetirizine 10mg. Cetirizine giúp giảm ngứa mũi và các triệu chứng dị ứng. Hướng dẫn bệnh nhân tránh tiếp xúc với phấn hoa, tái khám nếu triệu chứng không giảm.', 7),
+(7, N'Ngứa mũi, hắt hơi, chảy nước mũi', N'Viêm mũi dị ứng', N'Xét nghiệm dị ứng dương tính với phấn hoa', 
+ N'Kê đơn Cetirizine 10mg giúp giảm ngứa mũi và các triệu chứng dị ứng.', 
+ N'Tránh tiếp xúc với phấn hoa, tái khám nếu triệu chứng không giảm'),
 
--- TreatmentPlan cho AppointmentId 8 (PrescriptionId 8)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng đau đầu, chóng mặt và buồn nôn. 
-Chẩn đoán ban đầu: Viêm mũi xoang cấp. 
-Kết quả xét nghiệm: CT scan cho thấy viêm xoang và ứ đọng dịch. 
-Lập kế hoạch điều trị: Kê đơn thuốc Dexamethasone 0.5mg. Dexamethasone giúp giảm sưng và viêm trong xoang. Tái khám sau 7 ngày để kiểm tra tiến triển.', 8),
+(8, N'Đau đầu, chóng mặt, buồn nôn', N'Viêm mũi xoang cấp', N'CT scan cho thấy viêm xoang và ứ đọng dịch', 
+ N'Kê đơn Dexamethasone 0.5mg giúp giảm sưng và viêm.', 
+ N'Tái khám sau 7 ngày để kiểm tra tiến triển'),
 
--- TreatmentPlan cho AppointmentId 9 (PrescriptionId 9)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng ho, đau họng, và sốt. 
-Chẩn đoán ban đầu: Nhiễm trùng đường hô hấp do vi khuẩn. 
-Kết quả xét nghiệm: Xét nghiệm họng dương tính với vi khuẩn Streptococcus. 
-Lập kế hoạch điều trị: Kê đơn thuốc Azithromycin 500mg. Azithromycin để điều trị nhiễm trùng. Hướng dẫn bệnh nhân uống thuốc đủ liệu trình. Tái khám sau 3 ngày nếu không cải thiện.', 9),
+(9, N'Ho, đau họng, sốt', N'Nhiễm trùng đường hô hấp', N'Xét nghiệm họng dương tính với vi khuẩn Streptococcus', 
+ N'Kê đơn Azithromycin 500mg để điều trị nhiễm trùng.', 
+ N'Tái khám sau 3 ngày nếu không cải thiện'),
 
--- TreatmentPlan cho AppointmentId 10 (PrescriptionId 10)
-(N'Khám ban đầu: Bệnh nhân có dấu hiệu đau ngực và khó thở. 
-Chẩn đoán ban đầu: Rối loạn lipid máu. 
-Kết quả xét nghiệm: Xét nghiệm cholesterol cho kết quả cao. 
-Lập kế hoạch điều trị: Kê đơn thuốc Atorvastatin 20mg. Atorvastatin giúp giảm mức cholesterol trong máu. Hướng dẫn bệnh nhân duy trì chế độ ăn uống lành mạnh và tái khám sau 1 tháng.', 10),
+(10, N'Đau ngực, khó thở', N'Rối loạn lipid máu', N'Xét nghiệm cholesterol cao', 
+ N'Kê đơn Atorvastatin 20mg giúp giảm cholesterol.', 
+ N'Tránh thức ăn nhiều dầu mỡ, tái khám sau 1 tháng'),
 
--- TreatmentPlan cho AppointmentId 11 (PrescriptionId 11)
-(N'Khám ban đầu: Bệnh nhân than phiền về đau lưng dưới và khó di chuyển. 
-Chẩn đoán ban đầu: Thoái hóa đĩa đệm. 
-Kết quả xét nghiệm: X-quang cho thấy sự thay đổi ở đĩa đệm. 
-Lập kế hoạch điều trị: Kê đơn thuốc Clopidogrel 75mg. Clopidogrel giúp cải thiện tuần hoàn và giảm đau. Hướng dẫn bệnh nhân tập thể dục nhẹ nhàng. Tái khám sau 2 tuần.', 11),
+(11, N'Đau lưng dưới, khó di chuyển', N'Thoái hóa đĩa đệm', N'X-quang cho thấy sự thay đổi ở đĩa đệm', 
+ N'Kê đơn Clopidogrel 75mg giúp cải thiện tuần hoàn và giảm đau.', 
+ N'Tập thể dục nhẹ nhàng, tái khám sau 2 tuần'),
 
--- TreatmentPlan cho AppointmentId 12 (PrescriptionId 12)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng đau ngực và khó thở. 
-Chẩn đoán ban đầu: Tăng huyết áp. 
-Kết quả xét nghiệm: Đo huyết áp cho kết quả cao. 
-Lập kế hoạch điều trị: Kê đơn thuốc Simvastatin 20mg. Simvastatin giúp giảm cholesterol và huyết áp. Tái khám sau 1 tháng nếu huyết áp vẫn cao.', 12),
+(12, N'Đau ngực, khó thở', N'Tăng huyết áp', N'Đo huyết áp cao', 
+ N'Kê đơn Simvastatin 20mg giúp giảm cholesterol và huyết áp.', 
+ N'Tái khám sau 1 tháng nếu huyết áp vẫn cao'),
 
--- TreatmentPlan cho AppointmentId 13 (PrescriptionId 13)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng đau bụng dữ dội. 
-Chẩn đoán ban đầu: Viêm ruột thừa. 
-Kết quả xét nghiệm: Siêu âm cho thấy viêm ruột thừa. 
-Lập kế hoạch điều trị: Kê đơn thuốc Tramadol 50mg. Tramadol giúp giảm đau. Tái khám sau phẫu thuật nếu cần.', 13),
+(13, N'Đau bụng dữ dội', N'Viêm ruột thừa', N'Siêu âm phát hiện viêm ruột thừa', 
+ N'Kê đơn Tramadol 50mg giúp giảm đau.', 
+ N'Tái khám sau phẫu thuật nếu cần'),
 
--- TreatmentPlan cho AppointmentId 14 (PrescriptionId 14)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng chóng mặt và đau đầu. 
-Chẩn đoán ban đầu: Mất cân bằng điện giải. 
-Kết quả xét nghiệm: Xét nghiệm máu cho thấy nồng độ Kali thấp. 
-Lập kế hoạch điều trị: Kê đơn thuốc Furosemide 20mg. Furosemide giúp điều hòa lượng nước và điện giải trong cơ thể. Tái khám sau 1 tuần.', 14),
+(14, N'Chóng mặt, đau đầu', N'Mất cân bằng điện giải', N'Xét nghiệm máu cho thấy Kali thấp', 
+ N'Kê đơn Furosemide 20mg giúp điều hòa nước và điện giải.', 
+ N'Tái khám sau 1 tuần'),
 
--- TreatmentPlan cho AppointmentId 15 (PrescriptionId 15)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng nhiễm trùng tiểu. 
-Chẩn đoán ban đầu: Nhiễm trùng đường tiết niệu. 
-Kết quả xét nghiệm: Xét nghiệm nước tiểu dương tính với vi khuẩn. 
-Lập kế hoạch điều trị: Kê đơn thuốc Levofloxacin 500mg. Levofloxacin giúp điều trị nhiễm trùng đường tiết niệu. Hướng dẫn bệnh nhân uống nhiều nước. Tái khám sau 1 tuần.', 15),
+(15, N'Tiểu buốt, đau bụng dưới', N'Nhiễm trùng đường tiết niệu', N'Xét nghiệm nước tiểu dương tính với vi khuẩn', 
+ N'Kê đơn Levofloxacin 500mg giúp điều trị nhiễm trùng.', 
+ N'Uống nhiều nước, tái khám sau 1 tuần'),
 
--- TreatmentPlan cho AppointmentId 16 (PrescriptionId 16)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng lo âu và mất ngủ. 
-Chẩn đoán ban đầu: Rối loạn lo âu. 
-Kết quả xét nghiệm: Không có bất thường trong xét nghiệm máu. 
-Lập kế hoạch điều trị: Kê đơn thuốc Lorazepam 1mg. Lorazepam giúp giảm lo âu và cải thiện giấc ngủ. Tái khám nếu triệu chứng không cải thiện.', 16),
+(16, N'Lo âu, mất ngủ', N'Rối loạn lo âu', N'Không có bất thường trong xét nghiệm', 
+ N'Kê đơn Lorazepam 1mg giúp giảm lo âu và cải thiện giấc ngủ.', 
+ N'Tái khám nếu triệu chứng không cải thiện'),
 
--- TreatmentPlan cho AppointmentId 17 (PrescriptionId 17)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng trầm cảm và cảm giác mệt mỏi. 
-Chẩn đoán ban đầu: Trầm cảm nhẹ. 
-Kết quả xét nghiệm: Không có bất thường trong xét nghiệm máu. 
-Lập kế hoạch điều trị: Kê đơn thuốc Sertraline 50mg. Sertraline giúp cải thiện tâm trạng và giảm trầm cảm. Tái khám sau 1 tuần.', 17),
+(17, N'Trầm cảm, mệt mỏi', N'Trầm cảm nhẹ', N'Không có bất thường trong xét nghiệm', 
+ N'Kê đơn Sertraline 50mg giúp cải thiện tâm trạng.', 
+ N'Tái khám sau 1 tuần'),
 
--- TreatmentPlan cho AppointmentId 18 (PrescriptionId 18)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng cao huyết áp. 
-Chẩn đoán ban đầu: Tăng huyết áp. 
-Kết quả xét nghiệm: Đo huyết áp cho kết quả cao. 
-Lập kế hoạch điều trị: Kê đơn thuốc Hydroclorothiazide 25mg. Hydroclorothiazide giúp giảm huyết áp. Hướng dẫn bệnh nhân duy trì chế độ ăn ít muối và tái khám sau 1 tháng.', 18),
+(18, N'Cao huyết áp', N'Tăng huyết áp', N'Đo huyết áp cao', 
+ N'Kê đơn Hydroclorothiazide 25mg giúp giảm huyết áp.', 
+ N'Tránh ăn mặn, tái khám sau 1 tháng'),
 
--- TreatmentPlan cho AppointmentId 19 (PrescriptionId 19)
-(N'Khám ban đầu: Bệnh nhân có triệu chứng đau ngực và mệt mỏi. 
-Chẩn đoán ban đầu: Rối loạn nhịp tim. 
-Kết quả xét nghiệm: Điện tâm đồ cho kết quả bất thường. 
-Lập kế hoạch điều trị: Kê đơn thuốc Bisoprolol 5mg. Bisoprolol giúp điều trị rối loạn nhịp tim. Tái khám sau 2 tuần để kiểm tra tình trạng tim mạch.', 19);
-
-
+(19, N'Đau ngực, mệt mỏi', N'Rối loạn nhịp tim', N'Điện tâm đồ bất thường', 
+ N'Kê đơn Bisoprolol 5mg giúp điều trị rối loạn nhịp tim.', 
+ N'Tái khám sau 2 tuần để kiểm tra tim mạch');
 

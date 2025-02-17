@@ -94,7 +94,7 @@ public class RegisterServlet extends HttpServlet {
         request.setAttribute("name", name);
         String phone = request.getParameter("phone").trim();
         request.setAttribute("phone", phone);
-        String address = request.getParameter("address").trim();
+        String address = request.getParameter("address").trim().replaceAll("\\s+", " ");
         request.setAttribute("address", address);
         String email = request.getParameter("email").trim();
         request.setAttribute("email", email);
