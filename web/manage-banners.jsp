@@ -88,91 +88,58 @@
                     <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
 
                     <li class="sidebar-dropdown">
-                        <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Doctors</a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li><a href="ListDoctor">Staffs</a></li>
-                                <li><a href="addStaff.jsp">Add Doctor</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Nhân Viên</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="ListDoctor">Danh Sách Nhân Viên</a></li>
+                                    <li><a href="AddStaffServlet">Thêm Nhân Viên</a></li>
 
-                    <li class="sidebar-dropdown">
-                        <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Patients</a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li><a href="patients.html">All Patients</a></li>
-                                <li><a href="add-patient.html">Add Patients</a></li>
-                                <li><a href="patient-profile.html">Profile</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                                </ul>
+                            </div>
+                        </li>
+  
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Bệnh Nhân</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="listCustomer">Danh Sách Bệnh Nhân</a></li>
+                                    <li><a href="addCustomer" >Thêm bệnh Nhân</a></li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Phòng Ban</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="ListDepartment">Danh sách Phòng Ban</a></li>
+                                    <li><a href="addDepartment.jsp">Thêm Phòng Ban</a></li>
 
-                    <li class="sidebar-dropdown">
-                        <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Apps</a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li><a href="chat.html">Chat</a></li>
-                                <li><a href="email.html">Email</a></li>
-                                <li><a href="calendar.html">Calendar</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        
 
-                    <li class="sidebar-dropdown">
-                        <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Pharmacy</a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li><a href="shop.html">Shop</a></li>
-                                <li><a href="product-detail.html">Shop Detail</a></li>
-                                <li><a href="shopcart.html">Shopcart</a></li>
-                                <li><a href="checkout.html">Checkout</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="blogs.html">Blogs</a></li>
+                                    <li><a href="blog-detail.html">Blog Detail</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Banner</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="manage-banners">Banner Management</a></li>
+                                </ul>
+                            </div>
+                        </li>
 
-                    <li class="sidebar-dropdown">
-                        <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li><a href="blogs.html">Blogs</a></li>
-                                <li><a href="blog-detail.html">Blog Detail</a></li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="sidebar-dropdown">
-                        <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Pages</a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li><a href="faqs.html">FAQs</a></li>
-                                <li><a href="review.html">Reviews</a></li>
-                                <li><a href="invoice-list.html">Invoice List</a></li>
-                                <li><a href="invoice.html">Invoice</a></li>
-                                <li><a href="terms.html">Terms & Policy</a></li>
-                                <li><a href="privacy.html">Privacy Policy</a></li>
-                                <li><a href="error.html">404 !</a></li>
-                                <li><a href="manage-banners">Manage Banners</a></li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="sidebar-dropdown">
-                        <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li><a href="login.html">Login</a></li>
-                                <li><a href="signup.html">Signup</a></li>
-                                <li><a href="forgot-password.html">Forgot Password</a></li>
-                                <li><a href="lock-screen.html">Lock Screen</a></li>
-                                <li><a href="thankyou.html">Thank you...!</a></li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
-
-                    <li><a href="landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
                 </ul>
             </div>
             <!-- sidebar-content  -->
@@ -194,7 +161,7 @@
                     <h5 class="mb-0">Upload New Banner</h5>
                 </div>
                 <div class="card-body">
-                    <form action="manage-banners" method="post" enctype="multipart/form-data">
+                    <form id="bannerForm" action="manage-banners" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                         <input type="hidden" name="action" value="uploadNew">
 
                         <div class="mb-3">
@@ -209,7 +176,13 @@
 
                         <div class="mb-3">
                             <label for="bannerImage" class="form-label">Banner Image</label>
-                            <input type="file" class="form-control" id="bannerImage" name="bannerImage" accept="image/*" required>
+                            <input type="file" class="form-control" id="bannerImage" name="bannerImage" 
+                                   accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" 
+                                   required onchange="validateFileSize()">
+                            <div class="form-text">
+                                Maximum file size: 10MB. Accepted formats: jpg, jpeg, png, gif, webp
+                            </div>
+                            <div id="fileError" class="text-danger mt-1" style="display: none;"></div>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Upload New Banner</button>
@@ -351,6 +324,48 @@
             <script src="assets/js/jquery.min.js"></script>
             <script src="assets/js/simplebar.min.js"></script>
             <script src="assets/js/feather.min.js"></script>
+            
+            <!-- File validation script -->
+            <script>
+                const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+                
+                function validateFileSize() {
+                    const fileInput = document.getElementById('bannerImage');
+                    const fileError = document.getElementById('fileError');
+                    
+                    if (fileInput.files.length > 0) {
+                        const fileSize = fileInput.files[0].size;
+                        const fileType = fileInput.files[0].type;
+                        
+                        // Check file size
+                        if (fileSize > MAX_FILE_SIZE) {
+                            fileError.textContent = 'File size exceeds 10MB limit. Please select a smaller file.';
+                            fileError.style.display = 'block';
+                            fileInput.value = ''; // Clear the input
+                            return false;
+                        }
+                        
+                        // Check file type
+                        const acceptedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
+                        if (!acceptedTypes.includes(fileType)) {
+                            fileError.textContent = 'Invalid file type. Please select an image file (JPG, JPEG, PNG, GIF, WEBP).';
+                            fileError.style.display = 'block';
+                            fileInput.value = ''; // Clear the input
+                            return false;
+                        }
+                        
+                        // If all checks pass
+                        fileError.style.display = 'none';
+                        return true;
+                    }
+                    
+                    return true; // No file selected yet
+                }
+                
+                function validateForm() {
+                    return validateFileSize();
+                }
+            </script>
             </main>
     </body>
 </html>

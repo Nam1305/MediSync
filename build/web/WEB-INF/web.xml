@@ -38,7 +38,7 @@
     </servlet>
     <servlet>
         <servlet-name>BannerManagementServlet</servlet-name>
-        <servlet-class>controller.BannerManagementServlet</servlet-class>
+        <servlet-class>controller.admin.BannerManagementServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ScheduleServlet</servlet-name>

@@ -98,6 +98,15 @@
                                 </ul>
                             </div>
                         </li>
+                        
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Banner</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="manage-banners">Banner Management</a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
