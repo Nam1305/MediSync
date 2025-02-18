@@ -450,11 +450,28 @@
 
             function previewAvatar(event) {
                 const file = event.target.files[0]; // Lấy tệp người dùng chọn
+                const errorMessage = document.querySelector('.error-message');
+                const submitBtn = document.getElementById('submitBtn');
+
                 if (file) {
+                    const maxSize = 3 * 1024 * 1024; // 3MB tính theo bytes
+
+                    // Kiểm tra kích thước file
+                    if (file.size > maxSize) {
+                        errorMessage.textContent = "Kích thước file không được vượt quá 3MB.";
+                        event.target.value = ""; // Xóa file đã chọn
+                        document.getElementById('avatarPreview').src = ""; // Xóa preview ảnh (nếu cần)
+                        submitBtn.style.display = 'none'; // Ẩn nút cập nhật
+                        return;
+                    } else {
+                        errorMessage.textContent = ""; // Xóa thông báo lỗi nếu file hợp lệ
+                    }
+
+                    // Đọc file và hiển thị preview
                     const reader = new FileReader();
                     reader.onload = function (e) {
                         document.getElementById('avatarPreview').src = e.target.result; // Thay đổi ảnh hiển thị
-                        document.getElementById('submitBtn').style.display = 'block'; // Hiển thị nút "Cập nhật"
+                        submitBtn.style.display = 'block'; // Hiển thị nút "Cập nhật"
                     };
                     reader.readAsDataURL(file); // Đọc file dưới dạng Data URL
                 }
