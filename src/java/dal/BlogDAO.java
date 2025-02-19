@@ -16,7 +16,7 @@ public class BlogDAO extends DBContext {
         List<Blog> blogs = new ArrayList<>();
         String sql = "SELECT TOP 3 blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE typeId = 0 ORDER BY NEWID();";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 blogs.add(mapResultSetToBlog(rs));
             }
@@ -30,7 +30,7 @@ public class BlogDAO extends DBContext {
         List<Blog> listBlog = new ArrayList<>();
         String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE typeId = 0;";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 listBlog.add(mapResultSetToBlog(rs));
             }
@@ -43,9 +43,9 @@ public class BlogDAO extends DBContext {
     public Blog getBlogById(int blogId) {
         String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE blogId = ?;";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, blogId);
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return mapResultSetToBlog(rs);
                 }
@@ -65,7 +65,7 @@ public class BlogDAO extends DBContext {
                 + "FROM Blog WHERE blogName LIKE ?) "
                 + "SELECT * FROM CTE WHERE RowNum BETWEEN ? AND ?";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, "%" + (search != null ? search : "") + "%");
             //thêm logic phân trang
             int start = (page - 1) * itemsPerPage + 1;
@@ -89,7 +89,7 @@ public class BlogDAO extends DBContext {
         List<Blog> banners = new ArrayList<>();
         String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE typeId = 1 AND selectedBanner = 1;";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 banners.add(mapResultSetToBlog(rs));
             }
@@ -127,7 +127,7 @@ public class BlogDAO extends DBContext {
 
         sql.append(") AS PagedResults WHERE RowNum BETWEEN ? AND ?");
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
             int parameterIndex = 1;
 
             // Set search parameter if exists
@@ -141,7 +141,7 @@ public class BlogDAO extends DBContext {
             ps.setInt(parameterIndex++, start);
             ps.setInt(parameterIndex, end);
 
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     blogs.add(mapResultSetToBlog(rs));
                 }
@@ -159,12 +159,12 @@ public class BlogDAO extends DBContext {
             sql.append(" AND blogName LIKE ?");
         }
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
             if (searchQuery != null && !searchQuery.trim().isEmpty()) {
                 ps.setString(1, "%" + searchQuery + "%");
             }
 
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1);
                 }
@@ -178,7 +178,7 @@ public class BlogDAO extends DBContext {
     public void updateBannerStatus(int blogId, boolean setAsBanner) {
         String sql = "UPDATE Blog SET selectedBanner = ? WHERE blogId = ?";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, setAsBanner ? 1 : 0);
             ps.setInt(2, blogId);
             ps.executeUpdate();
@@ -191,7 +191,7 @@ public class BlogDAO extends DBContext {
         String sql = "INSERT INTO Blog (blogName, content, image, typeId, selectedBanner, date, author) "
                 + "VALUES (?, ?, ?, ?, ?, GETDATE(), 'Admin')";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, banner.getBlogName());
             ps.setString(2, banner.getContent());
             ps.setString(3, banner.getImage());
@@ -206,10 +206,10 @@ public class BlogDAO extends DBContext {
     public int getTotalBlogsCount(String search) {
         String sql = "SELECT COUNT(blogId) FROM Blog WHERE blogName LIKE ?";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, "%" + (search != null ? search : "") + "%");
 
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1);
                 }
@@ -218,5 +218,20 @@ public class BlogDAO extends DBContext {
             ex.printStackTrace();
         }
         return 0;
+    }
+
+    public boolean isBannerNameExists(String bannerName) {
+        String sql = "SELECT COUNT(*) FROM Blog WHERE blogName = ? AND typeId = 1";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, bannerName);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking banner name: " + e.getMessage());
+        }
+        return false;
     }
 }

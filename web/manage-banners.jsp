@@ -60,6 +60,18 @@
             .pagination .fas {
                 font-size: 0.8rem;
             }
+            
+            .alert-dismissible {
+                position: relative;
+            }
+            
+            .alert-dismissible .close {
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 0.75rem 1.25rem;
+                color: inherit;
+            }
         </style>
     </head>
     <body>
@@ -155,6 +167,23 @@
         <div class="container mt-5">
             <h2 class="text-center mb-4">Banner Management</h2>
 
+            <!-- Alert Messages -->
+            <c:if test="${not empty sessionScope.errorMessage}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> ${sessionScope.errorMessage}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% session.removeAttribute("errorMessage"); %>
+            </c:if>
+            
+            <c:if test="${not empty sessionScope.successMessage}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> ${sessionScope.successMessage}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% session.removeAttribute("successMessage"); %>
+            </c:if>
+
             <!-- New Banner Upload Form -->
             <div class="card mb-4">
                 <div class="card-header">
@@ -166,12 +195,13 @@
 
                         <div class="mb-3">
                             <label for="bannerName" class="form-label">Banner Title</label>
-                            <input type="text" class="form-control" id="bannerName" name="bannerName" required>
+                            <input type="text" class="form-control" id="bannerName" name="bannerName" 
+                                   value="${sessionScope.formData.bannerName[0]}" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="bannerContent" class="form-label">Banner Content</label>
-                            <textarea class="form-control" id="bannerContent" name="bannerContent" rows="3" required></textarea>
+                            <textarea class="form-control" id="bannerContent" name="bannerContent" rows="3" required>${sessionScope.formData.bannerContent[0]}</textarea>
                         </div>
 
                         <div class="mb-3">
@@ -187,6 +217,7 @@
 
                         <button type="submit" class="btn btn-primary">Upload New Banner</button>
                     </form>
+                    <% session.removeAttribute("formData"); %>
                 </div>
             </div>
             <div class="card mb-4">
@@ -363,8 +394,29 @@
                 }
                 
                 function validateForm() {
+                    // Add banner name check
+                    const bannerNameInput = document.getElementById('bannerName');
+                    const bannerName = bannerNameInput.value.trim();
+                    
+                    if (bannerName === '') {
+                        alert('Banner name cannot be empty');
+                        bannerNameInput.focus();
+                        return false;
+                    }
+                    
                     return validateFileSize();
                 }
+                
+                // Auto-dismiss alerts after 5 seconds
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(function() {
+                        const alerts = document.querySelectorAll('.alert');
+                        alerts.forEach(function(alert) {
+                            const bsAlert = new bootstrap.Alert(alert);
+                            bsAlert.close();
+                        });
+                    }, 5000);
+                });
             </script>
             </main>
     </body>

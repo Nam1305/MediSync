@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Acer
  */
 @WebServlet(urlPatterns = {"/deleteStaffServlet"})
-public class DeleteStaffServlet extends HttpServlet {
+public class deleteStaffServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
