@@ -48,6 +48,10 @@
         <servlet-name>DoctorAppointment</servlet-name>
         <servlet-class>controller.doctor.DoctorAppointment</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DoctorAppointmentDetail</servlet-name>
+        <servlet-class>controller.doctor.DoctorAppointmentDetail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -95,5 +99,9 @@
     <servlet-mapping>
         <servlet-name>DoctorAppointment</servlet-name>
         <url-pattern>/doctorappointment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DoctorAppointmentDetail</servlet-name>
+        <url-pattern>/doctorappdetail</url-pattern>
     </servlet-mapping>
 </web-app>

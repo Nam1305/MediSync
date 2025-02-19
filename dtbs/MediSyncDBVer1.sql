@@ -154,10 +154,10 @@ CREATE TABLE TreatmentPlan (
     treatmentId int IDENTITY primary key,
     appointmentId INT UNIQUE ,  
     symptoms NVARCHAR(1000) NOT NULL,
-    diagnosis NVARCHAR(500) NOT NULL, 
-    testResults NVARCHAR(1000),      
-    treatmentPlan NVARCHAR(2000) NOT NULL, 
-    followUp NVARCHAR(500),           
+    diagnosis NVARCHAR(1000) NOT NULL, 
+    testResults NVARCHAR(max),      
+    treatmentPlan NVARCHAR(1000) NOT NULL, 
+    followUp NVARCHAR(1000),           
     FOREIGN KEY (appointmentId) REFERENCES Appointment(appointmentId) 
 );
 

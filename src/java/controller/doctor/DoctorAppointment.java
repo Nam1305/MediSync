@@ -11,13 +11,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Appointment;
+import java.sql.*;
 import model.Staff;
 
 /**
@@ -45,6 +41,16 @@ public class DoctorAppointment extends HttpServlet {
         // Đặt charset cho request và response
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        String appId = request.getParameter("appointmentId");
+        String newStatus = request.getParameter("newStatus");
+        if (appId != null && newStatus != null) {
+            try {
+                int appointmentId = Integer.parseInt(appId);
+                // Cập nhật trạng thái của appointment
+                ad.updateAppointmentStatus(appointmentId, newStatus);
+            } catch (NumberFormatException e) {
+            }
+        }
 
         // Lấy các tham số filter từ request
         String search = request.getParameter("search");
@@ -100,19 +106,7 @@ public class DoctorAppointment extends HttpServlet {
 
         // Forward đến JSP hiển thị danh sách lịch hẹn
         request.getRequestDispatcher("doctor/doctorAppointment.jsp").forward(request, response);
-    }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
     }
 
     /**

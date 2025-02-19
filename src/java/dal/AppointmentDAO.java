@@ -152,4 +152,39 @@ public class AppointmentDAO extends DBContext {
         return count;
     }
 
+    public boolean updateAppointmentStatus(int appointmentId, String newStatus) {
+        String sql = "UPDATE Appointment SET status = ? WHERE appointmentId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, newStatus);
+            ps.setInt(2, appointmentId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public Appointment getAppointmentsById(int id) {
+        String sql = "select appointmentId, date, startTime, endTime, appType, status, staffId, customerId from Appointment where appointmentId = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return mapResultSetToAppointment(rs);
+            }
+        } catch (SQLException ex) {
+        }
+        return null;
+    }
+
+    public static void main(String[] args) throws SQLException {
+        AppointmentDAO a = new AppointmentDAO();
+        List<Appointment> l = a.getAppointmentsByPage(1, "an", null, null, 1, 10);
+        System.out.println(l.size());
+
+        Appointment ap = a.getAppointmentsById(1);
+        System.out.println(ap.toString());
+    }
+
 }

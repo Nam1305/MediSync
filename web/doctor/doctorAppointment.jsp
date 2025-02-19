@@ -4,7 +4,6 @@
 
 <!DOCTYPE html>
 <html lang="vi">
-
     <head>
         <meta charset="utf-8" />
         <title>Appointment</title>
@@ -25,68 +24,61 @@
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
-
             h5 {
                 font-size: 20px;
             }
-
             .table {
                 font-size: 13px;
             }
-
             .table th, .table td {
                 padding: 10px;
             }
-
             .table img {
                 width: 30px;
                 height: 30px;
                 border-radius: 50%;
             }
-
             .btn {
                 font-size: 12px;
                 padding: 6px 10px;
             }
-
             .status-cancelled {
-                background-color: #f4c7c3; /* Đỏ hồng nhạt */
-            }
+                background-color: #f4c7c3;
+            } /* Đỏ hồng nhạt */
             .status-pending {
-                background-color: #fae3b0; /* Cam nhạt */
-            }
+                background-color: #fae3b0;
+            }   /* Cam nhạt */
             .status-confirmed {
-                background-color: #b3e5fc; /* Xanh dương nhạt */
-            }
+                background-color: #b3e5fc;
+            } /* Xanh dương nhạt */
             .status-paid {
-                background-color: #c8e6c9; /* Xanh lá pastel */
-            }
+                background-color: #c8e6c9;
+            }        /* Xanh lá pastel */
             .status-waiting_payment {
-                background-color: #ffe0b2; /* Vàng nhạt */
-            }
+                background-color: #ffe0b2;
+            } /* Vàng nhạt */
             .status-absent {
-                background-color: #d1c4e9; /* Tím nhạt */
-            }
+                background-color: #d1c4e9;
+            }        /* Tím nhạt */
         </style>
     </head>
-
     <body>
         <jsp:include page="top-navbar.jsp" />
-
         <section class="bg-dashboard">
             <div class="container-fluid">
                 <div class="row">
+                    <!-- Left Navbar -->
                     <div class="col-xl-3 col-lg-3 col-md-4 col-12">
                         <div class="rounded shadow overflow-hidden sticky-bar">
                             <jsp:include page="left-navbar.jsp" />
                         </div>
                     </div>
-
+                    <!-- Nội dung Appointment (chiếm 3/4) -->
                     <div class="col-xl-9 col-lg-9 col-md-8 col-12 mt-4 pt-2 mt-sm-0 pt-sm-0">
                         <div class="table-container">
                             <h4 class="mb-3 text-center">Danh sách lịch hẹn</h4>
                             <div class="mb-4">
-                                <!-- Thay đổi form action để gửi yêu cầu qua servlet (được ánh xạ tại /doctor/appointments) -->
+                                <!-- Form tìm kiếm, lọc dữ liệu -->
                                 <form action="doctorappointment" method="get" class="d-flex justify-content-between">
                                     <input type="text" name="search" class="form-control" placeholder="Tìm kiếm bệnh nhân" value="${param.search}" style="width: 200px;">
                                     <select name="status" class="form-control" style="width: 150px;">
@@ -98,13 +90,12 @@
                                         <option value="waitpay" ${param.status == 'waitpay' ? 'selected' : ''}>Chờ thanh toán</option>
                                         <option value="absent" ${param.status == 'absent' ? 'selected' : ''}>Vắng mặt</option>
                                     </select>
-
                                     <input type="date" name="date" class="form-control" value="${param.date}" style="width: 150px;">
                                     <input type="number" name="pageSize" class="form-control" value="${param.pageSize != null ? param.pageSize : 10}" min="1" max="100" step="1" style="width: 150px;">
                                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                                 </form>
                             </div>
-
+                            <!-- Bảng hiển thị danh sách appointment -->
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead class="table-success">
@@ -136,7 +127,7 @@
                                                         <c:otherwise>Nữ</c:otherwise>
                                                     </c:choose>
                                                 </td>
-                                                <td class="p-3">                                                  
+                                                <td class="p-3">
                                                     <fmt:formatDate value="${appointment.date}" pattern="dd/MM/yyyy" />
                                                 </td>
                                                 <td>
@@ -153,19 +144,22 @@
                                                         <c:when test="${appointment.status == 'absent'}">Vắng mặt</c:when>
                                                     </c:choose>
                                                 </td>
-
                                                 <td class="text-end p-3">
-                                                    <a href="doctor/doctorAppointmentDetail.jsp" class="btn btn-icon btn-pills btn-soft-primary">
+                                                    <a href="doctorappdetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
                                                         <i class="uil uil-eye"></i>
                                                     </a>
-                                                    <a href="#" class="btn btn-icon btn-pills btn-soft-success change-status" data-status="absent">
+                                                    <!-- Link chuyển trạng thái: Vắng mặt -->
+                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=absent&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}"
+                                                       class="btn btn-icon btn-pills btn-soft-danger"
+                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn #${appointment.appointmentId} sang Vắng mặt?');">
                                                         <i class="uil uil-check-circle"></i>
                                                     </a>
-
-                                                    <a href="#" class="btn btn-icon btn-pills btn-soft-danger change-status" data-status="waitpay">
+                                                    <!-- Link chuyển trạng thái: Chờ thanh toán -->
+                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=waitpay&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}"
+                                                       class="btn btn-icon btn-pills btn-soft-success"
+                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn #${appointment.appointmentId} sang Chờ thanh toán?');">
                                                         <i class="uil uil-times-circle"></i>
                                                     </a>
-
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -173,60 +167,35 @@
                                 </table>
                             </div>
                         </div>
-                        <!-- Pagination -->
+                        <!-- Phân trang -->
                         <div class="col-12" style="margin-top: 1%;">
                             <div class="d-md-flex align-items-center justify-content-end">
                                 <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                    <!-- Nút "Trước" chỉ hiển thị nếu currentPage > 1 -->
                                     <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="?page=${currentPage - 1}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}">
-                                                Trước
-                                            </a>
+                                            <a class="page-link" href="?page=${currentPage - 1}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}">Trước</a>
                                         </li>
                                     </c:if>
-
-                                    <!-- Hiển thị số trang -->
                                     <c:forEach begin="1" end="${totalPages}" var="p">
                                         <li class="page-item ${p == currentPage ? 'active' : ''}">
                                             <a class="page-link" href="?page=${p}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}">${p}</a>
                                         </li>
                                     </c:forEach>
-
-                                    <!-- Nút "Sau" chỉ hiển thị nếu currentPage < totalPages -->
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
-                                            <a class="page-link" href="?page=${currentPage + 1}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}">
-                                                Sau
-                                            </a>
+                                            <a class="page-link" href="?page=${currentPage + 1}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}">Sau</a>
                                         </li>
                                     </c:if>
                                 </ul>
                             </div>
                         </div>
-
                     </div><!--end col-->
                 </div><!--end row-->
             </div><!--end container-fluid-->
         </section>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                document.querySelectorAll(".change-status").forEach(button => {
-                    button.addEventListener("click", function (event) {
-                        event.preventDefault();
-                        let status = this.getAttribute("data-status");
-                        let confirmChange = confirm(`Bạn có chắc chắn muốn đổi trạng thái thành không?`);
-                        if (confirmChange) {
-                            console.log("Đổi trạng thái thành:", status);
-                            //
-                        }
-                    });
-                });
-            });
-        </script>
+
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/app.js"></script>
     </body>
-
 </html>
