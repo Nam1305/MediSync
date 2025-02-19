@@ -72,7 +72,6 @@
                                                         center: "title",
                                                         right: "dayGridMonth,timeGridWeek,timeGridDay"
                                                 },
-                                                editable: true, // Cho phép kéo, thả và chỉnh sửa sự kiện
                                                 events: events
                                         });
                                         calendar.render();
