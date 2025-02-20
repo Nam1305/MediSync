@@ -79,9 +79,6 @@
                                 </ul>
                             </div>
                         </li>
-<<<<<<< HEAD
-
-=======
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Phòng Ban</a>
                             <div class="sidebar-submenu">
@@ -92,7 +89,6 @@
                                 </ul>
                             </div>
                         </li>
->>>>>>> eb436c0f8b6bd5d32bbcaea78df325500939b8d3
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
                             <div class="sidebar-submenu">

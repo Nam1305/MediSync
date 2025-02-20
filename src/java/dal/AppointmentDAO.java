@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import model.Appointment;
 import model.Customer;
@@ -73,7 +72,6 @@ public class AppointmentDAO extends DBContext {
         return appointments;
     }
 
-<<<<<<< HEAD
     public List<Service> getListService(int customerId, int appointmentId) {
         List<Service> services = new ArrayList<>();
         String sql = "SELECT a.[date] AS appointmentDate, s.serviceId, s.name AS serviceName "
@@ -213,14 +211,6 @@ public class AppointmentDAO extends DBContext {
         return appointment;
     }
 
-    public static void main(String[] args) {
-        // Tạo đối tượng AppointmentDAO để gọi các phương thức
-        AppointmentDAO appdao = new AppointmentDAO();
-
-        String x = appdao.getDetailDoctorName(1, 11);
-        System.out.println(x);
-
-=======
     public List<Appointment> getAppointmentsByPage(int staffId, String search, String status, Date date, int page, int pageSize) throws SQLException {
         List<Appointment> appointments = new ArrayList<>();
         String sql = "SELECT appointmentId, date, startTime, endTime, appType, status, staffId, customerId "
@@ -337,7 +327,6 @@ public class AppointmentDAO extends DBContext {
 
         Appointment ap = a.getAppointmentsById(1);
         System.out.println(ap.toString());
->>>>>>> eb436c0f8b6bd5d32bbcaea78df325500939b8d3
     }
 
 }

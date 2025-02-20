@@ -25,7 +25,9 @@ public class ViewInvoiceDetail extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        //lấy ra id của appointment
         int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+        
     } 
 
 
