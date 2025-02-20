@@ -30,7 +30,62 @@
         <link rel="stylesheet" href="assets/css/tiny-slider.css"/>
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <style>
+            .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
 
+.pagination a {
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    color: #333;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+.pagination a:disabled {
+    background-color: #ddd;
+    color: #aaa;
+    border-color: #ddd;
+    pointer-events: none;
+}
+
+.pagination .prev, .pagination .next {
+    font-weight: bold;
+}
+
+.pagination .prev:hover, .pagination .next:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.pagination .prev, .pagination .next {
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 25px;
+}
+
+        </style>
     </head>
 
     <body>
@@ -107,26 +162,24 @@
                                             </div>
                                         </a>
                                         <a class="dropdown-item text-dark" href="change-password">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Change password
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
                                         </a>
                                         <c:if test="${staff != null}">
-                                            <a class="dropdown-item text-dark" href="doctor-dashboard">
-                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard
+                                            <a class="dropdown-item text-dark" href="doctorprofile">
+                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Profile
                                             </a>
                                         </c:if>
-                                        <a class="dropdown-item text-dark" href="profile">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings
-                                        </a>
+
                                         <div class="dropdown-divider border-top"></div>
                                         <a class="dropdown-item text-dark" href="logout">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất
                                         </a>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <!-- Not logged in -->
                                     <a href="login" class="btn btn-soft-primary">
-                                        <i class="uil uil-user align-middle"></i> Login
+                                        <i class="uil uil-user align-middle"></i> Đăng nhập
                                     </a>
                                 </c:otherwise>
                             </c:choose>
@@ -185,7 +238,6 @@
                                 <li><a href="aboutus.html" class="sub-menu-item"> About Us</a></li>
                                 <li><a href="departments.html" class="sub-menu-item">Departments</a></li>
                                 <li><a href="faqs.html" class="sub-menu-item">FAQs</a></li>
-                                <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
                                 <li><a href="terms.html" class="sub-menu-item">Terms & Policy</a></li>
                                 <li><a href="privacy.html" class="sub-menu-item">Privacy Policy</a></li>
                                 <li><a href="error.html" class="sub-menu-item">404 !</a></li>
@@ -193,6 +245,8 @@
                             </ul>
                         </li>
                         <li><a href="../admin/index.html" class="sub-menu-item" target="_blank">Admin</a></li>
+                        <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
+
                     </ul><!--end navigation menu-->
                 </div><!--end navigation-->
             </div><!--end container-->
@@ -224,7 +278,7 @@
                                 </ul> -->
                                 <p class="text-muted mb-0">${blog.content}</p>
 
-                                <h5 class="card-title mt-4 mb-0">Comments :</h5>
+                                <h5 class="card-title mt-4 mb-0">Bình luận :</h5>
 
                                 <ul class="media-list list-unstyled mb-0">
                                     <li class="mt-4">
@@ -244,135 +298,58 @@
                                                                     <fmt:formatDate value="${comment.date}" pattern="dd/MM/yyyy"/>
                                                                 </small>
                                                             </div>
-                                                        </div>
-                                                        <a href="#" class="text-muted"><i class="mdi mdi-reply"></i> Reply</a>
-                                                    </div>
                                                     <div class="mt-3">
                                                         <p class="text-muted font-italic p-3 bg-light rounded">"${comment.content}"</p>
                                                     </div>
                                                 </li>
                                             </c:forEach>
                                         </ul>
-
-
-                                        <ul class="list-unstyled ps-4 ps-md-5 sub-comment">
-                                            <li class="mt-4">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a class="pe-3" href="#">
-                                                            <img src="../assets/images/client/01.jpg" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
-                                                        </a>
-                                                        <div class="commentor-detail">
-                                                            <h6 class="mb-0"><a href="javascript:void(0)" class="text-dark media-heading">Random Guy</a></h6>
-                                                            <small class="text-muted">17th August, 2024</small>
-                                                        </div>
-                                                    </div>
-                                                    <a href="#" class="text-muted"><i class="mdi mdi-reply"></i> Reply</a>
-                                                </div>
-                                                <div class="mt-3">
-                                                    <p class="text-muted font-italic p-3 bg-light rounded">"<3"</p>
-                                                </div>
-                                            </li>
-                                        </ul>
                                     </li>
                                 </ul>
-
-                                <h5 class="card-title mt-4 mb-0">Leave A Comment :</h5>
-
-                                <form class="mt-3">
+                                    <div class="pagination">
+                                        <c:if test="${currentPage > 1}">
+                                            <a href="?blogId=${blog.blogId}&page=${currentPage - 1}">Previous</a>
+                                        </c:if>
+                                        <c:forEach begin="1" end="${totalPages}" var="i">
+                                            <a href="?blogId=${blog.blogId}&page=${i}" class="${i == currentPage ? 'active' : ''}">${i}</a>
+                                        </c:forEach>
+                                        <c:if test="${currentPage < totalPages}">
+                                            <a href="?blogId=${blog.blogId}&page=${currentPage + 1}">Next</a>
+                                        </c:if>
+                                    </div>
+                                <form method="post" action="blog-detail">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Your Comment</label>
-                                                <textarea id="message" placeholder="Your Comment" rows="5" name="message" class="form-control" required=""></textarea>
+                                                <label class="form-label">Bình luận của bạn:</label>
+                                                <input type="hidden" name="blogId" value="${blog.blogId}">
+                                                <textarea name="content" placeholder="Nhập bình luận..." class="form-control" required></textarea>
                                             </div>
-                                        </div><!--end col-->
-
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Name <span class="text-danger">*</span></label>
-                                                <input id="name" name="name" type="text" placeholder="Name" class="form-control" required="">
-                                            </div>
-                                        </div><!--end col-->
-
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Your Email <span class="text-danger">*</span></label>
-                                                <input id="email" type="email" placeholder="Email" name="email" class="form-control" required="">
-                                            </div>
-                                        </div><!--end col-->
-
-                                        <div class="col-md-12">
+                                        </div>
+                                        <div class="col-md-3">
                                             <div class="send d-grid">
-                                                <button type="submit" class="btn btn-primary">Send Message</button>
+                                                <c:choose>
+                                                    <c:when test="${empty sessionScope.staff and empty sessionScope.customer}">
+                                                        <a href="login" class="btn btn-primary">Đăng nhập để bình luận</a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button type="submit" class="btn btn-primary">Bình luận</button>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </div>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
-                                </form><!--end form-->
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-4 col-md-5 mt-4">
-                        <div class="card border-0 sidebar sticky-bar rounded shadow">
-                            <div class="card-body">
-                                <!-- RECENT POST -->
-                                <div class="widget mb-4 pb-2">
-                                    <h5 class="widget-title">Recent Post</h5>
-                                    <div class="mt-4">
-                                        <div class="clearfix post-recent">
-                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/07.jpg" class="img-fluid rounded"></a></div>
-                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Consultant Business</a><span class="text-muted mt-2">15th June, 2019</span></div>
-                                        </div>
-                                        <div class="clearfix post-recent">
-                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/08.jpg" class="img-fluid rounded"></a></div>
-                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Look On The Glorious Balance</a> <span class="text-muted mt-2">15th June, 2019</span></div>
-                                        </div>
-                                        <div class="clearfix post-recent">
-                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/01.jpg" class="img-fluid rounded"></a></div>
-                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Research Financial.</a> <span class="text-muted mt-2">15th June, 2019</span></div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- RECENT POST -->
+                                </form>
 
-                                <!-- TAG CLOUDS -->
-                                <div class="widget mb-4 pb-2">
-                                    <h5 class="widget-title">Tags Cloud</h5>
-                                    <div class="tagcloud mt-4">
-                                        <a href="jvascript:void(0)" class="rounded">Business</a>
-                                        <a href="jvascript:void(0)" class="rounded">Finance</a>
-                                        <a href="jvascript:void(0)" class="rounded">Marketing</a>
-                                        <a href="jvascript:void(0)" class="rounded">Fashion</a>
-                                        <a href="jvascript:void(0)" class="rounded">Bride</a>
-                                        <a href="jvascript:void(0)" class="rounded">Lifestyle</a>
-                                        <a href="jvascript:void(0)" class="rounded">Travel</a>
-                                        <a href="jvascript:void(0)" class="rounded">Beauty</a>
-                                        <a href="jvascript:void(0)" class="rounded">Video</a>
-                                        <a href="jvascript:void(0)" class="rounded">Audio</a>
-                                    </div>
-                                </div>
-                                <!-- TAG CLOUDS -->
 
-                                <!-- SOCIAL -->
-                                <div class="widget">
-                                    <h5 class="widget-title">Follow us</h5>
-                                    <ul class="list-unstyled social-icon mb-0 mt-4">
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="facebook" class="fea icon-sm fea-social"></i></a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="instagram" class="fea icon-sm fea-social"></i></a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="twitter" class="fea icon-sm fea-social"></i></a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="linkedin" class="fea icon-sm fea-social"></i></a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="github" class="fea icon-sm fea-social"></i></a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="youtube" class="fea icon-sm fea-social"></i></a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="gitlab" class="fea icon-sm fea-social"></i></a></li>
-                                    </ul><!--end icon-->
-                                </div>
-                                <!-- SOCIAL -->
-                            </div>
                         </div>
                     </div><!--end col-->
                 </div><!--end row-->        
             </div>    
+            </div>    
+            </div>    
+                                    
+                               
 
             <!-- Start -->
             <footer class="bg-footer" style="margin-top: 5%;">

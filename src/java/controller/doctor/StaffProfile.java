@@ -132,7 +132,7 @@ public class StaffProfile extends HttpServlet {
                     if (dotIndex > 0 && dotIndex < imageFilename.length() - 1) {
                         fileExtension = imageFilename.substring(dotIndex + 1).toLowerCase();
                     }
-                    if (fileExtension.equals("jpg") || fileExtension.equals("jpeg") || fileExtension.equals("png")) {
+                    if (fileExtension.toLowerCase().equals("jpg") || fileExtension.toLowerCase().equals("jpeg") || fileExtension.toLowerCase().equals("png")) {
                         imagePart.write(Paths.get(uploadPath.toString(), imageFilename).toString());
                         String avt = request.getContextPath() + "/uploads/" + imageFilename;
                         std.updateAvatar(st.getStaffId(), avt);

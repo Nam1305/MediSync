@@ -61,49 +61,38 @@
                         <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Appointment</a></li>
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Staff</a>
+                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Nhân Viên</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="ListDoctor">List Staff </a></li>
-                                    <li><a href="addStaff.jsp">Add Staff</a></li>
+                                    <li><a href="ListDoctor">Danh Sách Nhân Viên</a></li>
+                                    <li><a href="AddStaffServlet">Thêm Nhân Viên</a></li>
 
                                 </ul>
                             </div>
                         </li>
-
+  
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Patients</a>
+                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Bệnh Nhân</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="listCustomer">All Patients</a></li>
-                                    <li><a href="addCustomer" >Add Patients</a></li>
-                                    <li><a href="patient-profile.html">Profile</a></li>
+                                    <li><a href="listCustomer">Danh Sách Bệnh Nhân</a></li>
+                                    <li><a href="addCustomer" >Thêm bệnh Nhân</a></li>
+                                    
                                 </ul>
                             </div>
                         </li>
-
+                        
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-apps me-2 d-inline-block"></i>Apps</a>
+                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Phòng Ban</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="chat.html">Chat</a></li>
-                                    <li><a href="email.html">Email</a></li>
-                                    <li><a href="calendar.html">Calendar</a></li>
-                                </ul>
-                            </div>
-                        </li>
+                                    <li><a href="ListDepartment">Danh sách Phòng Ban</a></li>
+                                    <li><a href="addDepartment.jsp">Thêm Phòng Ban</a></li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Pharmacy</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="shop.html">Shop</a></li>
-                                    <li><a href="product-detail.html">Shop Detail</a></li>
-                                    <li><a href="shopcart.html">Shopcart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
                                 </ul>
                             </div>
                         </li>
+                        
 
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
@@ -114,37 +103,20 @@
                                 </ul>
                             </div>
                         </li>
-
+                        
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-file me-2 d-inline-block"></i>Pages</a>
+                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Banner</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="faqs.html">FAQs</a></li>
-                                    <li><a href="review.html">Reviews</a></li>
-                                    <li><a href="invoice-list.html">Invoice List</a></li>
-                                    <li><a href="invoice.html">Invoice</a></li>
-                                    <li><a href="terms.html">Terms & Policy</a></li>
-                                    <li><a href="privacy.html">Privacy Policy</a></li>
-                                    <li><a href="error.html">404 !</a></li>
-                                    <li><a href="manage-banners">Manage Banners</a></li>
+                                    <li><a href="manage-banners">Banner Management</a></li>
                                 </ul>
                             </div>
                         </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-sign-in-alt me-2 d-inline-block"></i>Authentication</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="signup.html">Signup</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                                    <li><a href="lock-screen.html">Lock Screen</a></li>
-                                    <li><a href="thankyou.html">Thank you...!</a></li>
-                                </ul>
-                            </div>
-                        </li>
+                        
+                        
 
-                        <li><a href="components.html"><i class="uil uil-cube me-2 d-inline-block"></i>Components</a></li>
+                        
 
                         <li><a href="landing/index-two.html" target="_blank"><i class="uil uil-window me-2 d-inline-block"></i>Landing page</a></li>
                     </ul>

@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -119,31 +120,41 @@ public class DoctorDAO extends DBContext {
         return 0;
     }
 
-    public boolean addStaff(Staff staff) {
-        // mặc định  status set = '1'
-        String sql = "INSERT INTO Staff (name, email,avatar, phone, password, dateOfBirth, position, gender, status, description, roleId, departmentId) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?,?, 'Active',?, ?, ?)";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, staff.getName());
-            ps.setString(2, staff.getEmail());
-            ps.setString(3, staff.getAvatar());
-            ps.setString(4, staff.getPhone());
-            ps.setString(5, staff.getPassword());
-            ps.setDate(6, staff.getDateOfBirth());
-            ps.setString(7, staff.getPosition());
-            ps.setString(8, staff.getGender());
-            ps.setString(9, staff.getDescription());
-            ps.setInt(10, staff.getRole().getRoleId());
-            ps.setInt(11, staff.getDepartment().getDepartmentId());
+  public int addStaff(Staff staff) {
+    // Mặc định `status` = 'Active'
+    String sql = "INSERT INTO Staff (name, email, avatar, phone, password, dateOfBirth, position, gender, status, description, roleId, departmentId) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?)";
+    
+    try {
+        // Sử dụng RETURN_GENERATED_KEYS để lấy ID tự động tăng
+        PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, staff.getName());
+        ps.setString(2, staff.getEmail());
+        ps.setString(3, staff.getAvatar());
+        ps.setString(4, staff.getPhone());
+        ps.setString(5, staff.getPassword());
+        ps.setDate(6, staff.getDateOfBirth());
+        ps.setString(7, staff.getPosition());
+        ps.setString(8, staff.getGender());
+        ps.setString(9, staff.getDescription());
+        ps.setInt(10, staff.getRole().getRoleId());
+        ps.setInt(11, staff.getDepartment().getDepartmentId());
 
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0; // Return true if the doctor was added successfully
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false; // Return false if an error occurred
+        int rowsAffected = ps.executeUpdate();
+
+        // Kiểm tra nếu INSERT thành công
+        if (rowsAffected > 0) {
+            ResultSet rs = ps.getGeneratedKeys(); // Lấy ID vừa tạo
+            if (rs.next()) {
+                return rs.getInt(1); // Trả về ID của nhân viên mới
+            }
         }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+    
+    return -1; // Trả về -1 nếu thêm thất bại
+}
 
     public boolean deleteStaff(int staffId) {
         String sql = "UPDATE Staff SET status = 'Inactive' WHERE StaffId = ?";

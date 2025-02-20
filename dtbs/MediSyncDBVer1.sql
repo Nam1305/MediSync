@@ -78,7 +78,8 @@ CREATE TABLE Customer (
 
 CREATE TABLE Department (
   departmentId   int IDENTITY NOT NULL, 
-  departmentName nvarchar(255) NULL, 
+  departmentName nvarchar(255) NULL,
+  status nvarchar(50) NULL,
   PRIMARY KEY (departmentId));
 
 CREATE TABLE FeedBack (
@@ -129,7 +130,8 @@ CREATE TABLE Service (
   serviceId int IDENTITY NOT NULL, 
   content   nvarchar(MAX) NULL, 
   price     float(10) NULL, 
-  name      nvarchar(255) NULL, 
+  name      nvarchar(255) NULL,
+  status    nvarchar(50) NULL,
   PRIMARY KEY (serviceId));
 
 CREATE TABLE Staff (
@@ -152,10 +154,10 @@ CREATE TABLE TreatmentPlan (
     treatmentId int IDENTITY primary key,
     appointmentId INT UNIQUE ,  
     symptoms NVARCHAR(1000) NOT NULL,
-    diagnosis NVARCHAR(500) NOT NULL, 
-    testResults NVARCHAR(1000),      
-    treatmentPlan NVARCHAR(2000) NOT NULL, 
-    followUp NVARCHAR(500),           
+    diagnosis NVARCHAR(1000) NOT NULL, 
+    testResults NVARCHAR(max),      
+    treatmentPlan NVARCHAR(1000) NOT NULL, 
+    followUp NVARCHAR(1000),           
     FOREIGN KEY (appointmentId) REFERENCES Appointment(appointmentId) 
 );
 
@@ -168,7 +170,6 @@ ALTER TABLE Staff ADD CONSTRAINT FKStaff215392 FOREIGN KEY (departmentId) REFERE
 ALTER TABLE Comment ADD CONSTRAINT FKComment198944 FOREIGN KEY (blogId) REFERENCES Blog (blogId);
 ALTER TABLE FeedBack ADD CONSTRAINT FKFeedBack608448 FOREIGN KEY (customerId) REFERENCES Customer (customerId);
 ALTER TABLE Appointment ADD CONSTRAINT FKAppointmen292731 FOREIGN KEY (customerId) REFERENCES Customer (customerId);
-ALTER TABLE TreatmentPlan ADD CONSTRAINT FKTreatmentP272103 FOREIGN KEY (appointmentId) REFERENCES Appointment (appointmentId);
 
 ALTER TABLE Invoice ADD CONSTRAINT FKInvoice783203 FOREIGN KEY (appointmentId) REFERENCES Appointment (appointmentId);
 ALTER TABLE Invoice ADD CONSTRAINT FKInvoice648614 FOREIGN KEY (serviceId) REFERENCES Service (serviceId);
@@ -187,12 +188,12 @@ INSERT INTO Role (role) VALUES
 ('Nhân viên hành chính');
 
 --Department
-INSERT INTO Department (departmentName) VALUES
-(N'Khoa Nội Tổng Quát'),
-(N'Khoa Tai Mũi Họng'),
-(N'Khoa Xét Nghiệm'),
-(N'Khoa Ngoại Cơ Bản'),
-(N'Hành Chính');
+INSERT INTO Department (departmentName,status) VALUES
+(N'Khoa Nội Tổng Quát',N'Active'),
+(N'Khoa Tai Mũi Họng',N'Active'),
+(N'Khoa Xét Nghiệm',N'Active'),
+(N'Khoa Ngoại Cơ Bản',N'Active'),
+(N'Hành Chính',N'Active');
 
 --Staff
 -- Insert Staff with corresponding departments
@@ -799,31 +800,31 @@ VALUES
 
 
 
-INSERT INTO Service (name, content, price) VALUES
+INSERT INTO Service (name, content, price, status) VALUES
 -- Khoa Nội Tổng Quát
-(N'Khám tổng quát', N'Bao gồm đo huyết áp, kiểm tra tim mạch, khám tổng quát hệ tiêu hóa, hô hấp, thần kinh và tư vấn sức khỏe.', 100000),
-(N'Khám sức khỏe định kỳ', N'Khám tổng quát định kỳ để theo dõi tình trạng sức khỏe, phát hiện sớm các bệnh lý tiềm ẩn.', 120000),
-(N'Tư vấn với bác sĩ', N'Tư vấn trực tiếp hoặc online với bác sĩ chuyên khoa về triệu chứng, hướng dẫn điều trị, đơn thuốc và chăm sóc sức khỏe.', 150000),
-(N'Tư vấn với chuyên gia', N'Gặp chuyên gia hàng đầu trong lĩnh vực y tế để có hướng dẫn điều trị chuyên sâu và kế hoạch chăm sóc sức khỏe cá nhân hoặc qua online.', 150000),
-(N'Tư vấn dinh dưỡng', N'Tư vấn chế độ ăn uống phù hợp với từng độ tuổi, tình trạng sức khỏe và bệnh lý.', 100000),
+(N'Khám tổng quát', N'Bao gồm đo huyết áp, kiểm tra tim mạch, khám tổng quát hệ tiêu hóa, hô hấp, thần kinh và tư vấn sức khỏe.', 100000,N'Active'),
+(N'Khám sức khỏe định kỳ', N'Khám tổng quát định kỳ để theo dõi tình trạng sức khỏe, phát hiện sớm các bệnh lý tiềm ẩn.', 120000,N'Active'),
+(N'Tư vấn với bác sĩ', N'Tư vấn trực tiếp hoặc online với bác sĩ chuyên khoa về triệu chứng, hướng dẫn điều trị, đơn thuốc và chăm sóc sức khỏe.', 150000,N'Active'),
+(N'Tư vấn với chuyên gia', N'Gặp chuyên gia hàng đầu trong lĩnh vực y tế để có hướng dẫn điều trị chuyên sâu và kế hoạch chăm sóc sức khỏe cá nhân hoặc qua online.', 150000,N'Active'),
+(N'Tư vấn dinh dưỡng', N'Tư vấn chế độ ăn uống phù hợp với từng độ tuổi, tình trạng sức khỏe và bệnh lý.', 100000,N'Active'),
 
 -- Khoa Tai-Mũi-Họng
-(N'Khám và điều trị viêm tai, mũi, họng', N'Khám và điều trị các bệnh lý về viêm họng, viêm xoang, viêm tai giữa.', 120000),
-(N'Nội soi tai, mũi, họng', N'Sử dụng nội soi để kiểm tra và chẩn đoán các bệnh lý vùng tai, mũi, họng.', 250000),
-(N'Phẫu thuật tai, mũi, họng', N'Thực hiện phẫu thuật tai, mũi, họng khi cần thiết như cắt amidan, nạo VA.', 3000000),
-(N'Điều trị dị ứng', N'Tư vấn và điều trị các bệnh lý dị ứng liên quan đến đường hô hấp, da liễu.', 180000),
-(N'Phục hồi chức năng thính giác', N'Hỗ trợ phục hồi thính lực với các bài tập và thiết bị trợ thính.', 500000),
+(N'Khám và điều trị viêm tai, mũi, họng', N'Khám và điều trị các bệnh lý về viêm họng, viêm xoang, viêm tai giữa.', 120000,N'Active'),
+(N'Nội soi tai, mũi, họng', N'Sử dụng nội soi để kiểm tra và chẩn đoán các bệnh lý vùng tai, mũi, họng.', 250000,N'Active'),
+(N'Phẫu thuật tai, mũi, họng', N'Thực hiện phẫu thuật tai, mũi, họng khi cần thiết như cắt amidan, nạo VA.', 3000000,N'Active'),
+(N'Điều trị dị ứng', N'Tư vấn và điều trị các bệnh lý dị ứng liên quan đến đường hô hấp, da liễu.', 180000,N'Active'),
+(N'Phục hồi chức năng thính giác', N'Hỗ trợ phục hồi thính lực với các bài tập và thiết bị trợ thính.', 500000,N'Active'),
 
 -- Khoa Xét nghiệm
-(N'Xét nghiệm máu', N'Xét nghiệm công thức máu, đường huyết, mỡ máu, chức năng gan, chức năng thận và các chỉ số sinh hóa khác.', 200000),
-(N'Xét nghiệm nước tiểu', N'Kiểm tra chức năng thận, đường huyết, và các chỉ số sức khỏe khác qua xét nghiệm nước tiểu.', 180000),
-(N'Xét nghiệm sinh hóa', N'Đánh giá chức năng gan, thận, đường huyết, mỡ máu qua các chỉ số sinh hóa.', 250000),
-(N'Xét nghiệm vi sinh', N'Phát hiện vi khuẩn, virus, nấm và ký sinh trùng gây bệnh.', 300000),
+(N'Xét nghiệm máu', N'Xét nghiệm công thức máu, đường huyết, mỡ máu, chức năng gan, chức năng thận và các chỉ số sinh hóa khác.', 200000,N'Active'),
+(N'Xét nghiệm nước tiểu', N'Kiểm tra chức năng thận, đường huyết, và các chỉ số sức khỏe khác qua xét nghiệm nước tiểu.', 180000,N'Active'),
+(N'Xét nghiệm sinh hóa', N'Đánh giá chức năng gan, thận, đường huyết, mỡ máu qua các chỉ số sinh hóa.', 250000,N'Active'),
+(N'Xét nghiệm vi sinh', N'Phát hiện vi khuẩn, virus, nấm và ký sinh trùng gây bệnh.', 300000,N'Active'),
 
 -- Khoa Ngoại cơ bản
-(N'Tiểu phẫu', N'Thực hiện các tiểu phẫu nhỏ như cắt u bướu nhỏ, xử lý áp xe, cắt bao quy đầu, khâu vết thương hở dưới gây tê tại chỗ.', 2000000),
-(N'Điều trị chấn thương', N'Can thiệp y tế để điều trị gãy xương, bong gân, tổn thương mô mềm.', 250000),
-(N'Chăm sóc hậu phẫu', N'Theo dõi và chăm sóc bệnh nhân sau phẫu thuật để phục hồi nhanh chóng.', 300000);
+(N'Tiểu phẫu', N'Thực hiện các tiểu phẫu nhỏ như cắt u bướu nhỏ, xử lý áp xe, cắt bao quy đầu, khâu vết thương hở dưới gây tê tại chỗ.', 2000000,N'Active'),
+(N'Điều trị chấn thương', N'Can thiệp y tế để điều trị gãy xương, bong gân, tổn thương mô mềm.', 250000,N'Active'),
+(N'Chăm sóc hậu phẫu', N'Theo dõi và chăm sóc bệnh nhân sau phẫu thuật để phục hồi nhanh chóng.', 300000,N'Active');
 
 -- Invoice with updated serviceIds
 INSERT INTO Invoice (appointmentId, serviceId) 
@@ -1090,4 +1091,8 @@ VALUES
 (19, N'Đau ngực, mệt mỏi', N'Rối loạn nhịp tim', N'Điện tâm đồ bất thường', 
  N'Kê đơn Bisoprolol 5mg giúp điều trị rối loạn nhịp tim.', 
  N'Tái khám sau 2 tuần để kiểm tra tim mạch');
+
+
+
+
 

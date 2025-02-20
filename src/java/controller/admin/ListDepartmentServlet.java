@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.admin;
 
-import dal.BlogDAO;
+import dal.DepartmentDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,19 +12,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import model.Blog;
-import model.Customer;
-import model.Staff;
+import model.Department;
 
 /**
  *
- * @author Admin
+ * @author Acer
  */
-@WebServlet(name = "ListBlogServlet", urlPatterns = {"/listBlog"})
-public class ListBlogServlet extends HttpServlet {
+@WebServlet(name = "ListDepartmentServlet", urlPatterns = {"/ListDepartment"})
+public class ListDepartmentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,15 +35,15 @@ public class ListBlogServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListBlogServlet</title>");
+            out.println("<title>Servlet ListDepartmentServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListBlogServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListDepartmentServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,41 +61,11 @@ public class ListBlogServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Kiểm tra xem người dùng đã đăng nhập chưa
-        HttpSession session = request.getSession();
-        Customer customer = (Customer) session.getAttribute("customer");
-        Staff staff = (Staff) session.getAttribute("staff");
+        DepartmentDAO department = new DepartmentDAO();
+        List<Department> listDepartment = department.getAllDepartments();
+        request.setAttribute("listDepartment", listDepartment);
+        request.getRequestDispatcher("listDepartment.jsp").forward(request, response);
 
-        // Nếu không có khách hàng hoặc nhân viên trong session, chuyển hướng về trang login
-        if (customer == null && staff == null) {
-            session.setAttribute("redirectURL", request.getRequestURL().toString()); // Lưu URL hiện tại vào session để chuyển hướng lại sau khi đăng nhập
-            response.sendRedirect("login"); // Chuyển hướng tới trang login
-            return;
-        }
-        BlogDAO blogDAO = new BlogDAO();
-        int currentPage = 1; // Mặc định vào trang 1
-        int itemsPerPage = 6; // Mỗi trang có 6 blog
-        if (request.getParameter("page") != null) {
-            currentPage = Integer.parseInt(request.getParameter("page"));
-        }
-        String search = request.getParameter("search");
-        String sort = request.getParameter("sort");
-
-        if (search != null) {
-            search = search.trim().replaceAll("\\s+", " "); // Xóa khoảng trắng thừa
-        }
-        // Lấy danh sách blog theo tìm kiếm và sắp xếp
-        List<Blog> listBlog = blogDAO.getBlogs(search, sort, currentPage, itemsPerPage);
-        int totalBlogs = blogDAO.getTotalBlogsCount(search);
-        int totalPages = (int) Math.ceil((double) totalBlogs / itemsPerPage);
-
-        request.setAttribute("listBlog", listBlog);
-        request.setAttribute("search", search);
-        request.setAttribute("sort", sort);
-        request.setAttribute("currentPage", currentPage);
-        request.setAttribute("totalPages", totalPages);
-
-        request.getRequestDispatcher("listBlog.jsp").forward(request, response);
     }
 
     /**
@@ -112,7 +79,7 @@ public class ListBlogServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            
     }
 
     /**

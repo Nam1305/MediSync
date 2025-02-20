@@ -56,7 +56,7 @@
                         <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Thông tin cuộc hẹn</a></li>
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Bác Sĩ</a>
+                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Nhân Viên</a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="ListDoctor">Danh sách nhân viên</a></li>
@@ -73,6 +73,17 @@
                                     <li><a href="listCustomer">Danh sách bệnh nhân</a></li>
                                     <li><a href="addCustomer">Thêm bệnh nhân</a></li>
                                     <!--                                    <li><a href="patient-profile.html">Profile</a></li>-->
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Phòng Ban</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="ListDepartment">Danh sách Phòng Ban</a></li>
+                                    <li><a href="AddDepartment">Thêm Phòng Ban</a></li>
+
                                 </ul>
                             </div>
                         </li>

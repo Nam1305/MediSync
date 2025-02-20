@@ -74,14 +74,18 @@ public class deleteStaffServlet extends HttpServlet {
             throws ServletException, IOException {
         String Staffid = request.getParameter("id");
         int staffId = Integer.parseInt(Staffid);
-
+        
         DoctorDAO staff = new DoctorDAO();
+        if(staff.getStaffById(staffId)== null){
+            request.setAttribute("error", "Not found staff. Please try again.");
+            request.getRequestDispatcher("ListDoctor").forward(request, response);
+        }
         boolean isDelete = staff.deleteStaff(staffId);
 
         if (isDelete) {
            response.sendRedirect("ListDoctor");
         } else {
-            request.setAttribute("error", "Failed to add staff. Please try again.");
+            request.setAttribute("error", "Failed to delete staff. Please try again.");
             request.getRequestDispatcher("ListDoctor").forward(request, response);
         }
 
