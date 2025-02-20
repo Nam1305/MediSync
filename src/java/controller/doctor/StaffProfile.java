@@ -124,7 +124,12 @@ public class StaffProfile extends HttpServlet {
                 }
                 Part imagePart = request.getPart("avatar");
                 String imageFilename = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
+                if (imagePart.getSize() >= 3 * 1024 * 1024) {
+                    request.setAttribute("erroravatar", "Dung lượng ảnh không được phép vượt quá 3MB!");
+                    request.getRequestDispatcher("staffProfile.jsp").forward(request, response);
 
+                    return;
+                }
                 if (!imageFilename.equals("")) {
                     String fileExtension = "";
                     imageFilename = System.currentTimeMillis() + "_" + imageFilename;

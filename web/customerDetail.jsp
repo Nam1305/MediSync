@@ -11,7 +11,7 @@
         <link rel="shortcut icon" href="assets/images/favicon.ico.png">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        
+
     </head>
 
     <body>
@@ -19,8 +19,10 @@
             <h2 class="text-center">Thông tin chi tiết khách hàng</h2>
             <div class="card mt-4 p-4">
                 <div class="d-flex align-items-center">
-                    <img id="profileAvatar" src="${not empty customer.avatar && customer.avatar.contains('/uploads/') ? pageContext.request.contextPath.concat(customer.avatar) : customer.avatar}"
-                         class="avatar avatar-small rounded-pill" alt="">
+                    <img id="profileAvatar" 
+                         src="${empty customer.avatar ? 'assets/images/client/09.jpg' : customer.avatar}" 
+                         class="avatar avatar-small rounded-pill" 
+                         alt="">
                     <h5 class="mb-0 ms-3" id="profileName">${customer.name}</h5>
                 </div>
                 <div class="row mt-4">

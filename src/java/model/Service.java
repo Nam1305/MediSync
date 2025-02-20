@@ -3,36 +3,22 @@ package model;
 
 import dal.AppointmentDAO;
 import java.sql.*;
-
-
-
 public class Service {
     AppointmentDAO appDao = new AppointmentDAO();
-
     private int serviceId;
     private String content;
     private double price;
     private String name;
-
-
-    
-
     private String status;
-
-
+    
     public Service() {
     }
-
 
     public Service(int serviceId, String name) {
         this.serviceId = serviceId;
         this.name = name;
     }
-
-    
-
     public Service(int serviceId, String content, double price, String name, String status) {
-
         this.serviceId = serviceId;
         this.content = content;
         this.price = price;

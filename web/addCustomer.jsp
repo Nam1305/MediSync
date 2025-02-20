@@ -144,59 +144,6 @@
                         </div>
 
                         <ul class="list-unstyled mb-0">
-
-
-                            <li class="list-inline-item mb-0 ms-1">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-icon btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="mail" class="fea icon-sm"></i></button>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">4 <span class="visually-hidden">unread mail</span></span>
-
-                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 px-2 py-2" data-simplebar style="height: 320px; width: 300px;">
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/02.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Janalia</b> <small class="text-muted fw-normal d-inline-block">1 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/Codepen.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>codepen</b>  <small class="text-muted fw-normal d-inline-block">4 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/03.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Cristina</b> <small class="text-muted fw-normal d-inline-block">5 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/dribbble.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Dribbble</b> <small class="text-muted fw-normal d-inline-block">24 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/06.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Donald Aghori</b> <small class="text-muted fw-normal d-inline-block">1 day ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/07.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Calvin</b> <small class="text-muted fw-normal d-inline-block">2 day ago</small></small>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-
                             <li class="list-inline-item mb-0 ms-1">
                                 <div class="dropdown dropdown-primary">
                                     <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/doctors/01.jpg" class="avatar avatar-ex-small rounded-circle" alt=""></button>
@@ -208,10 +155,10 @@
                                                 <small class="text-muted">Orthopedic</small>
                                             </div>
                                         </a>
-                                        <a class="dropdown-item text-dark" href="index.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                        <a class="dropdown-item text-dark" href="dr-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
+                                        <a class="dropdown-item text-dark" href="adminDashBoard.jsp"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
+                                        <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Thông tin cá nhân</a>
                                         <div class="dropdown-divider border-top"></div>
-                                        <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
+                                        <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span>Đăng xuất</a>
                                     </div>
                                 </div>
                             </li>
@@ -224,13 +171,13 @@
                         <div class="d-md-flex justify-content-between">
                             <h5 class="mb-0">Thêm bệnh nhân mới</h5>
 
-                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
+<!--                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                                     <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
                                     <li class="breadcrumb-item"><a href="patients.html">Patients</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Add Patient</li>
                                 </ul>
-                            </nav>
+                            </nav>-->
                         </div>
 
                         <div class="row">
@@ -243,7 +190,7 @@
 
                                         <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
                                             <!--                                            <h5 class="">Thêm ảnh đại diện</h5>-->
-                                            <p class="text-muted mb-0">For best results, use an image at least 600px by 600px in either .jpg or .png format</p>
+                                            <p class="text-muted mb-0">Sử dụng ảnh kích thước 600x600px định dạng .JPG và .PNG để hiển thị tốt nhất</p>
                                         </div><!--end col-->
 
                                     </div><!--end row-->
@@ -277,7 +224,7 @@
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Your Email</label>
+                                                    <label class="form-label">Email</label>
                                                     <input name="email" id="email" type="email" class="form-control" placeholder="Your email:" value="${email}">
                                                 </div> 
                                             </div><!--end col-->
@@ -292,7 +239,7 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Ngày sinh</label>
-                                                    <input name="date" type="text" class="flatpickr flatpickr-input form-control" id="checkin-date" value="${dateOfBirth}">
+                                                    <input name="date" type="date" class="flatpickr flatpickr-input form-control" value="${dateOfBirth}">
                                                 </div>
                                             </div><!--end col-->
 
@@ -305,7 +252,7 @@
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Your Avatar</label>
+                                                    <label class="form-label">Chọn ảnh đại diện</label>
                                                     <input name="avatar" id="avatar" type="file" class="form-control" placeholder="Your avatar :" required>
                                                 </div> 
                                             </div><!--end col-->
@@ -419,52 +366,36 @@
         <script src="assets/js/app.js"></script>
 
         <script>
-                                        document.addEventListener("DOMContentLoaded", function () {
-                                            const form = document.querySelector("form");
-                                            const avatarInput = document.getElementById("avatar");
-                                            const allowedExtensions = ["png", "jpg", "jpeg", "gif"];
-                                            const maxFileSize = 3 * 1024 * 1024; // 3MB
-
-                                            form.addEventListener("submit", function (event) {
-                                                let errors = [];
-
-                                                // Kiểm tra họ và tên
-                                                const fullName = document.getElementById("full-name").value.trim();
-                                                if (!fullName)
-                                                    errors.push("Họ và Tên không được để trống.");
-
-                                                // Kiểm tra email hợp lệ
-                                                const email = document.getElementById("email").value.trim();
-                                                if (!email.match(/^\S+@\S+\.\S+$/))
-                                                    errors.push("Email không hợp lệ.");
-
-                                                // Kiểm tra số điện thoại (chỉ chứa số, 10-11 chữ số)
-                                                const phone = document.getElementById("number").value.trim();
-                                                if (!phone.match(/^\d{10,11}$/))
-                                                    errors.push("Số điện thoại không hợp lệ.");
-
-                                                // Kiểm tra file ảnh
-                                                if (avatarInput.files.length > 0) {
-                                                    const file = avatarInput.files[0];
-                                                    const fileSize = file.size;
-                                                    const fileExtension = file.name.split(".").pop().toLowerCase();
-
-                                                    if (!allowedExtensions.includes(fileExtension)) {
-                                                        errors.push("Ảnh đại diện phải có định dạng PNG, JPG, GIF hoặc JPEG.");
-                                                    }
-
-                                                    if (fileSize > maxFileSize) {
-                                                        errors.push("Dung lượng ảnh đại diện không được vượt quá 3MB.");
-                                                    }
-                                                }
-
-                                                // Nếu có lỗi, hiển thị và ngăn gửi form
-                                                if (errors.length > 0) {
-                                                    event.preventDefault();
-                                                    alert(errors.join("\n"));
-                                                }
-                                            });
-                                        });
+//                                        document.addEventListener("DOMContentLoaded", function () {
+//                                            const form = document.querySelector("form");
+//                                            const avatarInput = document.getElementById("avatar");
+//                                            const allowedExtensions = ["png", "jpg", "jpeg", "gif"];
+//                                            const maxFileSize = 3 * 1024 * 1024; // 3MB
+//
+//                                            form.addEventListener("submit", function (event) {
+//                                                let errors = [];
+//                                                // Kiểm tra file ảnh
+//                                                if (avatarInput.files.length > 0) {
+//                                                    const file = avatarInput.files[0];
+//                                                    const fileSize = file.size;
+//                                                    const fileExtension = file.name.split(".").pop().toLowerCase();
+//
+//                                                    if (!allowedExtensions.includes(fileExtension)) {
+//                                                        errors.push("Ảnh đại diện phải có định dạng PNG, JPG, GIF hoặc JPEG.");
+//                                                    }
+//
+//                                                    if (fileSize > maxFileSize) {
+//                                                        errors.push("Dung lượng ảnh đại diện không được vượt quá 3MB.");
+//                                                    }
+//                                                }
+//
+//                                                // Nếu có lỗi, hiển thị và ngăn gửi form
+//                                                if (errors.length > 0) {
+//                                                    event.preventDefault();
+//                                                    alert(errors.join("\n"));
+//                                                }
+//                                            });
+//                                        });
         </script>
 
     </body>
