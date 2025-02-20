@@ -75,11 +75,11 @@
                                 <ul>
                                     <li><a href="listCustomer">Danh sách bệnh nhân</a></li>
                                     <li><a href="addCustomer">Thêm bệnh nhân</a></li>
-                                   
+
                                 </ul>
                             </div>
                         </li>
-                        
+
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
                             <div class="sidebar-submenu">
@@ -120,7 +120,7 @@
                             </a>
                             <div class="search-bar p-0 d-none d-lg-block ms-2">
                                 <div id="search" class="menu-search mb-0">
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -228,10 +228,6 @@
                                             <p class="text-muted mb-0">For best results, use an image at least 600px by 600px in either .jpg or .png format</p>
                                         </div><!--end col-->
 
-                                        <!--                                        <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
-                                                                                    <a href="#" class="btn btn-primary">Thêm</a>
-                                                                                    <a href="#" class="btn btn-soft-primary ms-2">Xóa</a>
-                                                                                </div>end col-->
                                     </div><!--end row-->
 
                                     <!--form-start-->
@@ -320,70 +316,6 @@
                                     <!--form-end-->
                                 </div>
                             </div><!--end col-->
-
-                            <!--                                                        <div class="col-lg-4 mt-4">
-                                                                                        <div class="card rounded border-0 shadow">
-                                                                                            <div class="p-4 border-bottom">
-                                                                                                <h5 class="mb-0">Doctors List</h5>
-                                                                                            </div>
-                                                        
-                                                                                            <ul class="list-unstyled mb-0 p-4" data-simplebar style="height: 664px;">
-                                                                                                <li class="d-md-flex align-items-center text-center text-md-start">
-                                                                                                    <img src="assets/images/doctors/01.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
-                                                        
-                                                                                                    <div class="ms-md-3 mt-4 mt-sm-0">
-                                                                                                        <a href="#" class="text-dark h6">Dr. Calvin Carlo</a>
-                                                                                                        <p class="text-muted my-1">Cardiologist</p>
-                                                                                                        <p class="text-muted mb-0">3 Years Experienced</p>
-                                                                                                    </div>
-                                                                                                </li>
-                                                        
-                                                                                                <li class="d-md-flex align-items-center text-center text-md-start mt-4">
-                                                                                                    <img src="assets/images/doctors/02.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
-                                                        
-                                                                                                    <div class="ms-md-3 mt-4 mt-sm-0">
-                                                                                                        <a href="#" class="text-dark h6">Dr. Alex Smith</a>
-                                                                                                        <p class="text-muted my-1">Dentist</p>
-                                                                                                        <p class="text-muted mb-0">1 Years Experienced</p>
-                                                                                                    </div>
-                                                                                                </li>
-                                                        
-                                                                                                <li class="d-md-flex align-items-center text-center text-md-start mt-4">
-                                                                                                    <img src="assets/images/doctors/03.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
-                                                        
-                                                                                                    <div class="ms-md-3 mt-4 mt-sm-0">
-                                                                                                        <a href="#" class="text-dark h6">Dr. Cristina Luly</a>
-                                                                                                        <p class="text-muted my-1">Orthopedic</p>
-                                                                                                        <p class="text-muted mb-0">5 Years Experienced</p>
-                                                                                                    </div>
-                                                                                                </li>
-                                                        
-                                                                                                <li class="d-md-flex align-items-center text-center text-md-start mt-4">
-                                                                                                    <img src="assets/images/doctors/04.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
-                                                        
-                                                                                                    <div class="ms-md-3 mt-4 mt-sm-0">
-                                                                                                        <a href="#" class="text-dark h6">Dr. Dwayen Maria</a>
-                                                                                                        <p class="text-muted my-1">Gastrologist</p>
-                                                                                                        <p class="text-muted mb-0">2 Years Experienced</p>
-                                                                                                    </div>
-                                                                                                </li>
-                                                        
-                                                                                                <li class="d-md-flex align-items-center text-center text-md-start mt-4">
-                                                                                                    <img src="assets/images/doctors/05.jpg" class="avatar avatar-medium rounded-md shadow" alt="">
-                                                        
-                                                                                                    <div class="ms-md-3 mt-4 mt-sm-0">
-                                                                                                        <a href="#" class="text-dark h6">Dr. Jenelia Focia</a>
-                                                                                                        <p class="text-muted my-1">Psychotherapist</p>
-                                                                                                        <p class="text-muted mb-0">3 Years Experienced</p>
-                                                                                                    </div>
-                                                                                                </li>
-                                                        
-                                                                                                <li class="mt-4">
-                                                                                                    <a href="doctors.html" class="btn btn-primary">All Doctors</a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>-->
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->
@@ -450,109 +382,6 @@
             </div>
         </div>
         <!-- Offcanvas End -->
-
-        <!-- View Appintment Start -->
-        <div class="modal fade" id="viewappointment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom p-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Appointment Detail</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-3 pt-4">
-                        <div class="d-flex align-items-center">
-                            <img src="assets/images/client/01.jpg" class="avatar avatar-small rounded-pill" alt="">
-                            <h5 class="mb-0 ms-3">Howard Tanner</h5>
-                        </div>
-                        <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
-                            <li>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="d-flex">
-                                        <h6>Age:</h6>
-                                        <p class="text-muted ms-2">25 year old</p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6>Gender:</h6>
-                                        <p class="text-muted ms-2">Male</p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6 class="mb-0">Department:</h6>
-                                        <p class="text-muted ms-2 mb-0">Cardiology</p>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="d-flex">
-                                        <h6>Date:</h6>
-                                        <p class="text-muted ms-2">20th Dec 2020</p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6>Time:</h6>
-                                        <p class="text-muted ms-2">11:00 AM</p>
-                                    </li>
-
-                                    <li class="d-flex">
-                                        <h6 class="mb-0">Doctor:</h6>
-                                        <p class="text-muted ms-2 mb-0">Dr. Calvin Carlo</p>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- View Appintment End -->
-
-        <!-- Accept Appointment Start -->
-        <div class="modal fade" id="acceptappointment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body py-5">
-                        <div class="text-center">
-                            <div class="icon d-flex align-items-center justify-content-center bg-soft-success rounded-circle mx-auto" style="height: 95px; width:95px;">
-                                <i class="uil uil-check-circle h1 mb-0"></i>
-                            </div>
-                            <div class="mt-4">
-                                <h4>Accept Appointment</h4>
-                                <p class="para-desc mx-auto text-muted mb-0">Great doctor if you need your family member to get immediate assistance, emergency treatment.</p>
-                                <div class="mt-4">
-                                    <a href="#" class="btn btn-soft-success">Accept</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Accept Appointment End -->
-
-        <!-- Cancel Appointment Start -->
-        <div class="modal fade" id="cancelappointment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body py-5">
-                        <div class="text-center">
-                            <div class="icon d-flex align-items-center justify-content-center bg-soft-danger rounded-circle mx-auto" style="height: 95px; width:95px;">
-                                <i class="uil uil-times-circle h1 mb-0"></i>
-                            </div>
-                            <div class="mt-4">
-                                <h4>Cancel Appointment</h4>
-                                <p class="para-desc mx-auto text-muted mb-0">Great doctor if you need your family member to get immediate assistance, emergency treatment.</p>
-                                <div class="mt-4">
-                                    <a href="#" class="btn btn-soft-danger">Cancel</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Cancel Appointment End -->
         <!-- Modal end -->
 
         <!-- javascript -->
@@ -570,6 +399,55 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
+
+        <script>
+                                        document.addEventListener("DOMContentLoaded", function () {
+                                            const form = document.querySelector("form");
+                                            const avatarInput = document.getElementById("avatar");
+                                            const allowedExtensions = ["png", "jpg", "jpeg", "gif"];
+                                            const maxFileSize = 3 * 1024 * 1024; // 3MB
+
+                                            form.addEventListener("submit", function (event) {
+                                                let errors = [];
+
+                                                // Kiểm tra họ và tên
+                                                const fullName = document.getElementById("full-name").value.trim();
+                                                if (!fullName)
+                                                    errors.push("Họ và Tên không được để trống.");
+
+                                                // Kiểm tra email hợp lệ
+                                                const email = document.getElementById("email").value.trim();
+                                                if (!email.match(/^\S+@\S+\.\S+$/))
+                                                    errors.push("Email không hợp lệ.");
+
+                                                // Kiểm tra số điện thoại (chỉ chứa số, 10-11 chữ số)
+                                                const phone = document.getElementById("number").value.trim();
+                                                if (!phone.match(/^\d{10,11}$/))
+                                                    errors.push("Số điện thoại không hợp lệ.");
+
+                                                // Kiểm tra file ảnh
+                                                if (avatarInput.files.length > 0) {
+                                                    const file = avatarInput.files[0];
+                                                    const fileSize = file.size;
+                                                    const fileExtension = file.name.split(".").pop().toLowerCase();
+
+                                                    if (!allowedExtensions.includes(fileExtension)) {
+                                                        errors.push("Ảnh đại diện phải có định dạng PNG, JPG, GIF hoặc JPEG.");
+                                                    }
+
+                                                    if (fileSize > maxFileSize) {
+                                                        errors.push("Dung lượng ảnh đại diện không được vượt quá 3MB.");
+                                                    }
+                                                }
+
+                                                // Nếu có lỗi, hiển thị và ngăn gửi form
+                                                if (errors.length > 0) {
+                                                    event.preventDefault();
+                                                    alert(errors.join("\n"));
+                                                }
+                                            });
+                                        });
+        </script>
 
     </body>
 

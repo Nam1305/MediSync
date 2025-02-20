@@ -224,7 +224,7 @@
                             <a href="javascript:void(0)">Khách hàng</a><span class="menu-arrow"></span>
                             <ul class="submenu">
                                 <li><a href="patient-dashboard.html" class="sub-menu-item">Dashboard</a></li>
-                                <li><a href="patient-profile.html" class="sub-menu-item">Profile</a></li>
+                                <li><a href="listAppointments" class="sub-menu-item">Profile</a></li>
                                 <li><a href="booking-appointment.html" class="sub-menu-item">Book Appointment</a></li>
                                 <li><a href="patient-invoice.html" class="sub-menu-item">Invoice</a></li>
                             </ul>

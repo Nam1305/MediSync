@@ -5,9 +5,10 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
 
     <head>
         <meta charset="utf-8" />
@@ -48,7 +49,7 @@
             </div>
         </div>
         <!-- Loader -->
-        
+
         <!-- Navbar STart -->
         <header id="topnav" class="defaultscroll sticky">
             <div class="container">
@@ -58,7 +59,7 @@
                     <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
                 </a>                
                 <!-- Logo End -->
-                
+
                 <!-- Start Mobile Toggle -->
                 <div class="menu-extras">
                     <div class="menu-item">
@@ -96,7 +97,7 @@
                                 <a class="dropdown-item d-flex align-items-center text-dark" href="doctor-profile.html">
                                     <img src="assets/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                     <div class="flex-1 ms-2">
-                                        <span class="d-block mb-1">Mrs. Christopher</span>
+                                        <span class="d-block mb-1">appointments</span>
                                         <small class="text-muted">25 Year old</small>
                                     </div>
                                 </a>
@@ -109,7 +110,7 @@
                     </li>
                 </ul>
                 <!-- Start Dropdown -->
-        
+
                 <div id="navigation">
                     <!-- Navigation Menu-->   
                     <ul class="navigation-menu nav-left">
@@ -119,29 +120,7 @@
 
                         <li class="has-submenu parent-parent-menu-item">
                             <a href="javascript:void(0)">Bác sĩ</a><span class="menu-arrow"></span>
-<!--                            <ul class="submenu">
-                                <li class="has-submenu parent-menu-item">
-                                    <a href="javascript:void(0)" class="menu-item"> Dashboard </a><span class="submenu-arrow"></span>
-                                    <ul class="submenu">
-                                        <li><a href="doctor-dashboard.html" class="sub-menu-item">Dashboard</a></li>
-                                        <li><a href="doctor-appointment.html" class="sub-menu-item">Appointment</a></li>
-                                        <li><a href="patient-list.html" class="sub-menu-item">Patients</a></li>
-                                        <li><a href="doctor-schedule.html" class="sub-menu-item">Schedule Timing</a></li>
-                                        <li><a href="invoices.html" class="sub-menu-item">Invoices</a></li>
-                                        <li><a href="patient-review.html" class="sub-menu-item">Reviews</a></li>
-                                        <li><a href="doctor-messages.html" class="sub-menu-item">Messages</a></li>
-                                        <li><a href="doctor-profile.html" class="sub-menu-item">Profile</a></li>
-                                        <li><a href="doctor-profile-setting.html" class="sub-menu-item">Profile Settings</a></li>
-                                        <li><a href="doctor-chat.html" class="sub-menu-item">Chat</a></li>
-                                        <li><a href="login.html" class="sub-menu-item">Login</a></li>
-                                        <li><a href="signup.html" class="sub-menu-item">Sign Up</a></li>
-                                        <li><a href="forgot-password.html" class="sub-menu-item">Forgot Password</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="doctor-team-one.html" class="sub-menu-item">Doctors One</a></li>
-                                <li><a href="doctor-team-two.html" class="sub-menu-item">Doctors Two</a></li>
-                                <li><a href="doctor-team-three.html" class="sub-menu-item">Doctors Three</a></li>
-                            </ul>-->
+                            
                         </li>
 
                         <li class="has-submenu parent-menu-item">
@@ -154,8 +133,8 @@
                             </ul>
                         </li>
 
-                        
-        
+
+
                         <li class="has-submenu parent-parent-menu-item"><a href="javascript:void(0)">Pages</a><span class="menu-arrow"></span>
                             <ul class="submenu">
                                 <li><a href="aboutus.html" class="sub-menu-item"> About Us</a></li>
@@ -174,7 +153,7 @@
                                 <li><a href="contact.html" class="sub-menu-item">Contact</a></li>
                             </ul>
                         </li>
-                        
+
                     </ul><!--end navigation menu-->
                 </div><!--end navigation-->
             </div><!--end container-->
@@ -212,25 +191,25 @@
                                     <h6 class="mb-0">Gender</h6>
                                     <p class="text-muted mb-0 ms-2">Female</p>
                                 </div>
-                                
+
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-envelope align-text-bottom text-primary h5 mb-0 me-2"></i>
                                     <h6 class="mb-0">Birthday</h6>
                                     <p class="text-muted mb-0 ms-2">19th January 1995</p>
                                 </div>
-                                
+
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-book-open align-text-bottom text-primary h5 mb-0 me-2"></i>
                                     <h6 class="mb-0">Phone No.</h6>
                                     <p class="text-muted mb-0 ms-2">+(125) 458-8547</p>
                                 </div>
-                                
+
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-italic align-text-bottom text-primary h5 mb-0 me-2"></i>
                                     <h6 class="mb-0">Address</h6>
                                     <p class="text-muted mb-0 ms-2">Sydney, Australia</p>
                                 </div>
-                                
+
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
                                     <h6 class="mb-0">Blood Group</h6>
@@ -250,7 +229,7 @@
                                         </div>
                                     </a><!--end nav link-->
                                 </li><!--end nav item-->
-                                
+
                                 <li class="nav-item">
                                     <a class="nav-link rounded-0" id="experience-tab" data-bs-toggle="pill" href="#pills-experience" role="tab" aria-controls="pills-experience" aria-selected="false">
                                         <div class="text-center pt-1 pb-1">
@@ -265,35 +244,41 @@
                                     <div class="row">
                                         <div class="col-lg-6 col-12 mt-4">
                                             <h5>Danh sách cuộc hẹn</h5>
-            
-                                            <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
-                                                <i class="ri-heart-pulse-line h3 fw-normal text-primary mb-0"></i>
-                                                <div class="flex-1 overflow-hidden ms-2">
-                                                    <h6 class="mb-0">Cardiogram</h6>
-                                                    <p class="text-muted mb-0 text-truncate small">Dr. Calvin Carlo</p>
+                                            <c:forEach var="appointment" items="${appointments}">
+                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                    <i class="ri-heart-pulse-line h3 fw-normal text-primary mb-0"></i>
+                                                    <div class="flex-1 overflow-hidden ms-2">
+                                                        <h6 class="mb-0">
+                                                            ${appointment.getDate()}
+                                                        </h6> 
+                                                    </div>
+                                                    <!-- Thêm nút Xem chi tiết bên cạnh -->
+                                                    <a href="appointmentDetail?appointmentId=${appointment.appointmentId}" class="btn btn-primary">Xem chi tiết</a>
                                                 </div>
-                                                <span class="mb-0">10 Dec</span>
-                                            </div>
-    
-                                            
+                                            </c:forEach>
+
+
                                         </div>
-            
+
                                         <div class="col-lg-6 col-12 mt-4">
                                             <h5>Danh sách hóa đơn</h5>
-            
-                                            <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
-                                                <div class="flex-1 overflow-hidden">
-                                                    <h6 class="flex-1 mb-0">Cardiogram</h6>
-                                                    <p class="text-muted mb-0 text-truncate small">Full bill paid</p>
+                                            <c:forEach var="appointment" items="${appointments}">
+                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
+                                                    <div class="flex-1 overflow-hidden">
+                                                        <h6 class="flex-1 mb-0">${appointment.getDate()}</h6>
+                                                        
+                                                    </div>
+                                                    <!--                                                    <a href="#" class="btn btn-icon btn-primary" data-bs-toggle="modal" data-bs-target="#view-invoice"><i class="uil uil-clipboard-notes icons"></i></a>-->
+                                                    <!-- Thêm nút Xem chi tiết bên cạnh -->
+                                                    <a href="invoiceDetail?appointmentId=${appointment.appointmentId}" class="btn btn-primary">Chi tiết hóa đơn</a>
                                                 </div>
-                                                <a href="#" class="btn btn-icon btn-primary" data-bs-toggle="modal" data-bs-target="#view-invoice"><i class="uil uil-clipboard-notes icons"></i></a>
-                                            </div>
-    
-                                            
+                                            </c:forEach>
+
+
                                         </div>
                                     </div>  
                                 </div>
-                                
+
                                 <!-- hết jsp của Nam-->
 
                                 <div class="tab-pane fade" id="pills-experience" role="tabpanel" aria-labelledby="experience-tab">
@@ -302,18 +287,18 @@
                                         <div class="col-lg-2 col-md-4">
                                             <img src="assets/images/client/09.jpg" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
                                         </div><!--end col-->
-    
+
                                         <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
                                             <h6 class="">Upload your picture</h6>
                                             <p class="text-muted mb-0">For best results, use an image at least 256px by 256px in either .jpg or .png format</p>
                                         </div><!--end col-->
-    
+
                                         <div class="col-lg-5 col-md-12 text-lg-right text-center mt-4 mt-lg-0">
                                             <a href="#" class="btn btn-primary">Upload</a>
                                             <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
                                         </div><!--end col-->
                                     </div><!--end row-->
-        
+
                                     <form class="mt-4">
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -322,28 +307,28 @@
                                                     <input name="name" id="name" type="text" class="form-control" placeholder="First Name :">
                                                 </div>
                                             </div><!--end col-->
-    
+
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Last Name</label>
                                                     <input name="name" id="name2" type="text" class="form-control" placeholder="Last Name :">
                                                 </div>
                                             </div><!--end col-->
-    
+
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Your Email</label>
                                                     <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
                                                 </div> 
                                             </div><!--end col-->
-    
+
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Phone no.</label>
                                                     <input name="number" id="number" type="text" class="form-control" placeholder="Phone no. :">
                                                 </div>                                                                               
                                             </div><!--end col-->
-    
+
                                             <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <label class="form-label">Your Bio Here</label>
@@ -351,7 +336,7 @@
                                                 </div>
                                             </div>
                                         </div><!--end row-->
-                                        
+
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <input type="submit" id="submit" name="send" class="btn btn-primary" value="Save changes">
@@ -361,7 +346,7 @@
 
                                     <div class="mt-4 pt-2">
                                         <h5 class="mb-0">Change Password :</h5>
-        
+
                                         <form class="mt-4">
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -370,31 +355,31 @@
                                                         <input type="password" class="form-control" placeholder="Old password" required="">
                                                     </div>
                                                 </div><!--end col-->
-            
+
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">New password :</label>
                                                         <input type="password" class="form-control" placeholder="New password" required="">
                                                     </div>
                                                 </div><!--end col-->
-            
+
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Re-type New password :</label>
                                                         <input type="password" class="form-control" placeholder="Re-type New password" required="">
                                                     </div>
                                                 </div><!--end col-->
-            
+
                                                 <div class="col-lg-12 mt-2 mb-0">
                                                     <button class="btn btn-primary">Save password</button>
                                                 </div><!--end col-->
                                             </div><!--end row-->
                                         </form>
                                     </div>
-                                    
+
                                     <div class="mt-4 pt-2">
                                         <h5 class="mb-0">Account Notifications :</h5>
-        
+
                                         <div class="d-flex justify-content-between mt-4">
                                             <p class="mb-0">When someone mentions me</p>
                                             <div class="form-check">
@@ -424,7 +409,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="mt-4 pt-2">
                                         <h5 class="mb-0">Marketing Notifications :</h5>
 
@@ -460,7 +445,7 @@
 
                                     <div class="mt-4 pt-2">
                                         <h5 class="mb-0 text-danger">Delete Account :</h5>
-        
+
                                         <p class="mb-0 mt-4">Do you want to delete the account? Please press below "Delete" button</p>
                                         <div class="mt-4">
                                             <button class="btn btn-danger">Delete Account</button>
@@ -499,7 +484,7 @@
                                     <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Login</a></li>
                                 </ul>
                             </div><!--end col-->
-                            
+
                             <div class="col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                                 <h5 class="text-light title-dark footer-head">Departments</h5>
                                 <ul class="list-unstyled footer-list mt-4">
@@ -512,7 +497,7 @@
                                     <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Neurology</a></li>
                                 </ul>
                             </div><!--end col-->
-                            
+
                             <div class="col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                                 <h5 class="text-light title-dark footer-head">Contact us</h5>
                                 <ul class="list-unstyled footer-list mt-4">
@@ -552,7 +537,7 @@
                                 <p class="mb-0"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
                             </div>
                         </div><!--end col-->
-    
+
                         <div class="col-sm-6 mt-4 mt-sm-0">
                             <ul class="list-unstyled footer-list text-sm-end text-center mb-0">
                                 <li class="list-inline-item"><a href="terms.html" class="text-foot me-2">Terms</a></li>
@@ -708,7 +693,7 @@
                                     </ul>
                                 </div><!--end col-->
                             </div><!--end row-->
-                            
+
                             <div class="invoice-table pb-4">
                                 <div class="table-responsive shadow rounded mt-4">
                                     <table class="table table-center invoice-tb mb-0">
@@ -783,7 +768,7 @@
             </div>
         </div>
         <!-- View Invoice End -->
-        
+
         <!-- javascript -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
@@ -800,7 +785,7 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
-        
+
     </body>
 
 </html>

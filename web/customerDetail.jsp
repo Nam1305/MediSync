@@ -11,6 +11,7 @@
         <link rel="shortcut icon" href="assets/images/favicon.ico.png">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        
     </head>
 
     <body>
@@ -41,6 +42,7 @@
                         <p><strong>Ngày khám bệnh:</strong> <span id="profileDate" class="text-muted">${customer.getAppointmentDate()}</span></p>
                         <p><strong>Thời gian khám:</strong> <span id="profileTime" class="text-muted">${customer.getAppointmentTime()}</span></p>
                         <p><strong>Bác sĩ phụ trách:</strong> <span id="profileDoctor" class="text-muted">${customer.getDoctor()}</span></p>
+                        <p><strong>Phân loại:</strong> <span id="profileDoctor" class="text-muted">${customer.isVipCustomer()}</span></p>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@ package model;
 
 import dal.CustomerDAO;
 import java.sql.*;
+import java.text.NumberFormat;
 
 public class Customer {
 
@@ -198,6 +199,19 @@ public class Customer {
     public void setPhone(String phoneNumber) {
         this.phone = phoneNumber;
     }
+    
+    public String isVipCustomer(){
+        Integer totalPrice = customerDao.getTotalPrice(customerId);
+        if(totalPrice > 1000000){
+            return "Khách hàng Vip";
+        } 
+        if(totalPrice != 0  && totalPrice < 1000000){
+            return "Khách hàng thường";
+        }
+        return "Chưa sử dụng dịch vụ";
+        
+        
+    }
 
     @Override
     public String toString() {
@@ -206,9 +220,11 @@ public class Customer {
 
     public static void main(String[] args) {
         CustomerDAO cus = new CustomerDAO();
-        Customer customer = cus.getCustomerByEmail("lan.nguyen@example.com");
-        System.out.println(customer.getAge());
-        System.out.println(customer.getDoctor());
+        Customer customer1 = new Customer();
+        String x = customer1.isVipCustomer();
+        System.out.println(x);
+//        System.out.println(customer.getAge());
+//        System.out.println(customer.getDoctor());
 
     }
 

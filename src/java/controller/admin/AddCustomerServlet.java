@@ -24,7 +24,7 @@ import util.SendEmail;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxFileSize = 1024 * 1024 * 3, // 3MB
         maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
 
@@ -88,7 +88,7 @@ public class AddCustomerServlet extends HttpServlet {
             errors.add("Vui lòng chọn ảnh đại diện!");
         } else {
             imageFilename = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
-            if (!imageFilename.matches(IMAGE_REGEX)) {
+            if (!imageFilename.toLowerCase().matches(IMAGE_REGEX)) {
                 errors.add("Ảnh đại diện phải có định dạng .png, .jpg hoặc .jpeg!");
             }
         }
