@@ -9,7 +9,6 @@ import dal.DoctorDAO;
 import dal.PositionDAO;
 import dal.StaffDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,7 +21,7 @@ import java.util.List;
 import model.Department;
 import model.Role;
 import model.Staff;
-import util.BCrypt;
+
 
 /**
  *

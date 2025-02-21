@@ -1,29 +1,35 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
 
-/**
- *
- * @author Acer
- */
+
+import dal.AppointmentDAO;
+import java.sql.*;
 public class Service {
+    AppointmentDAO appDao = new AppointmentDAO();
     private int serviceId;
     private String content;
     private double price;
     private String name;
     private String status;
-
+    
     public Service() {
     }
 
+    public Service(int serviceId, String name) {
+        this.serviceId = serviceId;
+        this.name = name;
+    }
     public Service(int serviceId, String content, double price, String name, String status) {
         this.serviceId = serviceId;
         this.content = content;
         this.price = price;
         this.name = name;
         this.status = status;
+
     }
 
     public int getServiceId() {
@@ -57,6 +63,13 @@ public class Service {
     public void setName(String name) {
         this.name = name;
     }
+
+
+    @Override
+    public String toString() {
+        return "Service{id=" + serviceId + ", name='" + name + "'}";
+    }
+
 
     public String getStatus() {
         return status;

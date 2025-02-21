@@ -61,8 +61,10 @@ public class ViewStaffDetailServlet extends HttpServlet {
         try {
             int staffId = Integer.parseInt(staffIdStr);
             DoctorDAO staff = new DoctorDAO();
+            double rating = staff.getAverageRating(staffId);
             Staff currentstaff = staff.getStaffById(staffId);
             if (currentstaff != null) {
+                request.setAttribute("rating", rating);
                 // Nếu tìm thấy nhân viên, gửi thông tin đến trang update.jsp
                 request.setAttribute("staff", currentstaff); // Đặt đối tượng Dish vào attribute
                 request.getRequestDispatcher("staffDetail.jsp").forward(request, response);

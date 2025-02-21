@@ -321,7 +321,7 @@
                                                 <!--                                                <th class="border-bottom p-3">Age</th>-->
                                                 <th class="border-bottom p-3">Giới tính</th>
                                                 <!--                                                <th class="border-bottom p-3">Address</th>-->
-                                                <th class="border-bottom p-3">Địa chỉ</th>
+<!--                                                <th class="border-bottom p-3">Địa chỉ</th>-->
                                                 <th class="border-bottom p-3">Số Điện Thoại</th>
                                                 <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
                                                 <th class="border-bottom p-3">Email</th>
@@ -352,7 +352,7 @@
                                                             <c:otherwise>Khác</c:otherwise>
                                                         </c:choose>
                                                     </td>
-                                                    <td class="p-3">${customers.address}</td>
+<!--                                                    <td class="p-3">${customers.address}</td>-->
                                                     <td class="p-3">${customers.phone}</td>
                                                     <td class="p-3">${customers.dateOfBirth}</td>
                                                     <td class="p-3">${customers.email}</td>

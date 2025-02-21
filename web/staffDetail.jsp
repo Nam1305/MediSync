@@ -30,8 +30,8 @@
                     </div>
                     <div class="col-md-6">
                         <p><strong>Số điện thoại:</strong> <span id="profilePhone" class="text-muted">${staff.phone}</span></p>
-                        <p><strong>Email:</strong> <span id="profileEmail" class="text-muted">${staff.email}</span></p>
                         <p><strong>Ngày sinh:</strong> <span id="profileDob" class="text-muted">${staff.dateOfBirth}</span></p>
+                        <p><strong>Rating</strong> <span id="profileRating" class="text-muted">${rating}</span></p>
                     </div>
                 </div>
                 <p><strong>Mô tả:</strong> <span id="profileDescription" class="text-muted">${staff.description}</span></p>

@@ -169,31 +169,7 @@ public class DoctorDAO extends DBContext {
         }
     }
 
-//    public boolean updateStaff(Staff staff) {
-//        String sql = "UPDATE Staff SET name = ?, email = ?, avatar = ?,phone = ?, password = ?, dateOfBirth = ?, position = ?, gender = ?, status = ?, description =?, roleId = ?, departmentId = ? WHERE staffId = ?";
-//        try {
-//            PreparedStatement ps = connection.prepareStatement(sql);
-//            ps.setString(1, staff.getName());
-//            ps.setString(2, staff.getEmail());
-//            ps.setString(3, staff.getAvatar());
-//            ps.setString(4, staff.getPhone());
-//            ps.setString(5, staff.getPassword());
-//            ps.setDate(6, staff.getDateOfBirth());
-//            ps.setString(7, staff.getPosition());
-//            ps.setString(8, staff.getGender());
-//            ps.setString(9, staff.getStatus());
-//            ps.setString(10, staff.getDescription());
-//            ps.setInt(11, staff.getRole().getRoleId());
-//            ps.setInt(12, staff.getDepartment().getDepartmentId());
-//            ps.setInt(13, staff.getStaffId());
-//
-//            int rowsAffected = ps.executeUpdate();
-//            return rowsAffected > 0; // Return true nếu update thành công
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            return false; // nếu update thất bại 
-//        }
-//    }
+
     public boolean updateStaff(Staff staff) {
     // Kiểm tra xem avatar có bị thay đổi hay không
     boolean hasAvatar = staff.getAvatar() != null && !staff.getAvatar().isEmpty();
@@ -303,6 +279,7 @@ public class DoctorDAO extends DBContext {
         }
         return false; // Mặc định trả về false nếu có lỗi
     }
+    // Hàm check trùng số điện thoại trừ số điện thoại của nhân viên đang update 
     public boolean checkPhoneExistsCurrentStaff(String phone, int staffId) {
     String query = "SELECT COUNT(*) FROM Staff WHERE phone = ? AND staffId != ?";
     try (
@@ -317,6 +294,22 @@ public class DoctorDAO extends DBContext {
         e.printStackTrace();
     }
     return false;
+}
+    // hàm lấy ra số sao trung bình mà nhân viên được vote
+    public double getAverageRating(int staffId) {
+    String sql = "SELECT AVG(ratings) FROM FeedBack WHERE staffId = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, staffId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return rs.getDouble(1); // Lấy giá trị trung bình từ cột đầu tiên
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return 0.0; // Trả về 0 nếu không có dữ liệu
 }
 //    public static void main(String[] args) {
 //        DoctorDAO doctor = new DoctorDAO();

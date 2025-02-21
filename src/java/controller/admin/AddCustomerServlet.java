@@ -88,7 +88,7 @@ public class AddCustomerServlet extends HttpServlet {
             errors.add("Vui lòng chọn ảnh đại diện!");
         } else {
             imageFilename = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
-            if (!imageFilename.matches(IMAGE_REGEX)) {
+            if (!imageFilename.toLowerCase().matches(IMAGE_REGEX)) {
                 errors.add("Ảnh đại diện phải có định dạng .png, .jpg hoặc .jpeg!");
             }
         }

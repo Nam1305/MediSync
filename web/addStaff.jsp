@@ -293,7 +293,8 @@
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
                                                         <label class="form-label">Avatar</label>
-                                                        <input name="avatar" id="avatar" type="file" class="form-control" placeholder="Your avatar :" required>
+                                                        <input name="avatar" id="avatar" type="file" class="form-control" accept="image/*" placeholder="Your avatar :" required>
+                                                        <small id="avatar-error" class="text-danger"></small>
                                                     </div> 
                                                 </div><!--end col-->
                                                 <div class="col-md-6">
@@ -307,9 +308,10 @@
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
                                                         <label class="form-label">Ngày Sinh</label>
-                                                        <input name="dateOfBirth" id="dateOfBirth" type="date" class="form-control" required>
+                                                        <input name="dateOfBirth"  type="date" class="form-control" required>
                                                     </div>
                                                 </div><!--end col-->
+
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
                                                         <label class="form-label">Phòng Ban</label>
@@ -554,7 +556,30 @@
                         <script src="assets/js/feather.min.js"></script>
                         <!-- Main Js -->
                         <script src="assets/js/app.js"></script>
+                        <script>
+                                                        document.getElementById("avatar").addEventListener("change", function () {
+                                                            var file = this.files[0];
+                                                            var errorElement = document.getElementById("avatar-error");
 
+                                                            if (file) {
+                                                                var fileSize = file.size / 1024 / 1024; // Đổi sang MB
+                                                                var fileType = file.type;
+
+                                                                // Danh sách định dạng ảnh hợp lệ
+                                                                var validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+
+                                                                if (!validImageTypes.includes(fileType)) {
+                                                                    errorElement.textContent = "Chỉ được chọn file ảnh (JPG, PNG, GIF)!";
+                                                                    this.value = ""; // Xóa file đã chọn
+                                                                } else if (fileSize > 3) {
+                                                                    errorElement.textContent = "File không được vượt quá 3MB!";
+                                                                    this.value = ""; // Xóa file đã chọn
+                                                                } else {
+                                                                    errorElement.textContent = ""; // Xóa lỗi nếu hợp lệ
+                                                                }
+                                                            }
+                                                        });
+                        </script>
                         </body>
 
                         </html>

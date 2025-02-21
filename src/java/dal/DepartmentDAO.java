@@ -77,11 +77,22 @@ public class DepartmentDAO extends DBContext {
 //        DepartmentDAO de = new DepartmentDAO();
 //        System.out.println(de.getActiveDepartment());
 //    }
-    public List<Department> getAllDepartments() {
+    public List<Department> getAllDepartments(String searchQuery, int page, int pageSize) {
         List<Department> list = new ArrayList<>();
         String sql = "select departmentId, departmentName, status from Department";
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            sql += " Where (departmentName LIKE ? )";
+        }
+        sql += " ORDER BY departmentId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try {
+            int index = 1;
             PreparedStatement ps = connection.prepareStatement(sql);
+            
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                ps.setString(index++ , "%" + searchQuery + "%");
+            }
+             ps.setInt(index++, (page - 1) * pageSize);
+            ps.setInt(index++, pageSize);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Department o = new Department(rs.getInt(1),
@@ -95,27 +106,28 @@ public class DepartmentDAO extends DBContext {
         }
         return list;
     }
+
     public List<Department> getActiveDepartment() {
-    List<Department> list = new ArrayList<>();
-    String sql = "SELECT departmentId, departmentName, status FROM Department WHERE status = 'Active'";
-    
-    try {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Department o = new Department(rs.getInt(1), rs.getString(2), rs.getString(3));
-            list.add(o);
+        List<Department> list = new ArrayList<>();
+        String sql = "SELECT departmentId, departmentName, status FROM Department WHERE status = 'Active'";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Department o = new Department(rs.getInt(1), rs.getString(2), rs.getString(3));
+                list.add(o);
+            }
+
+            // Debug số lượng department
+            System.out.println("Number of departments found: " + list.size());
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // In lỗi để debug
         }
-        
-        // Debug số lượng department
-        System.out.println("Number of departments found: " + list.size());
-        
-    } catch (SQLException ex) {
-        ex.printStackTrace(); // In lỗi để debug
+
+        return list;
     }
-    
-    return list;
-}
 
     // xóa phòng ban 
     public boolean deleteDepartment(int departmentId) {
@@ -162,10 +174,10 @@ public class DepartmentDAO extends DBContext {
         return false;
     }
 
-    
+    // hàm check phòng ban xem có bị trùng tên hay không
     public boolean isDepartmentExists(String departmentName) {
         // Chuẩn hóa dữ liệu trước khi so sánh: loại bỏ khoảng trắng ở đầu và cuối, và thay thế khoảng trắng thừa giữa các từ thành một khoảng trắng duy nhất.
-        departmentName = departmentName.trim().toLowerCase().replaceAll("\\s+", " ");
+        
         String sql = "SELECT COUNT(*) FROM Department WHERE LOWER(REPLACE(LTRIM(RTRIM(departmentName)), ' ', ' ')) = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -178,5 +190,49 @@ public class DepartmentDAO extends DBContext {
             System.out.println("Lỗi kiểm tra phòng ban: " + ex.getMessage());
         }
         return false;
+    }
+
+    // hàm check xem có phòng bn nào bị trùng trừ phòng ban hiện đang update hay không
+    public boolean isDepartmentExistsNotCurrentDepartment(String departmentName, int departmentId) {
+        // Chuẩn hóa dữ liệu đầu vào
+        departmentName = departmentName.trim().toLowerCase().replaceAll("\\s+", " ");
+
+        String sql = "SELECT COUNT(*) FROM Department WHERE LOWER(TRIM(departmentName)) = ? AND departmentId != ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, departmentName);
+            ps.setInt(2, departmentId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Tên đã tồn tại
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi kiểm tra phòng ban: " + ex.getMessage());
+        }
+        return false;
+    }
+    public int getTotalDepartments(String searchQuery) {
+        List<Department> list = new ArrayList<>();
+        String sql = "select COUNT(*) from Department";
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            sql += " Where (departmentName LIKE ? )";
+        }
+        
+        try {
+            
+            PreparedStatement ps = connection.prepareStatement(sql);
+            
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                ps.setString(1 , "%" + searchQuery + "%");
+            }
+           
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1); // Lấy số lượng Phòng Ban từ COUNT(*)
+            }
+        } catch (SQLException ex) {
+
+        }
+        return 0;
     }
 }

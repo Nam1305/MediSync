@@ -48,7 +48,9 @@ public class ListDepartmentServlet extends HttpServlet {
             out.println("</html>");
         }
     }
-
+    private String normalizationSearchQuery(String searchQuery) {
+        return searchQuery.trim().replaceAll("\\s+", " ");
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -61,11 +63,47 @@ public class ListDepartmentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DepartmentDAO department = new DepartmentDAO();
-        List<Department> listDepartment = department.getAllDepartments();
-        request.setAttribute("listDepartment", listDepartment);
-        request.getRequestDispatcher("listDepartment.jsp").forward(request, response);
+        int page = 1;
+        int pageSize = 5;
+        // Lấy pageSize từ request, giữ nguyên nếu đã có giá trị
+        String pageSizeParam = request.getParameter("pageSize");
+        if (pageSizeParam != null && !pageSizeParam.isEmpty()) {
+            try {
+                pageSize = Integer.parseInt(pageSizeParam);
+                if (pageSize <= 0) {
+                    pageSize = 5; // Tránh pageSize không hợp lệ
+                }
+            } catch (NumberFormatException e) {
+                pageSize = 5;
+            }
+        }
 
+        // Lấy số trang từ request
+        String pageParam = request.getParameter("page");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageParam);
+                if (page < 1) {
+                    page = 1; // Tránh lỗi về trang âm
+                }
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
+        String searchQuery = request.getParameter("search");
+        String searchQueryNormalized = "";
+        if(searchQuery!= null){
+            searchQueryNormalized = normalizationSearchQuery(searchQuery);
+        }
+        DepartmentDAO department = new DepartmentDAO();
+        List<Department> listDepartment = department.getAllDepartments(searchQueryNormalized,page,pageSize);
+        int totalDoctors = department.getTotalDepartments(searchQuery);
+        int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
+        request.setAttribute("listDepartment", listDepartment);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("pageSize", pageSize);
+        request.getRequestDispatcher("listDepartment.jsp").forward(request, response);
     }
 
     /**
