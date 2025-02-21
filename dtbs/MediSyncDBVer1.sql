@@ -154,10 +154,10 @@ CREATE TABLE TreatmentPlan (
     treatmentId int IDENTITY primary key,
     appointmentId INT UNIQUE ,  
     symptoms NVARCHAR(1000) NOT NULL,
-    diagnosis NVARCHAR(500) NOT NULL, 
-    testResults NVARCHAR(1000),      
-    treatmentPlan NVARCHAR(2000) NOT NULL, 
-    followUp NVARCHAR(500),           
+    diagnosis NVARCHAR(1000) NOT NULL, 
+    testResults NVARCHAR(max),      
+    treatmentPlan NVARCHAR(1000) NOT NULL, 
+    followUp NVARCHAR(1000),           
     FOREIGN KEY (appointmentId) REFERENCES Appointment(appointmentId) 
 );
 
@@ -170,7 +170,6 @@ ALTER TABLE Staff ADD CONSTRAINT FKStaff215392 FOREIGN KEY (departmentId) REFERE
 ALTER TABLE Comment ADD CONSTRAINT FKComment198944 FOREIGN KEY (blogId) REFERENCES Blog (blogId);
 ALTER TABLE FeedBack ADD CONSTRAINT FKFeedBack608448 FOREIGN KEY (customerId) REFERENCES Customer (customerId);
 ALTER TABLE Appointment ADD CONSTRAINT FKAppointmen292731 FOREIGN KEY (customerId) REFERENCES Customer (customerId);
-ALTER TABLE TreatmentPlan ADD CONSTRAINT FKTreatmentP272103 FOREIGN KEY (appointmentId) REFERENCES Appointment (appointmentId);
 
 ALTER TABLE Invoice ADD CONSTRAINT FKInvoice783203 FOREIGN KEY (appointmentId) REFERENCES Appointment (appointmentId);
 ALTER TABLE Invoice ADD CONSTRAINT FKInvoice648614 FOREIGN KEY (serviceId) REFERENCES Service (serviceId);
@@ -1092,4 +1091,8 @@ VALUES
 (19, N'Đau ngực, mệt mỏi', N'Rối loạn nhịp tim', N'Điện tâm đồ bất thường', 
  N'Kê đơn Bisoprolol 5mg giúp điều trị rối loạn nhịp tim.', 
  N'Tái khám sau 2 tuần để kiểm tra tim mạch');
+
+
+
+
 

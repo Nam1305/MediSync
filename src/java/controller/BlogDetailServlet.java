@@ -1,113 +1,120 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Blog;
-import dal.BlogDAO;
-import jakarta.servlet.annotation.WebServlet;
-import model.Comment;
-import dal.CommentDAO;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import model.Blog;
+import model.Comment;
+import model.Customer;
+import dal.BlogDAO;
+import dal.CommentDAO;
+import model.Staff;
 
-/**
- *
- * @author Admin
- */
-@WebServlet(name="ListBlogServlet", urlPatterns={"/blog-detail"})
+@WebServlet(name = "BlogDetailServlet", urlPatterns = {"/blog-detail"})
 public class BlogDetailServlet extends HttpServlet {
-    
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BlogDetailServlet</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BlogDetailServlet at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    } 
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private boolean validateSession(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        HttpSession session = request.getSession(false);
+
+        // Kiểm tra session có tồn tại và user đã đăng nhập chưa
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return false;
+        }
+        return true;
+
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String blogIdRaw = request.getParameter("blogId");
-        
+        String pageRaw = request.getParameter("page");
+        int page = 1;
+        if (pageRaw != null && !pageRaw.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageRaw);
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
         if (blogIdRaw == null || blogIdRaw.isEmpty()) {
             response.sendRedirect("listBlog");
             return;
         }
-        
+
         try {
             int blogId = Integer.parseInt(blogIdRaw);
             BlogDAO blogDAO = new BlogDAO();
             CommentDAO commentDAO = new CommentDAO();
-            
+            int limit = 5;
+            int offset = (page - 1) * limit;
             Blog blog = blogDAO.getBlogById(blogId);
-            List<Comment> comments = commentDAO.getCommentsByBlogId(blogId);
-            
+            List<Comment> comments = commentDAO.getCommentsByBlogId(blogId, offset, limit);
+            int totalComments = commentDAO.getCommentsCountByBlogId(blogId);
+            int totalPages = (int) Math.ceil((double) totalComments / limit);
             if (blog == null) {
                 response.sendRedirect("listBlog");
                 return;
             }
-            
+
             request.setAttribute("blog", blog);
             request.setAttribute("comments", comments);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("blog-detail.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             response.sendRedirect("listBlog");
         }
     }
 
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    }
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        Staff staff = (Staff) session.getAttribute("staff");
 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        // Nếu không có khách hàng hoặc nhân viên trong session, chuyển hướng về trang login
+        if (customer == null && staff == null) {
+            session.setAttribute("redirectURL", request.getRequestURL().toString()); // Lưu URL hiện tại vào session để chuyển hướng lại sau khi đăng nhập
+            response.sendRedirect("login"); // Chuyển hướng tới trang login
+            return;
+        }
+
+        // Lấy thông tin người dùng từ session
+        Customer user = (Customer) customer;
+
+        // Lấy dữ liệu từ form
+        String blogIdRaw = request.getParameter("blogId");
+        String content = request.getParameter("content");
+
+        // Kiểm tra dữ liệu đầu vào
+        if (blogIdRaw == null || content == null || content.trim().isEmpty()) {
+            response.sendRedirect("blog-detail?blogId=" + blogIdRaw);
+            return;
+        }
+
+        try {
+            int blogId = Integer.parseInt(blogIdRaw);
+            CommentDAO commentDAO = new CommentDAO();
+
+            // Tạo và thêm bình luận
+            Comment comment = new Comment(0, content.trim(), new java.sql.Date(System.currentTimeMillis()), blogId,
+                    user.getCustomerId(), user.getName(), user.getAvatar());
+            commentDAO.addComment(comment, blogId);
+
+            // Chuyển hướng về trang chi tiết blog
+            response.sendRedirect("blog-detail?blogId=" + blogId);
+        } catch (NumberFormatException e) {
+            response.sendRedirect("listBlog");
+        }
+    }
 
 }

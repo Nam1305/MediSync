@@ -29,7 +29,62 @@
         <link rel="stylesheet" href="assets/css/tiny-slider.css"/>
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <style>
+            .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
 
+.pagination a {
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    color: #333;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+.pagination a:disabled {
+    background-color: #ddd;
+    color: #aaa;
+    border-color: #ddd;
+    pointer-events: none;
+}
+
+.pagination .prev, .pagination .next {
+    font-weight: bold;
+}
+
+.pagination .prev:hover, .pagination .next:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.pagination .prev, .pagination .next {
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 25px;
+}
+
+        </style>
     </head>
 
     <body>
@@ -106,26 +161,24 @@
                                             </div>
                                         </a>
                                         <a class="dropdown-item text-dark" href="change-password">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Change password
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
                                         </a>
                                         <c:if test="${staff != null}">
-                                            <a class="dropdown-item text-dark" href="doctor-dashboard">
-                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard
+                                            <a class="dropdown-item text-dark" href="doctorprofile">
+                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Profile
                                             </a>
                                         </c:if>
-                                        <a class="dropdown-item text-dark" href="profile">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings
-                                        </a>
+
                                         <div class="dropdown-divider border-top"></div>
                                         <a class="dropdown-item text-dark" href="logout">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất
                                         </a>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <!-- Not logged in -->
                                     <a href="login" class="btn btn-soft-primary">
-                                        <i class="uil uil-user align-middle"></i> Login
+                                        <i class="uil uil-user align-middle"></i> Đăng nhập
                                     </a>
                                 </c:otherwise>
                             </c:choose>
@@ -136,7 +189,7 @@
 
                 <div id="navigation">
                     <!-- Navigation Menu-->   
-                    <ul class="navigation-menu nav-left">
+                    <ul class="navigation-menu nav-left ">
                         <li class="parent-menu-item">
                             <a href="home">Trang chủ</a><span class="menu-arrow"></span>
                         </li>
@@ -184,7 +237,6 @@
                                 <li><a href="aboutus.html" class="sub-menu-item"> About Us</a></li>
                                 <li><a href="departments.html" class="sub-menu-item">Departments</a></li>
                                 <li><a href="faqs.html" class="sub-menu-item">FAQs</a></li>
-                                <li><a href="blogs.html" class="sub-menu-item">Blogs</a></li>
                                 <li><a href="terms.html" class="sub-menu-item">Terms & Policy</a></li>
                                 <li><a href="privacy.html" class="sub-menu-item">Privacy Policy</a></li>
                                 <li><a href="error.html" class="sub-menu-item">404 !</a></li>
@@ -192,11 +244,14 @@
                             </ul>
                         </li>
                         <li><a href="../admin/index.html" class="sub-menu-item" target="_blank">Admin</a></li>
+                        <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
+
                     </ul><!--end navigation menu-->
                 </div><!--end navigation-->
             </div><!--end container-->
         </header><!--end header-->
         <!-- Navbar End -->
+
 
 
         <div class="container mt-100 mt-60">
@@ -232,68 +287,46 @@
 
 
 
-            <!-- list blog -->
-            <div class="row">
-                <c:forEach items="${listBlog}" var="blog">
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-12 mt-4 pt-2">
-                        <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                            <img src="${blog.image}" class="img-fluid" alt="${blog.blogName}">
-                            <div class="card-body p-4">
-                                <ul class="list-unstyled mb-2">
-                                    <li class="list-inline-item text-muted small me-3">
-                                        <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
-                                        <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
-                                    </li>
-                                    <li class="list-inline-item text-muted small">
-                                        <i class="uil uil-clock text-dark h6 me-1"></i>5 phút đọc
-                                    </li>
+        <!-- list blog -->
+        <div class="row">
+            <c:forEach items="${listBlog}" var="blog">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-12 mt-4 pt-2">
+                    <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
+                        <img src="${blog.image}" class="img-fluid" alt="${blog.blogName}">
+                        <div class="card-body p-4">
+                            <ul class="list-unstyled mb-2">
+                                <li class="list-inline-item text-muted small me-3">
+                                    <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
+                                    <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
+                                </li>
+                            </ul>
+                            <a href="blog-detail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
+                            <div class="post-meta d-flex justify-content-between mt-3">
+                                <ul class="list-unstyled mb-0">
+                                    <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>3</a></li>
                                 </ul>
-                                <a href="blog-detail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
-                                <div class="post-meta d-flex justify-content-between mt-3">
-                                    <ul class="list-unstyled mb-0">
-                                        <li class="list-inline-item me-2 mb-0"><a href="blog-detail" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>4</a></li>
-                                    </ul>
-                                    <a href="blog-detail?blogId=${blog.blogId}" class="link">Chi Tiết<i class="mdi mdi-chevron-right align-middle"></i></a>
-                                </div>
+                                <a href="blog-detail?blogId=${blog.blogId}" class="link">Chi Tiết<i class="mdi mdi-chevron-right align-middle"></i></a>
                             </div>
                         </div>
                     </div>
-                </c:forEach>
-            </div>
+                </div>
+            </c:forEach>
+        </div>
 
-            <div class="row">
-                <!-- Phân trang -->
-                <div class="col-12 mt-4">
-                    <ul class="pagination justify-content-end mb-0 list-unstyled">
-                        <!-- Nút "Prev" -->
-                        <c:if test="${requestScope.currentPage > 1}">
-                            <li class="page-item">
-                                <a class="page-link" 
-                                   href="listBlog?page=${requestScope.currentPage - 1}&pageSize=${requestScope.pageSize}" 
-                                   aria-label="Previous">Prev</a>
-                            </li>
-                        </c:if>
 
-                        <!-- Hiển thị danh sách trang -->
-                        <c:forEach var="i" begin="1" end="${requestScope.totalPages}">
-                            <li class="page-item ${i == requestScope.currentPage ? 'active' : ''}">
-                                <a class="page-link" 
-                                   href="listBlog?page=${i}&pageSize=${requestScope.pageSize}">${i}</a>
-                            </li>
-                        </c:forEach>
+        <div class="pagination">
+            <c:if test="${currentPage > 1}">
+                <a href="?page=${currentPage - 1}&search=${param.search}&sort=${param.sort}">Prev</a>
+            </c:if>
 
-                        <!-- Nút "Next" -->
-                        <c:if test="${requestScope.currentPage < requestScope.totalPages}">
-                            <li class="page-item">
-                                <a class="page-link" 
-                                   href="listBlog?page=${requestScope.currentPage + 1}&pageSize=${requestScope.pageSize}" 
-                                   aria-label="Next">Next</a>
-                            </li>
-                        </c:if>
-                    </ul><!--end pagination-->
-                </div><!--end col-->
-            </div><!--end row-->
+            <c:forEach var="i" begin="1" end="${totalPages}">
+                <a href="?page=${i}&search=${param.search}&sort=${param.sort}" class="${i == currentPage ? 'active' : ''}">${i}</a>
+            </c:forEach>
+
+            <c:if test="${currentPage < totalPages}">
+                <a href="?page=${currentPage + 1}&search=${param.search}&sort=${param.sort}">Next</a>
+            </c:if>
+        </div>
 
 
         </div><!--end container-->

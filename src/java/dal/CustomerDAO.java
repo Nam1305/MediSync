@@ -516,7 +516,41 @@ public class CustomerDAO extends DBContext {
         return null;
     }
 
+    public int getTotalPrice(int customerId) {
+        int total = 0;
+        String sql = "SELECT \n"
+                + "	c.name,\n"
+                + "    SUM(S.price) AS totalPrice\n"
+                + "	\n"
+                + "FROM \n"
+                + "    Invoice I\n"
+                + "JOIN \n"
+                + "    Service S ON I.serviceId = S.serviceId\n"
+                + "JOIN \n"
+                + "    Appointment A ON I.appointmentId = A.appointmentId\n"
+                + "Join Customer c on a.customerId = c.customerId\n"
+                + "Where c.customerId = ?\n"
+                + "GROUP BY c.name";
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(2);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
+        
+        
+    }
+
     public static void main(String[] args) {
         CustomerDAO d = new CustomerDAO();
+        int x = d.getTotalPrice(1);
+        System.out.println(x);
     }
 }

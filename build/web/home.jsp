@@ -224,7 +224,7 @@
                             <a href="javascript:void(0)">Khách hàng</a><span class="menu-arrow"></span>
                             <ul class="submenu">
                                 <li><a href="patient-dashboard.html" class="sub-menu-item">Dashboard</a></li>
-                                <li><a href="patient-profile.html" class="sub-menu-item">Profile</a></li>
+                                <li><a href="listAppointments" class="sub-menu-item">Profile</a></li>
                                 <li><a href="booking-appointment.html" class="sub-menu-item">Book Appointment</a></li>
                                 <li><a href="patient-invoice.html" class="sub-menu-item">Invoice</a></li>
                             </ul>
@@ -236,7 +236,6 @@
                                 <li><a href="aboutus.html" class="sub-menu-item"> About Us</a></li>
                                 <li><a href="departments.html" class="sub-menu-item">Departments</a></li>
                                 <li><a href="faqs.html" class="sub-menu-item">FAQs</a></li>
-                                <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
                                 <li><a href="terms.html" class="sub-menu-item">Terms & Policy</a></li>
                                 <li><a href="privacy.html" class="sub-menu-item">Privacy Policy</a></li>
                                 <li><a href="error.html" class="sub-menu-item">404 !</a></li>
@@ -244,6 +243,7 @@
                             </ul>
                         </li>
                         <li><a href="../admin/index.html" class="sub-menu-item" target="_blank">Admin</a></li>
+                        <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
                     </ul><!--end navigation menu-->
                 </div><!--end navigation-->
             </div><!--end container-->

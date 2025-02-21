@@ -3,12 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+import dal.AppointmentDAO;
 import java.sql.*;
+import java.util.List;
 /**
  *
  * @author DIEN MAY XANH
  */
-public class Appointment {  
+public class Appointment {
+    AppointmentDAO appointmentDao = new AppointmentDAO();
     private int appointmentId;
     private Date date;
     private Time start, end;

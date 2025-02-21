@@ -1,4 +1,4 @@
-package controller;
+package controller.admin;
 
 import dal.BlogDAO;
 import jakarta.servlet.ServletException;
@@ -110,7 +110,22 @@ public class BannerManagementServlet extends HttpServlet {
             int blogId = Integer.parseInt(request.getParameter("blogId"));
             boolean setAsBanner = Boolean.parseBoolean(request.getParameter("setAsBanner"));
             blogDAO.updateBannerStatus(blogId, setAsBanner);
+            
+            response.sendRedirect("manage-banners");
         } else if ("uploadNew".equals(action)) {
+            // Get banner name and check for duplicates
+            String bannerName = request.getParameter("bannerName");
+            if (blogDAO.isBannerNameExists(bannerName)) {
+                // Store error message in session
+                request.getSession().setAttribute("errorMessage", "Banner with name '" + bannerName + "' already exists. Please use a different name.");
+                
+                // Store the form data to repopulate the form
+                request.getSession().setAttribute("formData", request.getParameterMap());
+                
+                response.sendRedirect("manage-banners");
+                return;
+            }
+            
             // Handle new banner upload
             Part filePart = request.getPart("bannerImage");
             String fileName = UUID.randomUUID().toString() + getFileExtension(filePart);
@@ -124,16 +139,19 @@ public class BannerManagementServlet extends HttpServlet {
 
             // Create new banner blog entry
             Blog newBanner = new Blog();
-            newBanner.setBlogName(request.getParameter("bannerName"));
+            newBanner.setBlogName(bannerName);
             newBanner.setContent(request.getParameter("bannerContent"));
             newBanner.setImage(UPLOAD_DIR + fileName);
             newBanner.setTypeId(1);
             newBanner.setSelectedBanner(1);
 
             blogDAO.addNewBanner(newBanner);
+            
+            // Set success message
+            request.getSession().setAttribute("successMessage", "Banner uploaded successfully!");
+            
+            response.sendRedirect("manage-banners");
         }
-
-        response.sendRedirect("manage-banners");
     }
 
     private String getFileExtension(Part part) {

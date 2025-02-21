@@ -24,22 +24,25 @@ import util.SendEmail;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-        maxFileSize = 1024 * 1024 * 10, // 10MB
-        maxRequestSize = 1024 * 1024 * 50 // 50MB
+        maxFileSize = 1024 * 1024 * 200, // 200MB
+        maxRequestSize = 1024 * 1024 * 500 // 500MB
 )
+
+
 
 @WebServlet(name = "AddCustomerServlet", urlPatterns = {"/addCustomer"})
 public class AddCustomerServlet extends HttpServlet {
+    long maxFileSize = 1024 * 1024 * 3;
 
     CustomerDAO customerDao = new CustomerDAO();
     GeneratePassword generatePassword = new GeneratePassword();
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
     private static final String PHONE_REGEX = "^(09|03)\\d{8}$";
     private static final String IMAGE_REGEX = ".*\\.(png|jpg|jpeg)$";
-    
+
     private void handleAddCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<String> errors = new ArrayList<>();
-        
+
         // Lấy dữ liệu từ form
         String fullName = request.getParameter("full-name");
         String gender = request.getParameter("gender");
@@ -49,7 +52,6 @@ public class AddCustomerServlet extends HttpServlet {
         String address = request.getParameter("address");
         String password = generatePassword.generateRandomPassword(8);
         Part imagePart = request.getPart("avatar");// Lấy file ảnh từ form
-        
 
         //Customer customer = new Customer(fullName,);
         // Kiểm tra dữ liệu nhập
@@ -60,7 +62,7 @@ public class AddCustomerServlet extends HttpServlet {
         if (gender == null || gender.trim().isEmpty()) {
             errors.add("Vui lòng chọn giới tính!");
         }
-        
+
         if (address == null || address.trim().isEmpty()) {
             errors.add("Vui lòng nhập địa chỉ!");
         }
@@ -90,6 +92,10 @@ public class AddCustomerServlet extends HttpServlet {
             imageFilename = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
             if (!imageFilename.toLowerCase().matches(IMAGE_REGEX)) {
                 errors.add("Ảnh đại diện phải có định dạng .png, .jpg hoặc .jpeg!");
+            }
+
+            if (imagePart.getSize() > maxFileSize) {
+                errors.add("Dung lượng ảnh đại diện không được vượt quá 3MB!");
             }
         }
 
@@ -132,9 +138,9 @@ public class AddCustomerServlet extends HttpServlet {
         //add Customer vào database
         customerDao.addCustomer(newCustomer, request.getContextPath() + "/uploads/" + imageFilename);
         //gửi email password được sinh ra cho người dùng
-        SendEmail sendEmail = new SendEmail();        
+        SendEmail sendEmail = new SendEmail();
         sendEmail.sendPasswordForCustomer(email, password);
-        
+
         request.setAttribute("success", "Thêm thành công!");
         request.setAttribute("fullName", fullName);
         request.setAttribute("gender", gender);

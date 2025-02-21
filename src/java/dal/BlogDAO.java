@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import model.Blog;
+import util.BCrypt;
 
 public class BlogDAO extends DBContext {
 
@@ -25,7 +26,7 @@ public class BlogDAO extends DBContext {
         return blogs;
     }
 
-        public List<Blog> getAllBlogs() {
+    public List<Blog> getAllBlogs() {
         List<Blog> listBlog = new ArrayList<>();
         String sql = "SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM Blog WHERE typeId = 0;";
 
@@ -55,18 +56,23 @@ public class BlogDAO extends DBContext {
         return null;
     }
 
-    public List<Blog> getBlogs(String search, String sort) {
+    public List<Blog> getBlogs(String search, String sort, int page, int itemsPerPage) {
         List<Blog> list = new ArrayList<>();
-        String sql = "SELECT * FROM Blog WHERE blogName LIKE ? ORDER BY date ";
-
-        if ("asc".equals(sort)) {
-            sql += "ASC";
-        } else {
-            sql += "DESC";
-        }
+        String sql = "WITH CTE AS ( "
+                + "SELECT *, ROW_NUMBER() OVER (ORDER BY date "
+                + (sort != null && sort.equals("asc") ? "ASC" : "DESC") // Xử lý phần sắp xếp
+                + ") AS RowNum "
+                + "FROM Blog WHERE blogName LIKE ?) "
+                + "SELECT * FROM CTE WHERE RowNum BETWEEN ? AND ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, "%" + (search != null ? search : "") + "%");
+            //thêm logic phân trang
+            int start = (page - 1) * itemsPerPage + 1;
+            int end = page * itemsPerPage;
+            ps.setInt(2, start);
+            ps.setInt(3, end);
+            //thêm logic phân trang
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -110,14 +116,13 @@ public class BlogDAO extends DBContext {
         List<Blog> blogs = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner FROM (");
-        sql.append("  SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner, ");
-        sql.append("  ROW_NUMBER() OVER (ORDER BY date ");
+        sql.append("  SELECT blogId, blogName, [content], image, author, date, typeId, selectedBanner, ROW_NUMBER() OVER (ORDER BY date ");
         sql.append(sortOrder.equalsIgnoreCase("asc") ? "ASC" : "DESC");
-        sql.append("  ) AS RowNum FROM Blog WHERE typeId = 1"); // Điều kiện cơ bản
+        sql.append("  ) AS RowNum FROM Blog WHERE typeId = 1");
 
-        // Thêm điều kiện tìm kiếm vào TRONG phạm vi của typeId = 1
+        // Add search condition if search query is provided
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-            sql.append(" AND (LOWER(blogName) LIKE LOWER(?) OR LOWER(content) LIKE LOWER(?))");
+            sql.append(" AND blogName LIKE ?");
         }
 
         sql.append(") AS PagedResults WHERE RowNum BETWEEN ? AND ?");
@@ -125,9 +130,8 @@ public class BlogDAO extends DBContext {
         try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
             int parameterIndex = 1;
 
-            // Set search parameters if exists
+            // Set search parameter if exists
             if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-                ps.setString(parameterIndex++, "%" + searchQuery + "%");
                 ps.setString(parameterIndex++, "%" + searchQuery + "%");
             }
 
@@ -149,17 +153,15 @@ public class BlogDAO extends DBContext {
     }
 
     public int getTotalBannersCount(String searchQuery) {
-        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Blog WHERE typeId = 1"); // Điều kiện cơ bản
+        StringBuilder sql = new StringBuilder("SELECT COUNT(blogId, blogName, [content], image, author, date, typeId, selectedBanner) FROM Blog WHERE typeId = 1");
 
-        // Thêm điều kiện tìm kiếm vào TRONG phạm vi của typeId = 1
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-            sql.append(" AND (LOWER(blogName) LIKE LOWER(?) OR LOWER(content) LIKE LOWER(?))");
+            sql.append(" AND blogName LIKE ?");
         }
 
         try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
             if (searchQuery != null && !searchQuery.trim().isEmpty()) {
                 ps.setString(1, "%" + searchQuery + "%");
-                ps.setString(2, "%" + searchQuery + "%");
             }
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -199,5 +201,37 @@ public class BlogDAO extends DBContext {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public int getTotalBlogsCount(String search) {
+        String sql = "SELECT COUNT(blogId) FROM Blog WHERE blogName LIKE ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + (search != null ? search : "") + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
+    public boolean isBannerNameExists(String bannerName) {
+        String sql = "SELECT COUNT(*) FROM Blog WHERE blogName = ? AND typeId = 1";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, bannerName);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking banner name: " + e.getMessage());
+        }
+        return false;
     }
 }

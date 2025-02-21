@@ -142,7 +142,7 @@
 
                         <ul class="list-unstyled mb-0">
 
-                            <li class="list-inline-item mb-0 ms-1">
+<!--                            <li class="list-inline-item mb-0 ms-1">
                                 <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                                     <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="settings" class="fea icon-sm"></i></div>
                                 </a>
@@ -197,7 +197,7 @@
                                         </a>
                                     </div>
                                 </div>
-                            </li>
+                            </li>-->
 
                             <li class="list-inline-item mb-0 ms-1">
                                 <div class="dropdown dropdown-primary">
@@ -211,7 +211,7 @@
                                             </div>
                                         </a>
                                         <a class="dropdown-item text-dark" href="adminDashBoard.jsp"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                        <a class="dropdown-item text-dark" href="dr-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Thông tin cá nhân</a>
+                                        <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Thông tin cá nhân</a>
                                         <div class="dropdown-divider border-top"></div>
                                         <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất</a>
                                     </div>
@@ -228,12 +228,12 @@
 
 
 
-                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
+<!--                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
                                     <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Patients</li>
                                 </ul>
-                            </nav>
+                            </nav>-->
                         </div>
 
                         <div class="row" >
@@ -256,33 +256,7 @@
                                 </c:if>
                             </div>
                         </div>
-                        <!--                        <form action="listCustomer" method="get">
-                                                    <input type="hidden" name="page" value="${requestScope.currentPage != null ? requestScope.currentPage : 1}" />
-                                                    <div class="d-flex justify-content-between mb-3">
-                                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                                             Dropdown menu để chọn trạng thái 
-                                                            <select class="form-select me-2" name="status">
-                                                                <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả</option>
-                                                                <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
-                                                                <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
-                                                                </select>
                         
-                                                                 Dropdown menu để chọn giới tính 
-                                                                <select class="form-select me-2" name="gender">
-                                                                    <option value="" <c:if test="${empty gender}">selected</c:if>>Tất cả</option>
-                                                                <option value="M" <c:if test="${gender == 'M'}">selected</c:if>>Nam</option>
-                                                                <option value="F" <c:if test="${gender == 'F'}">selected</c:if>>Nữ</option>
-                                                                </select>
-                        
-                                                                <input type="number" class="form-control me-2" name="pageSize" min="1" max="${requestScope.totalCustomers}" 
-                                                                   value="${not empty pageSize ? pageSize : 10}" placeholder="Số lượng/trang" style="width: 150px;">
-                                                        </div>    
-                                                    </div>
-                                                     Thêm tham số 'page' vào form để đảm bảo nó luôn được gửi 
-                        
-                                                     Nút gửi form 
-                                                    <button type="submit" class="btn btn-primary">Lọc</button>
-                                                </form>-->
                         <form action="listCustomer" method="get">
                             <input type="hidden" name="page" value="${requestScope.currentPage != null ? requestScope.currentPage : 1}" />
                             <div class="d-flex justify-content-end mb-3">
@@ -318,10 +292,13 @@
                                             <tr>
                                                 <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
                                                 <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
-                                                <!--                                                <th class="border-bottom p-3">Age</th>-->
                                                 <th class="border-bottom p-3">Giới tính</th>
+<<<<<<< HEAD
                                                 <!--                                                <th class="border-bottom p-3">Address</th>-->
 <!--                                                <th class="border-bottom p-3">Địa chỉ</th>-->
+=======
+                                                
+>>>>>>> 8fa21a76a47f035d9ada0bd64343fcfd6ced5025
                                                 <th class="border-bottom p-3">Số Điện Thoại</th>
                                                 <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
                                                 <th class="border-bottom p-3">Email</th>
@@ -352,7 +329,11 @@
                                                             <c:otherwise>Khác</c:otherwise>
                                                         </c:choose>
                                                     </td>
+<<<<<<< HEAD
 <!--                                                    <td class="p-3">${customers.address}</td>-->
+=======
+                                                    
+>>>>>>> 8fa21a76a47f035d9ada0bd64343fcfd6ced5025
                                                     <td class="p-3">${customers.phone}</td>
                                                     <td class="p-3">${customers.dateOfBirth}</td>
                                                     <td class="p-3">${customers.email}</td>

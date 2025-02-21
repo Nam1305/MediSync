@@ -124,7 +124,12 @@ public class StaffProfile extends HttpServlet {
                 }
                 Part imagePart = request.getPart("avatar");
                 String imageFilename = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
+                if (imagePart.getSize() >= 3 * 1024 * 1024) {
+                    request.setAttribute("erroravatar", "Dung lượng ảnh không được phép vượt quá 3MB!");
+                    request.getRequestDispatcher("staffProfile.jsp").forward(request, response);
 
+                    return;
+                }
                 if (!imageFilename.equals("")) {
                     String fileExtension = "";
                     imageFilename = System.currentTimeMillis() + "_" + imageFilename;
@@ -132,7 +137,7 @@ public class StaffProfile extends HttpServlet {
                     if (dotIndex > 0 && dotIndex < imageFilename.length() - 1) {
                         fileExtension = imageFilename.substring(dotIndex + 1).toLowerCase();
                     }
-                    if (fileExtension.equals("jpg") || fileExtension.equals("jpeg") || fileExtension.equals("png")) {
+                    if (fileExtension.toLowerCase().equals("jpg") || fileExtension.toLowerCase().equals("jpeg") || fileExtension.toLowerCase().equals("png")) {
                         imagePart.write(Paths.get(uploadPath.toString(), imageFilename).toString());
                         String avt = request.getContextPath() + "/uploads/" + imageFilename;
                         std.updateAvatar(st.getStaffId(), avt);
