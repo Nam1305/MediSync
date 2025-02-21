@@ -22,13 +22,20 @@
     <c:when test="${staff.role.roleId == 2 || staff.role.roleId == 3}">
         <ul class="list-unstyled sidebar-nav mb-0">
             <li class="navbar-item">
-            <a href="doctorappointment" class="navbar-link">
-                    <i class="ri-calendar-check-line align-middle navbar-icon"></i> Lịch hẹn
+                <a href="doctorappointment" class="navbar-link">
+                    <i class="ri-calendar-check-line align-middle navbar-icon"></i>Lịch hẹn
                 </a>
+            </li>
+            <li class="navbar-item" style="margin-left: -2%;">
+                <form action="schedule" method="post" style="display: inline;">
+                    <button type="submit" class="navbar-link" style="background: none; border: none; cursor: pointer;">
+                        <i class="ri-timer-line align-middle navbar-icon"></i>Lịch làm việc
+                    </button>
+                </form>
             </li>
             <li class="navbar-item">
                 <a href="schedule" class="navbar-link">
-                    <i class="ri-timer-line align-middle navbar-icon"></i> Lịch làm việc
+                    <i class="ri-timer-line align-middle navbar-icon"></i>Đăng kí ca làm 
                 </a>
             </li>
             <li class="navbar-item">
