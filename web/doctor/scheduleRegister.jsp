@@ -64,7 +64,8 @@
                         <!-- Form đăng ký ca làm việc -->
                         <div class="card shadow p-4 mb-4">
                             <h4 class="mb-3 text-center">Đăng ký ca làm việc</h4>
-                            <form id="registerShiftForm" action="schedule?action=regis" method="GET">
+                            <form id="registerShiftForm" action="schedule" method="GET">
+                                <<input type="hidden" name="action" value="regis">
                                 <div class="mb-3">
                                     <div class="shift-container">
                                         <label class="shift-box">
@@ -88,9 +89,9 @@
                                 </c:if>
 
                                 <div class="text-center">
-                                    <h1>   ${s}</h1>
                                     <button type="submit" class="btn btn-success px-4">Đăng ký</button>
-                                </div>                            </form>
+                                </div>                           
+                            </form>
                         </div>
 
                         <!-- Danh sách bản đăng ký ca làm việc -->
@@ -177,13 +178,13 @@
         </section>
 
         <script>
-            document.getElementById("registerShiftForm").addEventListener("submit", function (event) {
-                let checkboxes = document.querySelectorAll('input[name="shifts"]:checked');
-                if (checkboxes.length === 0) {
-                    event.preventDefault();
-                    alert("Vui lòng chọn ít nhất một ca làm việc!");
-                }
-            });
+//            document.getElementById("registerShiftForm").addEventListener("submit", function (event) {
+//                let checkboxes = document.querySelectorAll('input[name="shifts"]:checked');
+//                if (checkboxes.length === 0) {
+//                    event.preventDefault();
+//                    alert("Vui lòng chọn ít nhất một ca làm việc!");
+//                }
+//            });
 
             document.querySelectorAll(".shift-box").forEach(box => {
                 box.addEventListener("click", function () {

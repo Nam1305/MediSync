@@ -11,7 +11,6 @@ import java.util.List;
 import model.Schedule;
 import model.Staff;
 import java.sql.*;
-import java.util.Arrays;
 import model.ShiftRegistration;
 
 public class ScheduleServlet extends HttpServlet {
