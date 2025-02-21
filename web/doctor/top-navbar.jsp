@@ -86,21 +86,14 @@
                     <!-- Navigation Menu-->   
                     <ul class="navigation-menu nav-left">
                         <li class="has-submenu parent-menu-item">
-                            <a href="home">Home</a><span class="menu-arrow"></span>
+                            <a href="home">Trang chủ</a><span class="menu-arrow"></span>
                         </li>
 
                         <li class="has-submenu parent-parent-menu-item">
-                            <a href="javascript:void(0)">Doctors</a><span class="menu-arrow"></span>
+                            <a href="listBlog">Tin tức</a><span class="menu-arrow"></span>
                         </li>
 
-                        <li class="has-submenu parent-parent-menu-item"><a href="javascript:void(0)">Pages</a><span class="menu-arrow"></span>
-                            <ul class="submenu">
-                                <li class="has-submenu parent-menu-item">
-                                <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
-                                <li><a href="blog-detail.html" class="sub-menu-item">Blog Details</a></li>
-                                <li><a href="error.html" class="sub-menu-item">404 !</a></li>
-                            </ul>
-                        </li>
+                       
                     </ul><!--end navigation menu-->
                 </div><!--end navigation-->
             </div><!--end container-->

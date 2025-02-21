@@ -6,7 +6,7 @@
 <html lang="vi">
     <head>
         <meta charset="utf-8" />
-        <title>Appointment</title>
+        <title>Lịch hẹn</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="../assets/images/favicon.ico.png">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -92,7 +92,7 @@
                                     </select>
                                     <input type="date" name="date" class="form-control" value="${param.date}" style="width: 150px;">
                                     <input type="number" name="pageSize" class="form-control" value="${param.pageSize != null ? param.pageSize : 10}" min="1" max="100" step="1" style="width: 150px;">
-                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                    <button type="submit" class="btn btn-primary">Lọc</button>
                                 </form>
                             </div>
                             <!-- Bảng hiển thị danh sách appointment -->
@@ -151,13 +151,13 @@
                                                     <!-- Link chuyển trạng thái: Vắng mặt -->
                                                     <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=absent&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}"
                                                        class="btn btn-icon btn-pills btn-soft-danger"
-                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn #${appointment.appointmentId} sang Vắng mặt?');">
+                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Vắng mặt?');">
                                                         <i class="uil uil-check-circle"></i>
                                                     </a>
                                                     <!-- Link chuyển trạng thái: Chờ thanh toán -->
                                                     <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=waitpay&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}"
                                                        class="btn btn-icon btn-pills btn-soft-success"
-                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn #${appointment.appointmentId} sang Chờ thanh toán?');">
+                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Chờ thanh toán?');">
                                                         <i class="uil uil-times-circle"></i>
                                                     </a>
                                                 </td>

@@ -227,7 +227,7 @@ public class AppointmentDAO extends DBContext {
         }
 
         // Sử dụng cú pháp OFFSET FETCH cho phân trang (SQL Server)
-        sql += " ORDER BY date DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        sql += " ORDER BY date DESC, startTime ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);

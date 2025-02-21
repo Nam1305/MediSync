@@ -10,36 +10,67 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- TinyMCE tích hợp cho kết quả xét nghiệm -->
-        <script src="https://cdn.tiny.cloud/1/vnufc6yakojjcovpkijlauot8hfpbxd3uscxatfq2m4yijay/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>        <script>
+        <script src="https://cdn.tiny.cloud/1/vnufc6yakojjcovpkijlauot8hfpbxd3uscxatfq2m4yijay/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>        
+        <script>
             tinymce.init({
                 selector: '#testResults',
-                plugins: 'image code',
-                toolbar: 'undo redo | link image | code',
+                plugins: 'image code fullscreen',
+                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright | image link | fullscreen code',
                 image_title: true,
                 automatic_uploads: true,
-                images_upload_url: 'uploadImage', 
+                images_upload_url: 'uploadimage',
                 file_picker_types: 'image',
-                file_picker_callback: function (cb, value, meta) {
+                file_picker_callback: function (cb) {
                     var input = document.createElement('input');
                     input.setAttribute('type', 'file');
                     input.setAttribute('accept', 'image/*');
                     input.onchange = function () {
                         var file = this.files[0];
-                        var reader = new FileReader();
-                        reader.onload = function () {
-                            var id = 'blobid' + (new Date()).getTime();
-                            var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                            var base64 = reader.result.split(',')[1];
-                            var blobInfo = blobCache.create(id, file, base64);
-                            blobCache.add(blobInfo);
-                            cb(blobInfo.blobUri(), {title: file.name});
-                        };
-                        reader.readAsDataURL(file);
+
+                        if (!file) {
+                            alert("Không có tệp nào được chọn.");
+                            return;
+                        }
+
+                        var allowedExtensions = ['jpg', 'jpeg', 'png', 'dcm'];
+                        var fileName = file.name.toLowerCase();
+                        var fileExtension = fileName.split('.').pop();
+
+                        if (!allowedExtensions.includes(fileExtension)) {
+                            alert("Chỉ được tải lên các file hình ảnh có đuôi: .jpg, .jpeg, .png, .dcm.");
+                            return;
+                        }
+
+                        if (file.size > 10*1024*1024) {
+                            alert("Kích thước tệp quá lớn! Chỉ được tải lên ảnh dưới 10MB.");
+                            return;
+                        }
+
+                        var formData = new FormData();
+                        formData.append('file', file);
+
+                        fetch('uploadimage', {
+                            method: 'POST',
+                            body: formData
+                        })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        cb(data.location, {title: file.name});
+                                    } else {
+                                        alert("Lỗi khi tải ảnh lên: " + data.message);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Upload failed:', error);
+                                    alert("Có lỗi xảy ra khi tải ảnh lên, vui lòng thử lại.");
+                                });
                     };
                     input.click();
                 }
             });
         </script>
+
         <style>
             body {
                 background-color: #f8f9fa;
@@ -96,7 +127,7 @@
     </head>
     <body>
         <div class="container">
-            <a href="doctorappointment" class="btn btn-secondary mb-3">Quay lại</a>
+            <a href="doctorappointment" class="btn btn-success mb-3">Quay lại</a>
             <h3 class="text-center text-success mb-4">Chi tiết lịch hẹn</h3>
 
             <!-- Thông tin khách hàng -->
@@ -154,7 +185,7 @@
                             <label for="followUp">Theo dõi:</label>
                             <textarea id="followUp" class="form-control" name="followUp">${treatment.followUp}</textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="submit" class="btn btn-success">Lưu</button>
                     </form>
                 </div>
             </div>
@@ -197,7 +228,7 @@
                             </tbody>
                         </table>
                         <button type="button" class="btn btn-success" id="addMedicine">Thêm thuốc</button>
-                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="submit" class="btn btn-success">Lưu</button>
                     </form>
                 </div>
             </div>

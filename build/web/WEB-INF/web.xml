@@ -52,6 +52,10 @@
         <servlet-name>DoctorAppointmentDetail</servlet-name>
         <servlet-class>controller.doctor.DoctorAppointmentDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TinyMCEUploadImage</servlet-name>
+        <servlet-class>controller.doctor.TinyMCEUploadImage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -103,5 +107,9 @@
     <servlet-mapping>
         <servlet-name>DoctorAppointmentDetail</servlet-name>
         <url-pattern>/doctorappdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TinyMCEUploadImage</servlet-name>
+        <url-pattern>/uploadimage</url-pattern>
     </servlet-mapping>
 </web-app>
