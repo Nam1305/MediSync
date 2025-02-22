@@ -14,7 +14,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Home Page</title>
+        <title>Trang chủ</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- favicon -->
         <link rel="shortcut icon" href="assets/images/favicon.ico.png">

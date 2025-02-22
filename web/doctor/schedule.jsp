@@ -59,6 +59,10 @@
         </div>
 
         <script>
+            
+            
+            
+            
             document.addEventListener("DOMContentLoaded", function () {
             var calendarEl = document.getElementById("calendar");
             function getShiftTitle(startTime) {
