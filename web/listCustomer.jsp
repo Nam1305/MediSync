@@ -198,14 +198,14 @@
                                 <div class="d-flex align-items-center">
                                     <!-- Dropdown menu để chọn trạng thái -->
                                     <select class="form-select me-2" name="status">
-                                        <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả</option>
+                                        <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả trạng thái</option>
                                         <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
                                         <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
                                         </select>
 
                                         <!-- Dropdown menu để chọn giới tính -->
                                         <select class="form-select me-2" name="gender">
-                                            <option value="" <c:if test="${empty gender}">selected</c:if>>Tất cả</option>
+                                            <option value="" <c:if test="${empty gender}">selected</c:if>>Tất cả giới tính</option>
                                         <option value="M" <c:if test="${gender == 'M'}">selected</c:if>>Nam</option>
                                         <option value="F" <c:if test="${gender == 'F'}">selected</c:if>>Nữ</option>
                                         </select>

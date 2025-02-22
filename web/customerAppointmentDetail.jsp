@@ -88,12 +88,12 @@
 
             .prescription-table th:nth-child(2),
             .prescription-table td:nth-child(2) {
-                width: 7%;
+                width: 9%;
             }
 
             .prescription-table th:nth-child(3),
             .prescription-table td:nth-child(3) {
-                width: 20%;
+                width: 22%;
             }
 
             .prescription-table th:nth-child(4),
@@ -151,6 +151,17 @@
                     <p class="border p-3 bg-light">${doctor.description}</p>
                 </div>
             </div>
+            <!-- Bệnh án -->
+            <div class="card mt-4 p-4">
+                <h4 class="text-center">Bệnh án</h4>
+                <p><strong>Triệu chứng:</strong> ${treat.symptoms}</p>
+                <p><strong>Chẩn đoán:</strong> ${treat.diagnosis}</p>
+                <p><strong>Kết quả xét nghiệm:</strong> ${treat.testResult}</p>
+                <p><strong>Kế hoạch điều trị:</strong> ${treat.plan}</p>
+                <p><strong>Theo dõi:</strong> ${treat.followUp}</p>
+            </div>
+
+
 
             <!-- Đơn thuốc -->
             <div class="card mt-4 p-4">

@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -260,7 +261,6 @@
                         <div class="dropdown dropdown-primary">
                             <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="${customer.avatar}" class="avatar avatar-ex-small rounded-circle" alt=""></button>
                             <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-<<<<<<< HEAD
                                 <a class="dropdown-item d-flex align-items-center text-dark" href="doctor-profile.html">
                                     <img src="${customer.avatar}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                     <div class="flex-1 ms-2">
@@ -270,17 +270,6 @@
                                 </a>
                                 <!--                                <a class="dropdown-item text-dark" href="patient-dashboard.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>-->
                                 <a class="dropdown-item text-dark" href="listAppointments"><span class="mb-0 d-inline-block me-1"><i class="uil uil-user align-middle h6"></i></span> Thông tin chi tiết</a>
-=======
-                                <a class="dropdown-item d-flex align-items-center text-dark" href="customer-profile">
-                                    <img src="${customer.avatar}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
-                                    <div class="flex-1 ms-2">
-                                        <span class="d-block mb-1">${customer.name}</span>
-                                        <small class="text-muted">Customer</small>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-dark" href="change-password"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Đổi mật khẩu</a>
-                                <a class="dropdown-item text-dark" href="customer-profile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-user align-middle h6"></i></span> Thông tin cá nhân</a>
->>>>>>> 8fca34e2e52590f9a17ba8f2b0d2b8cf74ece604
                                 <div class="dropdown-divider border-top"></div>
                                 <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất</a>
                             </div>
@@ -351,7 +340,6 @@
                             <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
                                 <img src="${customer.avatar}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
                                 <h5 class="mt-3 mb-1">${customer.name}</h5>
-<<<<<<< HEAD
                                 <p class="text-muted mb-0">${customer.getAge()} tuổi</p>
                             </div>
 
@@ -369,60 +357,33 @@
                                             <c:otherwise>Khác</c:otherwise>
                                         </c:choose>
                                     </p>
-=======
-                            </div>
-
-                            <div class="list-unstyled p-4">
-
-                                <div class="d-flex align-items-center mt-2">
-                                    <i class="uil uil-user align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                    <h6 class="mb-0">Giới tính:</h6>
-                                    <p class="text-muted mb-0 ms-2">${customer.gender}</p>
->>>>>>> 8fca34e2e52590f9a17ba8f2b0d2b8cf74ece604
                                 </div>
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-envelope align-text-bottom text-primary h5 mb-0 me-2"></i>
-<<<<<<< HEAD
                                     <h6 class="mb-0">Ngày sinh: </h6>
-=======
-                                    <h6 class="mb-0">Ngày sinh:</h6>
->>>>>>> 8fca34e2e52590f9a17ba8f2b0d2b8cf74ece604
                                     <p class="text-muted mb-0 ms-2">${customer.dateOfBirth}</p>
                                 </div>
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-book-open align-text-bottom text-primary h5 mb-0 me-2"></i>
-<<<<<<< HEAD
                                     <h6 class="mb-0">Số điện thoại: </h6>
-=======
-                                    <h6 class="mb-0">Số ĐT:</h6>
->>>>>>> 8fca34e2e52590f9a17ba8f2b0d2b8cf74ece604
                                     <p class="text-muted mb-0 ms-2">${customer.phone}</p>
                                 </div>
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-italic align-text-bottom text-primary h5 mb-0 me-2"></i>
-<<<<<<< HEAD
                                     <h6 class="mb-0" style="white-space: nowrap;">Địa chỉ:</h6>
                                     <p class="text-muted mb-0 ms-2" >
                                         ${customer.address}
                                     </p>
-=======
-                                    <h6 class="mb-0">Địa chỉ</h6>
-                                    <p class="text-muted mb-0 ms-2">${customer.address}</p>
->>>>>>> 8fca34e2e52590f9a17ba8f2b0d2b8cf74ece604
                                 </div>
 
 
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
-<<<<<<< HEAD
                                     <h6 class="mb-0">Nhóm máu: </h6>
-=======
-                                    <h6 class="mb-0">Nhóm máu</h6>
->>>>>>> 8fca34e2e52590f9a17ba8f2b0d2b8cf74ece604
                                     <p class="text-muted mb-0 ms-2">${customer.bloodType}</p>
                                 </div>
                             </div>
@@ -459,8 +420,8 @@
                                                         <th>Tên bác sĩ</th>
                                                         <th>Giới tính</th>
                                                         <th>Ngày hẹn</th>
-                                                        <th>Bắt đầu</th>
-                                                        <th>Kết thúc</th>
+                                                        <th>Thời gian</th>
+                                                        <!--                                                        <th>Kết thúc</th>-->
                                                         <th>Trạng thái</th>
                                                         <th class="text-center">Hành động</th>
                                                     </tr>
@@ -478,67 +439,52 @@
                                                                 </c:choose>
                                                             </td>
 
-                                                            <td>${appointment.date}</td>
-                                                            <td>${appointment.start}</td>
-                                                            <td>${appointment.end}</td>
                                                             <td>
-                                                                <c:choose>
-                                                                    <c:when test="${appointment.status == 'pending'}">Chờ xác nhận</c:when>
-                                                                    <c:when test="${appointment.status == 'confirmed'}">Đã xác nhận</c:when>
-                                                                    <c:when test="${appointment.status == 'paid'}">Đã thanh toán</c:when>
-                                                                    <c:when test="${appointment.status == 'cancelled'}">Đã hủy</c:when>
-                                                                    <c:when test="${appointment.status == 'waitpay'}">Chờ thanh toán</c:when>
-                                                                    <c:when test="${appointment.status == 'absent'}">Vắng mặt</c:when>
-                                                                </c:choose>
-                                                            </td>
+                                                    <fmt:formatDate value="${appointment.date}" pattern="dd-MM-yyyy"/>
+                                                    </td>
+                                                    <td>${appointment.start} - ${appointment.end} </td>
+                                                    <!--                                                            <td></td>-->
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${appointment.status == 'pending'}">Chờ xác nhận</c:when>
+                                                            <c:when test="${appointment.status == 'confirmed'}">Đã xác nhận</c:when>
+                                                            <c:when test="${appointment.status == 'paid'}">Đã thanh toán</c:when>
+                                                            <c:when test="${appointment.status == 'cancelled'}">Đã hủy</c:when>
+                                                            <c:when test="${appointment.status == 'waitpay'}">Chờ thanh toán</c:when>
+                                                            <c:when test="${appointment.status == 'absent'}">Vắng mặt</c:when>
+                                                        </c:choose>
+                                                    </td>
 
-                                                            <td class="text-center">
-                                                                <!-- Link: Xem chi tiết thông tin bác sĩ, bệnh án, đơn thuốc -->
-                                                                <a href="appointmentDetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
-                                                                    <i class="uil uil-eye"></i>
-                                                                </a>
+                                                    <td class="text-center">
+                                                        <!-- Link: Xem chi tiết thông tin bác sĩ, bệnh án, đơn thuốc -->
+                                                        <a href="appointmentDetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
+                                                            <i class="uil uil-eye"></i>
+                                                        </a>
 
-<<<<<<< HEAD
-                                                                <!-- Hủy lịch hẹn -->
-                                                                <a href="#"
-                                                                   class="btn btn-icon btn-pills btn-soft-danger"
-                                                                   onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn ngày: ${appointment.date} không?');">
-                                                                    <i class="uil uil-check-circle"></i>
-                                                                </a>
+                                                        <!-- Hủy lịch hẹn -->
+                                                        <a href="#"
+                                                           class="btn btn-icon btn-pills btn-soft-danger"
+                                                           onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn ngày: ${appointment.date} không?');">
+                                                            <i class="uil uil-check-circle"></i>
+                                                        </a>
 
-                                                                <!-- Link xem hóa đơn chi tiết-->
-                                                                <a href="#"
-                                                                   class="btn btn-icon btn-pills btn-soft-success">
-                                                                    <i class="uil uil-times-circle"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                        <!-- Link xem hóa đơn chi tiết-->
+                                                        <a href="#"
+                                                           class="btn btn-icon btn-pills btn-soft-success">
+                                                            <i class="uil uil-times-circle"></i>
+                                                        </a>
+                                                    </td>
+                                                    </tr>
 
-                                                    </c:forEach>
+                                                </c:forEach>
 
                                                 </tbody>
                                             </table>
-=======
-                                        <div class="col-lg-6 col-12 mt-4">
-                                            <h5>Danh sách hóa đơn</h5>
-                                            <c:forEach var="appointment" items="${appointments}">
-                                                <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
-                                                    <div class="flex-1 overflow-hidden">
-                                                        <h6 class="flex-1 mb-0">${appointment.getDate()}</h6>
-
-                                                    </div>
-                                                    <!--                                                    <a href="#" class="btn btn-icon btn-primary" data-bs-toggle="modal" data-bs-target="#view-invoice"><i class="uil uil-clipboard-notes icons"></i></a>-->
-                                                    <!-- Thêm nút Xem chi tiết bên cạnh -->
-                                                    <a href="invoiceDetail?appointmentId=${appointment.appointmentId}" class="btn btn-primary">Chi tiết hóa đơn</a>
-                                                </div>
-                                            </c:forEach>
->>>>>>> 8fca34e2e52590f9a17ba8f2b0d2b8cf74ece604
 
 
                                         </div>
                                     </div>  
                                 </div>
-
                                 <!-- hết jsp của Nam-->
 
                                 <div class="tab-pane fade" id="pills-experience" role="tabpanel" aria-labelledby="experience-tab">
