@@ -92,17 +92,17 @@
 
                     <li class="list-inline-item mb-0 ms-1">
                         <div class="dropdown dropdown-primary">
-                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/client/09.jpg" class="avatar avatar-ex-small rounded-circle" alt=""></button>
+                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="${customer.avatar}" class="avatar avatar-ex-small rounded-circle" alt=""></button>
                             <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                <a class="dropdown-item d-flex align-items-center text-dark" href="doctor-profile.html">
-                                    <img src="assets/images/client/09.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                <a class="dropdown-item d-flex align-items-center text-dark" href="customer-profile">
+                                    <img src="${customer.avatar}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                     <div class="flex-1 ms-2">
-                                        <span class="d-block mb-1">appointments</span>
-                                        <small class="text-muted">25 Year old</small>
+                                        <span class="d-block mb-1">${customer.name}</span>
+                                        <small class="text-muted">Customer</small>
                                     </div>
                                 </a>
-                                <a class="dropdown-item text-dark" href="patient-dashboard.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                <a class="dropdown-item text-dark" href="patient-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-user align-middle h6"></i></span> Thông tin cá nhân</a>
+                                <a class="dropdown-item text-dark" href="change-password"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Đổi mật khẩu</a>
+                                <a class="dropdown-item text-dark" href="customer-profile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-user align-middle h6"></i></span> Thông tin cá nhân</a>
                                 <div class="dropdown-divider border-top"></div>
                                 <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất</a>
                             </div>
@@ -120,7 +120,7 @@
 
                         <li class="has-submenu parent-parent-menu-item">
                             <a href="javascript:void(0)">Bác sĩ</a><span class="menu-arrow"></span>
-                            
+
                         </li>
 
                         <li class="has-submenu parent-menu-item">
@@ -171,49 +171,40 @@
                             </div>
 
                             <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
-                                <img src="assets/images/client/09.jpg" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
-                                <h5 class="mt-3 mb-1">Christopher Burrell</h5>
-                                <p class="text-muted mb-0">25 Years old</p>
+                                <img src="${customer.avatar}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
+                                <h5 class="mt-3 mb-1">${customer.name}</h5>
                             </div>
 
                             <div class="list-unstyled p-4">
-                                <div class="progress-box mb-4">
-                                    <h6 class="title">Complete your profile</h6>
-                                    <div class="progress">
-                                        <div class="progress-bar position-relative bg-primary" style="width:89%;">
-                                            <div class="progress-value d-block text-muted h6">89%</div>
-                                        </div>
-                                    </div>
-                                </div><!--end process box-->
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-user align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                    <h6 class="mb-0">Gender</h6>
-                                    <p class="text-muted mb-0 ms-2">Female</p>
+                                    <h6 class="mb-0">Giới tính:</h6>
+                                    <p class="text-muted mb-0 ms-2">${customer.gender}</p>
                                 </div>
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-envelope align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                    <h6 class="mb-0">Birthday</h6>
-                                    <p class="text-muted mb-0 ms-2">19th January 1995</p>
+                                    <h6 class="mb-0">Ngày sinh:</h6>
+                                    <p class="text-muted mb-0 ms-2">${customer.dateOfBirth}</p>
                                 </div>
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-book-open align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                    <h6 class="mb-0">Phone No.</h6>
-                                    <p class="text-muted mb-0 ms-2">+(125) 458-8547</p>
+                                    <h6 class="mb-0">Số ĐT:</h6>
+                                    <p class="text-muted mb-0 ms-2">${customer.phone}</p>
                                 </div>
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-italic align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                    <h6 class="mb-0">Address</h6>
-                                    <p class="text-muted mb-0 ms-2">Sydney, Australia</p>
+                                    <h6 class="mb-0">Địa chỉ</h6>
+                                    <p class="text-muted mb-0 ms-2">${customer.address}</p>
                                 </div>
 
                                 <div class="d-flex align-items-center mt-2">
                                     <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                    <h6 class="mb-0">Blood Group</h6>
-                                    <p class="text-muted mb-0 ms-2">B +</p>
+                                    <h6 class="mb-0">Nhóm máu</h6>
+                                    <p class="text-muted mb-0 ms-2">${customer.bloodType}</p>
                                 </div>
                             </div>
                         </div>
@@ -266,7 +257,7 @@
                                                 <div class="d-flex justify-content-between align-items-center rounded p-3 shadow mt-3">
                                                     <div class="flex-1 overflow-hidden">
                                                         <h6 class="flex-1 mb-0">${appointment.getDate()}</h6>
-                                                        
+
                                                     </div>
                                                     <!--                                                    <a href="#" class="btn btn-icon btn-primary" data-bs-toggle="modal" data-bs-target="#view-invoice"><i class="uil uil-clipboard-notes icons"></i></a>-->
                                                     <!-- Thêm nút Xem chi tiết bên cạnh -->
@@ -282,175 +273,125 @@
                                 <!-- hết jsp của Nam-->
 
                                 <div class="tab-pane fade" id="pills-experience" role="tabpanel" aria-labelledby="experience-tab">
-                                    <h5 class="mb-0">Personal Information :</h5>
-                                    <div class="row align-items-center mt-4">
-                                        <div class="col-lg-2 col-md-4">
-                                            <img src="assets/images/client/09.jpg" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
-                                        </div><!--end col-->
+                                    <h5 class="mb-0">Personal Information:</h5>
 
-                                        <div class="col-lg-5 col-md-8 text-center text-md-start mt-4 mt-sm-0">
-                                            <h6 class="">Upload your picture</h6>
-                                            <p class="text-muted mb-0">For best results, use an image at least 256px by 256px in either .jpg or .png format</p>
-                                        </div><!--end col-->
+                                    <!-- Display avatar section -->
+                                    <!-- Profile Picture Section -->
+                                    <div class="card border-0 rounded shadow">
+                                        <div class="card-body">
+                                            <h5 class="mb-0">Profile Picture</h5>
+                                            <div class="row align-items-center mt-4">
+                                                <!-- Avatar Preview Column - Increased width and added proper spacing -->
+                                                <div class="col-lg-3 col-md-4 text-center mb-4 mb-md-0">
+                                                    <div class="position-relative">
+                                                        <c:choose>
+                                                            <c:when test="${customer.avatar != null && not empty customer.avatar}">
+                                                                <img id="avatarPreview" src="${customer.avatar}" class="avatar avatar-large rounded-circle shadow mx-auto" 
+                                                                     alt="Profile Picture" style="width: 120px; height: 120px; object-fit: cover;">
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img id="avatarPreview" src="${customer.avatar}" class="avatar avatar-large rounded-circle shadow mx-auto" 
+                                                                     alt="Default Profile" style="width: 120px; height: 120px; object-fit: cover;">
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
+                                                </div>
 
-                                        <div class="col-lg-5 col-md-12 text-lg-right text-center mt-4 mt-lg-0">
-                                            <a href="#" class="btn btn-primary">Upload</a>
-                                            <a href="#" class="btn btn-soft-primary ms-2">Remove</a>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
+                                                <!-- Text Column - Added proper spacing -->
+                                                <div class="col-lg-4 col-md-8 text-center text-md-start">
+                                                    <h6 class="mb-2">Upload your picture</h6>
+                                                    <p class="text-muted mb-0">For best results, use an image at least 256px by 256px in either .jpg or .png format</p>
+                                                </div>
 
-                                    <form class="mt-4">
+                                                <!-- Buttons Column - Modified spacing and alignment -->
+                                                <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
+                                                    <form id="avatarUploadForm" action="customer-profile" method="post" enctype="multipart/form-data">
+                                                        <input type="hidden" name="action" value="uploadAvatar">
+                                                        <input type="file" name="profileImage" id="profileImage" style="display: none;" accept="image/jpeg, image/png">
+                                                        <button type="button" id="uploadButton" class="btn btn-primary" onclick="document.getElementById('profileImage').click();">Upload</button>
+                                                        <a href="customer-profile?action=removeAvatar" class="btn btn-soft-primary ms-2" 
+                                                           onclick="return confirm('Are you sure you want to remove your profile picture?')" 
+                                                           ${empty customer.avatar ? 'disabled' : ''}>Remove</a>
+                                                    </form>
+                                                    <div id="uploadError" class="text-danger mt-2 text-start" style="display: none;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Profile update form -->
+                                    <c:if test="${not empty errorMessage}">
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            ${errorMessage}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </c:if>
+
+                                    <c:if test="${not empty successMessage}">
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            ${successMessage}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </c:if>
+                                    <form class="mt-4" action="customer-profile" method="post">
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">First Name</label>
-                                                    <input name="name" id="name" type="text" class="form-control" placeholder="First Name :">
-                                                </div>
-                                            </div><!--end col-->
-
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Last Name</label>
-                                                    <input name="name" id="name2" type="text" class="form-control" placeholder="Last Name :">
-                                                </div>
-                                            </div><!--end col-->
-
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Your Email</label>
-                                                    <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
-                                                </div> 
-                                            </div><!--end col-->
-
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Phone no.</label>
-                                                    <input name="number" id="number" type="text" class="form-control" placeholder="Phone no. :">
-                                                </div>                                                                               
-                                            </div><!--end col-->
-
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Your Bio Here</label>
-                                                    <textarea name="comments" id="comments" rows="4" class="form-control" placeholder="Bio :"></textarea>
+                                                    <label class="form-label">Full Name</label>
+                                                    <input name="name" type="text" class="form-control" placeholder="Full Name" 
+                                                           value="${customer.name}" required>
                                                 </div>
                                             </div>
-                                        </div><!--end row-->
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Email Address</label>
+                                                    <input name="email" type="email" class="form-control" placeholder="Email" 
+                                                           value="${customer.email}" required>
+                                                </div> 
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Phone Number</label>
+                                                    <input name="phone" type="text" class="form-control" placeholder="Phone number" 
+                                                           value="${customer.phone}" required>
+                                                </div>                                                                               
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Date of Birth</label>
+                                                    <input name="dateOfBirth" type="date" class="form-control" 
+                                                           value="${customer.dateOfBirth}">
+                                                </div>                                                                               
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Gender</label>
+                                                    <select name="gender" class="form-select">
+                                                        <option value="Male" ${customer.gender == 'Male' ? 'selected' : ''}>Male</option>
+                                                        <option value="Female" ${customer.gender == 'Female' ? 'selected' : ''}>Female</option>
+                                                        <option value="Other" ${customer.gender == 'Other' ? 'selected' : ''}>Other</option>
+                                                    </select>
+                                                </div>                                                                               
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Address</label>
+                                                    <textarea name="address" class="form-control" rows="3">${customer.address}</textarea>
+                                                </div>                                                                               
+                                            </div>
+                                        </div>
 
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <input type="submit" id="submit" name="send" class="btn btn-primary" value="Save changes">
-                                            </div><!--end col-->
-                                        </div><!--end row-->
-                                    </form><!--end form-->
-
-                                    <div class="mt-4 pt-2">
-                                        <h5 class="mb-0">Change Password :</h5>
-
-                                        <form class="mt-4">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Old password :</label>
-                                                        <input type="password" class="form-control" placeholder="Old password" required="">
-                                                    </div>
-                                                </div><!--end col-->
-
-                                                <div class="col-lg-12">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">New password :</label>
-                                                        <input type="password" class="form-control" placeholder="New password" required="">
-                                                    </div>
-                                                </div><!--end col-->
-
-                                                <div class="col-lg-12">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Re-type New password :</label>
-                                                        <input type="password" class="form-control" placeholder="Re-type New password" required="">
-                                                    </div>
-                                                </div><!--end col-->
-
-                                                <div class="col-lg-12 mt-2 mb-0">
-                                                    <button class="btn btn-primary">Save password</button>
-                                                </div><!--end col-->
-                                            </div><!--end row-->
-                                        </form>
-                                    </div>
-
-                                    <div class="mt-4 pt-2">
-                                        <h5 class="mb-0">Account Notifications :</h5>
-
-                                        <div class="d-flex justify-content-between mt-4">
-                                            <p class="mb-0">When someone mentions me</p>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault"></label>
+                                                <input type="submit" id="submit" name="send" class="btn btn-primary" value="Update Profile">
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <p class="mb-0">When someone follows me</p>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked1" checked>
-                                                <label class="form-check-label" for="flexCheckChecked1"></label>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <p class="mb-0">When shares my activity</p>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
-                                                <label class="form-check-label" for="flexCheckDefault2"></label>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <p class="mb-0">When someone messages me</p>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked3" checked>
-                                                <label class="form-check-label" for="flexCheckChecked3"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-4 pt-2">
-                                        <h5 class="mb-0">Marketing Notifications :</h5>
-
-                                        <div class="d-flex justify-content-between mt-4">
-                                            <p class="mb-0">There is a sale or promotion</p>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked4" checked>
-                                                <label class="form-check-label" for="flexCheckChecked4"></label>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <p class="mb-0">Company news</p>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault5">
-                                                <label class="form-check-label" for="flexCheckDefault5"></label>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <p class="mb-0">Weekly jobs</p>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault6">
-                                                <label class="form-check-label" for="flexCheckDefault6"></label>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <p class="mb-0">Unsubscribe News</p>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked7" checked>
-                                                <label class="form-check-label" for="flexCheckChecked7"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-4 pt-2">
-                                        <h5 class="mb-0 text-danger">Delete Account :</h5>
-
-                                        <p class="mb-0 mt-4">Do you want to delete the account? Please press below "Delete" button</p>
-                                        <div class="mt-4">
-                                            <button class="btn btn-danger">Delete Account</button>
-                                        </div><!--end col-->
-                                    </div>
+                                    </form>
                                 </div>
                             </div>                     
                         </div>
@@ -785,6 +726,82 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
+
+        <script>
+                                        document.getElementById('profileImage').addEventListener('change', function () {
+                                            if (this.files && this.files[0]) {
+                                                // Show loading indicator or preview if needed
+                                                document.getElementById('avatarUploadForm').submit();
+                                            }
+                                        });
+        </script>
+
+        <script>
+            document.getElementById('profileImage').addEventListener('change', function () {
+                const file = this.files[0];
+                const errorElement = document.getElementById('uploadError');
+                const avatarPreview = document.getElementById('avatarPreview');
+                errorElement.style.display = 'none';
+
+                // Reset error message
+                errorElement.textContent = '';
+
+                if (!file) {
+                    return;
+                }
+
+                // Check file type
+                const validTypes = ['image/jpeg', 'image/png'];
+                if (!validTypes.includes(file.type)) {
+                    errorElement.textContent = 'Chỉ chấp nhận file JPG hoặc PNG';
+                    errorElement.style.display = 'block';
+                    this.value = '';
+                    return;
+                }
+
+                // Check file size (max 5MB)
+                const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+                if (file.size > maxSize) {
+                    errorElement.textContent = 'Kích thước ảnh không được vượt quá 5MB';
+                    errorElement.style.display = 'block';
+                    this.value = '';
+                    return;
+                }
+
+                // Check image dimensions
+                const img = new Image();
+                img.onload = function () {
+                    URL.revokeObjectURL(img.src); // Clean up
+
+                    if (img.width < 256 || img.height < 256) {
+                        errorElement.textContent = 'Ảnh phải có kích thước tối thiểu 256px x 256px';
+                        errorElement.style.display = 'block';
+                        document.getElementById('profileImage').value = '';
+                        return;
+                    }
+
+                    // All validations passed, submit the form
+                    document.getElementById('avatarUploadForm').submit();
+                };
+
+                img.onerror = function () {
+                    URL.revokeObjectURL(img.src); // Clean up
+                    errorElement.textContent = 'Không thể đọc file ảnh, vui lòng thử lại';
+                    errorElement.style.display = 'block';
+                    document.getElementById('profileImage').value = '';
+                };
+
+                // Show image preview before upload
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    avatarPreview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+                // Load image to check dimensions
+                img.src = URL.createObjectURL(file);
+            });
+        </script>
 
     </body>
 

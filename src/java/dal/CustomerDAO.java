@@ -275,7 +275,7 @@ public class CustomerDAO extends DBContext {
     public boolean updateCustomer(Customer customer) {
         boolean isUpdated = false;
         // Câu lệnh SQL cập nhật thông tin khách hàng
-        String sql = "UPDATE Customer SET name = ?, email = ?, address = ?, dateOfBirth = ?, gender = ?, phone = ? WHERE customerId = ?";
+        String sql = "UPDATE customer SET name=?, email=?, address=?, dateOfBirth=?, gender=?, phone=?, avatar=? WHERE customerId=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             // Thiết lập các tham số cho câu lệnh SQL
@@ -285,7 +285,8 @@ public class CustomerDAO extends DBContext {
             ps.setDate(4, customer.getDateOfBirth());     // dateOfBirth
             ps.setString(5, customer.getGender());        // gender
             ps.setString(6, customer.getPhone());         // phone
-            ps.setInt(7, customer.getCustomerId());       // customerId
+            ps.setString(7, customer.getAvatar());
+            ps.setInt(8, customer.getCustomerId());
 
             // Thực thi câu lệnh SQL và kiểm tra số hàng bị ảnh hưởng
             int rowsAffected = ps.executeUpdate();
