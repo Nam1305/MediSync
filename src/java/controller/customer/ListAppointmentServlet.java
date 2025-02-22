@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.customer;
 
 import dal.AppointmentDAO;
@@ -15,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import dal.CustomerDAO;
 import jakarta.servlet.http.Cookie;
+import java.sql.Time;
 import java.util.List;
 import model.Appointment;
 import model.Customer;
@@ -34,10 +31,11 @@ public class ListAppointmentServlet extends HttpServlet {
         String email = customer.getEmail();
         // Truy vấn customerId
         int customerId = customer.getCustomerId();
-
+        
         // Lấy danh sách lịch hẹn từ database
         List<Appointment> appointments = appointmentDao.getListAppointmentsByCustomerId(customerId);
         request.setAttribute("appointments", appointments);
+        request.setAttribute("customer", customer);
         request.getRequestDispatcher("patientsProfile.jsp").forward(request, response);
     }
 

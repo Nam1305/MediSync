@@ -157,6 +157,11 @@
                                         <a class="dropdown-item text-dark" href="change-password">
                                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
                                         </a>
+                                        <c:if test="${customer != null}">
+                                            <a class="dropdown-item text-dark" href="listAppointments">
+                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Thông tin chi tiết
+                                            </a>
+                                        </c:if>
                                         <c:if test="${staff != null}">
                                             <a class="dropdown-item text-dark" href="doctorprofile">
                                                 <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Profile

@@ -12,6 +12,9 @@ import java.util.List;
 import model.Appointment;
 import model.Service;
 import java.sql.*;
+import model.Prescription;
+import model.Staff;
+import model.TreatmentPlan;
 
 /**
  *
@@ -22,7 +25,7 @@ public class ViewAppointmentDetail extends HttpServlet {
 
     AppointmentDAO appointmentDAO = new AppointmentDAO();
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void handleViewAppointmentDetail(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         // Lấy appointmentId từ request
@@ -35,24 +38,19 @@ public class ViewAppointmentDetail extends HttpServlet {
         if (appointment != null) {
             // Truyền dữ liệu cuộc hẹn vào JSP
             request.setAttribute("appointment", appointment);
-
-            // Lấy danh sách dịch vụ của khách hàng liên quan
-            List<Service> services = appointmentDAO.getListService(appointment.getCustomer().getCustomerId(), appointmentId);
-            request.setAttribute("services", services);
-
-            // Lấy thông tin thời gian và bác sĩ
-            Time startTime = appointmentDAO.getDetailStartTime(appointment.getCustomer().getCustomerId(), appointmentId);
-            Time endTime = appointmentDAO.getDetailEndTime(appointment.getCustomer().getCustomerId(), appointmentId);
-            String doctorName = appointmentDAO.getDetailDoctorName(appointment.getCustomer().getCustomerId(), appointmentId);
-            String status = appointmentDAO.getDetailStatus(appointment.getCustomer().getCustomerId(), appointmentId);
+            // Lấy thông tin bác sĩ phụ trách
+            Staff doctor = appointmentDAO.getDetailDoctor(appointment.getCustomer().getCustomerId(), appointmentId);
+            //Lấy thông tin bệnh án
+            TreatmentPlan treat = appointmentDAO.getTreatmentPlanDetail(appointment.getCustomer().getCustomerId(), appointmentId);
+            //Lấy thông tin đơn thuốc
+            List<Prescription> presription = appointmentDAO.getPrescriptionDetail(appointment.getCustomer().getCustomerId(), appointmentId);
             // Truyền thông tin thời gian và bác sĩ vào request
-            request.setAttribute("startTime", startTime);
-            request.setAttribute("endTime", endTime);
-            request.setAttribute("doctorName", doctorName);
-            request.setAttribute("status", status);
+            request.setAttribute("doctor", doctor);
+            request.setAttribute("treat", treat);
+            request.setAttribute("prescription", presription);
 
             // Chuyển tiếp đến trang JSP để hiển thị
-            request.getRequestDispatcher("AppointmentDetail.jsp").forward(request, response);
+            request.getRequestDispatcher("customerAppointmentDetail.jsp").forward(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Appointment not found");
         }
@@ -61,7 +59,7 @@ public class ViewAppointmentDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        handleViewAppointmentDetail(request, response);
     }
 
     @Override
