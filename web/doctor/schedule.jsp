@@ -83,7 +83,7 @@
                                             backgroundColor: "#007bff",
                                             borderColor: "#007bff",
                                             extendedProps: {
-                                            date: "${s.date}",
+                                            date: "<fmt:formatDate value='${s.date}' type='date' pattern='dd/MM/yyyy'/>",
                                                     startTime: "<fmt:formatDate value='${s.startTime}' type='time' pattern='HH:mm'/>",
                                                     endTime: "<fmt:formatDate value='${s.endTime}' type='time' pattern='HH:mm'/>"
                                             }
