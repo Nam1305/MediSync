@@ -586,8 +586,8 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Gender</label>
                                                     <select name="gender" class="form-select">
-                                                        <option value="Male" ${customer.gender == 'Male' ? 'selected' : ''}>Male</option>
-                                                        <option value="Female" ${customer.gender == 'Female' ? 'selected' : ''}>Female</option>
+                                                        <option value="M" ${customer.gender == 'M' ? 'selected' : ''}>Male</option>
+                                                        <option value="F" ${customer.gender == 'F' ? 'selected' : ''}>Female</option>
                                                         <option value="Other" ${customer.gender == 'Other' ? 'selected' : ''}>Other</option>
                                                     </select>
                                                 </div>                                                                               
