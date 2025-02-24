@@ -138,8 +138,10 @@
                                         <img src="${staff != null ? staff.avatar : customer.avatar}" class="avatar avatar-ex-small rounded-circle" alt="">
                                     </button>
                                     <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                        <a class="dropdown-item d-flex align-items-center text-dark" href="profile">
-                                            <img src="${staff != null ? staff.avatar : customer.avatar}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                        <a class="dropdown-item d-flex align-items-center text-dark" 
+                                           href="${staff != null ? 'staffProfile' : (customer != null ? 'customer-profile' : '#')}">
+                                            <img src="${staff != null ? staff.avatar : customer.avatar}" 
+                                                 class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                             <div class="flex-1 ms-2">
                                                 <span class="d-block mb-1">${staff != null ? staff.name : customer.name}</span>
                                                 <small class="text-muted">
@@ -154,6 +156,7 @@
                                                 </small>
                                             </div>
                                         </a>
+
                                         <a class="dropdown-item text-dark" href="change-password">
                                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
                                         </a>
