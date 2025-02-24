@@ -494,7 +494,7 @@
                                     <!-- Profile Picture Section -->
                                     <div class="card border-0 rounded shadow">
                                         <div class="card-body">
-                                            <h5 class="mb-0">Profile Picture</h5>
+                                            <h5 class="mb-0">Ảnh đại diện</h5>
                                             <div class="row align-items-center mt-4">
                                                 <!-- Avatar Preview Column - Increased width and added proper spacing -->
                                                 <div class="col-lg-3 col-md-4 text-center mb-4 mb-md-0">
@@ -514,8 +514,8 @@
 
                                                 <!-- Text Column - Added proper spacing -->
                                                 <div class="col-lg-4 col-md-8 text-center text-md-start">
-                                                    <h6 class="mb-2">Upload your picture</h6>
-                                                    <p class="text-muted mb-0">For best results, use an image at least 256px by 256px in either .jpg or .png format</p>
+                                                    <h6 class="mb-2">Upload ảnh đại diện</h6>
+                                                    <p class="text-muted mb-0">Để có kết quả ưng ý nhất, sử dụng ảnh có độ phân giải 256px đổ lên với format .jpg hoặc .jpeg</p>
                                                 </div>
 
                                                 <!-- Buttons Column - Modified spacing and alignment -->
@@ -526,7 +526,7 @@
                                                         <button type="button" id="uploadButton" class="btn btn-primary" onclick="document.getElementById('profileImage').click();">Upload</button>
                                                         <a href="customer-profile?action=removeAvatar" class="btn btn-soft-primary ms-2" 
                                                            onclick="return confirm('Are you sure you want to remove your profile picture?')" 
-                                                           ${empty customer.avatar ? 'disabled' : ''}>Remove</a>
+                                                           ${empty customer.avatar ? 'disabled' : ''}>Xóa</a>
                                                     </form>
                                                     <div id="uploadError" class="text-danger mt-2 text-start" style="display: none;"></div>
                                                 </div>
@@ -552,7 +552,7 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Full Name</label>
+                                                    <label class="form-label">Tên</label>
                                                     <input name="name" type="text" class="form-control" placeholder="Full Name" 
                                                            value="${customer.name}" required>
                                                 </div>
@@ -560,7 +560,7 @@
 
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Email Address</label>
+                                                    <label class="form-label">Địa chỉ email</label>
                                                     <input name="email" type="email" class="form-control" placeholder="Email" 
                                                            value="${customer.email}" required>
                                                 </div> 
@@ -568,7 +568,7 @@
 
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Phone Number</label>
+                                                    <label class="form-label">SĐT</label>
                                                     <input name="phone" type="text" class="form-control" placeholder="Phone number" 
                                                            value="${customer.phone}" required>
                                                 </div>                                                                               
@@ -576,7 +576,7 @@
 
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Date of Birth</label>
+                                                    <label class="form-label">Ngày sinh</label>
                                                     <input name="dateOfBirth" type="date" class="form-control" 
                                                            value="${customer.dateOfBirth}">
                                                 </div>                                                                               
@@ -584,18 +584,18 @@
 
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Gender</label>
+                                                    <label class="form-label">Giới tính</label>
                                                     <select name="gender" class="form-select">
-                                                        <option value="M" ${customer.gender == 'M' ? 'selected' : ''}>Male</option>
-                                                        <option value="F" ${customer.gender == 'F' ? 'selected' : ''}>Female</option>
-                                                        <option value="Other" ${customer.gender == 'Other' ? 'selected' : ''}>Other</option>
+                                                        <option value="M" ${customer.gender == 'M' ? 'selected' : ''}>Nam</option>
+                                                        <option value="F" ${customer.gender == 'F' ? 'selected' : ''}>Nữ</option>
+                                                        <option value="Other" ${customer.gender == 'Other' ? 'selected' : ''}>Khác</option>
                                                     </select>
                                                 </div>                                                                               
                                             </div>
 
                                             <div class="col-lg-12">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Address</label>
+                                                    <label class="form-label">Địa chỉ</label>
                                                     <textarea name="address" class="form-control" rows="3">${customer.address}</textarea>
                                                 </div>                                                                               
                                             </div>
