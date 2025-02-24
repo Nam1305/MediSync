@@ -65,7 +65,7 @@
                         <div class="card shadow p-4 mb-4">
                             <h4 class="mb-3 text-center">Đăng ký ca làm việc</h4>
                             <form id="registerShiftForm" action="schedule" method="GET">
-                                <<input type="hidden" name="action" value="regis">
+                                <input type="hidden" name="action" value="regis">
                                 <div class="mb-3">
                                     <div class="shift-container">
                                         <label class="shift-box">
