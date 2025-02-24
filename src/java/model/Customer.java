@@ -2,7 +2,6 @@ package model;
 
 import dal.CustomerDAO;
 import java.sql.*;
-import java.text.NumberFormat;
 
 public class Customer {
 

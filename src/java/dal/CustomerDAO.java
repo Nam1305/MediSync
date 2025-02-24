@@ -8,22 +8,26 @@ import java.util.List;
 public class CustomerDAO extends DBContext {
 
     public Customer getCustomerById(int customerId) {
-        String sql = "SELECT name, gender, email, phone, address, dateOfBirth, avatar FROM Customer WHERE customerId = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        String sql = "SELECT name, gender, email, phone, address, dateOfBirth, avatar, password, bloodType, status "
+                + "FROM Customer WHERE customerId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, customerId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerId(customerId); // customerId lấy từ tham số
-                customer.setName(rs.getString("name"));
-                customer.setGender(rs.getString("gender").trim());
-                customer.setEmail(rs.getString("email"));
-                customer.setPhone(rs.getString("phone"));
-                customer.setAddress(rs.getString("address"));
-                customer.setDateOfBirth(rs.getDate("dateOfBirth"));
-                customer.setAvatar(rs.getString("avatar"));
-                return customer;
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Customer customer = new Customer();
+                    customer.setCustomerId(customerId); 
+                    customer.setName(rs.getString("name"));
+                    customer.setGender(rs.getString("gender") != null ? rs.getString("gender").trim() : null);
+                    customer.setEmail(rs.getString("email"));
+                    customer.setPhone(rs.getString("phone"));
+                    customer.setAddress(rs.getString("address"));
+                    customer.setDateOfBirth(rs.getDate("dateOfBirth"));
+                    customer.setAvatar(rs.getString("avatar"));
+                    customer.setPassword(rs.getString("password"));
+                    customer.setBloodType(rs.getString("bloodType"));
+                    customer.setStatus(rs.getString("status"));
+                    return customer;
+                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -532,7 +536,7 @@ public class CustomerDAO extends DBContext {
                 + "Join Customer c on a.customerId = c.customerId\n"
                 + "Where c.customerId = ?\n"
                 + "GROUP BY c.name";
-        
+
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, customerId);
@@ -545,8 +549,7 @@ public class CustomerDAO extends DBContext {
             e.printStackTrace();
         }
         return total;
-        
-        
+
     }
 
     public static void main(String[] args) {
