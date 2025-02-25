@@ -94,111 +94,7 @@
         <!-- Loader -->
 
         <!-- Navbar STart -->
-        <header id="topnav" class="navigation sticky">
-            <div class="container">
-
-
-                <!-- Start Mobile Toggle -->
-                <div class="menu-extras">
-                    <div class="menu-item">
-                        <!-- Mobile menu toggle-->
-                        <a class="navbar-toggle" id="isToggle" onclick="toggleMenu()">
-                            <div class="lines">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </a>
-                        <!-- End mobile menu toggle-->
-                    </div>
-                </div>
-                <!-- End Mobile Toggle -->
-
-                <!-- Start Dropdown -->
-                <ul class="dropdowns list-inline mb-0">
-
-                    <!-- Replace the profile dropdown section in home.jsp -->
-                    <li class="list-inline-item mb-0 ms-1">
-                        <div class="dropdown dropdown-primary">
-                            <c:choose>
-                                <c:when test="${staff != null || customer != null}">
-                                    <!-- Logged in user -->
-                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="${staff != null ? staff.avatar : customer.avatar}" class="avatar avatar-ex-small rounded-circle" alt="">
-                                    </button>
-                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                        <a class="dropdown-item d-flex align-items-center text-dark" 
-                                           href="${staff != null ? 'staffProfile' : (customer != null ? 'customer-profile' : '#')}">
-                                            <img src="${staff != null ? staff.avatar : customer.avatar}" 
-                                                 class="avatar avatar-md-sm rounded-circle border shadow" alt="">
-                                            <div class="flex-1 ms-2">
-                                                <span class="d-block mb-1">${staff != null ? staff.name : customer.name}</span>
-                                                <small class="text-muted">
-                                                    <c:choose>
-                                                        <c:when test="${staff != null}">
-                                                            ${staff.department.departmentName}
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            Customer
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </small>
-                                            </div>
-                                        </a>
-
-                                        <a class="dropdown-item text-dark" href="change-password">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
-                                        </a>
-                                        <c:if test="${customer != null}">
-                                            <a class="dropdown-item text-dark" href="listAppointments">
-                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Thông tin chi tiết
-                                            </a>
-                                        </c:if>
-                                        <c:if test="${staff != null}">
-                                            <a class="dropdown-item text-dark" href="doctorprofile">
-                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Profile
-                                            </a>
-                                        </c:if>
-                                        <c:if test="${staff != null}">
-                                            <a class="dropdown-item text-dark" href="doctorappointment">
-                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> DashBoard
-                                            </a>
-                                        </c:if>
-
-                                        <div class="dropdown-divider border-top"></div>
-                                        <a class="dropdown-item text-dark" href="logout">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất
-                                        </a>
-                                    </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <!-- Not logged in -->
-                                    <a href="login" class="btn btn-soft-primary">
-                                        <i class="uil uil-user align-middle"></i> Đăng nhập
-                                    </a>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </li>
-                </ul>
-                <!-- Start Dropdown -->
-
-                <div id="navigation">
-                    <!-- Navigation Menu-->   
-                    <ul class="navigation-menu nav-left nav-light">
-                        <li class="parent-menu-item">
-                            <a href="home">Trang chủ</a><span class="menu-arrow"></span>
-                        </li>
-
-                        <li class="has-submenu parent-parent-menu-item">
-                            <a href="listDoctor.jsp">Bác Sĩ</a><span class="menu-arrow"></span>
-                        </li>
-
-                        <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
-                    </ul><!--end navigation menu-->
-                </div><!--end navigation-->
-            </div><!--end container-->
-        </header><!--end header-->
+        <jsp:include page="layout/header.jsp" /><!--end header-->
         <!-- Navbar End -->
 
         <!-- Banner Section -->
@@ -220,11 +116,7 @@
                                                     <h4 class="display-4 fw-bold text-white title-dark mb-4">
                                                         Chào mừng đến với trang web của chúng tôi!
                                                     </h4>
-                                                    <div class="mt-4">
-                                                        <a href="blog.html" class="btn btn-primary">
-                                                            Xem thêm
-                                                        </a>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -467,40 +359,40 @@
 <script src="assets/js/app.js"></script>
 
 <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                // Initialize the carousel with specific options
-                                const bannerCarousel = new bootstrap.Carousel(document.getElementById('bannerCarousel'), {
-                                    interval: 5000, // Time between slides in milliseconds
-                                    pause: 'hover', // Pause on mouse hover
-                                    ride: 'carousel', // Start cycling automatically
-                                    wrap: true // Continuous loop
-                                });
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize the carousel with specific options
+        const bannerCarousel = new bootstrap.Carousel(document.getElementById('bannerCarousel'), {
+            interval: 5000, // Time between slides in milliseconds
+            pause: 'hover', // Pause on mouse hover
+            ride: 'carousel', // Start cycling automatically
+            wrap: true // Continuous loop
+        });
 
-                                // Preload all banner images
-                                const preloadImages = () => {
-                                    const bannerItems = document.querySelectorAll('.banner-image');
-                                    bannerItems.forEach(item => {
-                                        const bgUrl = item.style.background.match(/url\(['"]?([^'")]+)['"]?\)/)[1];
-                                        const img = new Image();
-                                        img.src = bgUrl;
-                                    });
-                                };
+        // Preload all banner images
+        const preloadImages = () => {
+            const bannerItems = document.querySelectorAll('.banner-image');
+            bannerItems.forEach(item => {
+                const bgUrl = item.style.background.match(/url\(['"]?([^'")]+)['"]?\)/)[1];
+                const img = new Image();
+                img.src = bgUrl;
+            });
+        };
 
-                                // Call preload function
-                                preloadImages();
+        // Call preload function
+        preloadImages();
 
-                                // Add smooth transition when changing slides
-                                const carousel = document.getElementById('bannerCarousel');
-                                carousel.addEventListener('slide.bs.carousel', function (e) {
-                                    const activeItem = e.relatedTarget;
-                                    const bannerImage = activeItem.querySelector('.banner-image');
+        // Add smooth transition when changing slides
+        const carousel = document.getElementById('bannerCarousel');
+        carousel.addEventListener('slide.bs.carousel', function (e) {
+            const activeItem = e.relatedTarget;
+            const bannerImage = activeItem.querySelector('.banner-image');
 
-                                    // Ensure opacity transition works smoothly
-                                    setTimeout(() => {
-                                        bannerImage.style.opacity = '1';
-                                    }, 50);
-                                });
-                            });
+            // Ensure opacity transition works smoothly
+            setTimeout(() => {
+                bannerImage.style.opacity = '1';
+            }, 50);
+        });
+    });
 </script>
 </body>
 </html>

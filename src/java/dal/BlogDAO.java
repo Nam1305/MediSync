@@ -153,17 +153,14 @@ public class BlogDAO extends DBContext {
     }
 
     public int getTotalBannersCount(String searchQuery) {
-        StringBuilder sql = new StringBuilder("SELECT COUNT(blogId, blogName, [content], image, author, date, typeId, selectedBanner) FROM Blog WHERE typeId = 1");
-
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Blog WHERE typeId = 1");
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
             sql.append(" AND blogName LIKE ?");
         }
-
         try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
             if (searchQuery != null && !searchQuery.trim().isEmpty()) {
                 ps.setString(1, "%" + searchQuery + "%");
             }
-
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1);
