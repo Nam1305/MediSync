@@ -366,36 +366,36 @@
         <script src="assets/js/app.js"></script>
 
         <script>
-//                                        document.addEventListener("DOMContentLoaded", function () {
-//                                            const form = document.querySelector("form");
-//                                            const avatarInput = document.getElementById("avatar");
-//                                            const allowedExtensions = ["png", "jpg", "jpeg", "gif"];
-//                                            const maxFileSize = 3 * 1024 * 1024; // 3MB
-//
-//                                            form.addEventListener("submit", function (event) {
-//                                                let errors = [];
-//                                                // Kiểm tra file ảnh
-//                                                if (avatarInput.files.length > 0) {
-//                                                    const file = avatarInput.files[0];
-//                                                    const fileSize = file.size;
-//                                                    const fileExtension = file.name.split(".").pop().toLowerCase();
-//
-//                                                    if (!allowedExtensions.includes(fileExtension)) {
-//                                                        errors.push("Ảnh đại diện phải có định dạng PNG, JPG, GIF hoặc JPEG.");
-//                                                    }
-//
-//                                                    if (fileSize > maxFileSize) {
-//                                                        errors.push("Dung lượng ảnh đại diện không được vượt quá 3MB.");
-//                                                    }
-//                                                }
-//
-//                                                // Nếu có lỗi, hiển thị và ngăn gửi form
-//                                                if (errors.length > 0) {
-//                                                    event.preventDefault();
-//                                                    alert(errors.join("\n"));
-//                                                }
-//                                            });
-//                                        });
+                                        document.addEventListener("DOMContentLoaded", function () {
+                                            const form = document.querySelector("form");
+                                            const avatarInput = document.getElementById("avatar");
+                                            const allowedExtensions = ["png", "jpg", "jpeg", "gif"];
+                                            const maxFileSize = 3 * 1024 * 1024; // 3MB
+
+                                            form.addEventListener("submit", function (event) {
+                                                let errors = [];
+                                                // Kiểm tra file ảnh
+                                                if (avatarInput.files.length > 0) {
+                                                    const file = avatarInput.files[0];
+                                                    const fileSize = file.size;
+                                                    const fileExtension = file.name.split(".").pop().toLowerCase();
+
+                                                    if (!allowedExtensions.includes(fileExtension)) {
+                                                        errors.push("Ảnh đại diện phải có định dạng PNG, JPG, GIF hoặc JPEG.");
+                                                    }
+
+                                                    if (fileSize > maxFileSize) {
+                                                        errors.push("Dung lượng ảnh đại diện không được vượt quá 3MB.");
+                                                    }
+                                                }
+
+                                                // Nếu có lỗi, hiển thị và ngăn gửi form
+                                                if (errors.length > 0) {
+                                                    event.preventDefault();
+                                                    alert(errors.join("\n"));
+                                                }
+                                            });
+                                        });
         </script>
 
     </body>
