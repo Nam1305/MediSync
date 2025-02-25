@@ -68,7 +68,7 @@ public class AddStaffServlet extends HttpServlet {
         List<Department> listDepartment = department.getActiveDepartment();
         request.setAttribute("listDepartment", listDepartment);
         request.getRequestDispatcher("addStaff.jsp").forward(request, response);
-        
+
     }
 
     /**
@@ -94,6 +94,12 @@ public class AddStaffServlet extends HttpServlet {
         }
 
         Part filePart = request.getPart("avatar");
+        long fileSize = filePart.getSize();
+        if (fileSize > 3 * 1024 * 1024) { // 3MB = 3 * 1024 * 1024 bytes
+            request.setAttribute("error", "File size must be less than 3MB.");
+            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            return;
+        }
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String contentType = filePart.getContentType();
         // Danh sách đuôi file hợp lệ

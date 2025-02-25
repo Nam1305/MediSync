@@ -96,9 +96,9 @@ public class ListDoctorServlet extends HttpServlet {
         if (roleIdParam != null && !roleIdParam.isEmpty()) {
             roleId = Integer.parseInt(roleIdParam); // Chuyển về Integer nếu có roleId
         }
-        List<Staff> listDoctor = doctors.getAllDoctor(roleId, status, searchQueryNormalized, page, pageSize);
+        List<Staff> listDoctor = doctors.getAllStaff(roleId, status, searchQueryNormalized, page, pageSize);
         // đóng gói listDoctor và request và truyền sang trang jsp để hiện thị dữ liệu 
-        int totalDoctors = doctors.getTotalDoctorCount(roleId, status, searchQueryNormalized);
+        int totalDoctors = doctors.getTotalStaffCount(roleId, status, searchQueryNormalized);
         int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
         request.setAttribute("listDoctor", listDoctor);
         request.setAttribute("currentPage", page);

@@ -6,7 +6,10 @@ package dal;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Department;
 
 /**
@@ -87,11 +90,11 @@ public class DepartmentDAO extends DBContext {
         try {
             int index = 1;
             PreparedStatement ps = connection.prepareStatement(sql);
-            
+
             if (searchQuery != null && !searchQuery.isEmpty()) {
-                ps.setString(index++ , "%" + searchQuery + "%");
+                ps.setString(index++, "%" + searchQuery + "%");
             }
-             ps.setInt(index++, (page - 1) * pageSize);
+            ps.setInt(index++, (page - 1) * pageSize);
             ps.setInt(index++, pageSize);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -177,7 +180,7 @@ public class DepartmentDAO extends DBContext {
     // hàm check phòng ban xem có bị trùng tên hay không
     public boolean isDepartmentExists(String departmentName) {
         // Chuẩn hóa dữ liệu trước khi so sánh: loại bỏ khoảng trắng ở đầu và cuối, và thay thế khoảng trắng thừa giữa các từ thành một khoảng trắng duy nhất.
-        
+
         String sql = "SELECT COUNT(*) FROM Department WHERE LOWER(REPLACE(LTRIM(RTRIM(departmentName)), ' ', ' ')) = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -211,21 +214,22 @@ public class DepartmentDAO extends DBContext {
         }
         return false;
     }
+
     public int getTotalDepartments(String searchQuery) {
         List<Department> list = new ArrayList<>();
         String sql = "select COUNT(*) from Department";
         if (searchQuery != null && !searchQuery.isEmpty()) {
             sql += " Where (departmentName LIKE ? )";
         }
-        
+
         try {
-            
+
             PreparedStatement ps = connection.prepareStatement(sql);
-            
+
             if (searchQuery != null && !searchQuery.isEmpty()) {
-                ps.setString(1 , "%" + searchQuery + "%");
+                ps.setString(1, "%" + searchQuery + "%");
             }
-           
+
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1); // Lấy số lượng Phòng Ban từ COUNT(*)
@@ -235,4 +239,34 @@ public class DepartmentDAO extends DBContext {
         }
         return 0;
     }
+
+    public List<Integer> countStaffByRole(int departmentId) {
+    String sql = "SELECT roleId, COUNT(*) AS count "
+               + "FROM Staff WHERE departmentId = ? "
+               + "AND roleId IN (2, 3, 4) "
+               + "GROUP BY roleId";
+
+    // Tạo danh sách chứa số lượng nhân viên theo thứ tự [Bác sĩ, Chuyên gia, Nhân viên]
+    List<Integer> roleCounts = Arrays.asList(0, 0, 0); 
+
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, departmentId);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            int roleId = rs.getInt("roleId");  
+            int count = rs.getInt("count");    
+
+            // Gán giá trị vào danh sách dựa theo index tương ứng
+            if (roleId == 2) roleCounts.set(0, count); // Bác sĩ
+            if (roleId == 3) roleCounts.set(1, count); // Chuyên gia
+            if (roleId == 4) roleCounts.set(2, count); // Nhân viên
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+
+    return roleCounts;
+}
 }

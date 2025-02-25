@@ -1,10 +1,11 @@
 <%-- 
-    Document   : addDepartment
-    Created on : Feb 17, 2025, 2:47:22 PM
+    Document   : listDepartment
+    Created on : Feb 14, 2025, 8:38:51 PM
     Author     : Acer
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,15 +25,21 @@
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
         <link href="assets/css/simplebar.css" rel="stylesheet" type="text/css" />
-        <!-- Select2 -->
-        <link href="assets/css/select2.min.css" rel="stylesheet" />
         <!-- Icons -->
         <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-
+        
+  
+        <script type="text/javascript">
+            function doDelete(id) {
+                if (confirm("Are you sure you want to delete Service with ID: " + id + "?")) {
+                    document.getElementById("deleteForm" + id).submit();
+                }
+            }
+        </script>
     </head>
 
     <body>
@@ -66,7 +73,7 @@
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="ListDoctor">Danh sách nhân viên</a></li>
-                                    <li><a href="AddStaffServlet">Thêm nhân viên</a></li>
+                                    <li><a href="addStaff.jsp">Thêm nhân viên</a></li>
 
                                 </ul>
                             </div>
@@ -82,11 +89,12 @@
                                 </ul>
                             </div>
                         </li>
+
                         <li class="sidebar-dropdown">
                             <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Phòng Ban</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="ListDepartment">Danh sách Phòng Ban</a></li>
+                                    <li><a href="listDepartment">Danh sách Phòng Ban</a></li>
                                     <li><a href="AddDepartment">Thêm Phòng Ban</a></li>
 
                                 </ul>
@@ -94,23 +102,15 @@
                         </li>
 
                         <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Tin tức</a>
+                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="blogs.html">Danh sách bài đăng</a></li>
-                                    <li><a href="blog-detail.html">Bài đăng</a></li>
+                                    <li><a href="blogs.html">Blogs</a></li>
+                                    <li><a href="blog-detail.html">Blog Detail</a></li>
                                 </ul>
                             </div>
                         </li>
 
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Banner</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="manage-banners">Banner Management</a></li>
-                                </ul>
-                            </div>
-                        </li>
                     </ul>
                     <!-- sidebar-menu  -->
                 </div>
@@ -140,8 +140,16 @@
                             <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
                                 <i class="uil uil-bars"></i>
                             </a>
-
+                            <div class="search-bar p-0 d-none d-lg-block ms-2">
+                                <div id="search" class="menu-search mb-0">
+                                    <form action="ListDepartment" method="get" class="searchform">
+                                        <input type="text" class="form-control border rounded-pill" name="search" placeholder="Search by name ">
+                                        <input type="submit" value="Search">
+                                    </form>
+                                </div>
+                            </div>
                         </div>
+                        
 
                         <ul class="list-unstyled mb-0">
                             <li class="list-inline-item mb-0">
@@ -254,10 +262,10 @@
                                                 <small class="text-muted">Orthopedic</small>
                                             </div>
                                         </a>
-                                        <a class="dropdown-item text-dark" href="index.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
+                                        <a class="dropdown-item text-dark" href="adminDashBoard"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
                                         <a class="dropdown-item text-dark" href="dr-profile.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Thông tin cá nhân</a>
                                         <div class="dropdown-divider border-top"></div>
-                                        <a class="dropdown-item text-dark" href="lock-screen.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span>Đăng xuất</a>
+                                        <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất</a>
                                     </div>
                                 </div>
                             </li>
@@ -268,174 +276,180 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Thêm Phòng Ban</h5>
-
-                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
-                                <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-
-                                    <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'ListDepartment'">
-                                        Danh Sách Phòng Ban
-                                    </button>
-
-                                </ul>
-                            </nav>
+                            <h5 class="mb-0" style="color: #218838">Danh sách Dịch vụ </h5>
+                            <form action="ListDepartment" method="get" >
+                                <label for="Page">PageSize</label>
+                                <input type="number" name="pageSize">
+                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Paging</button>
+                            </form>
                         </div>
-
+                        
+                        <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddDepartment'">
+                            Thêm Dịch Vụ 
+                        </button>
                         <div class="row">
-                            <div class="col-lg-8 mt-4">
-                                <div class="card border-0 p-4 rounded shadow">
-                                    <div class="row align-items-center">
+                            <div class="col-12 mt-4">
+                                <div class="table-responsive shadow rounded">
+                                    <table class="table table-center bg-white mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
+                                                <th class="border-bottom p-3" style="min-width: 180px;">Tên Dịch Vụ</th>
+                                                <th class="border-bottom p-3">Mô tả</th>
+                                                <th class="border-bottom p-3">Giá</th>
+                                                <th class="border-bottom p-3">Status</th>
 
-                                        <form class="mt-4" action="AddDepartment" method="post" >
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Tên Phòng Ban</label>
-                                                        <input name="departmentname" id="departmentname" type="text" class="form-control" placeholder="Tên Phòng Ban" required>
-                                                    </div>
-                                                </div><!--end col-->
+                                                <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <!--tbody-start-->
+                                        <tbody>
+                                            <c:forEach var="service" items="${listService}">
+                                                <tr>
+                                                    <td class="p-3">${service.serviceId}</td>
+                                                    <td class="p-3">${service.name}</td>
+                                                    <td class="p-3" style="max-width: 300px">${service.content}</td>
+                                                    <td class="p-3">${service.price}</td>
+                                                    <td class="p-3">${service.status}</td>
+                                                    <td class=" p-3">
+                                                        <!-- Action Buttons -->
+                                                         <a href="ViewDepartmentDetail?id=${doctors.staffId}" class="btn btn-icon btn-pills btn-soft-primary" >
+                                                            <i class="uil uil-eye"></i>
+                                                        </a>
+                                                        <!-- Edit button with data-* attributes for customer info -->
+                                                        <a href="UpdateDepartment?id=${department.departmentId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                            <i class="uil uil-pen"></i> 
+                                                        </a>
+                                                        <form id="deleteForm${service.serviceId}" action="DeleteService" method="post" style="display: inline;">
+                                                            <input type="hidden" name="id" value="${service.serviceId}">
+                                                            <a onclick="doDelete(${service.serviceId})" class="btn btn-icon btn-pills btn-soft-danger">
+                                                                <i class="uil uil-trash"></i>
+                                                            </a>
+                                                        </form>
 
-                                                <div>
-                                                    <c:if test="${not empty error}">
-                                                        <div style="color: red">${error}</div>
-                                                    </c:if>
-                                                </div>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                        <!--Tbody-end-->
 
-                                            </div><!--end row-->
-
-                                            <button type="submit" class="btn btn-primary">Thêm Phòng Ban </button>
-                                        </form>
-
-
-                                    </div><!--end row-->
-                                </div>
-                            </div><!--end container-->
-
-                            
-                            <!-- Footer Start -->
-                            <footer class="bg-white shadow py-3" style="background-color: #ffffff;
-                                    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
-                                    padding: 15px 0;
-                                    text-align: center;
-                                    width: 100%;
-                                    position: absolute;
-                                    bottom: 0;">
-                                <%@ include file="layout/footer.jsp" %>
-                            </footer><!--end footer-->
-                            <!-- End -->
-
-                            </main>
-                            <!--End page-content" -->
-                        </div>
-                        <!-- page-wrapper -->
-
-                        <!-- Offcanvas Start -->
-                        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                            <div class="offcanvas-header p-4 border-bottom">
-                                <h5 id="offcanvasRightLabel" class="mb-0">
-                                    <img src="assets/images/logo-dark.png" height="24" class="light-version" alt="">
-                                    <img src="assets/images/logo-light.png" height="24" class="dark-version" alt="">
-                                </h5>
-                                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
-                            </div>
-                            <div class="offcanvas-body p-4 px-md-5">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <!-- Style switcher -->
-                                        <div id="style-switcher">
-                                            <div>
-                                                <ul class="text-center list-unstyled mb-0">
-                                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
-                                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
-                                                    <li class="d-grid"><a href="landing/index.html" target="_blank" class="mt-4"><img src="assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- end Style switcher -->
-                                    </div><!--end col-->
-                                </div><!--end row-->
-                            </div>
-
-                            <div class="offcanvas-footer p-4 border-top text-center">
-                                <ul class="list-unstyled social-icon mb-0">
-                                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
-                                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
-                                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
-                                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
-                                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
-                                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
-                                    <li class="list-inline-item mb-0"><a href="index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
-                                </ul><!--end icon-->
-                            </div>
-                        </div>
-                        <!-- Offcanvas End -->
+                                    </table>
+                                    <!-- Phân trang -->
 
 
-
-                        <!-- Accept Appointment Start -->
-                        <div class="modal fade" id="acceptappointment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-body py-5">
-                                        <div class="text-center">
-                                            <div class="icon d-flex align-items-center justify-content-center bg-soft-success rounded-circle mx-auto" style="height: 95px; width:95px;">
-                                                <i class="uil uil-check-circle h1 mb-0"></i>
-                                            </div>
-                                            <div class="mt-4">
-                                                <h4>Accept Appointment</h4>
-                                                <p class="para-desc mx-auto text-muted mb-0">Great doctor if you need your family member to get immediate assistance, emergency treatment.</p>
-                                                <div class="mt-4">
-                                                    <a href="#" class="btn btn-soft-success">Accept</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Accept Appointment End -->
+                        </div><!--end row-->
 
-                        <!-- Cancel Appointment Start -->
-                        <div class="modal fade" id="cancelappointment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-body py-5">
-                                        <div class="text-center">
-                                            <div class="icon d-flex align-items-center justify-content-center bg-soft-danger rounded-circle mx-auto" style="height: 95px; width:95px;">
-                                                <i class="uil uil-times-circle h1 mb-0"></i>
-                                            </div>
-                                            <div class="mt-4">
-                                                <h4>Cancel Appointment</h4>
-                                                <p class="para-desc mx-auto text-muted mb-0">Great doctor if you need your family member to get immediate assistance, emergency treatment.</p>
-                                                <div class="mt-4">
-                                                    <a href="#" class="btn btn-soft-danger">Cancel</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="row text-center">
+                            <!--                                                     PAGINATION START -->
+                            <div class="col-12 mt-4">
+                                <div class="d-md-flex align-items-center text-center justify-content-between">
+                                    <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
+                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                        <c:if test="${currentPage > 1}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="ListDepartment?page=${currentPage - 1}&pageSize=${pageSize}">Previous</a>
+                                            </li>
+                                        </c:if>
+
+                                        <c:forEach var="i" begin="1" end="${totalPages}">
+                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                <a class="page-link" href="ListDepartment?page=${i}&pageSize=${pageSize}">${i}</a>
+                                            </li>
+                                        </c:forEach>
+
+                                        <c:if test="${currentPage < totalPages}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="ListDepartment?page=${currentPage + 1}&pageSize=${pageSize}">Next</a>
+                                            </li>
+                                        </c:if>
+                                    </ul>
                                 </div>
                             </div>
+
+                            <!--PAGINATION END -->
                         </div>
-                        <!-- Cancel Appointment End -->
-                        <!-- Modal end -->
+                    </div>
+                </div>
+                <!--end container-->
 
-                        <!-- javascript -->
-                        <script src="assets/js/jquery.min.js"></script>
-                        <script src="assets/js/bootstrap.bundle.min.js"></script>
-                        <!-- simplebar -->
-                        <script src="assets/js/simplebar.min.js"></script>
-                        <!-- Select2 -->
-                        <script src="assets/js/select2.min.js"></script>
-                        <script src="assets/js/select2.init.js"></script>
-                        <!-- Icons -->
-                        <script src="assets/js/feather.min.js"></script>
-                        <!-- Main Js -->
-                        <script src="assets/js/app.js"></script>
+                <!-- Footer Start -->
+                <footer class="bg-white shadow py-3">
+                    <div class="container-fluid">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-sm-start text-center">
+                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="index.html" target="_blank" class="text-reset">Phúc Sơn</a>.</p>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end container-->
+                </footer><!--end footer-->
+                <!-- End -->
+            </main>
+            <!--End page-content" -->
+        </div>
+        <!-- page-wrapper -->
 
-                        </body>
+        <!-- Offcanvas Start -->
+        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header p-4 border-bottom">
+                <h5 id="offcanvasRightLabel" class="mb-0">
+                    <img src="assets/images/logo-dark.png" height="24" class="light-version" alt="">
+                    <img src="assets/images/logo-light.png" height="24" class="dark-version" alt="">
+                </h5>
+                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
+            </div>
+            <div class="offcanvas-body p-4 px-md-5">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Style switcher -->
+                        <div id="style-switcher">
+                            <div>
+                                <ul class="text-center list-unstyled mb-0">
+                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
+                                    <li class="d-grid"><a href="landing/index.html" target="_blank" class="mt-4"><img src="assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- end Style switcher -->
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div>
 
-                        </html>
+            <div class="offcanvas-footer p-4 border-top text-center">
+                <ul class="list-unstyled social-icon mb-0">
+                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
+                </ul><!--end icon-->
+            </div>
+        </div>
+        <!-- Offcanvas End -->
+
+        <!-- Modal end -->
+
+        <!-- javascript -->
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <!-- simplebar -->
+        <script src="assets/js/simplebar.min.js"></script>
+        <!-- Icons -->
+        <script src="assets/js/feather.min.js"></script>
+        <!-- Main Js -->
+        <script src="assets/js/app.js"></script>
+
+
+
+    </body>
+
+</html>

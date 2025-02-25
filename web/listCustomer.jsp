@@ -293,12 +293,10 @@
                                                 <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
                                                 <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
                                                 <th class="border-bottom p-3">Giới tính</th>
-<<<<<<< HEAD
+
                                                 <!--                                                <th class="border-bottom p-3">Address</th>-->
 <!--                                                <th class="border-bottom p-3">Địa chỉ</th>-->
-=======
-                                                
->>>>>>> 8fa21a76a47f035d9ada0bd64343fcfd6ced5025
+
                                                 <th class="border-bottom p-3">Số Điện Thoại</th>
                                                 <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
                                                 <th class="border-bottom p-3">Email</th>
@@ -329,11 +327,9 @@
                                                             <c:otherwise>Khác</c:otherwise>
                                                         </c:choose>
                                                     </td>
-<<<<<<< HEAD
+
 <!--                                                    <td class="p-3">${customers.address}</td>-->
-=======
-                                                    
->>>>>>> 8fa21a76a47f035d9ada0bd64343fcfd6ced5025
+
                                                     <td class="p-3">${customers.phone}</td>
                                                     <td class="p-3">${customers.dateOfBirth}</td>
                                                     <td class="p-3">${customers.email}</td>

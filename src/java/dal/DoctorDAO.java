@@ -21,8 +21,9 @@ public class DoctorDAO extends DBContext {
     DepartmentDAO departDao = new DepartmentDAO();
     RoleDAO roleDao = new RoleDAO();
     PositionDAO positionDao = new PositionDAO();
-
-    public List<Staff> getAllDoctor(Integer roleId, String status, String searchQuery, int page, int pageSize) {
+    
+    // list ra danh sách tất cả nhân viên trừ admin
+    public List<Staff> getAllStaff(Integer roleId, String status, String searchQuery, int page, int pageSize) {
         List<Staff> listDoctor = new ArrayList<>();
         String sql = "SELECT staffId, name , email , avatar , phone , password , dateOfBirth, position, gender, status, description, roleId, departmentId FROM Staff WHERE roleId != 1"; // Loại bỏ roleId = 1
 
@@ -82,8 +83,8 @@ public class DoctorDAO extends DBContext {
         }
         return listDoctor;
     }
-    
-    public int getTotalDoctorCount(Integer roleId, String status, String searchQuery) {
+    // đếm số nhân viên để phân trang
+    public int getTotalStaffCount(Integer roleId, String status, String searchQuery) {
         String sql = "SELECT COUNT(*) FROM Staff WHERE roleId != 1"; // Đếm tất cả bác sĩ (trừ admin)
 
         if (roleId != null) {

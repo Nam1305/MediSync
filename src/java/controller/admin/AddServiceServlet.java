@@ -5,7 +5,7 @@
 
 package controller.admin;
 
-import dal.DoctorDAO;
+import dal.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +13,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Staff;
+import model.Service;
 
 /**
  *
  * @author Acer
  */
-@WebServlet(name="ViewStaffDetailServlet", urlPatterns={"/ViewStaffDetail"})
-public class ViewStaffDetailServlet extends HttpServlet {
+@WebServlet(name="AddServiceServlet", urlPatterns={"/AddService"})
+public class AddServiceServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +37,10 @@ public class ViewStaffDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewStaffDetailServlet</title>");  
+            out.println("<title>Servlet AddServiceServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewStaffDetailServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AddServiceServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,32 +57,7 @@ public class ViewStaffDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String staffIdStr = request.getParameter("id");
-        try {
-            int staffId = Integer.parseInt(staffIdStr);
-            DoctorDAO staff = new DoctorDAO();
-            double rating = staff.getAverageRating(staffId);
-            Staff currentstaff = staff.getStaffById(staffId);
-            if (currentstaff != null) {
-                request.setAttribute("rating", rating);
-                // Nếu tìm thấy nhân viên, gửi thông tin đến trang update.jsp
-                request.setAttribute("staff", currentstaff); // Đặt đối tượng Dish vào attribute
-                request.getRequestDispatcher("staffDetail.jsp").forward(request, response);
-            } else {
-                // Nếu không tìm thấy nhân viên , thông báo lỗi
-                request.setAttribute("error", "Staff with ID " + staffId + " not found.");
-                request.getRequestDispatcher("staffDetail").forward(request, response); // Quay lại danh sách
-            }
-        } catch (NumberFormatException e) {
-            // Xử lý lỗi nếu id không phải là số nguyên
-            request.setAttribute("error", "Invalid ID format.");
-            request.getRequestDispatcher("listDoctor").forward(request, response); // Quay lại danh sách
-        } catch (Exception e) {
-            // Xử lý các lỗi khác
-            System.out.println(e);
-            request.setAttribute("error", "An unexpected error occurred.");
-            request.getRequestDispatcher("listDoctor").forward(request, response); // Quay lại danh sách
-        }
+        // không sử dụng 
     } 
 
     /** 
@@ -95,7 +70,18 @@ public class ViewStaffDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String serviceName = request.getParameter("serviceName");
+        String content  = request.getParameter("content");
+        String priceStr = request.getParameter("price");
+        double price = Double.parseDouble(priceStr);
+        
+        ServiceDAO serviceDao = new ServiceDAO();
+        Service newService = new Service(0, content, price, serviceName, "Active");
+        boolean isAdded = serviceDao.insertService(newService);
+        if(isAdded){
+            request.setAttribute("success", "thêm Service thành công");
+            request.getRequestDispatcher("addService.jsp").forward(request, response);
+        }
     }
 
     /** 

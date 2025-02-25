@@ -5,7 +5,7 @@
 
 package controller.admin;
 
-import dal.DoctorDAO;
+import dal.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +13,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Staff;
+import java.util.List;
+import model.Service;
 
 /**
  *
  * @author Acer
  */
-@WebServlet(name="ViewStaffDetailServlet", urlPatterns={"/ViewStaffDetail"})
-public class ViewStaffDetailServlet extends HttpServlet {
+@WebServlet(name="ListServiceServlet", urlPatterns={"/ListService"})
+public class ListServiceServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +38,10 @@ public class ViewStaffDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewStaffDetailServlet</title>");  
+            out.println("<title>Servlet ListServiceServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewStaffDetailServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListServiceServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,32 +58,11 @@ public class ViewStaffDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String staffIdStr = request.getParameter("id");
-        try {
-            int staffId = Integer.parseInt(staffIdStr);
-            DoctorDAO staff = new DoctorDAO();
-            double rating = staff.getAverageRating(staffId);
-            Staff currentstaff = staff.getStaffById(staffId);
-            if (currentstaff != null) {
-                request.setAttribute("rating", rating);
-                // Nếu tìm thấy nhân viên, gửi thông tin đến trang update.jsp
-                request.setAttribute("staff", currentstaff); // Đặt đối tượng Dish vào attribute
-                request.getRequestDispatcher("staffDetail.jsp").forward(request, response);
-            } else {
-                // Nếu không tìm thấy nhân viên , thông báo lỗi
-                request.setAttribute("error", "Staff with ID " + staffId + " not found.");
-                request.getRequestDispatcher("staffDetail").forward(request, response); // Quay lại danh sách
-            }
-        } catch (NumberFormatException e) {
-            // Xử lý lỗi nếu id không phải là số nguyên
-            request.setAttribute("error", "Invalid ID format.");
-            request.getRequestDispatcher("listDoctor").forward(request, response); // Quay lại danh sách
-        } catch (Exception e) {
-            // Xử lý các lỗi khác
-            System.out.println(e);
-            request.setAttribute("error", "An unexpected error occurred.");
-            request.getRequestDispatcher("listDoctor").forward(request, response); // Quay lại danh sách
-        }
+        ServiceDAO serviceDao = new ServiceDAO();
+        
+        List<Service> listService = serviceDao.getAllServices();
+        request.setAttribute("listService", listService);
+        request.getRequestDispatcher("listService.jsp").forward(request, response);
     } 
 
     /** 
