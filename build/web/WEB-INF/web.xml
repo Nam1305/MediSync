@@ -90,7 +90,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BlogDetailServlet</servlet-name>
-        <url-pattern>/blog-detail</url-pattern>
+        <url-pattern>/blogDetail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BannerManagementServlet</servlet-name>

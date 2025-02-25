@@ -15,7 +15,7 @@ import dal.BlogDAO;
 import dal.CommentDAO;
 import model.Staff;
 
-@WebServlet(name = "BlogDetailServlet", urlPatterns = {"/blog-detail"})
+@WebServlet(name = "BlogDetailServlet", urlPatterns = {"/blogDetail"})
 public class BlogDetailServlet extends HttpServlet {
 
     private boolean validateSession(HttpServletRequest request, HttpServletResponse response)
@@ -68,7 +68,7 @@ public class BlogDetailServlet extends HttpServlet {
             request.setAttribute("comments", comments);
             request.setAttribute("currentPage", page);
             request.setAttribute("totalPages", totalPages);
-            request.getRequestDispatcher("blog-detail.jsp").forward(request, response);
+            request.getRequestDispatcher("blogDetail.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             response.sendRedirect("listBlog");
         }
@@ -97,7 +97,7 @@ public class BlogDetailServlet extends HttpServlet {
 
         // Kiểm tra dữ liệu đầu vào
         if (blogIdRaw == null || content == null || content.trim().isEmpty()) {
-            response.sendRedirect("blog-detail?blogId=" + blogIdRaw);
+            response.sendRedirect("blogDetail?blogId=" + blogIdRaw);
             return;
         }
 
@@ -111,7 +111,7 @@ public class BlogDetailServlet extends HttpServlet {
             commentDAO.addComment(comment, blogId);
 
             // Chuyển hướng về trang chi tiết blog
-            response.sendRedirect("blog-detail?blogId=" + blogId);
+            response.sendRedirect("blogDetail?blogId=" + blogId);
         } catch (NumberFormatException e) {
             response.sendRedirect("listBlog");
         }

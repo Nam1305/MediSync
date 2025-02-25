@@ -317,7 +317,7 @@
                                             <a href="?blogId=${blog.blogId}&page=${currentPage + 1}">Next</a>
                                         </c:if>
                                     </div>
-                                <form method="post" action="blog-detail">
+                                <form method="post" action="blogDetail">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="mb-3">

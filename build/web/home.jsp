@@ -249,7 +249,7 @@
                                                             ${banner.blogName}
                                                         </h4>
                                                         <div class="mt-4">
-                                                            <a href="blog-detail?blogId=${banner.blogId}" class="btn btn-primary">
+                                                            <a href="blogDetail?blogId=${banner.blogId}" class="btn btn-primary">
                                                                 Xem chi tiết
                                                             </a>
                                                         </div>
@@ -384,9 +384,9 @@
                                 <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
                             </li>
                         </ul>
-                        <a href="blog-detail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
+                        <a href="blogDetail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
                         <div class="post-meta mt-auto d-flex justify-content-between mt-3">
-                            <a href="blog-detail?blogId=${blog.blogId}" class="link">Chi tiết <i class="mdi mdi-chevron-right align-middle"></i></a>
+                            <a href="blogDetail?blogId=${blog.blogId}" class="link">Chi tiết <i class="mdi mdi-chevron-right align-middle"></i></a>
                         </div>
                     </div>
                 </div>

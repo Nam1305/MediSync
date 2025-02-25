@@ -300,12 +300,12 @@
                                     <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
                                 </li>
                             </ul>
-                            <a href="blog-detail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
+                            <a href="blogDetail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
                             <div class="post-meta d-flex justify-content-between mt-3">
                                 <ul class="list-unstyled mb-0">
                                     <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>3</a></li>
                                 </ul>
-                                <a href="blog-detail?blogId=${blog.blogId}" class="link">Chi Tiết<i class="mdi mdi-chevron-right align-middle"></i></a>
+                                <a href="blogDetail?blogId=${blog.blogId}" class="link">Chi Tiết<i class="mdi mdi-chevron-right align-middle"></i></a>
                             </div>
                         </div>
                     </div>
@@ -313,7 +313,7 @@
             </c:forEach>
         </div>
 
-
+        <!-- phan trang -->
         <div class="pagination">
             <c:if test="${currentPage > 1}">
                 <a href="?page=${currentPage - 1}&search=${param.search}&sort=${param.sort}">Prev</a>
