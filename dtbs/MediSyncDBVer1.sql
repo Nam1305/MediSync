@@ -100,7 +100,10 @@ CREATE TABLE HistoryPosition (
 
 CREATE TABLE Invoice (
   appointmentId int NOT NULL, 
-  serviceId     int NOT NULL);
+  serviceId     int NOT NULL,
+  primary key(appointmentId, serviceId)
+  
+  );
 
 CREATE TABLE Prescription (
     prescriptionId INT IDENTITY(1,1) PRIMARY KEY,
@@ -149,6 +152,17 @@ CREATE TABLE Staff (
   roleId       int NOT NULL, 
   departmentId int NOT NULL, 
   PRIMARY KEY (staffId));
+
+CREATE TABLE DoctorShiftRegistration (
+    registrationId INT IDENTITY PRIMARY KEY,  
+    staffId INT NOT NULL,                     
+    shift TINYINT CHECK (shift IN (1, 2, 3)) NOT NULL, 
+    status NVARCHAR(50) DEFAULT 'Pending' 
+        CHECK (status IN ('Pending', 'Approved', 'Rejected')), 
+    registrationDate DATE DEFAULT GETDATE(),  
+    FOREIGN KEY (staffId) REFERENCES Staff(staffId)
+);
+
 
 CREATE TABLE TreatmentPlan (
     treatmentId int IDENTITY primary key,
@@ -702,10 +716,11 @@ VALUES
 ('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'confirmed', 1, 2),  
 ('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'paid', 1, 3),  
 
+
 -- StaffId 2  
 ('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'cancelled', 2, 4),  
 ('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'pending', 2, 5),  
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'noshow', 2, 6),  
+('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'absent', 2, 6),  
 
 -- StaffId 3  
 ('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'confirmed', 3, 7),  
@@ -714,7 +729,7 @@ VALUES
 
 -- StaffId 5  
 ('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'confirmed', 5, 10),  
-('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'noshow', 5, 1),  
+('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'absent', 5, 1),  
 
 -- StaffId 7  
 ('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'cancelled', 7, 3),  
@@ -724,11 +739,16 @@ VALUES
 -- StaffId 8  
 ('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'cancelled', 8, 6),  
 ('2025-01-26', '08:00:00', '08:30:00', 'Offline', 'paid', 8, 7),  
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'pending', 8, 8),  
+('2025-01-28', '18:00:00', '18:30:00', 'Offline', 'pending', 8, 8),  
 
 -- StaffId 9  
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'paid', 9, 9),  
-('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'confirmed', 9, 10);  
+('2025-01-24', '08:00:00', '08:30:00', 'Offline', 'paid', 9, 9),  
+('2025-01-24', '13:00:00', '13:30:00', 'Offline', 'confirmed', 9, 10),
+
+('2025-01-25', '08:30:00', '09:00:00', 'Offline', 'confirmed', 1, 8),  
+('2025-01-25', '09:00:00', '09:30:00', 'Offline', 'confirmed', 1, 9),  
+('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'paid', 1, 10);
+
 
 --Prescription 
 -- Đơn thuốc 1
@@ -978,8 +998,17 @@ INSERT INTO Schedule (startTime, endTime, [shift], [date], staffId)
 VALUES
 -- StaffId 1
 ('08:00:00', '12:00:00', 30, '2025-01-25', 1),
-('13:00:00', '17:00:00', 30, '2025-01-26', 1),
-('18:00:00', '22:00:00', 30, '2025-01-27', 1),
+('08:00:00', '12:00:00', 30, '2025-01-26', 1),
+('08:00:00', '12:00:00', 30, '2025-01-27', 1),
+('08:00:00', '12:00:00', 30, '2025-01-28', 1),
+('08:00:00', '12:00:00', 30, '2025-01-29', 1),
+('08:00:00', '12:00:00', 30, '2025-01-30', 1),
+('08:00:00', '12:00:00', 30, '2025-02-01', 1),
+('08:00:00', '12:00:00', 30, '2025-02-02', 1),
+('08:00:00', '12:00:00', 30, '2025-02-03', 1),
+('13:00:00', '17:00:00', 30, '2025-02-04', 1),
+('13:00:00', '17:00:00', 30, '2025-02-05', 1),
+
 
 -- StaffId 2
 ('08:00:00', '12:00:00', 30, '2025-01-25', 2),
@@ -1010,6 +1039,37 @@ VALUES
 ('08:00:00', '12:00:00', 30, '2025-01-25', 9),
 ('13:00:00', '17:00:00', 30, '2025-01-26', 9),
 ('18:00:00', '22:00:00', 30, '2025-01-27', 9);
+
+
+-- DoctorShiftRegistration 
+-- StaffId 1 đăng ký 2 ca trong ngày 2025-02-03
+INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
+VALUES (1, 1, '2025-02-03', 'Approved');
+
+INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
+VALUES (1, 2, '2025-02-03', 'Pending');
+
+-- Các bác sĩ khác đăng ký 1 ca mỗi người
+INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
+VALUES (2, 1, '2025-02-07', 'Rejected');
+
+INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
+VALUES (3, 1, '2025-02-07', 'Pending');
+
+INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
+VALUES (5, 1, '2025-02-07', 'Approved');
+
+INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
+VALUES (7, 1, '2025-02-10', 'Pending');
+
+INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
+VALUES (8, 1, '2025-02-02', 'Rejected');
+
+INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
+VALUES (9, 1, '2025-02-03', 'Approved');
+
+INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
+VALUES (10, 1, '2025-02-04', 'Pending');
 
 
 

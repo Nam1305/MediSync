@@ -41,7 +41,7 @@
                             return;
                         }
 
-                        if (file.size > 10*1024*1024) {
+                        if (file.size > 10 * 1024 * 1024) {
                             alert("Kích thước tệp quá lớn! Chỉ được tải lên ảnh dưới 10MB.");
                             return;
                         }
@@ -141,7 +141,7 @@
                                 <p><span class="info-label">Tên:</span> ${app.customer.name}</p>
                                 <p><span class="info-label">Email:</span> ${app.customer.email}</p>
                                 <p><span class="info-label">Địa chỉ:</span> ${app.customer.address}</p>
-                                <p><span class="info-label">Ngày sinh:</span> ${app.customer.dateOfBirth}</p>
+                                <p><span class="info-label">Ngày sinh:</span> <fmt:formatDate value='${app.customer.dateOfBirth}' type='date' pattern='dd/MM/yyyy'/></p>
                             </div>
                             <div class="col-md-6">
                                 <p><span class="info-label">Số điện thoại:</span> ${app.customer.phone}</p>
@@ -151,7 +151,7 @@
                                         <c:otherwise>Nữ</c:otherwise>
                                     </c:choose>
                                 </p>
-                                <p><span class="info-label">Nhóm máu:</span> ${app.customer.getBloodType()}</p>
+                                <p><span class="info-label">Nhóm máu:</span> ${app.customer.bloodType}</p>
                             </div>
                         </div>
                     </div>

@@ -11,6 +11,10 @@ import model.Customer;
 import model.Service;
 import model.Staff;
 import java.sql.*;
+import model.Department;
+import model.Prescription;
+import model.Role;
+import model.TreatmentPlan;
 
 public class AppointmentDAO extends DBContext {
 
@@ -98,46 +102,22 @@ public class AppointmentDAO extends DBContext {
 
         return services;
     }
-
-    public Time getDetailStartTime(int customerId, int appointmentId) {
-        String sql = "SELECT a.startTime AS appointmentStartTime "
-                + "FROM Appointment a "
-                + "JOIN Customer c ON a.customerId = c.customerId "
-                + "WHERE c.customerId = ? AND a.appointmentId = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, customerId);
-            ps.setInt(2, appointmentId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getTime("appointmentStartTime");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public Time getDetailEndTime(int customerId, int appointmentId) {
-        String sql = "SELECT a.endTime AS appointmentEndTime "
-                + "FROM Appointment a "
-                + "JOIN Customer c ON a.customerId = c.customerId "
-                + "WHERE c.customerId = ? AND a.appointmentId = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, customerId);
-            ps.setInt(2, appointmentId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getTime("appointmentEndTime");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public String getDetailDoctorName(int customerId, int appointmentId) {
+    public Staff getDetailDoctor(int customerId, int appointmentId) {
         String sql = "SELECT \n"
-                + "    st.name AS doctorName\n"
+                + "    st.staffId,\n"
+                + "	st.name,\n"
+                + "	st.email,\n"
+                + "	st.avatar,\n"
+                + "	st.phone,\n"
+                + "	st.password,\n"
+                + "	st.dateOfBirth,\n"
+                + "	st.position,\n"
+                + "	st.gender,\n"
+                + "	st.status,\n"
+                + "	st.description,\n"
+                + "	st.roleId,\n"
+                + "	st.departmentId,\n"
+                + "d.departmentName as departmentName\n"
                 + "FROM \n"
                 + "    Service s\n"
                 + "JOIN \n"
@@ -146,16 +126,43 @@ public class AppointmentDAO extends DBContext {
                 + "    Appointment a ON i.appointmentId = a.appointmentId\n"
                 + "JOIN \n"
                 + "    Staff st ON a.staffId = st.staffId\n"
+                + "\n"
+                + "JOIN Department d on st.departmentId = d.departmentId\n"
                 + "JOIN \n"
                 + "    Customer c ON a.customerId = c.customerId\n"
                 + "WHERE \n"
-                + "    c.customerId = ? and a.appointmentId = ?";
+                + "    c.customerId = ? and a.appointmentId =?;";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, customerId);
             ps.setInt(2, appointmentId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return rs.getString("doctorName");
+                Staff doctor = new Staff();
+                doctor.setStaffId(rs.getInt("staffId"));
+                doctor.setName(rs.getString("name"));
+                doctor.setEmail(rs.getString("email"));
+                doctor.setAvatar(rs.getString("avatar"));
+                doctor.setPhone(rs.getString("phone"));
+                doctor.setPassword(rs.getString("password"));
+                doctor.setDateOfBirth(rs.getDate("dateOfBirth"));
+                doctor.setPosition(rs.getString("position"));
+                doctor.setGender(rs.getString("gender"));
+                doctor.setStatus(rs.getString("status"));
+                doctor.setDescription(rs.getString("description"));
+
+                // Khởi tạo Department
+                Department department = new Department();
+                department.setDepartmentId(rs.getInt("departmentId"));
+                department.setDepartmentName(rs.getString("departmentName"));
+                doctor.setDepartment(department);
+
+                // Khởi tạo Role
+                Role role = new Role();
+                role.setRoleId(rs.getInt("roleId"));
+                doctor.setRole(role);
+
+                return doctor;
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -320,13 +327,78 @@ public class AppointmentDAO extends DBContext {
         return null;
     }
 
+    public TreatmentPlan getTreatmentPlanDetail(int customerId, int appointmentId) {
+        String sql = "SELECT \n"
+                + "tp.treatmentId,\n"
+                + "tp.appointmentId,\n"
+                + "tp.symptoms,\n"
+                + "tp.diagnosis,\n"
+                + "tp.testResults,\n"
+                + "tp.treatmentPlan,\n"
+                + "tp.followUp\n"
+                + "FROM TreatmentPlan tp\n"
+                + "JOIN Appointment a ON tp.appointmentId = a.appointmentId\n"
+                + "WHERE a.customerId = ? AND a.appointmentId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, customerId);
+            ps.setInt(2, appointmentId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                TreatmentPlan treatmentPlan = new TreatmentPlan();
+                treatmentPlan.setTreatmentId(rs.getInt("treatmentId"));
+                treatmentPlan.setAppointmentId(rs.getInt("appointmentId"));
+                treatmentPlan.setSymptoms(rs.getString("symptoms"));
+                treatmentPlan.setDiagnosis(rs.getString("diagnosis"));
+                treatmentPlan.setTestResult(rs.getString("testResults")); // Đúng tên
+                treatmentPlan.setPlan(rs.getString("treatmentPlan")); // Đúng tên
+                treatmentPlan.setFollowUp(rs.getString("followUp"));
+                return treatmentPlan;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Prescription> getPrescriptionDetail(int customerId, int appointmentId) {
+        List<Prescription> prescriptions = new ArrayList<>();
+        String sql = "SELECT p.prescriptionId, p.appointmentId, p.medicineName, p.totalQuantity, p.dosage, p.note "
+                + "FROM Prescription p "
+                + "JOIN Appointment a ON p.appointmentId = a.appointmentId "
+                + "WHERE a.appointmentId = ? AND a.customerId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, appointmentId);
+            ps.setInt(2, customerId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Prescription prescription = new Prescription();
+                prescription.setPrescriptionId(rs.getInt("prescriptionId"));
+                prescription.setAppointmentId(rs.getInt("appointmentId"));
+                prescription.setMedicineName(rs.getString("medicineName"));
+                prescription.setTotalQuantity(rs.getString("totalQuantity"));
+                prescription.setDosage(rs.getString("dosage"));
+                prescription.setNote(rs.getString("note"));
+                prescriptions.add(prescription);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return prescriptions;
+    }
+
     public static void main(String[] args) throws SQLException {
         AppointmentDAO a = new AppointmentDAO();
-        List<Appointment> l = a.getAppointmentsByPage(1, "an", null, null, 1, 10);
-        System.out.println(l.size());
+        List<Prescription> prescriptions = a.getPrescriptionDetail(1, 1);
 
-        Appointment ap = a.getAppointmentsById(1);
-        System.out.println(ap.toString());
+        // Kiểm tra nếu danh sách rỗng
+        if (prescriptions.isEmpty()) {
+            System.out.println("Không tìm thấy đơn thuốc nào!");
+        } else {
+            System.out.println("Danh sách đơn thuốc:");
+            for (Prescription p : prescriptions) {
+                System.out.println(p.toString());
+            }
+        }
     }
 
 }

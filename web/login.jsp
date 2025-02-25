@@ -11,7 +11,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Login</title>
+        <title>Đăng nhập</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
         <link href="assets/css/style.min.css" rel="stylesheet" />
@@ -27,15 +27,104 @@
                 </div>
             </div>
         </div>
+        <header id="topnav" class="navigation sticky" style="background: white; color: black; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+            <div class="container">
+                <!-- Start Mobile Toggle -->
+                <div class="menu-extras">
+                    <div class="menu-item">
+                        <a class="navbar-toggle" id="isToggle" onclick="toggleMenu()">
+                            <div class="lines">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- End Mobile Toggle -->
+
+                <!-- Start Dropdown -->
+                <ul class="dropdowns list-inline mb-0">
+                    <li class="list-inline-item mb-0 ms-1">
+                        <div class="dropdown dropdown-primary">
+                            <c:choose>
+                                <c:when test="${staff != null || customer != null}">
+                                    <!-- Logged in user -->
+                                    <button type="button" class="btn btn-pills btn-outline-dark dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="${staff != null ? staff.avatar : customer.avatar}" class="avatar avatar-ex-small rounded-circle" alt="">
+                                    </button>
+                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
+                                        <a class="dropdown-item d-flex align-items-center text-dark" 
+                                           href="${staff != null ? 'staffProfile' : (customer != null ? 'customer-profile' : '#')}">
+                                            <img src="${staff != null ? staff.avatar : customer.avatar}" 
+                                                 class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                            <div class="flex-1 ms-2">
+                                                <span class="d-block mb-1">${staff != null ? staff.name : customer.name}</span>
+                                                <small class="text-muted">
+                                                    <c:choose>
+                                                        <c:when test="${staff != null}">
+                                                            ${staff.department.departmentName}
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            Customer
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </small>
+                                            </div>
+                                        </a>
+
+                                        <a class="dropdown-item text-dark" href="change-password">
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
+                                        </a>
+                                        <c:if test="${customer != null}">
+                                            <a class="dropdown-item text-dark" href="listAppointments">
+                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Thông tin chi tiết
+                                            </a>
+                                        </c:if>
+                                        <c:if test="${staff != null}">
+                                            <a class="dropdown-item text-dark" href="doctorprofile">
+                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-user align-middle h6"></i></span> Profile
+                                            </a>
+                                        </c:if>
+                                        <c:if test="${staff != null}">
+                                            <a class="dropdown-item text-dark" href="doctorappointment">
+                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> DashBoard
+                                            </a>
+                                        </c:if>
+
+                                        <div class="dropdown-divider border-top"></div>
+                                        <a class="dropdown-item text-dark" href="logout">
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất
+                                        </a>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <!-- Not logged in -->
+                                    <a href="login" class="btn btn-outline-success login-btn">
+                                        <i class="uil uil-user align-middle"></i> Đăng nhập
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </li>
+                </ul>
+                <!-- End Dropdown -->
+
+                <div id="navigation">
+                    <ul class="navigation-menu nav-left">
+                        <li class="parent-menu-item">
+                            <a href="home" class="text-dark">Trang chủ</a>
+                        </li>
+                        <li class="has-submenu parent-parent-menu-item">
+                            <a href="listDoctor.jsp" class="text-dark">Bác Sĩ</a>
+                        </li>
+                        <li><a href="listBlog" class="text-dark">Blogs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
 
 
-        <script src="https://unpkg.com/feather-icons"></script>
-
-        <div class="back-to-home rounded d-none d-sm-block">
-            <a href="home" class="btn btn-icon btn-success">
-                <i data-feather="home"></i> <!-- Feather Icon Home -->
-            </a>
-        </div>
 
         <section class="bg-home d-flex bg-light align-items-center" style="background: url('assets/images/bg/bg-lines-one.png') center;">
             <div class="container">
@@ -111,6 +200,17 @@
             </div><!--end row-->
         </div> <!--end container-->
     </section>
+
+    <footer class="footer bg-dark footer-bar">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-6 col-md-6">
+                    <p class="mb-0 text-light">© 2025 MediSynC. Code by Duc.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
         function togglePassword() {
             var passwordInput = document.getElementById("password");

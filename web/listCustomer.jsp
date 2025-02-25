@@ -142,63 +142,6 @@
 
                         <ul class="list-unstyled mb-0">
 
-<!--                            <li class="list-inline-item mb-0 ms-1">
-                                <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                    <div class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="settings" class="fea icon-sm"></i></div>
-                                </a>
-                            </li>
-
-                            <li class="list-inline-item mb-0 ms-1">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-icon btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="mail" class="fea icon-sm"></i></button>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">4 <span class="visually-hidden">unread mail</span></span>
-
-                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 px-2 py-2" data-simplebar style="height: 320px; width: 300px;">
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/02.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Janalia</b> <small class="text-muted fw-normal d-inline-block">1 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/Codepen.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>codepen</b>  <small class="text-muted fw-normal d-inline-block">4 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/03.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Cristina</b> <small class="text-muted fw-normal d-inline-block">5 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/dribbble.svg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Dribbble</b> <small class="text-muted fw-normal d-inline-block">24 hour ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/06.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Donald Aghori</b> <small class="text-muted fw-normal d-inline-block">1 day ago</small></small>
-                                            </div>
-                                        </a>
-
-                                        <a href="#" class="d-flex align-items-center justify-content-between py-2 border-top">
-                                            <div class="d-inline-flex position-relative overflow-hidden">
-                                                <img src="assets/images/client/07.jpg" class="avatar avatar-md-sm rounded-circle shadow" alt="">
-                                                <small class="text-dark mb-0 d-block text-truncat ms-3">You received a new email from <b>Calvin</b> <small class="text-muted fw-normal d-inline-block">2 day ago</small></small>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>-->
-
                             <li class="list-inline-item mb-0 ms-1">
                                 <div class="dropdown dropdown-primary">
                                     <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/doctors/01.jpg" class="avatar avatar-ex-small rounded-circle" alt=""></button>
@@ -226,14 +169,6 @@
                         <div class="d-md-flex justify-content-between">
                             <h5 class="mb-0">Danh sách bệnh nhân</h5>
 
-
-
-<!--                            <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
-                                <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Patients</li>
-                                </ul>
-                            </nav>-->
                         </div>
 
                         <div class="row" >
@@ -263,14 +198,14 @@
                                 <div class="d-flex align-items-center">
                                     <!-- Dropdown menu để chọn trạng thái -->
                                     <select class="form-select me-2" name="status">
-                                        <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả</option>
+                                        <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả trạng thái</option>
                                         <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
                                         <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
                                         </select>
 
                                         <!-- Dropdown menu để chọn giới tính -->
                                         <select class="form-select me-2" name="gender">
-                                            <option value="" <c:if test="${empty gender}">selected</c:if>>Tất cả</option>
+                                            <option value="" <c:if test="${empty gender}">selected</c:if>>Tất cả giới tính</option>
                                         <option value="M" <c:if test="${gender == 'M'}">selected</c:if>>Nam</option>
                                         <option value="F" <c:if test="${gender == 'F'}">selected</c:if>>Nữ</option>
                                         </select>
@@ -293,10 +228,13 @@
                                                 <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
                                                 <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
                                                 <th class="border-bottom p-3">Giới tính</th>
+<<<<<<< HEAD
 
                                                 <!--                                                <th class="border-bottom p-3">Address</th>-->
 <!--                                                <th class="border-bottom p-3">Địa chỉ</th>-->
 
+=======
+>>>>>>> 6c671639f1dc279ccc7e9fa6aa0240c142e17164
                                                 <th class="border-bottom p-3">Số Điện Thoại</th>
                                                 <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
                                                 <th class="border-bottom p-3">Email</th>
@@ -328,8 +266,11 @@
                                                         </c:choose>
                                                     </td>
 
+<<<<<<< HEAD
 <!--                                                    <td class="p-3">${customers.address}</td>-->
 
+=======
+>>>>>>> 6c671639f1dc279ccc7e9fa6aa0240c142e17164
                                                     <td class="p-3">${customers.phone}</td>
                                                     <td class="p-3">${customers.dateOfBirth}</td>
                                                     <td class="p-3">${customers.email}</td>
