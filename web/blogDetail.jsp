@@ -329,7 +329,7 @@
                                         <div class="col-md-3">
                                             <div class="send d-grid">
                                                 <c:choose>
-                                                    <c:when test="${empty sessionScope.staff and empty sessionScope.customer}">
+                                                    <c:when test="${empty sessionScope.customer}">
                                                         <a href="login" class="btn btn-primary">Đăng nhập để bình luận</a>
                                                     </c:when>
                                                     <c:otherwise>
