@@ -25,6 +25,20 @@ public class BlogDAO extends DBContext {
         }
         return blogs;
     }
+    
+        public List<Blog> getNearestBlogs() {
+        List<Blog> topBlog = new ArrayList<>();
+        String sql = "SELECT TOP 3 date, blogId, blogName, [content], image, author, typeId, selectedBanner FROM Blog WHERE typeId = 0 ORDER BY date DESC;";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                topBlog.add(mapResultSetToBlog(rs));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return topBlog;
+    }
 
     public List<Blog> getAllBlogs() {
         List<Blog> listBlog = new ArrayList<>();
@@ -59,7 +73,7 @@ public class BlogDAO extends DBContext {
     public List<Blog> getBlogs(String search, String sort, int page, int itemsPerPage) {
         List<Blog> list = new ArrayList<>();
         String sql = "WITH CTE AS ( "
-                + "SELECT TOP 8 date,blogId, blogName, content, image, author, typeId, selectedBanner, ROW_NUMBER() OVER (ORDER BY date "
+                + "SELECT *, ROW_NUMBER() OVER (ORDER BY date "
                 + (sort != null && sort.equals("asc") ? "ASC" : "DESC") // Xử lý phần sắp xếp
                 + ") AS RowNum "
                 + "FROM Blog WHERE blogName LIKE ? and typeId = 0  ) "

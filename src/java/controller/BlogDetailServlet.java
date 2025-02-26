@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import model.Blog;
 import model.Comment;
 import model.Customer;
+import model.Staff;
 
 @WebServlet(name = "BlogDetailServlet", urlPatterns = {"/blogDetail"})
 public class BlogDetailServlet extends HttpServlet {
@@ -35,7 +36,7 @@ public class BlogDetailServlet extends HttpServlet {
             response.sendRedirect("listBlog");
             return;
         }
-        
+
         try {
             int blogId = Integer.parseInt(blogIdRaw);
             BlogDAO blogDAO = new BlogDAO();
@@ -50,6 +51,9 @@ public class BlogDetailServlet extends HttpServlet {
                 response.sendRedirect("listBlog");
                 return;
             }
+
+            List<Blog> nearestBlogs = blogDAO.getNearestBlogs();
+            request.setAttribute("topBlog", nearestBlogs);
             request.setAttribute("blog", blog);
             request.setAttribute("comments", comments);
             request.setAttribute("currentPage", page);
@@ -66,9 +70,10 @@ public class BlogDetailServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
+        Staff staff = (Staff) session.getAttribute("staff");
 
         // Nếu user chưa đăng nhập, chuyển hướng đến trang login
-        if (customer == null) {
+        if (customer == null && staff == null) {
             // Lưu URL hiện tại để chuyển hướng lại sau khi đăng nhập
             session.setAttribute("redirectURL", request.getRequestURL() + "?" + request.getQueryString());
             response.sendRedirect("login");
