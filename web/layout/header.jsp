@@ -95,7 +95,7 @@
                 </li>
 
                 <li class="has-submenu parent-parent-menu-item">
-                    <a href="listDoctor.jsp">Bác Sĩ</a><span class="menu-arrow"></span>
+                    <a href="allDoctors">Bác Sĩ</a><span class="menu-arrow"></span>
                 </li>
 
                 <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
