@@ -212,11 +212,11 @@
                 </div>
 
                 <div class="container-fluid">
-                    <div class="container mt-5" style="margin-top: 100px;">
+                    <div class="container mt-5" style="margin-top: 200px;">
 
                     <!-- Alert Messages -->
                     <c:if test="${not empty sessionScope.errorMessage}">
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 150px;">
                             <strong>Error!</strong> ${sessionScope.errorMessage}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -224,7 +224,7 @@
                     </c:if>
 
                     <c:if test="${not empty sessionScope.successMessage}">
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 150px;">
                             <strong>Success!</strong> ${sessionScope.successMessage}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
