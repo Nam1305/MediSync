@@ -99,6 +99,8 @@
                 </li>
 
                 <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
+                
+                <li><a href="services" class="sub-menu-item">Dịch vụ</a></li>
             </ul><!--end navigation menu-->
         </div><!--end navigation-->
     </div><!--end container-->
