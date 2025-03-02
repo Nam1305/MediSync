@@ -68,7 +68,7 @@
                 <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Footer</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="manage-banners">Footer Management</a></li>
+                        <li><a href="manage-footer">Footer Management</a></li>
                     </ul>
                 </div>
             </li>
