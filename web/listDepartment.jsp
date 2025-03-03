@@ -105,177 +105,182 @@
     </head>
 
     <body>
-        <%@ include file="layout/navbar.jsp" %>
-        <%@ include file="layout/header.jsp" %>
+        <div class="page-wrapper doctris-theme toggled">
+            <jsp:include page="layout/navbar.jsp" />
 
-        <div class="container-fluid">
-            <div class="layout-specing">
-                <div class="d-md-flex justify-content-between">
-                    <h5 class="mb-0" style="color: #218838">Danh sách phòng ban</h5>
-                    <form action="ListDepartment" method="get" >
-                        <label for="Page">PageSize</label>
-                        <input type="number" name="pageSize">
-                        <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Paging</button>                       
-                        <label for="statusFilter">Filter by Status:</label>
-                        <select name="status" id="statusFilter">
-                            <option value="">All</option>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                        <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Filter</button> 
-                    </form>
+
+            <!-- Start Page Content -->
+            <main class="page-content bg-light">
+                <jsp:include page="layout/header.jsp" />
+
+                <div class="container-fluid">
+                    <div class="layout-specing">
+                        <div class="d-md-flex justify-content-between">
+                            <h5 class="mb-0" style="color: #218838">Danh sách phòng ban</h5>
+                            <form action="ListDepartment" method="get" >
+                                <label for="Page">PageSize</label>
+                                <input type="number" name="pageSize">
+                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Paging</button>                       
+                                <label for="statusFilter">Filter by Status:</label>
+                                <select name="status" id="statusFilter">
+                                    <option value="">All</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Filter</button> 
+                            </form>
+                        </div>
+
+                        <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddDepartment'">
+                            Thêm Phòng Ban
+                        </button>
+                        <div class="row">
+                            <div class="col-12 mt-4">
+                                <div class="table-responsive shadow rounded">
+                                    <table class="table table-center bg-white mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
+                                                <th class="border-bottom p-3" style="min-width: 180px;">Tên Phòng Ban</th>
+                                                <th class="border-bottom p-3">Status</th>
+
+                                                <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <!--tbody-start-->
+                                        <tbody>
+                                            <c:forEach var="department" items="${listDepartment}">
+                                                <tr>
+                                                    <td class="p-3">${department.departmentId}</td>
+                                                    <td class="p-3">${department.departmentName}</td>
+                                                    <td class="p-3">${department.status}</td>
+                                                    <td class=" p-3">
+                                                        <!-- Action Buttons -->
+                                                        <a href="ViewDepartmentDetail?id=${department.departmentId}" class="btn btn-icon btn-pills btn-soft-primary" >
+                                                            <i class="uil uil-eye"></i>
+                                                        </a>
+                                                        <!-- Edit button with data-* attributes for customer info -->
+                                                        <a href="UpdateDepartment?id=${department.departmentId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                            <i class="uil uil-pen"></i> 
+                                                        </a>
+                                                        <form id="deleteForm${department.departmentId}" action="DeleteDepartment" method="post" style="display: inline;">
+                                                            <input type="hidden" name="id" value="${department.departmentId}">
+                                                            <a href="#" onclick="doDelete(${department.departmentId})" class="btn btn-icon btn-pills btn-soft-danger">
+                                                                <i class="uil uil-trash"></i>
+                                                            </a>
+                                                        </form>
+
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                        <!--Tbody-end-->
+
+                                    </table>
+                                    <!-- Phân trang -->
+
+
+                                </div>
+                            </div>
+                        </div><!--end row-->
+
+                        <div class="row text-center">
+                            <!--                                                     PAGINATION START -->
+                            <div class="col-12 mt-4">
+                                <div class="d-md-flex align-items-center text-center justify-content-between">
+                                    <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
+                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                        <c:if test="${currentPage > 1}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="ListDepartment?page=${currentPage - 1}&pageSize=${pageSize}">Previous</a>
+                                            </li>
+                                        </c:if>
+
+                                        <c:forEach var="i" begin="1" end="${totalPages}">
+                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                <a class="page-link" href="ListDepartment?page=${i}&pageSize=${pageSize}">${i}</a>
+                                            </li>
+                                        </c:forEach>
+
+                                        <c:if test="${currentPage < totalPages}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="ListDepartment?page=${currentPage + 1}&pageSize=${pageSize}">Next</a>
+                                            </li>
+                                        </c:if>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!--PAGINATION END -->
+                        </div>
+                    </div>
                 </div>
+                <!--end container-->
 
-                <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddDepartment'">
-                    Thêm Phòng Ban
-                </button>
+                <jsp:include page="layout/footer.jsp" />
+            </main>
+            <!--End page-content" -->
+        </div>
+        <!-- page-wrapper -->
+
+        <!-- Offcanvas Start -->
+        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header p-4 border-bottom">
+                <h5 id="offcanvasRightLabel" class="mb-0">
+                    <img src="assets/images/logo-dark.png" height="24" class="light-version" alt="">
+                    <img src="assets/images/logo-light.png" height="24" class="dark-version" alt="">
+                </h5>
+                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
+            </div>
+            <div class="offcanvas-body p-4 px-md-5">
                 <div class="row">
-                    <div class="col-12 mt-4">
-                        <div class="table-responsive shadow rounded">
-                            <table class="table table-center bg-white mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
-                                        <th class="border-bottom p-3" style="min-width: 180px;">Tên Phòng Ban</th>
-                                        <th class="border-bottom p-3">Status</th>
-
-                                        <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
-                                    </tr>
-                                </thead>
-                                <!--tbody-start-->
-                                <tbody>
-                                    <c:forEach var="department" items="${listDepartment}">
-                                        <tr>
-                                            <td class="p-3">${department.departmentId}</td>
-                                            <td class="p-3">${department.departmentName}</td>
-                                            <td class="p-3">${department.status}</td>
-                                            <td class=" p-3">
-                                                <!-- Action Buttons -->
-                                                <a href="ViewDepartmentDetail?id=${department.departmentId}" class="btn btn-icon btn-pills btn-soft-primary" >
-                                                    <i class="uil uil-eye"></i>
-                                                </a>
-                                                <!-- Edit button with data-* attributes for customer info -->
-                                                <a href="UpdateDepartment?id=${department.departmentId}" class="btn btn-icon btn-pills btn-soft-success">
-                                                    <i class="uil uil-pen"></i> 
-                                                </a>
-                                                <form id="deleteForm${department.departmentId}" action="DeleteDepartment" method="post" style="display: inline;">
-                                                    <input type="hidden" name="id" value="${department.departmentId}">
-                                                    <a href="#" onclick="doDelete(${department.departmentId})" class="btn btn-icon btn-pills btn-soft-danger">
-                                                        <i class="uil uil-trash"></i>
-                                                    </a>
-                                                </form>
-
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                                <!--Tbody-end-->
-
-                            </table>
-                            <!-- Phân trang -->
-
-
+                    <div class="col-12">
+                        <!-- Style switcher -->
+                        <div id="style-switcher">
+                            <div>
+                                <ul class="text-center list-unstyled mb-0">
+                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
+                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
+                                    <li class="d-grid"><a href="landing/index.html" target="_blank" class="mt-4"><img src="assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                        <!-- end Style switcher -->
+                    </div><!--end col-->
                 </div><!--end row-->
+            </div>
 
-                <div class="row text-center">
-                    <!--                                                     PAGINATION START -->
-                    <div class="col-12 mt-4">
-                        <div class="d-md-flex align-items-center text-center justify-content-between">
-                            <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
-                            <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                <c:if test="${currentPage > 1}">
-                                    <li class="page-item">
-                                        <a class="page-link" href="ListDepartment?page=${currentPage - 1}&pageSize=${pageSize}">Previous</a>
-                                    </li>
-                                </c:if>
-
-                                <c:forEach var="i" begin="1" end="${totalPages}">
-                                    <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                        <a class="page-link" href="ListDepartment?page=${i}&pageSize=${pageSize}">${i}</a>
-                                    </li>
-                                </c:forEach>
-
-                                <c:if test="${currentPage < totalPages}">
-                                    <li class="page-item">
-                                        <a class="page-link" href="ListDepartment?page=${currentPage + 1}&pageSize=${pageSize}">Next</a>
-                                    </li>
-                                </c:if>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!--PAGINATION END -->
-                </div>
+            <div class="offcanvas-footer p-4 border-top text-center">
+                <ul class="list-unstyled social-icon mb-0">
+                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
+                </ul><!--end icon-->
             </div>
         </div>
-        <!--end container-->
+        <!-- Offcanvas End -->
 
-        <%@ include file="layout/footer.jsp" %>
-    </main>
-    <!--End page-content" -->
-</div>
-<!-- page-wrapper -->
+        <!-- Modal end -->
 
-<!-- Offcanvas Start -->
-<div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header p-4 border-bottom">
-        <h5 id="offcanvasRightLabel" class="mb-0">
-            <img src="assets/images/logo-dark.png" height="24" class="light-version" alt="">
-            <img src="assets/images/logo-light.png" height="24" class="dark-version" alt="">
-        </h5>
-        <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
-    </div>
-    <div class="offcanvas-body p-4 px-md-5">
-        <div class="row">
-            <div class="col-12">
-                <!-- Style switcher -->
-                <div id="style-switcher">
-                    <div>
-                        <ul class="text-center list-unstyled mb-0">
-                            <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                            <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                            <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                            <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                            <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
-                            <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
-                            <li class="d-grid"><a href="landing/index.html" target="_blank" class="mt-4"><img src="assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- end Style switcher -->
-            </div><!--end col-->
-        </div><!--end row-->
-    </div>
-
-    <div class="offcanvas-footer p-4 border-top text-center">
-        <ul class="list-unstyled social-icon mb-0">
-            <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
-            <li class="list-inline-item mb-0"><a href="index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
-        </ul><!--end icon-->
-    </div>
-</div>
-<!-- Offcanvas End -->
-
-<!-- Modal end -->
-
-<!-- javascript -->
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<!-- simplebar -->
-<script src="assets/js/simplebar.min.js"></script>
-<!-- Icons -->
-<script src="assets/js/feather.min.js"></script>
-<!-- Main Js -->
-<script src="assets/js/app.js"></script>
+        <!-- javascript -->
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <!-- simplebar -->
+        <script src="assets/js/simplebar.min.js"></script>
+        <!-- Icons -->
+        <script src="assets/js/feather.min.js"></script>
+        <!-- Main Js -->
+        <script src="assets/js/app.js"></script>
 
 
 
-</body>
+    </body>
 
 </html>

@@ -4,7 +4,7 @@
     Author     : DIEN MAY XANH
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -94,111 +94,7 @@
         <!-- Loader -->
 
         <!-- Navbar STart -->
-        <header id="topnav" class="navigation sticky">
-            <div class="container">
-
-
-                <!-- Start Mobile Toggle -->
-                <div class="menu-extras">
-                    <div class="menu-item">
-                        <!-- Mobile menu toggle-->
-                        <a class="navbar-toggle" id="isToggle" onclick="toggleMenu()">
-                            <div class="lines">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </a>
-                        <!-- End mobile menu toggle-->
-                    </div>
-                </div>
-                <!-- End Mobile Toggle -->
-
-                <!-- Start Dropdown -->
-                <ul class="dropdowns list-inline mb-0">
-
-                    <!-- Replace the profile dropdown section in home.jsp -->
-                    <li class="list-inline-item mb-0 ms-1">
-                        <div class="dropdown dropdown-primary">
-                            <c:choose>
-                                <c:when test="${staff != null || customer != null}">
-                                    <!-- Logged in user -->
-                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="${staff != null ? staff.avatar : customer.avatar}" class="avatar avatar-ex-small rounded-circle" alt="">
-                                    </button>
-                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                        <a class="dropdown-item d-flex align-items-center text-dark" 
-                                           href="${staff != null ? 'staffProfile' : (customer != null ? 'customer-profile' : '#')}">
-                                            <img src="${staff != null ? staff.avatar : customer.avatar}" 
-                                                 class="avatar avatar-md-sm rounded-circle border shadow" alt="">
-                                            <div class="flex-1 ms-2">
-                                                <span class="d-block mb-1">${staff != null ? staff.name : customer.name}</span>
-                                                <small class="text-muted">
-                                                    <c:choose>
-                                                        <c:when test="${staff != null}">
-                                                            ${staff.department.departmentName}
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            Customer
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </small>
-                                            </div>
-                                        </a>
-
-                                        <a class="dropdown-item text-dark" href="change-password">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
-                                        </a>
-                                        <c:if test="${customer != null}">
-                                            <a class="dropdown-item text-dark" href="listAppointments">
-                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Thông tin chi tiết
-                                            </a>
-                                        </c:if>
-                                        <c:if test="${staff != null}">
-                                            <a class="dropdown-item text-dark" href="doctorprofile">
-                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Profile
-                                            </a>
-                                        </c:if>
-                                        <c:if test="${staff != null}">
-                                            <a class="dropdown-item text-dark" href="doctorappointment">
-                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> DashBoard
-                                            </a>
-                                        </c:if>
-
-                                        <div class="dropdown-divider border-top"></div>
-                                        <a class="dropdown-item text-dark" href="logout">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất
-                                        </a>
-                                    </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <!-- Not logged in -->
-                                    <a href="login" class="btn btn-soft-primary">
-                                        <i class="uil uil-user align-middle"></i> Đăng nhập
-                                    </a>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </li>
-                </ul>
-                <!-- Start Dropdown -->
-
-                <div id="navigation">
-                    <!-- Navigation Menu-->   
-                    <ul class="navigation-menu nav-left nav-light">
-                        <li class="parent-menu-item">
-                            <a href="home">Trang chủ</a><span class="menu-arrow"></span>
-                        </li>
-
-                        <li class="has-submenu parent-parent-menu-item">
-                            <a href="listDoctor.jsp">Bác Sĩ</a><span class="menu-arrow"></span>
-                        </li>
-
-                        <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
-                    </ul><!--end navigation menu-->
-                </div><!--end navigation-->
-            </div><!--end container-->
-        </header><!--end header-->
+        <jsp:include page="layout/header.jsp" /><!--end header-->
         <!-- Navbar End -->
 
         <!-- Banner Section -->
@@ -220,11 +116,7 @@
                                                     <h4 class="display-4 fw-bold text-white title-dark mb-4">
                                                         Chào mừng đến với trang web của chúng tôi!
                                                     </h4>
-                                                    <div class="mt-4">
-                                                        <a href="blog.html" class="btn btn-primary">
-                                                            Xem thêm
-                                                        </a>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -402,58 +294,9 @@
 </div><!--end container-->
 </section><!--end section-->
 <!-- End -->
-
-
-
 <!-- Start -->
-<footer class="bg-footer" style="margin-top: 5%;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mb-4">
-                <p>Đội ngũ bác sĩ xuất sắc sẵn sàng cung cấp sự hỗ trợ kịp thời, điều trị khẩn cấp và tư vấn chuyên sâu cho gia đình bạn.</p>
-
-                <div class="mt-4">
-                    <h5 class="text-light title-dark footer-head">Địa chỉ</h5>
-                    <div id="google-map" style="height: 200px; width: 100%; overflow: hidden;">
-                        <!-- Nhúng Google Map tại đây -->
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d33006.67071116369!2d105.51462100371513!3d21.005883448895787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abc60e7d3f19%3A0x2be9d7d0b5abcbf4!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgSMOgIE7hu5lp!5e1!3m2!1svi!2s!4v1737175663000!5m2!1svi!2s" 
-                                width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div><!--end col-->
-
-            <div class="col-md-6">
-                <h5 class="text-light title-dark footer-head">Liên hệ với chúng tôi</h5>
-                <ul class="list-unstyled footer-list mt-4">
-                    <li class="d-flex align-items-center">
-                        <i data-feather="mail" class="fea icon-sm text-foot align-middle"></i>
-                        <a href="mailto:contact@fpt.edu.vn" class="text-foot ms-2">contact@fpt.edu.vn</a>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <i data-feather="phone" class="fea icon-sm text-foot align-middle"></i>
-                        <a href="tel:+152534468854" class="text-foot ms-2">+114</a>
-                    </li>
-                </ul>
-            </div><!--end col-->
-        </div><!--end row-->
-    </div><!--end container-->
-
-    <div class="container mt-5">
-        <div class="pt-4 footer-bar">
-            <div class="text-center">
-                <p class="mb-0">2025 © MediSync. Code backend by Group 3 - SE1885</p>
-            </div>
-        </div>
-    </div><!--end container-->
-</footer><!--end footer-->
+<jsp:include page="layout/customer-side-footer.jsp" /><!--end footer-->
 <!-- End -->
-
-
-
-
-
-
-
 <!-- javascript -->
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <!-- SLIDER -->
@@ -467,40 +310,40 @@
 <script src="assets/js/app.js"></script>
 
 <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                // Initialize the carousel with specific options
-                                const bannerCarousel = new bootstrap.Carousel(document.getElementById('bannerCarousel'), {
-                                    interval: 5000, // Time between slides in milliseconds
-                                    pause: 'hover', // Pause on mouse hover
-                                    ride: 'carousel', // Start cycling automatically
-                                    wrap: true // Continuous loop
-                                });
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize the carousel with specific options
+        const bannerCarousel = new bootstrap.Carousel(document.getElementById('bannerCarousel'), {
+            interval: 5000, // Time between slides in milliseconds
+            pause: 'hover', // Pause on mouse hover
+            ride: 'carousel', // Start cycling automatically
+            wrap: true // Continuous loop
+        });
 
-                                // Preload all banner images
-                                const preloadImages = () => {
-                                    const bannerItems = document.querySelectorAll('.banner-image');
-                                    bannerItems.forEach(item => {
-                                        const bgUrl = item.style.background.match(/url\(['"]?([^'")]+)['"]?\)/)[1];
-                                        const img = new Image();
-                                        img.src = bgUrl;
-                                    });
-                                };
+        // Preload all banner images
+        const preloadImages = () => {
+            const bannerItems = document.querySelectorAll('.banner-image');
+            bannerItems.forEach(item => {
+                const bgUrl = item.style.background.match(/url\(['"]?([^'")]+)['"]?\)/)[1];
+                const img = new Image();
+                img.src = bgUrl;
+            });
+        };
 
-                                // Call preload function
-                                preloadImages();
+        // Call preload function
+        preloadImages();
 
-                                // Add smooth transition when changing slides
-                                const carousel = document.getElementById('bannerCarousel');
-                                carousel.addEventListener('slide.bs.carousel', function (e) {
-                                    const activeItem = e.relatedTarget;
-                                    const bannerImage = activeItem.querySelector('.banner-image');
+        // Add smooth transition when changing slides
+        const carousel = document.getElementById('bannerCarousel');
+        carousel.addEventListener('slide.bs.carousel', function (e) {
+            const activeItem = e.relatedTarget;
+            const bannerImage = activeItem.querySelector('.banner-image');
 
-                                    // Ensure opacity transition works smoothly
-                                    setTimeout(() => {
-                                        bannerImage.style.opacity = '1';
-                                    }, 50);
-                                });
-                            });
+            // Ensure opacity transition works smoothly
+            setTimeout(() => {
+                bannerImage.style.opacity = '1';
+            }, 50);
+        });
+    });
 </script>
 </body>
 </html>

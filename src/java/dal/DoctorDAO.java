@@ -360,4 +360,50 @@ public class DoctorDAO extends DBContext {
         staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
         return staff;
     }
+    
+    public List<Staff> getAllDoctors() {
+        List<Staff> allDoctors = new ArrayList<>();
+        String sql = "select s.staffId, \n"
+                + "s.name, \n"
+                + "s.email, \n"
+                + "s.avatar, \n"
+                + "s.phone, \n"
+                + "s.password,\n"
+                + "s.dateOfBirth, \n"
+                + "s.position, \n"
+                + "s.gender, \n"
+                + "s.status, \n"
+                + "s.description, \n"
+                + "s.roleId, \n"
+                + "s.departmentId\n"
+                + "from Staff as s\n"
+                + "where roleId = 2 or roleId = 3";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int staffId = rs.getInt(1);
+                Staff doctor = new Staff();
+                doctor.setStaffId(staffId);
+                doctor.setName(rs.getString(2));
+                doctor.setEmail(rs.getString(3));
+                doctor.setAvatar(rs.getString(4));
+                doctor.setPhone(rs.getString(5));
+                doctor.setPassword(rs.getString(6));
+                doctor.setDateOfBirth(rs.getDate(7));
+                doctor.setPosition(positionDao.getPositionByStaffId(staffId));
+                doctor.setGender(rs.getString(9));
+                doctor.setStatus(rs.getString(10));
+                doctor.setDescription(rs.getString(11));
+                doctor.setRole(roleDao.getRoleById(rs.getInt(12)));
+                doctor.setDepartment(departDao.getDepartmentById(rs.getInt(13)));
+
+                allDoctors.add(doctor);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return allDoctors;
+    }
 }

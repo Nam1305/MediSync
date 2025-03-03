@@ -228,13 +228,6 @@
                                                 <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
                                                 <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
                                                 <th class="border-bottom p-3">Giới tính</th>
-<<<<<<< HEAD
-
-                                                <!--                                                <th class="border-bottom p-3">Address</th>-->
-<!--                                                <th class="border-bottom p-3">Địa chỉ</th>-->
-
-=======
->>>>>>> 6c671639f1dc279ccc7e9fa6aa0240c142e17164
                                                 <th class="border-bottom p-3">Số Điện Thoại</th>
                                                 <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
                                                 <th class="border-bottom p-3">Email</th>
@@ -265,12 +258,6 @@
                                                             <c:otherwise>Khác</c:otherwise>
                                                         </c:choose>
                                                     </td>
-
-<<<<<<< HEAD
-<!--                                                    <td class="p-3">${customers.address}</td>-->
-
-=======
->>>>>>> 6c671639f1dc279ccc7e9fa6aa0240c142e17164
                                                     <td class="p-3">${customers.phone}</td>
                                                     <td class="p-3">${customers.dateOfBirth}</td>
                                                     <td class="p-3">${customers.email}</td>
@@ -393,144 +380,6 @@
                 </ul><!--end icon-->
             </div>
         </div>
-        <!-- Offcanvas End -->
-
-        <!-- Modal start -->
-        <!--        <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header border-bottom p-3">
-                                <h5 class="modal-title" id="exampleModalLabel">Profile Settings</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body p-3 pt-4">
-                                <form class="mt-4" method="POST" action="editCustomer">
-                                    input hidden
-                                    <input type="hidden" name="customerId" id="customerId">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Họ và Tên</label>
-                                                <input name="full-name" id="full-name" type="text" class="form-control" placeholder="Full name:">
-                                            </div>
-                                        </div>end col
-        
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Giới tính</label>
-                                                <div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="gender" id="male" value="M">
-                                                        <label class="form-check-label" for="male">Male</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="gender" id="female" value="F">
-                                                        <label class="form-check-label" for="female">Female</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>end col
-        
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Your Email</label>
-                                                <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
-                                            </div>
-                                        </div>end col
-        
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Số Điện Thoại</label>
-                                                <input name="number" id="number" type="text" class="form-control" placeholder="Phone number:">
-                                            </div>
-                                        </div>end col
-        
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Địa chỉ</label>
-                                                <input name="address" id="address" type="text" class="form-control" placeholder="Your address:">
-                                            </div>
-                                        </div>end col
-        
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Ngày sinh</label>
-                                                <input name="dob" id="dob" type="date" class="form-control" placeholder="Your date of birth:">
-                                            </div>
-                                        </div>end col
-        
-                                    </div>end row
-        
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <input type="submit" id="submit" name="send" class="btn btn-primary" value="Lưu thay đổi">
-                                        </div>end col
-                                    </div>end row
-                                </form>end form
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
-        <!-- Modal end -->
-
-        <!-- Profile-Start -->
-        <!--        <div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header border-bottom p-3">
-                                <h5 class="modal-title" id="exampleModalLabel1">Thông tin chi tiết</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body p-3 pt-4">
-                                <div class="d-flex align-items-center">
-                                    Avatar-Detail-Profile  
-                                    <img id="profileAvatar" src="" class="avatar avatar-small rounded-pill" alt="">
-                                    <h5 class="mb-0 ms-3" id="profileName"></h5>
-                                </div>
-                                <ul class="list-unstyled mb-0 d-md-flex justify-content-between mt-4">
-                                    <li>
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="d-flex">
-                                                <h6>Age:</h6>
-                                                <p class="text-muted ms-2" id="profileAge"></p>
-                                            </li>
-        
-                                            <li class="d-flex">
-                                                <h6>Gender:</h6>
-                                                <p class="text-muted ms-2" id="profileGender"></p>
-                                            </li>
-        
-                                            <li class="d-flex">
-                                                <h6 class="mb-0">Department:</h6>
-                                                <p class="text-muted ms-2 mb-0" id="profileDepartment"></p>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="d-flex">
-                                                <h6>Date:</h6>
-                                                <p class="text-muted ms-2" id="profileDate"></p>
-                                            </li>
-        
-                                            <li class="d-flex">
-                                                <h6>Time:</h6>
-                                                <p class="text-muted ms-2" id="profileTime"></p>
-                                            </li>
-        
-                                            <li class="d-flex">
-                                                <h6 class="mb-0">Doctor:</h6>
-                                                <p class="text-muted ms-2 mb-0" id="profileDoctor"></p>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
-        <!-- Profile End -->
-        <!-- Modal end -->
 
         <!-- javascript -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>

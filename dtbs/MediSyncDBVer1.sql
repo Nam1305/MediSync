@@ -42,13 +42,13 @@ CREATE TABLE Blog (
   image          NVARCHAR(MAX) NULL, 
   author         NVARCHAR(255) NULL, 
   [date]         DATE NULL, 
-  typeId		 TINYINT CHECK (typeId IN (0, 1)) DEFAULT 0 NOT NULL,
+  typeId		 TINYINT NOT NULL,
   selectedBanner TINYINT CHECK (selectedBanner IN (0, 1)) DEFAULT 0 NULL,
   PRIMARY KEY (blogId)
 );
 
 CREATE TABLE BlogType (
-	typeId		 TINYINT CHECK (typeId IN (0, 1)) DEFAULT 0 NOT NULL,
+	typeId		 TINYINT NOT NULL,
 	typeName     NVARCHAR(10) NULL
 	PRIMARY KEY (typeId)
 );
@@ -316,7 +316,8 @@ INSERT INTO Customer (name, avatar, email, password, address, phone, dateOfBirth
 --BlogTupe
 INSERT INTO BlogType(typeId, typeName) VALUES
 (0, N'blog'),
-(1, N'banner');
+(1, N'banner'),
+(2, N'Footer');
 
 --Blog
 INSERT INTO Blog (blogName, content, image, author, [date], typeId, selectedBanner) VALUES
@@ -651,7 +652,6 @@ N'Đột Phá Trong Phẫu Thuật
 
      Đột phá trong phẫu thuật không chỉ nâng cao chất lượng điều trị mà còn mang lại hy vọng mới cho bệnh nhân. Với sự phát triển không ngừng của công nghệ và nghiên cứu, tương lai của ngành phẫu thuật hứa hẹn sẽ tiếp tục có những bước tiến lớn.',
 'assets/images/blog/01.jpg', 'James Miller', '2023-10-01', 0, 0);
-
 
 
 --COMMENT

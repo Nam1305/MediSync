@@ -17,33 +17,12 @@
         <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <style>
-            .banner-preview {
-                width: 200px;
-                height: 120px;
-                object-fit: cover;
-                border-radius: 8px;
-            }
-            .banner-card {
-                transition: all 0.3s ease;
-            }
-            .banner-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            }
-            .banner-preview {
-                width: 100%;
-                height: 200px;
-                object-fit: cover;
-                border-top-left-radius: 8px;
-                border-top-right-radius: 8px;
-            }
-
-            .banner-card {
+            .footer-card {
                 transition: all 0.3s ease;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             }
 
-            .banner-card:hover {
+            .footer-card:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             }
@@ -53,19 +32,10 @@
                 margin-bottom: 0.5rem;
             }
 
-            .pagination .page-link {
-                padding: 0.5rem 0.75rem;
-                font-size: 0.9rem;
-            }
-
-            .pagination .fas {
-                font-size: 0.8rem;
-            }
-            
             .alert-dismissible {
                 position: relative;
             }
-            
+
             .alert-dismissible .close {
                 position: absolute;
                 top: 0;
@@ -243,188 +213,178 @@
 
                 <div class="container-fluid">
                     <div class="container mt-5" style="margin-top: 200px;">
-                        <!-- Alert Messages -->
-                        <c:if test="${not empty sessionScope.errorMessage}">
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 150px;">
-                                <strong>Error!</strong> ${sessionScope.errorMessage}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                            <% session.removeAttribute("errorMessage"); %>
-                        </c:if>
 
-                        <c:if test="${not empty sessionScope.successMessage}">
-                            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 150px;">
-                                <strong>Success!</strong> ${sessionScope.successMessage}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                            <% session.removeAttribute("successMessage"); %>
-                        </c:if>
-
-                        <!-- New Banner Upload Form -->
-                        <div class="card mb-4" style="margin-top: 100px;">
-                            <div class="card-header">
-                                <h5 class="mb-0">Upload New Banner</h5>
-                            </div>
-                            <div class="card-body">
-                                <form id="bannerForm" action="manage-banners" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-                                    <input type="hidden" name="action" value="uploadNew">
-
-                                    <div class="mb-3">
-                                        <label for="bannerName" class="form-label">Banner Title</label>
-                                        <input type="text" class="form-control" id="bannerName" name="bannerName" 
-                                               value="${sessionScope.formData.bannerName[0]}" required>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="bannerContent" class="form-label">Banner Content</label>
-                                        <textarea class="form-control" id="bannerContent" name="bannerContent" rows="3" required>${sessionScope.formData.bannerContent[0]}</textarea>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="bannerImage" class="form-label">Banner Image</label>
-                                        <input type="file" class="form-control" id="bannerImage" name="bannerImage" 
-                                               accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" 
-                                               required onchange="validateFileSize()">
-                                        <div class="form-text">
-                                            Maximum file size: 10MB. Accepted formats: jpg, jpeg, png, gif, webp
-                                        </div>
-                                        <div id="fileError" class="text-danger mt-1" style="display: none;"></div>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary">Upload New Banner</button>
-                                </form>
-                                <% session.removeAttribute("formData"); %>
-                            </div>
+                    <!-- Alert Messages -->
+                    <c:if test="${not empty sessionScope.errorMessage}">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 150px;">
+                            <strong>Error!</strong> ${sessionScope.errorMessage}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <form action="manage-banners" method="get" class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" name="search" 
-                                                   placeholder="Search by banner name..." 
-                                                   value="${searchQuery}">
-                                            <button class="btn btn-outline-secondary" type="submit">Search</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <select name="sortOrder" class="form-select" onchange="this.form.submit()">
-                                            <option value="desc" ${sortOrder == 'desc' ? 'selected' : ''}>Newest First</option>
-                                            <option value="asc" ${sortOrder == 'asc' ? 'selected' : ''}>Oldest First</option>
-                                        </select>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                        <% session.removeAttribute("errorMessage"); %>
+                    </c:if>
 
-                        <!-- Existing Banners -->
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">Manage Existing Banners</h5>
-                                <span class="text-muted">Total: ${blogs.size()} banners</span>
-                            </div>
-                            <div class="card-body">
+                    <c:if test="${not empty sessionScope.successMessage}">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 150px;">
+                            <strong>Success!</strong> ${sessionScope.successMessage}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <% session.removeAttribute("successMessage"); %>
+                    </c:if>
+
+                    <!-- Footer Content Form -->
+                    <div class="card mb-4" style="margin-top: 100px;">
+                        <div class="card-header">
+                            <h5 class="mb-0">
                                 <c:choose>
-                                    <c:when test="${empty blogs}">
-                                        <div class="text-center py-5">
-                                            <div class="mb-3">
-                                                <i class="fas fa-image fa-3x text-muted"></i>
-                                            </div>
-                                            <h5>No banners found</h5>
-                                            <p class="text-muted">
-                                                ${not empty searchQuery ? 'Try adjusting your search criteria' : 'Start by uploading a new banner'}
-                                            </p>
-                                        </div>
+                                    <c:when test="${footerContentExists}">
+                                        <i class="fas fa-edit me-2"></i>Update Footer Content
                                     </c:when>
                                     <c:otherwise>
-                                        <div class="row g-4">
-                                            <c:forEach items="${blogs}" var="blog">
-                                                <div class="col-md-6 col-lg-4">
-                                                    <div class="card banner-card h-100 ${blog.selectedBanner == 1 ? 'border-primary' : ''}">
-                                                        <div class="position-relative">
-                                                            <img src="${blog.image}" 
-                                                                 class="banner-preview card-img-top" 
-                                                                 alt="${blog.blogName}"
-                                                                 style="height: 200px; object-fit: cover;">
-
-                                                            <c:if test="${blog.selectedBanner == 1}">
-                                                                <div class="position-absolute top-0 start-0 m-2">
-                                                                    <span class="badge bg-primary">Active Banner</span>
-                                                                </div>
-                                                            </c:if>
-                                                        </div>
-
-                                                        <div class="card-body">
-                                                            <h5 class="card-title text-truncate" title="${blog.blogName}">
-                                                                ${blog.blogName}
-                                                            </h5>
-
-                                                            <div class="mb-3">
-                                                                <p class="card-text text-muted small" style="height: 60px; overflow: hidden;">
-                                                                    ${blog.content}
-                                                                </p>
-                                                            </div>
-
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <small class="text-muted">
-                                                                    <i class="far fa-calendar-alt"></i>
-                                                                    ${blog.date}
-                                                                </small>
-
-                                                                <form action="manage-banners" method="post" class="d-inline">
-                                                                    <input type="hidden" name="action" value="updateBanner">
-                                                                    <input type="hidden" name="blogId" value="${blog.blogId}">
-                                                                    <input type="hidden" name="setAsBanner" value="${blog.selectedBanner == 1 ? 'false' : 'true'}">
-                                                                    <input type="hidden" name="page" value="${currentPage}">
-                                                                    <input type="hidden" name="pageSize" value="${pageSize}">
-                                                                    <input type="hidden" name="search" value="${searchQuery}">
-                                                                    <input type="hidden" name="sortOrder" value="${sortOrder}">
-
-                                                                    <button type="submit" 
-                                                                            class="btn btn-sm ${blog.selectedBanner == 1 ? 'btn-outline-danger' : 'btn-outline-primary'}"
-                                                                            title="${blog.selectedBanner == 1 ? 'Remove from active banners' : 'Set as active banner'}">
-                                                                        <i class="fas ${blog.selectedBanner == 1 ? 'fa-times' : 'fa-check'}"></i>
-                                                                        ${blog.selectedBanner == 1 ? 'Deactivate' : 'Activate'}
-                                                                    </button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </c:forEach>
-                                        </div>
-
-                                        <!-- Pagination section -->
-                                        <c:if test="${totalPages > 1}">
-                                            <nav aria-label="Banner navigation" class="mt-4">
-                                                <ul class="pagination justify-content-center">
-                                                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                                                        <a class="page-link" href="manage-banners?page=${currentPage - 1}&search=${searchQuery}&sortOrder=${sortOrder}&pageSize=${pageSize}">
-                                                            <i class="fas fa-chevron-left"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <c:forEach begin="1" end="${totalPages}" var="i">
-                                                        <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                                            <a class="page-link" href="manage-banners?page=${i}&search=${searchQuery}&sortOrder=${sortOrder}&pageSize=${pageSize}">
-                                                                ${i}
-                                                            </a>
-                                                        </li>
-                                                    </c:forEach>
-
-                                                    <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                                                        <a class="page-link" href="manage-banners?page=${currentPage + 1}&search=${searchQuery}&sortOrder=${sortOrder}&pageSize=${pageSize}">
-                                                            <i class="fas fa-chevron-right"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </c:if>
+                                        <i class="fas fa-plus-circle me-2"></i>Create New Footer Content
                                     </c:otherwise>
                                 </c:choose>
-                            </div>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="footerForm" action="manage-footer" method="post" onsubmit="return validateForm()">
+                                <input type="hidden" name="action" value="saveFooterContent">
+                                <input type="hidden" name="isUpdate" value="${footerContentExists}">
+
+                                <div class="mb-3">
+                                    <label for="addressContent" class="form-label"><i class="fas fa-map-marker-alt me-2"></i>Address</label>
+                                    <textarea class="form-control" id="addressContent" name="addressContent" rows="3" required>${addressContent.content}</textarea>
+                                    <c:if test="${addressContent != null}">
+                                        <input type="hidden" name="addressId" value="${addressContent.blogId}">
+                                    </c:if>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="emailContent" class="form-label"><i class="fas fa-envelope me-2"></i>Email</label>
+                                    <textarea class="form-control" id="emailContent" name="emailContent" rows="2" required>${emailContent.content}</textarea>
+                                    <c:if test="${emailContent != null}">
+                                        <input type="hidden" name="emailId" value="${emailContent.blogId}">
+                                    </c:if>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="phoneContent" class="form-label"><i class="fas fa-phone me-2"></i>Phone Number</label>
+                                    <textarea class="form-control" id="phoneContent" name="phoneContent" rows="2" required>${phoneContent.content}</textarea>
+                                    <c:if test="${phoneContent != null}">
+                                        <input type="hidden" name="phoneId" value="${phoneContent.blogId}">
+                                    </c:if>
+                                </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <button type="reset" class="btn btn-secondary me-2">
+                                        <i class="fas fa-undo me-1"></i> Reset
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <c:choose>
+                                            <c:when test="${footerContentExists}">
+                                                <i class="fas fa-save me-1"></i> Update
+                                            </c:when>
+                                            <c:otherwise>
+                                                <i class="fas fa-save me-1"></i> Save
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
+
+                    <!-- Preview Section -->
+                    <c:if test="${footerContentExists}">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0"><i class="fas fa-eye me-2"></i>Preview Current Footer Content</h5>
+                                <span class="text-muted">
+                                    <c:choose>
+                                        <c:when test="${addressContent != null}">
+                                            Last Updated: ${addressContent.date}
+                                        </c:when>
+                                        <c:when test="${emailContent != null}">
+                                            Last Updated: ${emailContent.date}
+                                        </c:when>
+                                        <c:when test="${phoneContent != null}">
+                                            Last Updated: ${phoneContent.date}
+                                        </c:when>
+                                    </c:choose>
+                                </span>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-4">
+                                    <div class="col-md-4">
+                                        <div class="card footer-card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    <i class="fas fa-map-marker-alt me-2"></i>Address
+                                                </h5>
+                                                <p class="card-text" style="height: 100px; overflow: auto;">
+                                                    ${addressContent.content}
+                                                </p>
+                                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                                    <small class="text-muted">
+                                                        <i class="far fa-user me-1"></i>
+                                                        ${addressContent.author}
+                                                    </small>
+                                                    <small class="text-muted">
+                                                        <i class="far fa-calendar-alt me-1"></i>
+                                                        ${addressContent.date}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card footer-card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    <i class="fas fa-envelope me-2"></i>Email
+                                                </h5>
+                                                <p class="card-text" style="height: 100px; overflow: auto;">
+                                                    ${emailContent.content}
+                                                </p>
+                                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                                    <small class="text-muted">
+                                                        <i class="far fa-user me-1"></i>
+                                                        ${emailContent.author}
+                                                    </small>
+                                                    <small class="text-muted">
+                                                        <i class="far fa-calendar-alt me-1"></i>
+                                                        ${emailContent.date}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card footer-card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    <i class="fas fa-phone me-2"></i>Phone Number
+                                                </h5>
+                                                <p class="card-text" style="height: 100px; overflow: auto;">
+                                                    ${phoneContent.content}
+                                                </p>
+                                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                                    <small class="text-muted">
+                                                        <i class="far fa-user me-1"></i>
+                                                        ${phoneContent.author}
+                                                    </small>
+                                                    <small class="text-muted">
+                                                        <i class="far fa-calendar-alt me-1"></i>
+                                                        ${phoneContent.date}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+                </div>
                 </div><!--end container-->
 
                 <!-- Footer Start -->
@@ -491,74 +451,133 @@
         <!-- Offcanvas End -->
 
         <!-- Include your existing JS files -->
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/app.js"></script>
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/simplebar.min.js"></script>
-        <script src="assets/js/feather.min.js"></script>
+        <!-- Include JS files -->
+                <script src="assets/js/bootstrap.bundle.min.js"></script>
+                <script src="assets/js/app.js"></script>
+                <script src="assets/js/jquery.min.js"></script>
+                <script src="assets/js/simplebar.min.js"></script>
+                <script src="assets/js/feather.min.js"></script>
 
-        <!-- File validation script -->
-        <script>
-                                        const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+                <!-- Form validation script -->
+                <script>
+                                function validateForm() {
+                                    // Validate address
+                                    const addressContent = document.getElementById('addressContent');
+                                    if (addressContent.value.trim() === '') {
+                                        alert('Address content cannot be empty');
+                                        addressContent.focus();
+                                        return false;
+                                    }
 
-                                        function validateFileSize() {
-                                            const fileInput = document.getElementById('bannerImage');
-                                            const fileError = document.getElementById('fileError');
+                                    // Validate email format
+                                    const emailContent = document.getElementById('emailContent');
+                                    if (emailContent.value.trim() === '') {
+                                        alert('Email content cannot be empty');
+                                        emailContent.focus();
+                                        return false;
+                                    }
 
-                                            if (fileInput.files.length > 0) {
-                                                const fileSize = fileInput.files[0].size;
-                                                const fileType = fileInput.files[0].type;
+                                    // Check if the email content contains a valid email format
+                                    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+                                    if (!emailRegex.test(emailContent.value)) {
+                                        alert('Please enter a valid email address format');
+                                        emailContent.focus();
+                                        return false;
+                                    }
 
-                                                // Check file size
-                                                if (fileSize > MAX_FILE_SIZE) {
-                                                    fileError.textContent = 'File size exceeds 10MB limit. Please select a smaller file.';
-                                                    fileError.style.display = 'block';
-                                                    fileInput.value = ''; // Clear the input
-                                                    return false;
-                                                }
+                                    // Validate phone
+                                    const phoneContent = document.getElementById('phoneContent');
+                                    if (phoneContent.value.trim() === '') {
+                                        alert('Phone content cannot be empty');
+                                        phoneContent.focus();
+                                        return false;
+                                    }
 
-                                                // Check file type
-                                                const acceptedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
-                                                if (!acceptedTypes.includes(fileType)) {
-                                                    fileError.textContent = 'Invalid file type. Please select an image file (JPG, JPEG, PNG, GIF, WEBP).';
-                                                    fileError.style.display = 'block';
-                                                    fileInput.value = ''; // Clear the input
-                                                    return false;
-                                                }
+                                    // Check if the phone content contains a 10-digit number
+                                    const phoneRegex = /\b\d{10}\b/;
+                                    if (!phoneRegex.test(phoneContent.value)) {
+                                        alert('Phone number must contain exactly 10 digits');
+                                        phoneContent.focus();
+                                        return false;
+                                    }
 
-                                                // If all checks pass
-                                                fileError.style.display = 'none';
-                                                return true;
-                                            }
+                                    return true;
+                                }
 
-                                            return true; // No file selected yet
-                                        }
+    // Add event listeners for real-time validation
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const emailContent = document.getElementById('emailContent');
+                                    const phoneContent = document.getElementById('phoneContent');
 
-                                        function validateForm() {
-                                            // Add banner name check
-                                            const bannerNameInput = document.getElementById('bannerName');
-                                            const bannerName = bannerNameInput.value.trim();
+                                    // Add input event listeners for real-time feedback
+                                    emailContent.addEventListener('input', function () {
+                                        validateEmail(this);
+                                    });
 
-                                            if (bannerName === '') {
-                                                alert('Banner name cannot be empty');
-                                                bannerNameInput.focus();
-                                                return false;
-                                            }
+                                    phoneContent.addEventListener('input', function () {
+                                        validatePhone(this);
+                                    });
 
-                                            return validateFileSize();
-                                        }
-
-                                        // Auto-dismiss alerts after 5 seconds
-                                        document.addEventListener('DOMContentLoaded', function () {
-                                            setTimeout(function () {
-                                                const alerts = document.querySelectorAll('.alert');
-                                                alerts.forEach(function (alert) {
-                                                    const bsAlert = new bootstrap.Alert(alert);
-                                                    bsAlert.close();
-                                                });
-                                            }, 5000);
+                                    // Auto-dismiss alerts after 5 seconds
+                                    setTimeout(function () {
+                                        const alerts = document.querySelectorAll('.alert');
+                                        alerts.forEach(function (alert) {
+                                            const bsAlert = new bootstrap.Alert(alert);
+                                            bsAlert.close();
                                         });
-        </script>
+                                    }, 5000);
+                                });
+
+                                function validateEmail(input) {
+                                    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+                                    if (input.value.trim() !== '' && !emailRegex.test(input.value)) {
+                                        input.classList.add('is-invalid');
+
+                                        // Create or update feedback message
+                                        let feedback = input.nextElementSibling;
+                                        if (!feedback || !feedback.classList.contains('invalid-feedback')) {
+                                            feedback = document.createElement('div');
+                                            feedback.className = 'invalid-feedback';
+                                            input.after(feedback);
+                                        }
+                                        feedback.textContent = 'Please enter a valid email address format';
+                                    } else {
+                                        input.classList.remove('is-invalid');
+                                        input.classList.add('is-valid');
+
+                                        // Remove any existing feedback
+                                        const feedback = input.nextElementSibling;
+                                        if (feedback && feedback.classList.contains('invalid-feedback')) {
+                                            feedback.remove();
+                                        }
+                                    }
+                                }
+
+                                function validatePhone(input) {
+                                    const phoneRegex = /\b\d{10}\b/;
+                                    if (input.value.trim() !== '' && !phoneRegex.test(input.value)) {
+                                        input.classList.add('is-invalid');
+
+                                        // Create or update feedback message
+                                        let feedback = input.nextElementSibling;
+                                        if (!feedback || !feedback.classList.contains('invalid-feedback')) {
+                                            feedback = document.createElement('div');
+                                            feedback.className = 'invalid-feedback';
+                                            input.after(feedback);
+                                        }
+                                        feedback.textContent = 'Phone number must contain exactly 10 digits';
+                                    } else {
+                                        input.classList.remove('is-invalid');
+                                        input.classList.add('is-valid');
+
+                                        // Remove any existing feedback
+                                        const feedback = input.nextElementSibling;
+                                        if (feedback && feedback.classList.contains('invalid-feedback')) {
+                                            feedback.remove();
+                                        }
+                                    }
+                                }
+                </script>
 
     </body>
 

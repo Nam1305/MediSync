@@ -1,6 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,11 +99,16 @@
     </head>
 
     <body>
+      
 
-        <%@ include file="layout/navbar.jsp" %>
-        <%@ include file="layout/header.jsp" %>
+        <div class="page-wrapper doctris-theme toggled">
+          <jsp:include page="layout/navbar.jsp" />
+            
 
-
+            <!-- Start Page Content -->
+            <main class="page-content bg-light">
+                <jsp:include page="layout/header.jsp" />
+        
         <div class="container-fluid">
             <div class="layout-specing">
 
@@ -239,7 +244,7 @@
             </div>
         </div><!--end container-->
 
-        <%@ include file="layout/footer.jsp" %>
+        <jsp:include page="layout/footer.jsp" />
 
     </main>
     <!--End page-content" -->
