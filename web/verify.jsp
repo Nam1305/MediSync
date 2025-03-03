@@ -33,11 +33,11 @@
 
         <div class="container">
             <div class="verification-table">
-                <h2 class="text-center">Verify Your Code</h2>
+                <h2 class="text-center">Xác nhận mã để hoàn thành đăng kí!</h2>
                 <form action="register" class="verify-form mt-4" method="get" id="verification-form">
                     <div class="mb-3">
-                        <label class="form-label">Enter Your Verification Code <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" placeholder="Verification Code" name="code" required>
+                        <label class="form-label">Hãy nhập mã để xác nhận!<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Code" name="code" required>
                         <input type="hidden" name="email" value="${email}">
                         <input type="hidden" name="password" value="${password}">
                         <input type="hidden" name="phone" value="${phone}">
@@ -48,7 +48,7 @@
                         ${error}
                     </div>
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-success" style="width: 100%;">Verify</button>
+                        <button type="submit" class="btn btn-success" style="width: 100%;">Xác nhận</button>
                     </div>
                 </form>
             </div>

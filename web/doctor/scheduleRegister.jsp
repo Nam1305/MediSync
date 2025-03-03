@@ -8,11 +8,16 @@
         <meta charset="utf-8" />
         <title>Đăng ký ca làm việc</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
         <link href="assets/css/style.min.css" rel="stylesheet" />
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet" />
+        <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="assets/css/fullcalendar.min.css" rel="stylesheet" type="text/css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/app.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
         <style>
             .shift-container {
@@ -51,20 +56,30 @@
         </style>
     </head>
     <body>
-        <jsp:include page="top-navbar.jsp" />
-        <section class="bg-dashboard">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-4">
-                        <div class="rounded shadow overflow-hidden sticky-bar">
-                            <jsp:include page="left-navbar.jsp" />
-                        </div>
-                    </div>
-                    <div class="col-xl-9 col-lg-9 col-md-8 mt-4 pt-2">
+        <!-- Loader -->
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Loader -->
+
+        <div class="page-wrapper doctris-theme toggled">
+            <jsp:include page="left-navbar.jsp" />
+            <!-- sidebar-wrapper  -->
+
+            <!-- Start Page Content -->
+            <main class="page-content bg-light">
+                <jsp:include page="top-navbar.jsp" />
+                <div class="container-fluid">
+                    <div class="layout-specing">
                         <!-- Form đăng ký ca làm việc -->
                         <div class="card shadow p-4 mb-4">
                             <h4 class="mb-3 text-center">Đăng ký ca làm việc</h4>
-                            <form id="registerShiftForm" action="schedule" method="GET">
+                            <form id="registerShiftForm" action="registershift?action=regis" method="GET">
                                 <input type="hidden" name="action" value="regis">
                                 <div class="mb-3">
                                     <div class="shift-container">
@@ -149,21 +164,21 @@
                                         <!-- Nút 'Trước' -->
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="?page=${currentPage - 1}&pageSize=${pageSize}">Trước</a>
+                                                <a class="page-link" href="registershift&page=${currentPage - 1}&pageSize=${pageSize}">Trước</a>
                                             </li>
                                         </c:if>
 
                                         <!-- Hiển thị số trang -->
                                         <c:forEach begin="1" end="${totalPages}" var="p">
                                             <li class="page-item ${p == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="?page=${p}&pageSize=${pageSize}">${p}</a>
+                                                <a class="page-link" href="registershift&page=${p}&pageSize=${pageSize}">${p}</a>
                                             </li>
                                         </c:forEach>
 
                                         <!-- Nút 'Sau' -->
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="?page=${currentPage + 1}&pageSize=${pageSize}">Sau</a>
+                                                <a class="page-link" href="registershift?page=${currentPage + 1}&pageSize=${pageSize}">Sau</a>
                                             </li>
                                         </c:if>
                                     </ul>
@@ -171,20 +186,25 @@
                             </div>
 
                         </div>
-                    </div>
-                </div>
-            </div>
 
-        </section>
+                    </div>
+                </div><!--end container-->
+                <!-- Footer Start -->
+                <jsp:include page="footer.jsp" />
+                <!-- End -->
+            </main>
+            <!--End page-content" -->
+        </div>
+        <!-- page-wrapper -->
 
         <script>
-//            document.getElementById("registerShiftForm").addEventListener("submit", function (event) {
-//                let checkboxes = document.querySelectorAll('input[name="shifts"]:checked');
-//                if (checkboxes.length === 0) {
-//                    event.preventDefault();
-//                    alert("Vui lòng chọn ít nhất một ca làm việc!");
-//                }
-//            });
+            document.getElementById("registerShiftForm").addEventListener("submit", function (event) {
+                let checkboxes = document.querySelectorAll('input[name="shifts"]:checked');
+                if (checkboxes.length === 0) {
+                    event.preventDefault();
+                    alert("Vui lòng chọn ít nhất một ca làm việc!");
+                }
+            });
 
             document.querySelectorAll(".shift-box").forEach(box => {
                 box.addEventListener("click", function () {
@@ -195,6 +215,12 @@
             });
         </script>
 
-        <jsp:include page="footer.jsp" />
+
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/app.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </body>
+
+
 </html>

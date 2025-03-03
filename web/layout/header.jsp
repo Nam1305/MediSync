@@ -103,6 +103,7 @@
 </c:if>
 
 
+
 <!--         Navigation Start 
         <header id="topnav" class="navigation sticky">
             <div class="container">
@@ -115,6 +116,26 @@
                                 <span></span>
                                 <span></span>
                                 <span></span>
+
+                                <a class="dropdown-item text-dark" href="change-password">
+                                    <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
+                                </a>
+                                <c:if test="${customer != null}">
+                                    <a class="dropdown-item text-dark" href="listAppointments">
+                                        <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Thông tin chi tiết
+                                    </a>
+                                </c:if>
+                                <c:if test="${staff != null}">
+                                    <a class="dropdown-item text-dark" href="doctorappointment">
+                                        <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> DashBoard
+                                    </a>
+                                </c:if>
+
+                                <div class="dropdown-divider border-top"></div>
+                                <a class="dropdown-item text-dark" href="logout">
+                                    <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất
+                                </a>
+
                             </div>
                         </a>
                          End mobile menu toggle

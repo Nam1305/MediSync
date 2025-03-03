@@ -17,27 +17,43 @@
         <link href="assets/css/fullcalendar.min.css" rel="stylesheet" type="text/css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-        <script src="assets/js/fullcalendar.min.js"></script>
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/feather.min.js"></script>
-        <script src="assets/js/app.js"></script>
+
     </head>
     <body>
-        <jsp:include page="top-navbar.jsp" />
-        <section class="bg-dashboard">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-12">
-                        <div class="rounded shadow overflow-hidden sticky-bar">
-                            <jsp:include page="left-navbar.jsp" />
-                        </div>
-                    </div>
-                    <div class="col-xl-9 col-lg-9 col-md-8 mt-4 pt-2 mt-sm-0 pt-sm-0">
-                        <div id="calendar" style="max-width: 900px; margin: 40px auto;"></div>
-                    </div>
+        <!-- Loader -->
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
                 </div>
             </div>
-        </section>
+        </div>
+        <!-- Loader -->
+
+        <div class="page-wrapper doctris-theme toggled">
+            <jsp:include page="left-navbar.jsp" />
+            <!-- sidebar-wrapper  -->
+
+            <!-- Start Page Content -->
+            <main class="page-content bg-light">
+                <jsp:include page="top-navbar.jsp" />
+                <div class="container-fluid">
+                    <div class="layout-specing">
+                        <div id="calendar" style="max-width: 900px; margin: 40px auto;"></div>
+
+
+                    </div>
+                </div><!--end container-->
+                <!-- Footer Start -->
+                <jsp:include page="footer.jsp" />
+
+                <!-- End -->
+            </main>
+            <!--End page-content" -->
+        </div>
+        <!-- page-wrapper -->
+
 
         <div class="modal fade" id="eventDetailModal" tabindex="-1" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -51,18 +67,19 @@
                         <p><strong>Ca làm việc:</strong> <span id="eventTitle"></span></p>
                         <p><strong>Thời gian:</strong> <span id="eventTime"></span></p>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer" style="background-color: white;">
                         <button type="button" class="btn btn-success" data-bs-dismiss="modal">Đóng</button>
                     </div>
                 </div>
             </div>
         </div>
 
+
         <script>
             
             
             
-            
+
             document.addEventListener("DOMContentLoaded", function () {
             var calendarEl = document.getElementById("calendar");
             function getShiftTitle(startTime) {
@@ -118,6 +135,13 @@
                                     });
         </script>
 
-        <jsp:include page="footer.jsp" />
+
+
+        <script src="assets/js/fullcalendar.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/feather.min.js"></script>
+        <script src="assets/js/app.js"></script>
     </body>
+
+
 </html>
