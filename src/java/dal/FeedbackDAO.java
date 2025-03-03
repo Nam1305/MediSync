@@ -87,5 +87,15 @@ public class FeedbackDAO extends DBContext {
         } catch (Exception e) {
         }
         return new double[]{0, 0, 0, 0, 0, 0};
+    
+        
+}
+    public static void main(String[] args) {
+        FeedbackDAO f = new FeedbackDAO();
+        double[] d = f.getRatingStatistics(1);
+        for(int i = 0; i < d.length; i++){
+            System.out.println(d[i]);
+        }
     }
+
 }

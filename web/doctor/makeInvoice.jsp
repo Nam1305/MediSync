@@ -1,13 +1,6 @@
-<%-- 
-    Document   : makeInvoice
-    Created on : Mar 3, 2025, 4:20:08 PM
-    Author     : DIEN MAY XANH
---%>
-
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -57,7 +50,6 @@
             }
         </style>
     </head>
-
     <body>
         <!-- Loader -->
         <div id="preloader">
@@ -76,7 +68,7 @@
             <main class="page-content bg-light">
                 <jsp:include page="top-navbar.jsp" />
 
-                <div class="container-fluid">
+                <div class="container-fluid" style="margin-top: -4%;">
                     <div class="layout-specing">
                         <div class="container mt-5">
                             <h2 class="text-center mb-4">📋 Nhập Hóa Đơn Khám Bệnh</h2>
@@ -120,7 +112,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <button class="btn btn-custom w-100" onclick="addService()">Thêm</button>
+                                        <button class="btn btn-success w-100" onclick="addService()">Thêm</button>
                                     </div>
                                 </div>
                             </div>
@@ -152,8 +144,6 @@
                 // Thêm vào danh sách
                 let id = invoiceItems.length + 1;
                 invoiceItems.push({id, name, price});
-
-                // Hiển thị lại bảng
                 updateTable();
             }
 
@@ -164,21 +154,21 @@
 
             function updateTable() {
                 let table = document.getElementById("invoice-items");
-                table.innerHTML = "";
+                let rows = "";
                 totalPrice = 0;
 
                 invoiceItems.forEach((item) => {
                     totalPrice += item.price;
-                    table.innerHTML += `
-                        <tr>
-                            <td>${item.name}</td>
-                            <td>${item.price.toLocaleString()} VNĐ</td>
-                            <td>
-                                <button class="btn btn-delete btn-sm" onclick="removeService(${item.id})">Xóa</button>
-                            </td>
-                        </tr>`;
+                    rows += `<tr>
+                                <td>${item.name}</td>
+                                <td>${item.price.toLocaleString()} VNĐ</td>
+                                <td>
+                                    <button class="btn btn-delete btn-sm" onclick="removeService(${item.id})">Xóa</button>
+                                </td>
+                            </tr>`;
                 });
 
+                table.innerHTML = rows;
                 document.getElementById("total-price").innerText = totalPrice.toLocaleString();
             }
         </script>
@@ -188,6 +178,3 @@
         <script src="assets/js/app.js"></script>
     </body>
 </html>
-
-
-
