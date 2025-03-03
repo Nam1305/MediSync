@@ -40,7 +40,7 @@ public class DoctorDAO extends DBContext {
             sql += " AND (name LIKE ? OR phone LIKE ?)";
         }
         //Thêm phân trang 
-        sql += " ORDER BY staffId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        sql += " ORDER BY staffId DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY  ";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
 

@@ -36,7 +36,9 @@
         String currentPage = request.getRequestURI();
         boolean isListDoctorPage = currentPage.endsWith("ListDoctor") || currentPage.contains("listDoctor.jsp");
         boolean isListDepartmentPage = currentPage.endsWith("ListDepartment") || currentPage.contains("listDepartment.jsp");
+        boolean isListServicePage = currentPage.endsWith("ListService") || currentPage.contains("listService.jsp");
         %>
+
         <main class="page-content bg-light">
             <div class="top-header">
                 <div class="header-bar d-flex justify-content-between border-bottom">
@@ -63,13 +65,23 @@
                         <% } %>
                         <% if (isListDepartmentPage) { %>
                         <div class="search-bar p-0 d-none d-lg-block ms-2">
-                                <div id="search" class="menu-search mb-0">
-                                    <form action="ListDepartment" method="get" class="searchform">
-                                        <input type="text" class="form-control border rounded-pill" name="search" placeholder="Search by name ">
-                                        <input type="submit" value="Search">
-                                    </form>
-                                </div>
+                            <div id="search" class="menu-search mb-0">
+                                <form action="ListDepartment" method="get" class="searchform">
+                                    <input type="text" class="form-control border rounded-pill" name="search" placeholder="Search by name ">
+                                    <input type="submit" value="Search">
+                                </form>
                             </div>
+                        </div>
+                        <% } %>
+                        <% if (isListServicePage) { %>
+                        <div class="search-bar p-0 d-none d-lg-block ms-2">
+                            <div id="search" class="menu-search mb-0">
+                                <form action="ListService" method="get" class="searchform">
+                                    <input type="text" class="form-control border rounded-pill" name="search" placeholder="Search by name ">
+                                    <input type="submit" value="Search">
+                                </form>
+                            </div>
+                        </div>
                         <% } %>
                     </div>
                     <li class="list-inline-item mb-0 ms-1">

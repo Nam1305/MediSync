@@ -6,11 +6,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head>
-       <meta charset="utf-8" />
-        
+        <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -37,15 +35,27 @@
     <body>
         <div class="container mt-5">
             <h3>Chỉnh Sửa Thông Tin Phòng Ban</h3>
-            <form class="mt-4" method="post" action="UpdateDepartment">
+            <form class="mt-4" method="post" action="UpdateService">
                 <!-- Input Hidden -->
-                <input type="hidden" name="departmentId" id="departmentId" value="${department.departmentId}">
+                <input type="hidden" name="serviceId" id="serviceId" value="${service.serviceId}">
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Tên Phòng Ban</label>
-                            <input name="name" id="name" type="text" class="form-control" placeholder="Tên Phòng Ban" value ="${department.departmentName}">
+                            <label class="form-label">Name</label>
+                            <input name="name" id="name" type="text" class="form-control" placeholder="Name" value ="${service.name}">
+                        </div>
+                    </div><!--end col-->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Mô tả </label>
+                            <input name="content" id="content" type="text" class="form-control" placeholder="Mô tả" value ="${service.content}">
+                        </div>
+                    </div><!--end col-->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Giá</label>
+                            <input name="price" id="price" type="number" class="form-control" placeholder="Giá" value ="${service.price}">
                         </div>
                     </div><!--end col-->
                     <div class="col-md-6">
@@ -57,24 +67,18 @@
                             </select>
                         </div>
                     </div><!--end col-->
-
+                    
                     <div class="col-sm-12">
                         <div class="mb-3">
                             <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
-                            <a href="ListDepartment" class="btn btn-secondary">Back to List</a>
+                            <a href="ListService" class="btn btn-secondary">Back to List</a>
                         </div>
 
                     </div>
                     <div>
-                        <c:if test="${not empty requestScope.error}">
-                            <ul style="color: red">
-                                <c:forEach var="err" items="${requestScope.error}">
-                                    <li>${err}</li>
-                                </c:forEach>
-                            </ul>
+                        <c:if test="${not empty error}">
+                            <div style="color: red">${error}</div>
                         </c:if>
-                    </div>
-                    <div>
                         <c:if test="${not empty success}">
                             <div style="color: green">${success}</div>
                         </c:if>

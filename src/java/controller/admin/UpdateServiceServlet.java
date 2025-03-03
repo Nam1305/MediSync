@@ -4,7 +4,7 @@
  */
 package controller.admin;
 
-import dal.DepartmentDAO;
+import dal.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,14 +14,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import model.Department;
+import model.Service;
 
 /**
  *
  * @author Acer
  */
-@WebServlet(name = "UpdateDepartmentServlet", urlPatterns = {"/UpdateDepartment"})
-public class UpdateDepartmentServlet extends HttpServlet {
+@WebServlet(name = "UpdateServiceServlet", urlPatterns = {"/UpdateService"})
+public class UpdateServiceServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class UpdateDepartmentServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateDepartmentServlet</title>");
+            out.println("<title>Servlet UpdateServiceServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateDepartmentServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateServiceServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,22 +61,22 @@ public class UpdateDepartmentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String departmentIdStr = request.getParameter("id");
+        String serviceIdStr = request.getParameter("id");
         try {
-            int departmentId = Integer.parseInt(departmentIdStr);
-            DepartmentDAO department = new DepartmentDAO();
-            Department currentDepartment = department.getDepartmentById(departmentId);
-            if (currentDepartment != null) {
-                request.setAttribute("department", currentDepartment);
-                request.getRequestDispatcher("updateDepartment.jsp").forward(request, response);
+            int serviceId = Integer.parseInt(serviceIdStr);
+            ServiceDAO serviceDao = new ServiceDAO();
+            Service currentService = serviceDao.getServiceById(serviceId);
+            if (currentService != null) {
+                request.setAttribute("service", currentService);
+                request.getRequestDispatcher("updateService.jsp").forward(request, response);
             } else {
-                request.setAttribute("error", "Không thấy phòng ban này");
-                request.getRequestDispatcher("updateDepartment.jsp").forward(request, response);
+                request.setAttribute("error", "Không thấy service này");
+                request.getRequestDispatcher("updateService.jsp").forward(request, response);
             }
 
         } catch (NumberFormatException e) {
-            request.setAttribute("error", "Id Phòng ban này phải là số  ");
-            request.getRequestDispatcher("updateDepartment.jsp").forward(request, response); // Quay lại danh sách
+            request.setAttribute("error", "Id Service này phải là số  ");
+            request.getRequestDispatcher("updateService.jsp").forward(request, response); // Quay lại danh sách
         }
     }
 
@@ -91,49 +91,55 @@ public class UpdateDepartmentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DepartmentDAO departmentDao = new DepartmentDAO();
+        ServiceDAO serviceDao = new ServiceDAO();
         List<String> error = new ArrayList<>();
-
-        String departmentIdStr = request.getParameter("departmentId");
+        String serviceIdStr = request.getParameter("serviceId");
+        String serviceName = request.getParameter("name");
+        String serviceContent = request.getParameter("content");
+        String servicePrice = request.getParameter("price");
         String status = request.getParameter("status");
-        String departmentName = request.getParameter("name");
 
-        // Kiểm tra ID hợp lệ
-        int departmentId = Integer.parseInt(departmentIdStr);
-        Department department = departmentDao.getDepartmentById(departmentId);
-        
+        int serviceId = Integer.parseInt(serviceIdStr);
+        double price = Double.parseDouble(servicePrice);
 
-        // Kiểm tra tên phòng ban không được để trống
-        if (isEmpty(departmentName)) {
-            error.add("Tên Phòng ban không được để trống!");
-        } 
-
+        if (isEmpty(serviceName)) {
+            error.add("Tên Dịch Vụ không được để trống!");
+        }
         // Kiểm tra trạng thái không được để trống
         if (isEmpty(status)) {
             error.add("Trạng thái không được để trống!");
         }
-
-        // Kiểm tra phòng ban có tồn tại không
-        if (departmentDao.isDepartmentExistsNotCurrentDepartment(departmentName.trim().toLowerCase().replaceAll("\\s+", " "), departmentId)) {
-            error.add("Phòng ban này đã tồn tại!");
+        if (isEmpty(serviceContent)) {
+            error.add("Mô tả không được để trống!");
         }
-
+        if (isEmpty(servicePrice)) {
+            error.add("Giá không được để trống!");
+        }
+        Service currentService = serviceDao.getServiceById(serviceId);
         // Nếu có lỗi, hiển thị lại trang với thông báo lỗi
+        if (serviceDao.isServiceNotCurrentExists(serviceName.trim().toLowerCase().replaceAll("\\s+", " "), serviceId)) {
+            error.add("Tên Dịch Vụ đã tồn tại");
+        }
+        if (serviceDao.isContentNotCurrentExists(serviceContent.trim().toLowerCase().replaceAll("\\s+", " "), serviceId)) {
+            error.add("Mô tả đã tồn tại");
+        }
         if (!error.isEmpty()) {
-            request.setAttribute("department", department);
+            request.setAttribute("service", currentService);
             request.setAttribute("error", error);
-            request.getRequestDispatcher("updateDepartment.jsp").forward(request, response);
+            request.getRequestDispatcher("updateService.jsp").forward(request, response);
             return;
         }
-
-        // Cập nhật phòng ban
-        Department updateDepartment = new Department(departmentId, departmentName, status);
-        departmentDao.updateDepartment(updateDepartment);
-
-        request.setAttribute("success", "Cập nhật thành công!");
-        request.getRequestDispatcher("updateDepartment.jsp").forward(request, response);
+        Service updateService = new Service(serviceId, serviceContent, price, serviceName, status);
+        boolean isAdded = serviceDao.updateService(updateService);
+        if (isAdded) {
+            request.setAttribute("success", "Cập nhật thành công!");
+            request.getRequestDispatcher("updateService.jsp").forward(request, response);
+        } else {
+            error.add("Cập nhật thất bại");
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("updateService.jsp").forward(request, response);
+        }
     }
-    // Hàm kiểm tra chuỗi rỗng
 
     private boolean isEmpty(String value) {
         return value == null || value.trim().isEmpty();

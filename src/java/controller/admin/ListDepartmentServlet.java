@@ -65,6 +65,7 @@ public class ListDepartmentServlet extends HttpServlet {
             throws ServletException, IOException {
         int page = 1;
         int pageSize = 5;
+        String status = request.getParameter("status");
         // Lấy pageSize từ request, giữ nguyên nếu đã có giá trị
         String pageSizeParam = request.getParameter("pageSize");
         if (pageSizeParam != null && !pageSizeParam.isEmpty()) {
@@ -96,8 +97,8 @@ public class ListDepartmentServlet extends HttpServlet {
             searchQueryNormalized = normalizationSearchQuery(searchQuery);
         }
         DepartmentDAO department = new DepartmentDAO();
-        List<Department> listDepartment = department.getAllDepartments(searchQueryNormalized,page,pageSize);
-        int totalDoctors = department.getTotalDepartments(searchQuery);
+        List<Department> listDepartment = department.getAllDepartments(searchQueryNormalized,page,pageSize,status);
+        int totalDoctors = department.getTotalDepartments(searchQueryNormalized, status);
         int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
         request.setAttribute("listDepartment", listDepartment);
         request.setAttribute("currentPage", page);

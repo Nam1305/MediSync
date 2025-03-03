@@ -11,12 +11,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  *
  * @author Acer
  */
-public class ServiceDAO extends DBContext{
-     // Thêm service
+public class ServiceDAO extends DBContext {
+    // Thêm service
+
     public boolean insertService(Service service) {
         String sql = "INSERT INTO Service (content, price, name, status) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -58,20 +60,37 @@ public class ServiceDAO extends DBContext{
         }
         return false;
     }
- 
+
     // list ra tất cả service
-    public List<Service> getAllServices() {
+    public List<Service> getAllServices(String searchQuery, String status, int page, int pageSize) {
         List<Service> services = new ArrayList<>();
-        String sql = "SELECT serviceId,content,price,name,status  FROM Service";
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        String sql = "SELECT serviceId,content,price,name,status  FROM Service Where 1 = 1 ";
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            sql += " AND (name LIKE ? )";
+        }
+        if (status != null && !status.isEmpty()) {
+            sql += " AND status = ?";
+        }
+        sql += " ORDER BY serviceId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try {
+            int index = 1;
+            PreparedStatement ps = connection.prepareStatement(sql);
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                ps.setString(index++, "%" + searchQuery + "%");
+            }
+            if (status != null && !status.isEmpty()) {
+                ps.setString(index++, status);
+            }
+            ps.setInt(index++, (page - 1) * pageSize);
+            ps.setInt(index++, pageSize);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Service service = new Service(
-                    rs.getInt("serviceId"),
-                    rs.getString("content"),
-                    rs.getDouble("price"),
-                    rs.getString("name"),
-                    rs.getString("status")
+                        rs.getInt("serviceId"),
+                        rs.getString("content"),
+                        rs.getDouble("price"),
+                        rs.getString("name"),
+                        rs.getString("status")
                 );
                 services.add(service);
             }
@@ -79,6 +98,36 @@ public class ServiceDAO extends DBContext{
             e.printStackTrace();
         }
         return services;
+    }
+
+    // list ra tất cả service
+    public int getTotalServices(String searchQuery, String status) {
+        List<Service> services = new ArrayList<>();
+        String sql = "SELECT  COUNT(*)   FROM Service Where 1 = 1 ";
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            sql += " AND (name LIKE ? )";
+        }
+        if (status != null && !status.isEmpty()) {
+            sql += " AND status = ?";
+        }
+        
+        try {
+            int index = 1;
+            PreparedStatement ps = connection.prepareStatement(sql);
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                ps.setString(index++, "%" + searchQuery + "%");
+            }
+            if (status != null && !status.isEmpty()) {
+                ps.setString(index++, status);
+            }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1); // Lấy số lượng Service từ COUNT(*)
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     // lấy service theo id
@@ -89,11 +138,11 @@ public class ServiceDAO extends DBContext{
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Service(
-                    rs.getInt("serviceId"),
-                    rs.getString("content"),
-                    rs.getDouble("price"),
-                    rs.getString("name"),
-                    rs.getString("status")
+                        rs.getInt("serviceId"),
+                        rs.getString("content"),
+                        rs.getDouble("price"),
+                        rs.getString("name"),
+                        rs.getString("status")
                 );
             }
         } catch (SQLException e) {
@@ -101,13 +150,86 @@ public class ServiceDAO extends DBContext{
         }
         return null;
     }
+
+    // hàm check phòng ban xem có bị trùng tên hay không
+    public boolean isServiceExists(String name) {
+        // Chuẩn hóa dữ liệu trước khi so sánh: loại bỏ khoảng trắng ở đầu và cuối, và thay thế khoảng trắng thừa giữa các từ thành một khoảng trắng duy nhất.
+
+        String sql = "SELECT COUNT(*) FROM Service WHERE LOWER(REPLACE(LTRIM(RTRIM(name)), ' ', ' ')) = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name.trim().toLowerCase().replaceAll("\\s+", " "));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Tên đã tồn tại
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi kiểm tra phòng ban: " + ex.getMessage());
+        }
+        return false;
+    }
+    // hàm check phòng ban xem có bị trùng tên hay không
+
+    public boolean isServiceNotCurrentExists(String name, int serviceId) {
+        // Chuẩn hóa dữ liệu trước khi so sánh: loại bỏ khoảng trắng ở đầu và cuối, và thay thế khoảng trắng thừa giữa các từ thành một khoảng trắng duy nhất.
+
+        String sql = "SELECT COUNT(*) FROM Service WHERE LOWER(REPLACE(LTRIM(RTRIM(name)), ' ', ' ')) = ? AND serviceId != ? ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name.trim().toLowerCase().replaceAll("\\s+", " "));
+            ps.setInt(2, serviceId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Tên đã tồn tại
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi kiểm tra phòng ban: " + ex.getMessage());
+        }
+        return false;
+    }
+
+    public boolean isContentExists(String name) {
+        // Chuẩn hóa dữ liệu trước khi so sánh: loại bỏ khoảng trắng ở đầu và cuối, và thay thế khoảng trắng thừa giữa các từ thành một khoảng trắng duy nhất.
+
+        String sql = "SELECT COUNT(*) FROM Service WHERE LOWER(REPLACE(LTRIM(RTRIM(content)), ' ', ' ')) = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name.trim().toLowerCase().replaceAll("\\s+", " "));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Tên đã tồn tại
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi kiểm tra phòng ban: " + ex.getMessage());
+        }
+        return false;
+    }
+
+    public boolean isContentNotCurrentExists(String name, int serviceId) {
+        // Chuẩn hóa dữ liệu trước khi so sánh: loại bỏ khoảng trắng ở đầu và cuối, và thay thế khoảng trắng thừa giữa các từ thành một khoảng trắng duy nhất.
+
+        String sql = "SELECT COUNT(*) FROM Service WHERE LOWER(REPLACE(LTRIM(RTRIM(content)), ' ', ' ')) = ? AND serviceId != ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name.trim().toLowerCase().replaceAll("\\s+", " "));
+            ps.setInt(2, serviceId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Tên đã tồn tại
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi kiểm tra phòng ban: " + ex.getMessage());
+        }
+        return false;
+    }
 //    public static void main(String[] args) {
 //        ServiceDAO service = new ServiceDAO();
 //        service.deleteService(17);
 //        System.out.println(service.getServiceById(17));
 //        
 //    }
- private Service mapResultSetToService(ResultSet rs) throws SQLException {
+
+    private Service mapResultSetToService(ResultSet rs) throws SQLException {
         return new Service(
                 rs.getInt("serviceId"),
                 rs.getString("content"),
@@ -117,7 +239,7 @@ public class ServiceDAO extends DBContext{
         );
     }
 
-public List<Service> getAllActiveServices() {
+    public List<Service> getAllActiveServices() {
         List<Service> services = new ArrayList<>();
         String sql = "SELECT serviceId, [content], price, name, status FROM Service WHERE status = 'Active'";
 
@@ -130,6 +252,7 @@ public List<Service> getAllActiveServices() {
         }
         return services;
     }
+
     public List<Service> getServices(String serviceType, String search, String sortPrice,
             Double minPrice, Double maxPrice, // thêm 2 tham số mới
             int page, int pageSize) {
@@ -256,4 +379,3 @@ public List<Service> getAllActiveServices() {
         return 0;
     }
 }
-

@@ -22,7 +22,7 @@
             <h3>Chỉnh Sửa Thông Tin Nhân Viên</h3>
             <form class="mt-4" method="post" action="UpdateStaffServlet">
                 <!-- Input Hidden -->
-                <input type="hidden" name="staffId" id="staffId" value="${param.staffId != null ? param.staffId : staff.staffId}">
+                <input type="hidden" name="staffId" id="staffId" value="${staff.staffId}">
 
                 <div class="row">
                     <div class="col-md-6">
@@ -32,7 +32,7 @@
                                  class="avatar avatar-md-sm rounded-circle shadow" alt="">
 
                             <label class="form-label">Name</label>
-                            <input name="name" id="name" type="text" class="form-control" placeholder="Name" value ="${param.name != null ? param.name : staff.name}">
+                            <input name="name" id="name" type="text" class="form-control" placeholder="Họ và tên" value ="${param.name != null ? param.name : staff.name}">
                         </div>
                     </div><!--end col-->
 
@@ -46,7 +46,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label">Phone</label>
-                            <input name="phone" id="phone" type="text" class="form-control" placeholder="Phone" value ="${param.phone != null ? param.phone : staff.phone}">
+                            <input name="phone" id="phone" type="text" class="form-control" placeholder="Số điện thoại" value ="${param.phone != null ? param.phone : staff.phone}">
                         </div>
                     </div><!--end col-->
 
@@ -115,20 +115,24 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label">Description</label>
-                            <input name="description" id="description" type="text" class="form-control" placeholder="Description" value ="${param.description != null ? param.description : staff.description}">
+                            <input name="description" id="description" type="text" class="form-control" placeholder="Mô tả" value ="${param.description != null ? param.description : staff.description}">
                         </div>
                     </div><!--end col-->
 
                     <div class="col-sm-12">
                         <div class="mb-3">
-                            <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
-                            <a href="ListDoctor" class="btn btn-secondary">Back to List</a>
+                            <input type="submit" id="submit" name="update" class="btn btn-primary" value="Lưu thay đổi">
+                            <a href="ListDoctor" class="btn btn-secondary">Trở lại danh sách</a>
                         </div>
 
                     </div>
                     <div>
-                        <c:if test="${not empty error}">
-                            <div class="alert alert-danger mt-3">${error}</div>
+                        <c:if test="${not empty errors}">
+                            <ul style="color: red">
+                                <c:forEach var="err" items="${errors}">
+                                    <li>${err}</li>
+                                    </c:forEach>
+                            </ul>
                         </c:if>
                     </div>
 

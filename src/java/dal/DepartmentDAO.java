@@ -80,11 +80,14 @@ public class DepartmentDAO extends DBContext {
 //        DepartmentDAO de = new DepartmentDAO();
 //        System.out.println(de.getActiveDepartment());
 //    }
-    public List<Department> getAllDepartments(String searchQuery, int page, int pageSize) {
+    public List<Department> getAllDepartments(String searchQuery, int page, int pageSize, String status) {
         List<Department> list = new ArrayList<>();
-        String sql = "select departmentId, departmentName, status from Department";
+        String sql = "select departmentId, departmentName, status from Department Where 1 = 1";
         if (searchQuery != null && !searchQuery.isEmpty()) {
-            sql += " Where (departmentName LIKE ? )";
+            sql += " AND (departmentName LIKE ? )";
+        }
+         if (status != null && !status.isEmpty()) {
+            sql += " AND status = ?";
         }
         sql += " ORDER BY departmentId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try {
@@ -93,6 +96,9 @@ public class DepartmentDAO extends DBContext {
 
             if (searchQuery != null && !searchQuery.isEmpty()) {
                 ps.setString(index++, "%" + searchQuery + "%");
+            }
+            if (status != null && !status.isEmpty()) {
+                ps.setString(index++, status);
             }
             ps.setInt(index++, (page - 1) * pageSize);
             ps.setInt(index++, pageSize);
@@ -215,21 +221,26 @@ public class DepartmentDAO extends DBContext {
         return false;
     }
 
-    public int getTotalDepartments(String searchQuery) {
+    public int getTotalDepartments(String searchQuery, String status) {
         List<Department> list = new ArrayList<>();
-        String sql = "select COUNT(*) from Department";
+        String sql = "select COUNT(*) from Department Where 1 = 1";
         if (searchQuery != null && !searchQuery.isEmpty()) {
-            sql += " Where (departmentName LIKE ? )";
+            sql += " AND (departmentName LIKE ? )";
+        }
+        if (status != null && !status.isEmpty()) {
+            sql += " AND status = ?";
         }
 
         try {
-
+            int index = 1;
             PreparedStatement ps = connection.prepareStatement(sql);
 
             if (searchQuery != null && !searchQuery.isEmpty()) {
-                ps.setString(1, "%" + searchQuery + "%");
+                ps.setString(index++, "%" + searchQuery + "%");
             }
-
+            if (status != null && !status.isEmpty()) {
+                ps.setString(index++, status);
+            }
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1); // Lấy số lượng Phòng Ban từ COUNT(*)

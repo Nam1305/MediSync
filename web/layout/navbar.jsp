@@ -96,9 +96,18 @@
                                 </ul>
                             </div>
                         </li>
-
+                        <li class="sidebar-dropdown">
+                            <a href="javascript:void(0)"><i class="uil uil-shopping-cart me-2 d-inline-block"></i>Dịch Vụ</a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="AddService">Thêm Dịch Vụ</a></li>
+                                    <li><a href="ListService">Danh Sách Dịch Vụ</a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                     <!-- sidebar-menu  -->
+                    
                 </div>
                 <!-- sidebar-content  -->
                 <ul class="sidebar-footer list-unstyled mb-0">

@@ -63,27 +63,27 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Họ và tên</label>
-                                                <input name="name" id="name" type="text" class="form-control" placeholder="Full Name :" required>
+                                                <input name="name" id="name" type="text" class="form-control" placeholder="Họ và tên" required>
                                             </div>
                                         </div><!--end col-->
 
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Email</label>
-                                                <input name="email" id="email" type="email" class="form-control" placeholder="Your email :" required>
+                                                <input name="email" id="email" type="email" class="form-control" placeholder="Email :" required>
                                             </div> 
                                         </div><!--end col-->
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Avatar</label>
-                                                <input name="avatar" id="avatar" type="file" class="form-control" accept="image/*" placeholder="Your avatar :" required>
+                                                <input name="avatar" id="avatar" type="file" class="form-control" accept="image/jpeg, image/png, image/gif" placeholder="Ảnh đại diện:" required>
                                                 <small id="avatar-error" class="text-danger"></small>
                                             </div> 
                                         </div><!--end col-->
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Số Điện Thoại</label>
-                                                <input name="phone" id="phone" type="text" class="form-control" placeholder="Phone no :" required>
+                                                <input name="phone" id="phone" type="text" class="form-control" placeholder="Số điện thoại:" required>
                                             </div>                                                                               
                                         </div><!--end col-->
 
@@ -141,12 +141,16 @@
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Giới Thiệu Bản Thân</label>
-                                                <input name="description" id="desctiption" type="text" class="form-control" placeholder="Your Description :" required>
+                                                <input name="description" id="desctiption" type="text" class="form-control" placeholder="Mô tả :" required>
                                             </div> 
                                         </div><!--end col-->
                                         <div>
                                             <c:if test="${not empty error}">
-                                                <div style="color: red">${error}</div>
+                                                 <ul style="color: red">
+                                                    <c:forEach var="err" items="${error}">
+                                                        <li>${err}</li>
+                                                        </c:forEach>
+                                                </ul>
                                             </c:if>
                                         </div>
 
@@ -333,7 +337,7 @@
                                                     var errorElement = document.getElementById("avatar-error");
 
                                                     if (file) {
-                                                        var fileSize = file.size / 1024 / 1024; // Đổi sang MB
+                                                        var fileSize = file.size; // Đổi sang MB
                                                         var fileType = file.type;
 
                                                         // Danh sách định dạng ảnh hợp lệ
@@ -342,7 +346,7 @@
                                                         if (!validImageTypes.includes(fileType)) {
                                                             errorElement.textContent = "Chỉ được chọn file ảnh (JPG, PNG, GIF)!";
                                                             this.value = ""; // Xóa file đã chọn
-                                                        } else if (fileSize > 3) {
+                                                        } else if (fileSize > 3 * 1024 * 1024) {
                                                             errorElement.textContent = "File không được vượt quá 3MB!";
                                                             this.value = ""; // Xóa file đã chọn
                                                         } else {

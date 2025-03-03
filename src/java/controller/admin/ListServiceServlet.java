@@ -46,7 +46,10 @@ public class ListServiceServlet extends HttpServlet {
             out.println("</html>");
         }
     } 
-
+    
+     private String normalizationSearchQuery(String searchQuery) {
+        return searchQuery.trim().replaceAll("\\s+", " ");
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
@@ -59,9 +62,45 @@ public class ListServiceServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         ServiceDAO serviceDao = new ServiceDAO();
-        
-        List<Service> listService = serviceDao.getAllServices();
+        int page = 1;
+        int pageSize = 5;
+         String pageSizeParam = request.getParameter("pageSize");
+        if (pageSizeParam != null && !pageSizeParam.isEmpty()) {
+            try {
+                pageSize = Integer.parseInt(pageSizeParam);
+                if (pageSize <= 0) {
+                    pageSize = 5; // Tránh pageSize không hợp lệ
+                }
+            } catch (NumberFormatException e) {
+                pageSize = 5;
+            }
+        }
+
+        // Lấy số trang từ request
+        String pageParam = request.getParameter("page");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            try {
+                page = Integer.parseInt(pageParam);
+                if (page < 1) {
+                    page = 1; // Tránh lỗi về trang âm
+                }
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
+        String searchQueryNormalized = "";
+        String searchQuery = request.getParameter("search");
+        if (searchQuery != null) {
+            searchQueryNormalized = normalizationSearchQuery(searchQuery);
+        }
+        String status = request.getParameter("status");
+        List<Service> listService = serviceDao.getAllServices(searchQueryNormalized, status, page, pageSize);
+        int totalDoctors = serviceDao.getTotalServices(searchQueryNormalized, status);
+        int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
         request.setAttribute("listService", listService);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("pageSize", pageSize);
         request.getRequestDispatcher("listService.jsp").forward(request, response);
     } 
 

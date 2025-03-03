@@ -7,7 +7,6 @@ package controller.admin;
 import dal.DepartmentDAO;
 import dal.DoctorDAO;
 import dal.PositionDAO;
-import dal.StaffDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -21,7 +20,6 @@ import java.util.List;
 import model.Department;
 import model.Role;
 import model.Staff;
-
 
 /**
  *
@@ -58,18 +56,18 @@ public class UpdateStaffServlet extends HttpServlet {
         try {
             DepartmentDAO department = new DepartmentDAO();
             List<Department> listDepartment = department.getActiveDepartment();
-            request.setAttribute("listDepartment", listDepartment);
-            
+
             int staffId = Integer.parseInt(staffIdStr);
             DoctorDAO staff = new DoctorDAO();
             Staff currentstaff = staff.getStaffById(staffId);
             if (currentstaff != null) {
+                request.setAttribute("listDepartment", listDepartment);
                 // Nếu tìm thấy nhân viên, gửi thông tin đến trang update.jsp
-                request.setAttribute("staff", currentstaff); // Đặt đối tượng Dish vào attribute
+                request.setAttribute("staff", currentstaff); // Đặt đối tượng Staff vào attribute
                 request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
             } else {
                 // Nếu không tìm thấy nhân viên , thông báo lỗi
-                request.setAttribute("error", "Dish with ID " + staffId + " not found.");
+                request.setAttribute("error", "Staff with ID " + staffId + " not found.");
                 request.getRequestDispatcher("updateStaff.jsp").forward(request, response); // Quay lại danh sách
             }
         } catch (NumberFormatException e) {
@@ -96,13 +94,28 @@ public class UpdateStaffServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<String> error = new ArrayList<>();
+       DepartmentDAO departmentDao = new DepartmentDAO();
+        DoctorDAO staffDao = new DoctorDAO();
+        PositionDAO positionDao = new PositionDAO();
+        List<String> errors = new ArrayList<>();
+
         // Lấy thông tin từ request
         String staffIdStr = request.getParameter("staffId");
         if (staffIdStr == null || staffIdStr.trim().isEmpty()) {
-            error.add("không có id ");
+            errors.add("Không có ID nhân viên.");
         }
-        int staffId = Integer.parseInt(staffIdStr); // Chuyển đổi sang số nguyên
+        int staffId = -1;
+        try {
+            staffId = Integer.parseInt(staffIdStr);
+        } catch (NumberFormatException e) {
+            errors.add("ID nhân viên không hợp lệ.");
+        }
+
+        Staff currentStaff = staffDao.getStaffById(staffId);
+        if (currentStaff == null) {
+            errors.add("Nhân viên không tồn tại.");
+        }
+
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
@@ -113,91 +126,67 @@ public class UpdateStaffServlet extends HttpServlet {
         String description = request.getParameter("description");
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         int roleId = Integer.parseInt(request.getParameter("roleId"));
-
-        PositionDAO positionDao = new PositionDAO();
-        String currentPosition = positionDao.getPositionByStaffId(staffId);
-
+        
         // Kiểm tra điều kiện dữ liệu đầu vào
-        if (isEmpty(name)) {
-            error.add("tên không thể rỗng!");
-        }
-        if (isEmpty(email)) {
-            error.add("email không thể rỗng !");
-        }
-        if (isEmpty(phone)) {
-            error.add("số điện thoại không thể rỗng!");
-        }
-
-        if (isEmpty(gender)) {
-            error.add("giói tính không thể rỗng!");
-        }
-        if (isEmpty(dateOfBirthStr)) {
-            error.add("ngày sinh không thể rỗng!");
-        }
-        if (isEmpty(position)) {
-            error.add("vị trí là việc không thể rỗng!");
-        }
-        if (isEmpty(status)) {
-            error.add("trạng thái hoạt động không thể rỗng!");
-        }
-        if (isEmpty(description)) {
-            error.add("mô tả không thể rỗng!");
-        }
-
-        // Nếu có lỗi, gửi lại danh sách lỗi
-        if (!error.isEmpty()) {
-            request.setAttribute("error", error);
-            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
-            return;
-        }
+        if (isEmpty(name)) errors.add("Tên không thể rỗng!");
+        if (isEmpty(email)) errors.add("Email không thể rỗng!");
+        if (isEmpty(phone)) errors.add("Số điện thoại không thể rỗng!");
+        if (isEmpty(gender)) errors.add("Giới tính không thể rỗng!");
+        if (isEmpty(dateOfBirthStr)) errors.add("Ngày sinh không thể rỗng!");
+        if (isEmpty(position)) errors.add("Vị trí làm việc không thể rỗng!");
+        if (isEmpty(status)) errors.add("Trạng thái hoạt động không thể rỗng!");
+        if (isEmpty(description)) errors.add("Mô tả không thể rỗng!");
 
         if (!checkPhone(phone)) {
-            request.setAttribute("error", "số điện thoại phải bắt đầu từ 08/09/03 và phải đủ 10 chữ số");
+            errors.add("Số điện thoại phải bắt đầu từ 08, 09 hoặc 03 và đủ 10 chữ số.");
+        }
+
+        java.sql.Date dateOfBirth = null;
+        try {
+            dateOfBirth = java.sql.Date.valueOf(dateOfBirthStr);
+            if (dateOfBirth.toLocalDate().isAfter(LocalDate.now())) {
+                errors.add("Ngày sinh không hợp lệ!");
+            }
+        } catch (Exception e) {
+            errors.add("Định dạng ngày sinh không hợp lệ!");
+        }
+
+        if (staffDao.checkPhoneExistsCurrentStaff(phone, staffId)) {
+            errors.add("Số điện thoại đã tồn tại!");
+        }
+        if (staffDao.checkEmailExistsCurrentStaff(email, staffId)) {
+            errors.add("Email đã tồn tại!");
+        }
+        
+        if (!errors.isEmpty()) {
+            request.setAttribute("staff", currentStaff);
+            request.setAttribute("listDepartment", departmentDao.getActiveDepartment());
+            request.setAttribute("errors", errors);
             request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
             return;
         }
-
-        // ép kiểu cho dob
-        java.sql.Date dateOfBirth = java.sql.Date.valueOf(dateOfBirthStr);
-        if (dateOfBirth.toLocalDate().isAfter(LocalDate.now())) {
-            request.setAttribute("error", "Ngày sinh không hợp lệ!");
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
-            return;
-        }
-
-        // Tạo đối tượng Department và Role
+        
         Department department = new Department();
         department.setDepartmentId(departmentId);
-
         Role role = new Role();
         role.setRoleId(roleId);
-        DoctorDAO staff = new DoctorDAO();
-        Staff currentstaff = staff.getStaffById(staffId);
-//        String hashedPassword = BCrypt.hashpw(currentstaff.getPassword(), BCrypt.gensalt());
-        String hashedPassword = currentstaff.getPassword();
-        if (staff.checkPhoneExistsCurrentStaff(phone, staffId)) {
-            request.setAttribute("error", "số điện thoại đã tồn tại !");
-            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
-            return;
-        }
-        if (staff.checkEmailExistsCurrentStaff(email, staffId)) {
-            request.setAttribute("error", "email đã tồn tại!");
-            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
-            return;
-        }
-        // Cập nhật thông tin nhân viên
-        Staff updateStaff = new Staff(staffId, name, email, "", phone, hashedPassword, dateOfBirth, position, gender, status, description, department, role);
-        boolean isUpdate = staff.updateStaff(updateStaff);
-
-        // Nếu cập nhật thành công và position thay đổi, lưu vào HistoryPosition
-        if (isUpdate && !updateStaff.getPosition().equals(currentPosition)) {
+        
+        String hashedPassword = currentStaff.getPassword();
+        Staff updatedStaff = new Staff(staffId, name, email, "", phone, hashedPassword, dateOfBirth, position, gender, status, description, department, role);
+        boolean isUpdated = staffDao.updateStaff(updatedStaff);
+        
+        String currentPosition = positionDao.getPositionByStaffId(staffId);
+        if (isUpdated && !updatedStaff.getPosition().equals(currentPosition)) {
             positionDao.insertPositionHistory(staffId, position);
         }
-
-        if (isUpdate) {
+        
+        if (isUpdated) {
             response.sendRedirect("ListDoctor");
         } else {
-            request.setAttribute("error", "cập nhật thất bại");
+            errors.add("Cập nhật thất bại.");
+            request.setAttribute("staff", currentStaff);
+            request.setAttribute("listDepartment", departmentDao.getActiveDepartment());
+            request.setAttribute("errors", errors);
             request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
         }
     }

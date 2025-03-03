@@ -102,11 +102,11 @@
 
         <%@ include file="layout/navbar.jsp" %>
         <%@ include file="layout/header.jsp" %>
-            
-      
+
+
         <div class="container-fluid">
             <div class="layout-specing">
-                
+
                 <div class="d-md-flex justify-content-between">
                     <h5 class="mb-0" style="color: #218838">Danh sách nhân viên</h5>
 
@@ -144,9 +144,9 @@
                                     <tr>
                                         <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
                                         <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
-                                        <th class="border-bottom p-3">Giới Tính</th>
+
                                         <th class="border-bottom p-3">Vị trí </th>
-                                        <th class="border-bottom p-3">Phòng ban</th>
+
                                         <th class="border-bottom p-3">số điện thoại</th>
                                         <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
                                         <th class="border-bottom p-3">Email</th>
@@ -170,9 +170,9 @@
                                                     </div>
                                                 </a>
                                             </td>
-                                            <td class="p-3">${doctors.gender}</td>
+
                                             <td class="p-3">${doctors.position}</td>
-                                            <td class="p-3">${doctors.department.departmentName}</td>
+
                                             <td class="p-3">${doctors.phone}</td>
                                             <td class="p-3">${doctors.dateOfBirth}</td>
                                             <td class="p-3">${doctors.email}</td>
