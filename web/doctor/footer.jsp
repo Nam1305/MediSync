@@ -10,7 +10,7 @@
             <div class="container">
                 <div class="row text-center">
                     <div class="col-lg-6 col-md-6">
-                        <p class="mb-0 text-light">© 2025 MediSynC. All rights reserved.</p>
+                        <p class="mb-0 text-light">© 2025 MediSynC. Code by Duc.</p>
                     </div>
                 </div>
             </div>

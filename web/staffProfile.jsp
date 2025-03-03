@@ -6,18 +6,25 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+
 <!DOCTYPE html>
 <html lang="vi">
-
     <head>
         <meta charset="utf-8" />
-        <title>Profile</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <title>Tài khoản của tôi</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="assets/css/style.min.css" rel="stylesheet" />
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
-        <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
+        <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet" />
+        <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="assets/css/fullcalendar.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <style>
             .error-message {
@@ -154,9 +161,10 @@
                 max-height: 90%;
             }
         </style>
-    </head>
 
+    </head>
     <body>
+        <!-- Loader -->
         <div id="preloader">
             <div id="status">
                 <div class="spinner">
@@ -165,92 +173,17 @@
                 </div>
             </div>
         </div>
+        <!-- Loader -->
 
-        <!-- Navbar STart -->
-        <header id="topnav" class="defaultscroll sticky">
-            <div class="container">
+        <div class="page-wrapper doctris-theme toggled">
+            <jsp:include page="doctor/left-navbar.jsp" />
+            <!-- sidebar-wrapper  -->
 
-
-                <!-- Start Mobile Toggle -->
-                <div class="menu-extras">
-                    <div class="menu-item">
-                        <!-- Mobile menu toggle-->
-                        <a class="navbar-toggle" id="isToggle" onclick="toggleMenu()">
-                            <div class="lines">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </a>
-                        <!-- End mobile menu toggle-->
-                    </div>
-                </div>
-                <!-- End Mobile Toggle -->
-
-                <!-- Start Dropdown -->
-                <ul class="dropdowns list-inline mb-0">
-
-                    <li class="list-inline-item mb-0 ms-1">
-                        <div class="dropdown dropdown-primary">
-                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="${staff.avatar}" 
-                                                                                                                                                                                        class="avatar avatar-md-sm rounded-circle border shadow" alt="">        </button>
-                            <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                <a class="dropdown-item d-flex align-items-center text-dark" href="doctor-profile.html">      
-                                    <div class="flex-1 ms-2">
-                                        <span class="d-block mb-1">${staff.name}</span>
-                                        <small class="text-muted">${staff.department.departmentName}</small>
-
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-dark" href="change-password">
-                                    <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
-                                </a>
-                                <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span>Profile</a>
-                                <a class="dropdown-item text-dark" href="schedule"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span>Dashboard</a>
-
-
-                                <div class="dropdown-divider border-top"></div>
-                                <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất </a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <!-- Start Dropdown -->
-
-                <div id="navigation">
-                    <!-- Navigation Menu-->   
-                    <ul class="navigation-menu nav-left">
-                        <li class="has-submenu parent-menu-item">
-                            <a href="home">Home</a><span class="menu-arrow"></span>
-                        </li>
-
-                        <li class="has-submenu parent-parent-menu-item">
-                            <a href="javascript:void(0)">Doctors</a><span class="menu-arrow"></span>
-                        </li>
-
-                        <li class="has-submenu parent-parent-menu-item"><a href="javascript:void(0)">Pages</a><span class="menu-arrow"></span>
-                            <ul class="submenu">
-                                <li class="has-submenu parent-menu-item">
-                                <li><a href="blogs.html" class="sub-menu-item">Blogs</a></li>
-                                <li><a href="blog-detail.html" class="sub-menu-item">Blog Details</a></li>
-                                <li><a href="error.html" class="sub-menu-item">404 !</a></li>
-                            </ul>
-                        </li>
-                    </ul><!--end navigation menu-->
-                </div><!--end navigation-->
-            </div><!--end container-->
-        </header><!--end header-->
-        <!-- Navbar End -->
-
-
-
-
-        <section class="bg-dashboard">
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-
-                    <!-- Main Content -->
-                    <div class="col-xl-9 col-lg-8 col-md-7 col-12 mt-4 pt-2 mt-sm-0 pt-sm-0">
+            <!-- Start Page Content -->
+            <main class="page-content bg-light">
+                <jsp:include page="doctor/top-navbar.jsp" />
+                <div class="container-fluid">
+                    <div class="layout-specing">
                         <c:if test="${not empty success}">
                             <div id="successMessage" class="alert alert-success text-center" style="display: block;">
                                 ${success}
@@ -371,21 +304,18 @@
                                 </form>
                             </div>
                         </div>
-                    </div><!-- End Main Content -->
-                </div>
-            </div>
-        </section>
 
 
-        <footer class="footer bg-dark footer-bar">
-            <div class="container">
-                <div class="row text-center">
-                    <div class="col-lg-6 col-md-6">
-                        <p class="mb-0 text-light">© 2025 Doctris. All rights reserved.</p>
                     </div>
-                </div>
-            </div>
-        </footer>
+                </div><!--end container-->
+                <!-- Footer Start -->
+                <jsp:include page="doctor/footer.jsp" />
+                <!-- End -->
+            </main>
+            <!--End page-content" -->
+        </div>
+        <!-- page-wrapper -->
+
         <script>
 
             function validateForm(event) {
@@ -505,9 +435,16 @@
 
         </script>
 
+
+
+
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/feather.min.js"></script>
         <script src="assets/js/app.js"></script>
+
     </body>
 
+
 </html>
+
+

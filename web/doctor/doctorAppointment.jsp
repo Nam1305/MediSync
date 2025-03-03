@@ -63,18 +63,26 @@
         </style>
     </head>
     <body>
-        <jsp:include page="top-navbar.jsp" />
-        <section class="bg-dashboard">
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- Left Navbar -->
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-12">
-                        <div class="rounded shadow overflow-hidden sticky-bar">
-                            <jsp:include page="left-navbar.jsp" />
-                        </div>
-                    </div>
-                    <!-- Nội dung Appointment (chiếm 3/4) -->
-                    <div class="col-xl-9 col-lg-9 col-md-8 col-12 mt-4 pt-2 mt-sm-0 pt-sm-0">
+        <!-- Loader -->
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Loader -->
+
+        <div class="page-wrapper doctris-theme toggled">
+            <jsp:include page="left-navbar.jsp" />
+            <!-- sidebar-wrapper  -->
+
+            <!-- Start Page Content -->
+            <main class="page-content bg-light">
+                <jsp:include page="top-navbar.jsp" />
+                <div class="container-fluid">
+                    <div class="layout-specing">
                         <div class="table-container">
                             <h4 class="mb-3 text-center">Danh sách lịch hẹn</h4>
                             <div class="mb-4">
@@ -145,6 +153,9 @@
                                                     </c:choose>
                                                 </td>
                                                 <td class="text-end p-3">
+                                                    <a href="makeinvoice" class="btn btn-icon btn-pills btn-soft-primary">
+                                                        <i class="uil uil-shopping-cart"></i>
+                                                    </a>
                                                     <a href="doctorappdetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
                                                         <i class="uil uil-eye"></i>
                                                     </a>
@@ -189,10 +200,19 @@
                                 </ul>
                             </div>
                         </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-fluid-->
-        </section>
+
+
+                    </div>
+                </div><!--end container-->
+                <!-- Footer Start -->
+                <jsp:include page="footer.jsp" />
+                <!-- End -->
+            </main>
+            <!--End page-content" -->
+        </div>
+        <!-- page-wrapper -->
+
+
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>
