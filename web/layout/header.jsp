@@ -103,7 +103,7 @@
 </c:if>
 
 
-<c:if test="${(not empty staff and staff.role.roleId == 1) or not empty customer or empty staff and empty customer}">
+<c:if test="${(not empty staff and staff.role.roleId != 1) or not empty customer or empty staff and empty customer}">
 
 
     <header id="topnav" class="navigation sticky">
