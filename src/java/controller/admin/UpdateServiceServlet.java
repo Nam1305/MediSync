@@ -68,15 +68,15 @@ public class UpdateServiceServlet extends HttpServlet {
             Service currentService = serviceDao.getServiceById(serviceId);
             if (currentService != null) {
                 request.setAttribute("service", currentService);
-                request.getRequestDispatcher("updateService.jsp").forward(request, response);
+                request.getRequestDispatcher("admmin/updateService.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", "Không thấy service này");
-                request.getRequestDispatcher("updateService.jsp").forward(request, response);
+                request.getRequestDispatcher("admin/updateService.jsp").forward(request, response);
             }
 
         } catch (NumberFormatException e) {
             request.setAttribute("error", "Id Service này phải là số  ");
-            request.getRequestDispatcher("updateService.jsp").forward(request, response); // Quay lại danh sách
+            request.getRequestDispatcher("admin/updateService.jsp").forward(request, response); // Quay lại danh sách
         }
     }
 
@@ -126,18 +126,18 @@ public class UpdateServiceServlet extends HttpServlet {
         if (!error.isEmpty()) {
             request.setAttribute("service", currentService);
             request.setAttribute("error", error);
-            request.getRequestDispatcher("updateService.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/updateService.jsp").forward(request, response);
             return;
         }
         Service updateService = new Service(serviceId, serviceContent, price, serviceName, status);
         boolean isAdded = serviceDao.updateService(updateService);
         if (isAdded) {
             request.setAttribute("success", "Cập nhật thành công!");
-            request.getRequestDispatcher("updateService.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/updateService.jsp").forward(request, response);
         } else {
             error.add("Cập nhật thất bại");
             request.setAttribute("error", error);
-            request.getRequestDispatcher("updateService.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/updateService.jsp").forward(request, response);
         }
     }
 

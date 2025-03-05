@@ -70,7 +70,7 @@ public class ViewDepartmentDetailServlet extends HttpServlet {
             request.setAttribute("department", department); // Đặt đối tượng Dish vào attribute
             
             request.setAttribute("staffCount", staffCount);
-            request.getRequestDispatcher("departmentDetail.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/departmentDetail.jsp").forward(request, response);
         }else{
             request.setAttribute("error", "Department not found"); // Đặt đối tượng Dish vào attribute
             request.getRequestDispatcher("ListDepartment").forward(request, response);

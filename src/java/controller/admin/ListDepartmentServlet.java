@@ -64,7 +64,7 @@ public class ListDepartmentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int page = 1;
-        int pageSize = 5;
+        int pageSize = 3;
         String status = request.getParameter("status");
         // Lấy pageSize từ request, giữ nguyên nếu đã có giá trị
         String pageSizeParam = request.getParameter("pageSize");
@@ -72,15 +72,16 @@ public class ListDepartmentServlet extends HttpServlet {
             try {
                 pageSize = Integer.parseInt(pageSizeParam);
                 if (pageSize <= 0) {
-                    pageSize = 5; // Tránh pageSize không hợp lệ
+                    pageSize = 3; // Tránh pageSize không hợp lệ
                 }
             } catch (NumberFormatException e) {
-                pageSize = 5;
+                pageSize = 3;
             }
         }
 
         // Lấy số trang từ request
         String pageParam = request.getParameter("page");
+        String sort = request.getParameter("sort");
         if (pageParam != null && !pageParam.isEmpty()) {
             try {
                 page = Integer.parseInt(pageParam);
@@ -97,14 +98,16 @@ public class ListDepartmentServlet extends HttpServlet {
             searchQueryNormalized = normalizationSearchQuery(searchQuery);
         }
         DepartmentDAO department = new DepartmentDAO();
-        List<Department> listDepartment = department.getAllDepartments(searchQueryNormalized,page,pageSize,status);
+        List<Department> listDepartment = department.getAllDepartments(searchQueryNormalized,page,pageSize,status,sort);
         int totalDoctors = department.getTotalDepartments(searchQueryNormalized, status);
         int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
         request.setAttribute("listDepartment", listDepartment);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("pageSize", pageSize);
-        request.getRequestDispatcher("listDepartment.jsp").forward(request, response);
+        request.setAttribute("status", status);
+        request.setAttribute("sort", sort);
+        request.getRequestDispatcher("admin/listDepartment.jsp").forward(request, response);
     }
 
     /**
@@ -118,7 +121,7 @@ public class ListDepartmentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            
+            // không sủ dụng 
     }
 
     /**

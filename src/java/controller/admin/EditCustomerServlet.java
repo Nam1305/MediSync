@@ -47,7 +47,7 @@ public class EditCustomerServlet extends HttpServlet {
 
             // Gửi dữ liệu khách hàng sang editCustomer.jsp
             request.setAttribute("customer", customer);
-            request.getRequestDispatcher("editCustomer.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/editCustomer.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             response.sendRedirect("listCustomer?error=invalidId");
         }
@@ -117,7 +117,7 @@ public class EditCustomerServlet extends HttpServlet {
             Customer customer = new Customer(customerId, fullName, avatar, email, address, dob, gender, phone);
             request.setAttribute("customer", customer);
 
-            request.getRequestDispatcher("editCustomer.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/editCustomer.jsp").forward(request, response);
             return;
         }
 
@@ -133,7 +133,7 @@ public class EditCustomerServlet extends HttpServlet {
 
         updatedCustomer = customerDao.getCustomerById(customerId);
         request.setAttribute("customer", updatedCustomer);
-        request.getRequestDispatcher("editCustomer.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/editCustomer.jsp").forward(request, response);
 
     }
 

@@ -61,7 +61,7 @@ public class AddServiceServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("addService.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/addService.jsp").forward(request, response);
     }
 
     /**
@@ -95,7 +95,7 @@ public class AddServiceServlet extends HttpServlet {
         // Nếu có lỗi, hiển thị lại form với thông báo lỗi
         if (!error.isEmpty()) {
             request.setAttribute("error", error);
-            request.getRequestDispatcher("addService.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/addService.jsp").forward(request, response);
             return;
         }
 
@@ -111,7 +111,7 @@ public class AddServiceServlet extends HttpServlet {
 
         if (!error.isEmpty()) {
             request.setAttribute("error", error);
-            request.getRequestDispatcher("addService.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/addService.jsp").forward(request, response);
             return;
         }
 
@@ -124,7 +124,7 @@ public class AddServiceServlet extends HttpServlet {
             error.add("Có lỗi xảy ra, vui lòng thử lại!");
             request.setAttribute("error", error);
         }
-        request.getRequestDispatcher("addService.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/addService.jsp").forward(request, response);
     }
 
     private boolean isEmpty(String value) {

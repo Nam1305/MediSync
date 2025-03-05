@@ -90,18 +90,21 @@ public class ListServiceServlet extends HttpServlet {
         }
         String searchQueryNormalized = "";
         String searchQuery = request.getParameter("search");
+        String sort = request.getParameter("sort");
         if (searchQuery != null) {
             searchQueryNormalized = normalizationSearchQuery(searchQuery);
         }
         String status = request.getParameter("status");
-        List<Service> listService = serviceDao.getAllServices(searchQueryNormalized, status, page, pageSize);
+        List<Service> listService = serviceDao.getAllServices(searchQueryNormalized, status, page, pageSize,sort);
         int totalDoctors = serviceDao.getTotalServices(searchQueryNormalized, status);
         int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
         request.setAttribute("listService", listService);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("pageSize", pageSize);
-        request.getRequestDispatcher("listService.jsp").forward(request, response);
+        request.setAttribute("status", status);
+        request.setAttribute("sort", sort);
+        request.getRequestDispatcher("admin/listService.jsp").forward(request, response);
     } 
 
     /** 

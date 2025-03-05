@@ -59,7 +59,7 @@ public class AddDepartmentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            request.getRequestDispatcher("addDepartment.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/addDepartment.jsp").forward(request, response);
     }
 
     /**
@@ -76,20 +76,24 @@ public class AddDepartmentServlet extends HttpServlet {
         String departmentName = request.getParameter("departmentname");
         if (departmentName == null || departmentName.trim().isEmpty()) {
             request.setAttribute("error", "Department không được rỗng!");
-            request.getRequestDispatcher("addDepartment.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/addDepartment.jsp").forward(request, response);
             return;
         }
         // Chuẩn hóa dữ liệu: Xóa khoảng trắng ở đầu và cuối, và chuyển thành chữ thường
         DepartmentDAO departmentDao = new DepartmentDAO();
         if (departmentDao.isDepartmentExists(departmentName.trim().toLowerCase().replaceAll("\\s+", " "))) {
             request.setAttribute("error", "Department đã tồn tại!");
-            request.getRequestDispatcher("addDepartment.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/addDepartment.jsp").forward(request, response);
             return;
         }
         Department department = new Department(0, departmentName, "Active");
-        departmentDao.insertDepartment(department);
+        
+        boolean isAdded = departmentDao.insertDepartment(department);
         // Redirect hoặc forward đến trang khác sau khi thêm thành công
-        response.sendRedirect("ListDepartment");
+        if(isAdded){
+            request.setAttribute("success", "thêm Phòng Ban thành công");
+            request.getRequestDispatcher("admin/addDepartment.jsp").forward(request, response);
+        }
 
     }
 

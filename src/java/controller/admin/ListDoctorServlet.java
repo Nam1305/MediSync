@@ -93,10 +93,11 @@ public class ListDoctorServlet extends HttpServlet {
         String roleIdParam = request.getParameter("roleId"); // Lấy roleId từ request
         Integer roleId = null;
         String status = request.getParameter("status");
+        String sort = request.getParameter("sort");
         if (roleIdParam != null && !roleIdParam.isEmpty()) {
             roleId = Integer.parseInt(roleIdParam); // Chuyển về Integer nếu có roleId
         }
-        List<Staff> listDoctor = doctors.getAllStaff(roleId, status, searchQueryNormalized, page, pageSize);
+        List<Staff> listDoctor = doctors.getAllStaff(roleId, status, searchQueryNormalized, page, pageSize,sort);
         // đóng gói listDoctor và request và truyền sang trang jsp để hiện thị dữ liệu 
         int totalDoctors = doctors.getTotalStaffCount(roleId, status, searchQueryNormalized);
         int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
@@ -104,7 +105,9 @@ public class ListDoctorServlet extends HttpServlet {
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("pageSize", pageSize);
-        request.getRequestDispatcher("listDoctor.jsp").forward(request, response);
+        request.setAttribute("status", status);
+        request.setAttribute("roleId", roleId);
+        request.getRequestDispatcher("admin/listDoctor.jsp").forward(request, response);
         response.setContentType("text/html;charset=UTF-8");
 
     }

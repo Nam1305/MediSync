@@ -32,17 +32,17 @@
 
     <body>
         <div class="page-wrapper doctris-theme toggled">
-            <jsp:include page="layout/navbar.jsp" />
+            <jsp:include page="../layout/navbar.jsp" />
 
 
             <!-- Start Page Content -->
             <main class="page-content bg-light">
-                <jsp:include page="layout/header.jsp" />
+                <jsp:include page="../layout/header.jsp" />
 
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Thêm Nhân Viên</h5>
+                            <h5 class="mb-0" style="color: green">Thêm Nhân Viên</h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
@@ -169,7 +169,7 @@
                                 </div>
                             </div><!--end container-->
 
-                            <jsp:include page="layout/footer.jsp" />
+                            <jsp:include page="../layout/footer.jsp" />
                             </main>
                             <!--End page-content" -->
                         </div>

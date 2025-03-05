@@ -30,139 +30,14 @@
     </head>
 
     <body>
-        <!-- Loader -->
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-                </div>
-            </div>
-        </div>
-        <!-- Loader -->
+          <div class="page-wrapper doctris-theme toggled">
+            <jsp:include page="../layout/navbar.jsp" />
 
-        <div class="page-wrapper doctris-theme toggled">
-            <nav id="sidebar" class="sidebar-wrapper">
-                <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
-                    <div class="sidebar-brand">
-                        <a href="index.html">
-                            <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                            <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
-                        </a>
-                    </div>
-
-                    <ul class="sidebar-menu pt-3">
-                        <li><a href="adminDashBoard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                        <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Thông tin cuộc hẹn</a></li>
-
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Nhân Viên</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="ListDoctor">Danh sách nhân viên</a></li>
-                                    <li><a href="addStaff.jsp">Thêm nhân viên</a></li>
-
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Bệnh nhân</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="listCustomer">Danh sách bệnh nhân</a></li>
-                                    <li><a href="addCustomer">Thêm bệnh nhân</a></li>
-                                    <!--                                    <li><a href="patient-profile.html">Profile</a></li>-->
-                                </ul>
-                            </div>
-                        </li>
-                        
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Phòng Ban</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="ListDepartment">Danh sách Phòng Ban</a></li>
-                                    <li><a href="AddDepartment">Thêm Phòng Ban</a></li>
-
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="sidebar-dropdown">
-                            <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Tin tức</a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="blogs.html">Danh sách tin tức</a></li>
-                                    <li><a href="blog-detail.html">Bài đăng</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
-                    </ul>
-                    <!-- sidebar-menu  -->
-                </div>
-                <!-- sidebar-content  -->
-                <ul class="sidebar-footer list-unstyled mb-0">
-                    <li class="list-inline-item mb-0 ms-1">
-                        <a href="#" class="btn btn-icon btn-pills btn-soft-primary">
-                            <i class="uil uil-comment icons"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <!-- sidebar-wrapper  -->
 
             <!-- Start Page Content -->
             <main class="page-content bg-light">
-                <div class="top-header">
-                    <div class="header-bar d-flex justify-content-between border-bottom">
-                        <div class="d-flex align-items-center">
-                            <a href="#" class="logo-icon">
-                                <img src="assets/images/logo-icon.png" height="30" class="small" alt="">
-                                <span class="big">
-                                    <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                                    <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
-                                </span>
-                            </a>
-                            <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2" href="#">
-                                <i class="uil uil-bars"></i>
-                            </a>
-                            <div class="search-bar p-0 d-none d-lg-block ms-2">
-                                <div id="search" class="menu-search mb-0">
-                                    <form role="search" method="post" id="searchform" class="searchform" action="listCustomer">
-                                        <div>
-                                            <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Tìm kiếm bệnh nhân: tên, sđt" style="width: 100%; max-width: 600px;" value="${requestScope.searchQuery}">
-                                            <input type="hidden" name="action" value="search">
-                                            <input type="submit" id="searchsubmit" value="Search">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                <jsp:include page="../layout/header.jsp" />
 
-                        <ul class="list-unstyled mb-0">
-
-                            <li class="list-inline-item mb-0 ms-1">
-                                <div class="dropdown dropdown-primary">
-                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/doctors/01.jpg" class="avatar avatar-ex-small rounded-circle" alt=""></button>
-                                    <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                        <a class="dropdown-item d-flex align-items-center text-dark" href="https://shreethemes.in/doctris/layouts/admin/profile.html">
-                                            <img src="assets/images/doctors/01.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
-                                            <div class="flex-1 ms-2">
-                                                <span class="d-block mb-1">Calvin Carlo</span>
-                                                <small class="text-muted">Orthopedic</small>
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item text-dark" href="adminDashBoard.jsp"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                        <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Thông tin cá nhân</a>
-                                        <div class="dropdown-divider border-top"></div>
-                                        <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất</a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
 
                 <div class="container-fluid">
                     <div class="layout-specing">
@@ -319,19 +194,7 @@
                     </div>
                 </div><!--end container-->
 
-                <!-- Footer Start -->
-                <footer class="bg-white shadow py-3">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <div class="text-sm-start text-center">
-                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end container-->
-                </footer><!--end footer-->
-                <!-- End -->
+                <jsp:include page="../layout/footer.jsp"/>
             </main>
             <!--End page-content" -->
         </div>

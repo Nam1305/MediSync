@@ -1,11 +1,6 @@
-<%-- 
-    Document   : listDepartment
-    Created on : Feb 14, 2025, 8:38:51 PM
-    Author     : Acer
---%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -94,10 +89,9 @@
                 background: #218838;
             }
         </style>
-
         <script type="text/javascript">
             function doDelete(id) {
-                if (confirm("Are you sure you want to delete Service with ID: " + id + "?")) {
+                if (confirm("Are you sure you want to delete Staff with ID: " + id + "?")) {
                     document.getElementById("deleteForm" + id).submit();
                 }
             }
@@ -106,35 +100,53 @@
 
     <body>
 
+
         <div class="page-wrapper doctris-theme toggled">
-            <jsp:include page="layout/navbar.jsp" />
+            <jsp:include page="../layout/navbar.jsp" />
 
 
             <!-- Start Page Content -->
             <main class="page-content bg-light">
-                <jsp:include page="layout/header.jsp" />
-
+                <jsp:include page="../layout/header.jsp" />
 
                 <div class="container-fluid">
                     <div class="layout-specing">
+
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0" style="color: #218838">Danh sách Dịch vụ </h5>
-                            <form action="ListService" method="get" >
-                                <select name="status" id="statusFilter">
-                                    <option value="">All</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
+                            <h5 class="mb-0" style="color: #218838">Danh sách nhân viên</h5>
+
+                            <form action="ListDoctor" method="get">
+                                <label for="sort">Sắp xếp </label>
+                                <select name="sort" >    
+                                    <option value="ASC" <c:if test="${sort == 'ASC'}">selected</c:if>>Tăng dần</option>
+                                    <option value="DESC" <c:if test="${sort == 'DESC'}">selected</c:if>>Giảm dần</option>
                                 </select>
-                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Filter</button> 
-                                <label for="Page">PageSize</label>
-                                <input type="number" name="pageSize">
-                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0" >Paging</button>
+                                <label for="roleFilter">Filter by Role:</label>
+                                <select name="roleId" id="roleFilter">
+                                    <option value="">All</option>
+                                    <option value="2" <c:if test="${roleId == '2'}">selected</c:if>>Bác sĩ</option>
+                                    <option value="3" <c:if test="${roleId == '3'}">selected</c:if>>Chuyên gia</option>
+                                    <option value="4" <c:if test="${roleId == '4'}">selected</c:if>>Lễ tân</option>
+                                </select>
+                                <label for="statusFilter">Filter by Status:</label>
+                                <select name="status" id="statusFilter">
+                                    <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả trạng thái</option>
+                                    <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
+                                    <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
+                                </select>
+                                    <label for="statusFilter">PageSize</label>
+                                    <input type="number" name="pageSize" value="${pageSize}">
+                                <button type="submit">Filter</button>
+                                <button type="button" class="btn btn-secondary mt-4 mt-sm-0" onclick="resetFilters()">Reset</button>
                             </form>
+
                         </div>
 
-                        <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddService'">
-                            Thêm Dịch Vụ 
+                        <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddStaffServlet'">
+                            Thêm Nhân Viên
                         </button>
+
+                        <!-- navbar-of-table -->
                         <div class="row">
                             <div class="col-12 mt-4">
                                 <div class="table-responsive shadow rounded">
@@ -142,9 +154,13 @@
                                         <thead>
                                             <tr>
                                                 <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Tên Dịch Vụ</th>
-                                                <th class="border-bottom p-3">Mô tả</th>
-                                                <th class="border-bottom p-3">Giá</th>
+                                                <th class="border-bottom p-3" style="min-width: 180px;">Họ và Tên</th>
+
+                                                <th class="border-bottom p-3">Vị trí </th>
+
+                                                <th class="border-bottom p-3">số điện thoại</th>
+                                                <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
+                                                <th class="border-bottom p-3">Email</th>
                                                 <th class="border-bottom p-3">Status</th>
 
                                                 <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
@@ -152,25 +168,38 @@
                                         </thead>
                                         <!--tbody-start-->
                                         <tbody>
-                                            <c:forEach var="service" items="${listService}">
+                                            <c:forEach var="doctors" items="${listDoctor}">
                                                 <tr>
-                                                    <td class="p-3">${service.serviceId}</td>
-                                                    <td class="p-3">${service.name}</td>
-                                                    <td class="p-3" style="max-width: 300px">${service.content}</td>
-                                                    <td class="p-3">${service.price}</td>
-                                                    <td class="p-3">${service.status}</td>
-                                                    <td class=" p-3">
+                                                    <td class="p-3">${doctors.staffId}</td>
+                                                    <td class="py-3">
+                                                        <a href="#" class="text-dark">
+                                                            <div class="d-flex align-items-center">
+                                                                <img src="${doctors.avatar}" 
+                                                                     class="avatar avatar-md-sm rounded-circle shadow" alt="">
+
+                                                                <span class="ms-2">${doctors.name}</span>
+                                                            </div>
+                                                        </a>
+                                                    </td>
+
+                                                    <td class="p-3">${doctors.position}</td>
+
+                                                    <td class="p-3">${doctors.phone}</td>
+                                                    <td class="p-3">${doctors.dateOfBirth}</td>
+                                                    <td class="p-3">${doctors.email}</td>
+                                                    <td class="p-3">${doctors.status}</td>
+                                                    <td class="text-end p-3">
                                                         <!-- Action Buttons -->
-                                                        <a href="ViewDepartmentDetail?id=${service.serviceId}" class="btn btn-icon btn-pills btn-soft-primary" >
+                                                        <a href="ViewStaffDetail?id=${doctors.staffId}" class="btn btn-icon btn-pills btn-soft-primary" >
                                                             <i class="uil uil-eye"></i>
                                                         </a>
                                                         <!-- Edit button with data-* attributes for customer info -->
-                                                        <a href="UpdateService?id=${service.serviceId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                        <a href="UpdateStaffServlet?id=${doctors.staffId}" class="btn btn-icon btn-pills btn-soft-success">
                                                             <i class="uil uil-pen"></i> 
                                                         </a>
-                                                        <form id="deleteForm${service.serviceId}" action="DeleteService" method="post" style="display: inline;">
-                                                            <input type="hidden" name="id" value="${service.serviceId}">
-                                                            <a onclick="doDelete(${service.serviceId})" class="btn btn-icon btn-pills btn-soft-danger">
+                                                        <form id="deleteForm${doctors.staffId}" action="deleteStaffServlet" method="post" style="display: inline;">
+                                                            <input type="hidden" name="id" value="${doctors.staffId}">
+                                                            <a href="#" onclick="doDelete(${doctors.staffId})" class="btn btn-icon btn-pills btn-soft-danger">
                                                                 <i class="uil uil-trash"></i>
                                                             </a>
                                                         </form>
@@ -191,38 +220,40 @@
 
                         <div class="row text-center">
                             <!--                                                     PAGINATION START -->
+                            <!-- PAGINATION START -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
                                     <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListService?page=${currentPage - 1}&pageSize=${pageSize}">Previous</a>
+                                                <a class="page-link" href="ListDoctor?page=${currentPage - 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}">Previous</a>
                                             </li>
                                         </c:if>
 
                                         <c:forEach var="i" begin="1" end="${totalPages}">
                                             <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="ListService?page=${i}&pageSize=${pageSize}">${i}</a>
+                                                <a class="page-link" href="ListDoctor?page=${i}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}">${i}</a>
                                             </li>
                                         </c:forEach>
 
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListService?page=${currentPage + 1}&pageSize=${pageSize}">Next</a>
+                                                <a class="page-link" href="ListDoctor?page=${currentPage + 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}">Next</a>
                                             </li>
                                         </c:if>
                                     </ul>
                                 </div>
                             </div>
 
+
                             <!--PAGINATION END -->
                         </div>
                     </div>
-                </div>
-                <!--end container-->
+                </div><!--end container-->
 
-                <jsp:include page="layout/footer.jsp" />
+                <jsp:include page="../layout/footer.jsp" />
+
             </main>
             <!--End page-content" -->
         </div>
@@ -283,7 +314,12 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
+        <script>
+                                        function resetFilters() {
+                                            window.location.href = './ListDoctor?search=&status=&roleId=&pageSize=5';
+                                        }
 
+        </script>
 
 
     </body>

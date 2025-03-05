@@ -78,7 +78,7 @@ public class ListCustomerServlet extends HttpServlet {
         request.setAttribute("status", status);
         request.setAttribute("gender", gender);
         request.setAttribute("pageSize", pageSize);
-        request.getRequestDispatcher("listCustomer.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/listCustomer.jsp").forward(request, response);
     }
 
     private String normalizeSearchQuery(String query) {
@@ -94,7 +94,7 @@ public class ListCustomerServlet extends HttpServlet {
             // Đặt kết quả tìm kiếm vào thuộc tính của request
             request.setAttribute("customers", customers);
             request.setAttribute("searchQuery", searchQuery);
-            request.getRequestDispatcher("listCustomer.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/listCustomer.jsp").forward(request, response);
         } else {
             // Nếu không có giá trị tìm kiếm, hiển thị tất cả khách hàng
             handleListCustomers(request, response);

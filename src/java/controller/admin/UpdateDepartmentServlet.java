@@ -68,15 +68,15 @@ public class UpdateDepartmentServlet extends HttpServlet {
             Department currentDepartment = department.getDepartmentById(departmentId);
             if (currentDepartment != null) {
                 request.setAttribute("department", currentDepartment);
-                request.getRequestDispatcher("updateDepartment.jsp").forward(request, response);
+                request.getRequestDispatcher("admin/updateDepartment.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", "Không thấy phòng ban này");
-                request.getRequestDispatcher("updateDepartment.jsp").forward(request, response);
+                request.getRequestDispatcher("admin/updateDepartment.jsp").forward(request, response);
             }
 
         } catch (NumberFormatException e) {
             request.setAttribute("error", "Id Phòng ban này phải là số  ");
-            request.getRequestDispatcher("updateDepartment.jsp").forward(request, response); // Quay lại danh sách
+            request.getRequestDispatcher("admin/updateDepartment.jsp").forward(request, response); // Quay lại danh sách
         }
     }
 
@@ -122,7 +122,7 @@ public class UpdateDepartmentServlet extends HttpServlet {
         if (!error.isEmpty()) {
             request.setAttribute("department", department);
             request.setAttribute("error", error);
-            request.getRequestDispatcher("updateDepartment.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/updateDepartment.jsp").forward(request, response);
             return;
         }
 
@@ -131,7 +131,7 @@ public class UpdateDepartmentServlet extends HttpServlet {
         departmentDao.updateDepartment(updateDepartment);
 
         request.setAttribute("success", "Cập nhật thành công!");
-        request.getRequestDispatcher("updateDepartment.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/updateDepartment.jsp").forward(request, response);
     }
     // Hàm kiểm tra chuỗi rỗng
 
