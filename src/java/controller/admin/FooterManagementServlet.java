@@ -63,7 +63,7 @@ public class FooterManagementServlet extends HttpServlet {
         request.setAttribute("phoneContent", phoneContent);
         request.setAttribute("footerContentExists", footerContentExists);
 
-        request.getRequestDispatcher("manage-footer.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/manage-footer.jsp").forward(request, response);
     }
 
     @Override
