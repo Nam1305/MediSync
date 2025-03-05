@@ -4,6 +4,7 @@
  */
 package model;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author DIEN MAY XANH
@@ -81,7 +82,11 @@ public class Schedule {
     public String toString() {
         return "Schedule{" + "scheduleId=" + scheduleId + ", startTime=" + startTime + ", endTime=" + endTime + ", shift=" + shift + ", date=" + date + ", staffId=" + staffId + '}';
     }
-
+    
+    public String getFormatDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(this.date);
+    }
     
     
     

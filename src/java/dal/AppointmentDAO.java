@@ -57,6 +57,90 @@ public class AppointmentDAO extends DBContext {
         }
         return appointments;
     }
+    
+    public List<Appointment> getFilteredAppointments(int customerId, String search, String sort, String gender, String status, int pageNumber, int pageSize) {
+        List<Appointment> appointments = new ArrayList<>();
+        String sql = "SELECT a.appointmentId, a.date, a.startTime, "
+                + "a.endTime, a.appType, a.status, a.staffId, a.customerId, s.name as doctorName "
+                + "FROM Appointment a "
+                + "JOIN Staff s ON a.staffId = s.staffId "
+                + "WHERE a.customerId = ? AND a.status != 'cancelled' ";
+
+        // Thêm điều kiện tìm kiếm theo tên bác sĩ
+        if (search != null && !search.trim().isEmpty()) {
+            sql += " AND s.name LIKE ? ";
+        }
+
+        // Lọc theo giới tính bác sĩ
+        if (gender != null && (gender.equals("M") || gender.equals("F"))) {
+            sql += " AND s.gender = ? ";
+        }
+
+        // Lọc theo trạng thái lịch hẹn
+        if (status != null && !status.equals("all")) {
+            sql += " AND a.status = ? ";
+        }
+
+        // Xử lý sắp xếp nếu sort không phải "asc" hoặc "desc" thì mặc định ASC
+        if ("desc".equalsIgnoreCase(sort)) {
+            sql += " ORDER BY a.date DESC, a.startTime DESC ";
+        } else {
+            sql += " ORDER BY a.date ASC, a.startTime ASC ";
+        }
+
+        // Kiểm tra nếu pageNumber < 1 thì mặc định là 1
+        if (pageNumber < 1) {
+            pageNumber = 1;
+        }
+
+        // Phân trang
+        sql += " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int paramIndex = 1;
+            ps.setInt(paramIndex++, customerId);
+
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + search + "%");
+            }
+
+            if (gender != null && (gender.equals("M") || gender.equals("F"))) {
+                ps.setString(paramIndex++, gender);
+            }
+
+            if (status != null && !status.equals("all")) {
+                ps.setString(paramIndex++, status);
+            }
+
+            ps.setInt(paramIndex++, (pageNumber - 1) * pageSize);
+            ps.setInt(paramIndex++, pageSize);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                appointments.add(mapResultSetToAppointment(rs));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return appointments;
+    }
+
+    public int getTotalAppointments(int customerId) {
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM Appointment where customerId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
 
     public List<Appointment> getAppointmentsByStaff(int staffId) throws SQLException {
         List<Appointment> appointments = new ArrayList<>();
@@ -102,39 +186,22 @@ public class AppointmentDAO extends DBContext {
 
         return services;
     }
-    public Staff getDetailDoctor(int customerId, int appointmentId) {
+    public Staff getDetailDoctor(int appointmentId) {
         String sql = "SELECT \n"
-                + "    st.staffId,\n"
-                + "	st.name,\n"
-                + "	st.email,\n"
-                + "	st.avatar,\n"
-                + "	st.phone,\n"
-                + "	st.password,\n"
-                + "	st.dateOfBirth,\n"
-                + "	st.position,\n"
-                + "	st.gender,\n"
-                + "	st.status,\n"
-                + "	st.description,\n"
-                + "	st.roleId,\n"
-                + "	st.departmentId,\n"
-                + "d.departmentName as departmentName\n"
+                + "    st.staffId, st.name, st.email, st.avatar, st.phone, st.password,\n"
+                + "    st.dateOfBirth, st.position, st.gender, st.status, st.description,\n"
+                + "    st.roleId, st.departmentId, d.departmentName\n"
                 + "FROM \n"
-                + "    Service s\n"
-                + "JOIN \n"
-                + "    Invoice i ON s.serviceId = i.serviceId\n"
-                + "JOIN \n"
-                + "    Appointment a ON i.appointmentId = a.appointmentId\n"
+                + "    Appointment a\n"
                 + "JOIN \n"
                 + "    Staff st ON a.staffId = st.staffId\n"
-                + "\n"
-                + "JOIN Department d on st.departmentId = d.departmentId\n"
                 + "JOIN \n"
-                + "    Customer c ON a.customerId = c.customerId\n"
+                + "    Department d ON st.departmentId = d.departmentId\n"
                 + "WHERE \n"
-                + "    c.customerId = ? and a.appointmentId =?;";
+                + "    a.appointmentId = ?;";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, customerId);
-            ps.setInt(2, appointmentId);
+            //ps.setInt(1, customerId);
+            ps.setInt(1, appointmentId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 Staff doctor = new Staff();
@@ -149,7 +216,6 @@ public class AppointmentDAO extends DBContext {
                 doctor.setGender(rs.getString("gender"));
                 doctor.setStatus(rs.getString("status"));
                 doctor.setDescription(rs.getString("description"));
-
                 // Khởi tạo Department
                 Department department = new Department();
                 department.setDepartmentId(rs.getInt("departmentId"));

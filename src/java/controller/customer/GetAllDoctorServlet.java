@@ -44,7 +44,7 @@ public class GetAllDoctorServlet extends HttpServlet {
         }
 
         request.setAttribute("doctors", allDoctors);
-        request.getRequestDispatcher("allDoctor.jsp").forward(request, response);
+        request.getRequestDispatcher("customer/allDoctor.jsp").forward(request, response);
 
     }
 

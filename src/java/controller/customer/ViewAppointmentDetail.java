@@ -34,12 +34,14 @@ public class ViewAppointmentDetail extends HttpServlet {
         // Lấy chi tiết cuộc hẹn từ DAO
         AppointmentDAO appointmentDAO = new AppointmentDAO();
         Appointment appointment = appointmentDAO.getAppointmentById(appointmentId);
+        System.out.println(appointment);
 
         if (appointment != null) {
             // Truyền dữ liệu cuộc hẹn vào JSP
             request.setAttribute("appointment", appointment);
             // Lấy thông tin bác sĩ phụ trách
-            Staff doctor = appointmentDAO.getDetailDoctor(appointment.getCustomer().getCustomerId(), appointmentId);
+            Staff doctor = appointmentDAO.getDetailDoctor(appointmentId);
+            System.out.println(doctor);
             //Lấy thông tin bệnh án
             TreatmentPlan treat = appointmentDAO.getTreatmentPlanDetail(appointment.getCustomer().getCustomerId(), appointmentId);
             //Lấy thông tin đơn thuốc
@@ -50,7 +52,7 @@ public class ViewAppointmentDetail extends HttpServlet {
             request.setAttribute("prescription", presription);
 
             // Chuyển tiếp đến trang JSP để hiển thị
-            request.getRequestDispatcher("customerAppointmentDetail.jsp").forward(request, response);
+            request.getRequestDispatcher("customer/customerAppointmentDetail.jsp").forward(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Appointment not found");
         }
