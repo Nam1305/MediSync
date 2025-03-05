@@ -98,7 +98,7 @@
                 <jsp:include page="top-navbar.jsp" />
                 <div class="container-fluid">
                     <div class="layout-specing">
-                        <a onclick="goBack()" class="btn btn-success mb-3">Quay lại</a>
+                        <a href="doctorappointment" class="btn btn-success mb-3">Quay lại</a>
                         <h3 class="text-center text-success mb-4">Chi tiết lịch hẹn</h3>
 
                         <!-- Thông tin khách hàng -->
@@ -244,11 +244,6 @@
             });
 
 
-            function goBack() {
-                if (document.referrer) {
-                    window.history.back(); // Quay lại trang trước đó
-                }
-            }
         </script>
 
 

@@ -88,7 +88,10 @@
                             <div class="mb-4">
                                 <!-- Form tìm kiếm, lọc dữ liệu -->
                                 <form action="doctorappointment" method="get" class="d-flex justify-content-between">
+                                    <!-- Ô tìm kiếm bệnh nhân -->
                                     <input type="text" name="search" class="form-control" placeholder="Tìm kiếm bệnh nhân" value="${param.search}" style="width: 200px;">
+
+                                    <!-- Bộ lọc trạng thái -->
                                     <select name="status" class="form-control" style="width: 150px;">
                                         <option value="">Tất cả trạng thái</option>
                                         <option value="pending" ${param.status == 'pending' ? 'selected' : ''}>Chờ xác nhận</option>
@@ -98,10 +101,22 @@
                                         <option value="waitpay" ${param.status == 'waitpay' ? 'selected' : ''}>Chờ thanh toán</option>
                                         <option value="absent" ${param.status == 'absent' ? 'selected' : ''}>Vắng mặt</option>
                                     </select>
+
+                                    <!-- Bộ lọc theo ngày -->
                                     <input type="date" name="date" class="form-control" value="${param.date}" style="width: 150px;">
-                                    <input type="number" name="pageSize" class="form-control" value="${param.pageSize != null ? param.pageSize : 10}" min="1" max="100" step="1" style="width: 150px;">
+
+                                    <!-- Bộ lọc số lượng hiển thị trên trang -->
+                                    <input type="number" name="pageSize" class="form-control" value="${param.pageSize != null ? param.pageSize : 10}" min="1" max="100" step="1" style="width: 100px;">
+
+                                    <!-- Bộ lọc sắp xếp theo giờ hẹn -->
+                                    <select name="sort" class="form-control" style="width: 150px;">
+                                        <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Sớm nhất</option>
+                                        <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Muộn nhất</option>
+                                    </select>
+
                                     <button type="submit" class="btn btn-primary">Lọc</button>
                                 </form>
+
                             </div>
                             <!-- Bảng hiển thị danh sách appointment -->
                             <div class="table-responsive">
@@ -162,13 +177,13 @@
                                                         <i class="uil uil-eye"></i>
                                                     </a>
                                                     <!-- Link chuyển trạng thái: Vắng mặt -->
-                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=absent&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}"
+                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=absent&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}"
                                                        class="btn btn-icon btn-pills btn-soft-danger"
                                                        onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Vắng mặt?');">
                                                         <i class="uil uil-check-circle"></i>
                                                     </a>
                                                     <!-- Link chuyển trạng thái: Chờ thanh toán -->
-                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=waitpay&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}"
+                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=waitpay&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}"
                                                        class="btn btn-icon btn-pills btn-soft-success"
                                                        onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Chờ thanh toán?');">
                                                         <i class="uil uil-times-circle"></i>
@@ -187,17 +202,17 @@
                                 <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                     <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="?page=${currentPage - 1}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}">Trước</a>
+                                            <a class="page-link" href="?page=${currentPage - 1}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}">Trước</a>
                                         </li>
                                     </c:if>
                                     <c:forEach begin="1" end="${totalPages}" var="p">
                                         <li class="page-item ${p == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="?page=${p}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}">${p}</a>
+                                            <a class="page-link" href="?page=${p}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}">${p}</a>
                                         </li>
                                     </c:forEach>
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
-                                            <a class="page-link" href="?page=${currentPage + 1}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}">Sau</a>
+                                            <a class="page-link" href="?page=${currentPage + 1}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}">Sau</a>
                                         </li>
                                     </c:if>
                                 </ul>

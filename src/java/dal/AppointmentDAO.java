@@ -57,7 +57,7 @@ public class AppointmentDAO extends DBContext {
         }
         return appointments;
     }
-    
+
     public List<Appointment> getFilteredAppointments(int customerId, String search, String sort, String gender, String status, int pageNumber, int pageSize) {
         List<Appointment> appointments = new ArrayList<>();
         String sql = "SELECT a.appointmentId, a.date, a.startTime, "
@@ -186,6 +186,7 @@ public class AppointmentDAO extends DBContext {
 
         return services;
     }
+
     public Staff getDetailDoctor(int appointmentId) {
         String sql = "SELECT \n"
                 + "    st.staffId, st.name, st.email, st.avatar, st.phone, st.password,\n"
@@ -284,7 +285,7 @@ public class AppointmentDAO extends DBContext {
         return appointment;
     }
 
-    public List<Appointment> getAppointmentsByPage(int staffId, String search, String status, Date date, int page, int pageSize) throws SQLException {
+    public List<Appointment> getAppointmentsByPage(int staffId, String search, String status, Date date, int page, int pageSize, String sort) throws SQLException {
         List<Appointment> appointments = new ArrayList<>();
         String sql = "SELECT appointmentId, date, startTime, endTime, appType, status, staffId, customerId "
                 + "FROM Appointment WHERE staffId = ?";
@@ -300,7 +301,7 @@ public class AppointmentDAO extends DBContext {
         }
 
         // Sử dụng cú pháp OFFSET FETCH cho phân trang (SQL Server)
-        sql += " ORDER BY date DESC, startTime ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        sql += " ORDER BY date DESC, startTime " + sort + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);

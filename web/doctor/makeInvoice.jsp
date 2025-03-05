@@ -70,7 +70,10 @@
 
                 <div class="container-fluid" style="margin-top: -4%;">
                     <div class="layout-specing">
+
                         <div class="container mt-5">
+                            <a href="doctorappointment" class="btn btn-success mb-3">Quay lại</a>
+
                             <h2 class="text-center mb-4">📋 Nhập Hóa Đơn Khám Bệnh</h2>
 
                             <!-- Thông tin cuộc hẹn -->
