@@ -30,10 +30,36 @@ public class MyFeedbackServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         Staff staff = (Staff) session.getAttribute("staff");
+        int page = 1;
+        int pageSize = 5;
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+        if (request.getParameter("pageSize") != null) {
+            pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        }
+
+        int starFilter = 0;
+
+        if (request.getParameter("starFilter") != null) {
+            try {
+                starFilter = Integer.parseInt(request.getParameter("starFilter"));
+            } catch (NumberFormatException e) {
+                starFilter = 0;
+            }
+        }
+
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        List<Feedback> feedbackList = feedbackDAO.getFeedbackByStaffId(staff.getStaffId(), page, pageSize, starFilter);
+        int totalRecords = feedbackDAO.getTotalFeedbackCountByStaffId(staff.getStaffId(), starFilter);
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
         double[] feedbackStar = feedbackDao.getRatingStatistics(staff.getStaffId());
-        List<Feedback> listFeedback = feedbackDao.getFeedbackByStaffId(staff.getStaffId());
         request.setAttribute("feedbackStar", feedbackStar);
-        request.setAttribute("listFeedback", listFeedback);
+        request.setAttribute("feedbackList", feedbackList);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("pageSize", pageSize);
+        request.setAttribute("starFilter", starFilter);
         request.getRequestDispatcher("doctor/customerFeedback.jsp").forward(request, response);
     }
 

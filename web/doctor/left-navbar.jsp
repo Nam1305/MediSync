@@ -35,7 +35,7 @@
             </li>
 
             <li>
-                <a href="makeinvoice">
+                <a href="listinvoice">
                     <i class="uil uil-receipt me-2"></i> Hóa đơn
                 </a>
             </li>

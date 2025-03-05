@@ -43,17 +43,19 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <!-- Filter Section: Lọc theo số sao -->
-                        <div class="mb-4">
-                            <select class="form-select" id="starFilter" name="starFilter">
-                                <option value="all">Tất cả</option>
-                                <option value="5">5 sao</option>
-                                <option value="4">4 sao</option>
-                                <option value="3">3 sao</option>
-                                <option value="2">2 sao</option>
-                                <option value="1">1 sao</option>
+                        <!-- Bộ lọc -->
+                        <form action="mfeedback" method="GET" class="d-flex gap-3 mb-4">
+                            <!-- Lọc theo số sao -->
+                            <select class="form-select" name="starFilter" onchange="this.form.submit()">
+                                <option value="0" ${param.starFilter == null || param.starFilter == '0' ? 'selected' : ''}>Tất cả</option>
+                                <c:forEach var="i" begin="1" end="5">
+                                    <option value="${i}" ${param.starFilter == i ? 'selected' : ''}>${i} sao</option>
+                                </c:forEach>
                             </select>
-                        </div>
-                        <!-- End Filter Section -->
+
+                            <!-- Chọn số bản ghi trên mỗi trang -->
+                            <input type="number" name="pageSize" min="1" step="1" value="${param.pageSize != null ? param.pageSize : 5}" class="form-control" style="width: 80px;" onchange="this.form.submit()">
+                        </form>
 
                         <div class="row" style="margin-top: -3%;">
                             <!-- Left Column: Thống kê đánh giá -->
@@ -124,11 +126,12 @@
                             <!-- Right Column: Danh sách Feedback -->
                             <div class="col-xl-9 col-lg-7 col-md-7 col-12 mt-4 pt-2">
                                 <div class="card p-4 rounded shadow border-0">
+
                                     <div class="row">
-                                        <c:if test="${empty listFeedback}">
+                                        <c:if test="${empty feedbackList}">
                                             <p class="text-danger">Không có phản hồi nào!</p>
                                         </c:if>
-                                        <c:forEach items="${listFeedback}" var="f">
+                                        <c:forEach items="${feedbackList}" var="f">
                                             <div class="col-xl-4 col-md-6 mb-4">
                                                 <div class="text-center">
                                                     <img src="${f.customer.avatar}" class="img-fluid avatar avatar-small rounded-circle mx-auto shadow" alt="Avatar">
@@ -147,22 +150,28 @@
                             </div>
                             <!-- End Right Column -->
                         </div>
-
-                        <!-- Pagination --> 
-                        <nav aria-label="Page navigation example" class="mt-4">
-                            <ul class="pagination justify-content-end">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1">Trước</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Sau</a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <!-- End Pagination -->
+                        <!-- Phân trang -->
+                        <div class="col-12" style="margin-top: 1%;">
+                            <div class="d-md-flex align-items-center justify-content-end">
+                                <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                    <c:if test="${currentPage > 1}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="mfeedback?page=${currentPage - 1}&pageSize=${pageSize}&starFilter=${starFilter}">Trước</a>
+                                        </li>
+                                    </c:if>
+                                    <c:forEach begin="1" end="${totalPages}" var="p">
+                                        <li class="page-item ${p == currentPage ? 'active' : ''}">
+                                            <a class="page-link" href="mfeedback?page=${p}&pageSize=${pageSize}&starFilter=${starFilter}">${p}</a>
+                                        </li>
+                                    </c:forEach>
+                                    <c:if test="${currentPage < totalPages}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="mfeedback?page=${currentPage + 1}&pageSize=${pageSize}&starFilter=${starFilter}">Sau</a>
+                                        </li>
+                                    </c:if>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div><!-- end container -->
                 <jsp:include page="footer.jsp" />

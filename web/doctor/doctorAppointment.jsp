@@ -168,11 +168,11 @@
                                                     </c:choose>
                                                 </td>
                                                 <td class="text-end p-3">
-                                                    <form action="makeinvoice" method="post" style="display:inline;">
-                                                        <button type="submit" class="btn btn-icon btn-pills btn-soft-primary">
+                                                    <a href="makeinvoice?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-primary">
                                                             <i class="uil uil-shopping-cart"></i>
-                                                        </button>
-                                                    </form>
+                                                    </a>
+
+                         
                                                     <a href="doctorappdetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
                                                         <i class="uil uil-eye"></i>
                                                     </a>
