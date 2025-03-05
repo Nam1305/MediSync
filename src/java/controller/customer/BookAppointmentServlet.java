@@ -6,7 +6,6 @@ package controller.customer;
 
 import dal.ScheduleDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,7 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Customer;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 
 /**
  *

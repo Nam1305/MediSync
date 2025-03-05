@@ -367,7 +367,7 @@
                                                         </td>
 
                                                         <td class="text-center">
-                                                            <!-- Link: Xem chi tiết thông tin bác sĩ, bệnh án, đơn thuốc -->
+                                                            <!-- Link: Xem chi tiết thông tin: bác sĩ, bệnh án, đơn thuốc -->
                                                             <a href="appointmentDetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
                                                                 <i class="uil uil-eye"></i>
                                                             </a>

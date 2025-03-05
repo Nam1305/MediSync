@@ -45,7 +45,7 @@ public class ViewDoctorDetailServlet extends HttpServlet {
             return;
         }
         int doctorId = Integer.parseInt(doctorIdStr);
-        //lấy ra tất cả các doctor dựa vào doctorId
+        //lấy ra doctor dựa vào doctorId
         Staff doctor = doctorDao.getStaffById(doctorId);
         //lấy ra lịch làm việc của bác sĩ dựa vào doctorId
         List<Schedule> schedule = scheduleDao.getScheduleByStaffId(doctorId);
@@ -76,7 +76,12 @@ public class ViewDoctorDetailServlet extends HttpServlet {
 //        }
 
         String dateStr = request.getParameter("date");
-        Date selectedDate = (dateStr != null) ? Date.valueOf(dateStr) : schedule.get(0).getDate();
+        Date selectedDate; 
+        if(dateStr != null){
+            selectedDate = Date.valueOf(dateStr);
+        } else{
+            selectedDate = schedule.get(0).getDate();
+        }
         // Lấy danh sách slot khám trống
         List<TimeSlot> availableSlots = scheduleDao.getAvailableTimeSlots(doctorId, selectedDate);
         request.setAttribute("availableSlot", availableSlots);
