@@ -144,7 +144,7 @@ public class ScheduleDAO extends DBContext {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, staffId);
             ps.setDate(2, date);
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery(); //rs này chứa các danh sách slot đã được đặt
 
             // Lưu các slot đã được đặt vào danh sách
             List<Time> bookedSlots = new ArrayList<>();

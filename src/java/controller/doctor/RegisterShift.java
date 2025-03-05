@@ -22,6 +22,7 @@ import model.Staff;
  * @author DIEN MAY XANH
  */
 public class RegisterShift extends HttpServlet {
+
     private ScheduleDAO scheduleDao = new ScheduleDAO();
 
     @Override
@@ -38,6 +39,10 @@ public class RegisterShift extends HttpServlet {
 
         if (request.getParameter("page") != null) {
             page = Integer.parseInt(request.getParameter("page"));
+        }
+
+        if (request.getParameter("pageSize") != null) {
+            size = Integer.parseInt(request.getParameter("pageSize"));
         }
 
         // Lấy tổng số bản ghi để tính số trang
@@ -76,6 +81,7 @@ public class RegisterShift extends HttpServlet {
         List<ShiftRegistration> scheduleList = scheduleDao.ShiftRegistrationByStaffId(staff.getStaffId(), page, size);
         request.setAttribute("lists", scheduleList);
         request.setAttribute("currentPage", page);
+        request.setAttribute("pageSize", size);
         request.setAttribute("totalPages", totalPages);
 
         request.getRequestDispatcher("doctor/scheduleRegister.jsp").forward(request, response);

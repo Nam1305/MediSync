@@ -5,6 +5,9 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -155,14 +158,31 @@
         <div class="card mt-4 p-4">
             <h4 class="text-primary">Chọn ngày khám</h4>
             <div class="d-flex overflow-auto border rounded p-2 bg-light">
-                <c:forEach var="day" items="${availableDays}">
-                    <button class="btn btn-outline-success mx-1" onclick="showAppointments('${day}')">${day}</button>
-                </c:forEach>
-            </div>
-        </div>
 
-        <!-- Danh sách ca khám trống -->
+                <c:forEach var="day" items="${schedule}">
+                    <form action="doctorDetail" method="get" class="d-inline">
+                        <input type="hidden" name="doctorId" value="${doctor.staffId}">
+                        <button type="submit" name="date" value="${day.getFormatDate()}" 
+                                class="btn mx-1 ${selectedDate == day.getFormatDate() ? 'btn-success' : 'btn-outline-success'}">
+                            ${day.getFormatDate()}
+                        </button>
+                    </form>
+                </c:forEach>
+
+            </div>
+        </div>        
         <div class="card mt-4 p-4">
+            <c:if test="${param.message == 'success'}">
+                <div class="alert alert-success" role="alert">
+                    🎉 Đặt lịch hẹn thành công!
+                </div>
+            </c:if>
+
+            <c:if test="${param.message == 'error'}">
+                <div class="alert alert-danger" role="alert">
+                    ❌ Đặt lịch hẹn thất bại! Vui lòng thử lại.
+                </div>
+            </c:if>
             <h4 class="text-primary">Lịch khám trống</h4>
             <table class="table table-bordered prescription-table">
                 <thead>
@@ -172,32 +192,30 @@
                     </tr>
                 </thead>
                 <tbody id="appointmentTable">
-                    <c:forEach var="appointment" items="${availableAppointments}">
-                        <tr class="appointment-row" data-date="${appointment.date}">
-                            <td>${appointment.time}</td>
+                    <c:forEach var="appointment" items="${availableSlot}">
+                        <tr>
+                            <td>${appointment.startTime} - ${appointment.endTime}</td>
                             <td>
-                                <form action="BookAppointmentServlet" method="post">
-                                    <input type="hidden" name="appointmentId" value="${appointment.id}">
-                                    <button type="submit" class="btn btn-primary">Đặt lịch</button>
+                                <form action="bookAppointment" method="post">
+                                    <input type="hidden" name="doctorId" value="${doctor.staffId}">
+                                    <input type="hidden" name="startTime" value="${appointment.startTime}">
+                                    <input type="hidden" name="endTime" value="${appointment.endTime}">
+                                    <input type="hidden" name="date" value="${selectedDate}">
+                                    <button type="submit" class="btn btn-primary" ${appointment.isIsBooked() ? 'disabled' : ''}>
+                                        Đặt lịch
+                                    </button>
                                 </form>
                             </td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
+            
+            <div class="text-end mb-3">
+                <a href="listAppointments" class="text-center btn btn-primary">Quay về danh sách lịch hẹn</a>
+            </div>
+
         </div>
-
-        <!-- JavaScript để lọc lịch khám -->
-        <script>
-            function showAppointments(selectedDate) {
-                document.querySelectorAll('.appointment-row').forEach(row => {
-                    row.style.display = row.getAttribute('data-date') === selectedDate ? '' : 'none';
-                });
-            }
-        </script>
-
-
-
         <!-- Scripts -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
     </body>

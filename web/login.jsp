@@ -74,7 +74,7 @@
                                             <div class="mb-3">
                                                 <div class="form-check">
                                                     <input class="form-check-input align-middle" type="checkbox" value="" id="remember-check" name="remember" ${(cookie.cRemember != null) ? 'checked' : ''}>
-                                                    <label class="form-check-label" for="remember-check">Remember me</label>
+                                                    <label class="form-check-label" for="remember-check">Nhớ tài khoản</label>
                                                 </div>
                                             </div>
                                             <a href="forgot-password.jsp" class="text-dark h6 mb-0">Quên mật khẩu?</a>

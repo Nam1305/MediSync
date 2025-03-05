@@ -112,6 +112,8 @@
             }
         </style>
     </head>
+    
+    
 
     <body>
         <div class="container mt-5">
@@ -143,7 +145,7 @@
                         </td>
                         <td>${doctor.email}</td>
                         <td>${doctor.phone}</td>
-                        <td>${doctor.getDepartment().getDepartmentName()}</td>
+                        <td>${doctor.department.departmentName}</td>
                     </tr>
                 </table>
                 <div class="mt-3">
@@ -151,44 +153,51 @@
                     <p class="border p-3 bg-light">${doctor.description}</p>
                 </div>
             </div>
+                
             <!-- Bệnh án -->
-            <div class="card mt-4 p-4">
-                <h4 class="text-center">Bệnh án</h4>
-                <p><strong>Triệu chứng:</strong> ${treat.symptoms}</p>
-                <p><strong>Chẩn đoán:</strong> ${treat.diagnosis}</p>
-                <p><strong>Kết quả xét nghiệm:</strong> ${treat.testResult}</p>
-                <p><strong>Kế hoạch điều trị:</strong> ${treat.plan}</p>
-                <p><strong>Theo dõi:</strong> ${treat.followUp}</p>
-            </div>
+            <c:if test="${not empty treat}">
+                <div class="card mt-4 p-4">
+                    <h4 class="text-center">Bệnh án</h4>
+                    <p><strong>Triệu chứng:</strong> ${treat.symptoms}</p>
+                    <p><strong>Chẩn đoán:</strong> ${treat.diagnosis}</p>
+                    <p><strong>Kết quả xét nghiệm:</strong> ${treat.testResult}</p>
+                    <p><strong>Kế hoạch điều trị:</strong> ${treat.plan}</p>
+                    <p><strong>Theo dõi:</strong> ${treat.followUp}</p>
+                </div>
+            </c:if>
+
 
 
 
             <!-- Đơn thuốc -->
-            <div class="card mt-4 p-4">
-                <h4 class="text-primary">Đơn thuốc</h4>
-                <table class="table table-bordered prescription-table">
-                    <thead>
-                        <tr>
-                            <th>Tên thuốc</th>
-                            <th>Số lượng</th>
-                            <th>Liều lượng</th>
-                            <th>Lưu ý</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="prescription" items="${prescription}">
+            <c:if test="${not empty prescription}">
+                <div class="card mt-4 p-4">
+                    <h4 class="text-primary">Đơn thuốc</h4>
+                    <table class="table table-bordered prescription-table">
+                        <thead>
                             <tr>
-                                <td>${prescription.medicineName}</td>
-                                <td>${prescription.totalQuantity}</td>
-                                <td>${prescription.dosage}</td>
-                                <td>
-                                    <div class="scrollable-note">${prescription.note}</div>
-                                </td>
+                                <th>Tên thuốc</th>
+                                <th>Số lượng</th>
+                                <th>Liều lượng</th>
+                                <th>Lưu ý</th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="prescription" items="${prescription}">
+                                <tr>
+                                    <td>${prescription.medicineName}</td>
+                                    <td>${prescription.totalQuantity}</td>
+                                    <td>${prescription.dosage}</td>
+                                    <td>
+                                        <div class="scrollable-note">${prescription.note}</div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </c:if>
+
 
             <!-- Nút quay lại -->
             <div class="text-center mt-3">

@@ -230,7 +230,7 @@
         <!-- Loader -->
 
         <!-- Navbar STart -->
-        <jsp:include page="layout/header.jsp" /><!--end header-->
+        <jsp:include page="../layout/header.jsp" /><!--end header-->
         <!-- Navbar End -->
 
         <!-- Start -->
@@ -239,7 +239,7 @@
                 <div class="row mt-lg-5">
                     <div class="col-md-6 col-lg-4">
                         <div class="rounded shadow overflow-hidden sticky-bar">
-                            
+
                         </div>
                     </div>
                 </div><!--end col-->
@@ -265,6 +265,63 @@
                             </li><!--end nav item-->
                         </ul>
 
+                        <!-- Thêm lớp mt-4 để tạo khoảng cách -->
+                        <form action="listAppointments" method="GET" class="mb-3 mt-4">
+
+
+                            <div class="row g-3"> <!-- Thêm g-3 để tạo khoảng cách giữa các cột -->
+                                <!-- Ô tìm kiếm theo tên bác sĩ -->
+                                <div class="col-md-4">
+                                    <input type="text" name="search" value="${not empty search ? search : ''}" class="form-control" placeholder="Tìm theo tên bác sĩ...">
+                                </div>
+
+                                <!-- Lọc theo giới tính -->
+                                <div class="col-md-2">
+                                    <select name="gender" class="form-control">
+                                        <option value="" <c:if test="${empty gender}">selected</c:if>>Giới tính</option>
+                                        <option value="M" <c:if test="${gender == 'M'}">selected</c:if>>Nam</option>
+                                        <option value="F" <c:if test="${gender == 'F'}">selected</c:if>>Nữ</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Lọc theo trạng thái -->
+                                    <div class="col-md-2">
+                                        <select name="status" class="form-control">
+                                            <option value="all" <c:if test="${empty status or status == 'all'}">selected</c:if>>Trạng thái</option>
+                                        <option value="pending" <c:if test="${status == 'pending'}">selected</c:if>>Chờ xác nhận</option>
+                                        <option value="confirmed" <c:if test="${status == 'confirmed'}">selected</c:if>>Đã xác nhận</option>
+                                        <option value="paid" <c:if test="${status == 'paid'}">selected</c:if>>Đã thanh toán</option>
+                                        <option value="cancelled" <c:if test="${status == 'cancelled'}">selected</c:if>>Đã hủy</option>
+                                        <option value="waitpay" <c:if test="${status == 'waitpay'}">selected</c:if>>Chờ thanh toán</option>
+                                        <option value="absent" <c:if test="${status == 'absent'}">selected</c:if>>Vắng mặt</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Sắp xếp -->
+                                    <div class="col-md-2">
+                                        <select name="sort" class="form-control">
+                                            <option value="asc" <c:if test="${sort == 'asc'}">selected</c:if>>Ngày cũ → mới</option>
+                                        <option value="desc" <c:if test="${sort == 'desc'}">selected</c:if>>Ngày mới → cũ</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Input số lượng/trang -->
+                                    <div class="col-md-2">
+                                        <input type="number" class="form-control" name="pageSize" min="1" max="${totalAppointment}" 
+                                           value="${not empty pageSize ? pageSize : 2}" placeholder="Số lượng/trang">
+                                </div>
+
+                                <!-- Nút submit -->
+                                <div class="col-md-2 d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary w-100">Lọc</button>
+                                    <button type="button" class="btn btn-primary w-100" onclick="resetForm()">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+
+
+
+
                         <div class="tab-content p-4" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-overview" role="tabpanel" aria-labelledby="overview-tab">
                                 <div class="row">
@@ -276,7 +333,6 @@
                                                     <th>Giới tính</th>
                                                     <th>Ngày hẹn</th>
                                                     <th>Thời gian</th>
-                                                    <!--                                                        <th>Kết thúc</th>-->
                                                     <th>Trạng thái</th>
                                                     <th class="text-center">Hành động</th>
                                                 </tr>
@@ -311,7 +367,7 @@
                                                         </td>
 
                                                         <td class="text-center">
-                                                            <!-- Link: Xem chi tiết thông tin bác sĩ, bệnh án, đơn thuốc -->
+                                                            <!-- Link: Xem chi tiết thông tin: bác sĩ, bệnh án, đơn thuốc -->
                                                             <a href="appointmentDetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
                                                                 <i class="uil uil-eye"></i>
                                                             </a>
@@ -335,8 +391,35 @@
 
                                             </tbody>
                                         </table>
-
-
+                                        <!-- PAGINATION START -->
+                                        <div class="col-12 mt-4">
+                                            <div class="d-md-flex align-items-center text-center justify-content-between">
+                                                <span class="text-muted me-3">Showing 1 - 5 out of ${requestScope.totalAppointment}</span>
+                                                <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                                    <!--                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>-->
+                                                    <c:if test="${currentPage > 1}">
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'asc'}&page=${currentPage - 1}&pageSize=${requestScope.pageSize}" aria-label="Previous">
+                                                                Prev
+                                                            </a>
+                                                        </li>
+                                                    </c:if>
+                                                    <c:forEach var="i" begin="1" end="${totalPages}" step="1">
+                                                        <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                            <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'asc'}&page=${i}&pageSize=${requestScope.pageSize}">${i}</a>
+                                                        </li>
+                                                    </c:forEach>
+                                                    <c:if test="${currentPage < totalPages}">
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'asc'}&page=${currentPage + 1}&pageSize=${requestScope.pageSize}" aria-label="Next">
+                                                                Next
+                                                            </a>
+                                                        </li>
+                                                    </c:if>
+                                                </ul>
+                                            </div>
+                                        </div><!--end col-->
+                                        <!-- PAGINATION END -->
                                     </div>
                                 </div>  
                             </div>
@@ -472,95 +555,7 @@
     <!-- End -->
 
     <!-- Start -->
-    <footer class="bg-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-5 col-lg-4 mb-0 mb-md-4 pb-0 pb-md-2">
-                    <a href="#" class="logo-footer">
-                        <img src="assets/images/logo-light.png" height="22" alt="">
-                    </a>
-                    <p class="mt-4 me-xl-5">Great doctor if you need your family member to get effective immediate assistance, emergency treatment or a simple consultation.</p>
-                </div><!--end col-->
-
-                <div class="col-xl-7 col-lg-8 col-md-12">
-                    <div class="row">
-                        <div class="col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                            <h5 class="text-light title-dark footer-head">Company</h5>
-                            <ul class="list-unstyled footer-list mt-4">
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> About us</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Services</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Team</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Project</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Blog</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Login</a></li>
-                            </ul>
-                        </div><!--end col-->
-
-                        <div class="col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                            <h5 class="text-light title-dark footer-head">Departments</h5>
-                            <ul class="list-unstyled footer-list mt-4">
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Eye Care</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Psychotherapy</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Dental Care</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Orthopedic</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Cardiology</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Gynecology</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Neurology</a></li>
-                            </ul>
-                        </div><!--end col-->
-
-                        <div class="col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                            <h5 class="text-light title-dark footer-head">Contact us</h5>
-                            <ul class="list-unstyled footer-list mt-4">
-                                <li class="d-flex align-items-center">
-                                    <i data-feather="mail" class="fea icon-sm text-foot align-middle"></i>
-                                    <a href="mailto:contact@example.com" class="text-foot ms-2">contact@example.com</a>
-                                </li>
-
-                                <li class="d-flex align-items-center">
-                                    <i data-feather="phone" class="fea icon-sm text-foot align-middle"></i>
-                                    <a href="tel:+152534-468-854" class="text-foot ms-2">+152 534-468-854</a>
-                                </li>
-
-                                <li class="d-flex align-items-center">
-                                    <i data-feather="map-pin" class="fea icon-sm text-foot align-middle"></i>
-                                    <a href="javascript:void(0)" class="video-play-icon text-foot ms-2">View on Google map</a>
-                                </li>
-                            </ul>
-
-                            <ul class="list-unstyled social-icon footer-social mb-0 mt-4">
-                                <li class="list-inline-item"><a href="#" class="rounded-pill"><i data-feather="facebook" class="fea icon-sm fea-social"></i></a></li>
-                                <li class="list-inline-item"><a href="#" class="rounded-pill"><i data-feather="instagram" class="fea icon-sm fea-social"></i></a></li>
-                                <li class="list-inline-item"><a href="#" class="rounded-pill"><i data-feather="twitter" class="fea icon-sm fea-social"></i></a></li>
-                                <li class="list-inline-item"><a href="#" class="rounded-pill"><i data-feather="linkedin" class="fea icon-sm fea-social"></i></a></li>
-                            </ul><!--end icon-->
-                        </div><!--end col-->
-                    </div><!--end row-->
-                </div><!--end col-->
-            </div><!--end row-->
-        </div><!--end container-->
-
-        <div class="container mt-5">
-            <div class="pt-4 footer-bar">
-                <div class="row align-items-center">
-                    <div class="col-sm-6">
-                        <div class="text-sm-start text-center">
-                            <p class="mb-0"><script>document.write(new Date().getFullYear())</script> © Doctris. Design with <i class="mdi mdi-heart text-danger"></i> by <a href="index.html" target="_blank" class="text-reset">Shreethemes</a>.</p>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-sm-6 mt-4 mt-sm-0">
-                        <ul class="list-unstyled footer-list text-sm-end text-center mb-0">
-                            <li class="list-inline-item"><a href="terms.html" class="text-foot me-2">Terms</a></li>
-                            <li class="list-inline-item"><a href="privacy.html" class="text-foot me-2">Privacy</a></li>
-                            <li class="list-inline-item"><a href="aboutus.html" class="text-foot me-2">About</a></li>
-                            <li class="list-inline-item"><a href="contact.html" class="text-foot me-2">Contact</a></li>
-                        </ul>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div>
-        </div><!--end container-->
-    </footer><!--end footer-->
+    <jsp:include page="../layout/footer.jsp" /><!--end header-->
     <!-- End -->
 
     <!-- Back to top -->
@@ -871,6 +866,11 @@
             // Load image to check dimensions
             img.src = URL.createObjectURL(file);
         });
+    </script>
+    <script>
+        function resetForm() {
+            window.location.href = './listAppointments?search=&gender=&status=all&sort=asc&pageSize=2';
+        }
     </script>
 
 </body>

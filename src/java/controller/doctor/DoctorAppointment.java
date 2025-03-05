@@ -85,10 +85,15 @@ public class DoctorAppointment extends HttpServlet {
                 pageSize = 10;
             }
         }
+        
+        String sort = "asc";
+        if(request.getParameter("sort") != null){
+            sort = request.getParameter("sort");
+        }
 
         try {
             // Lấy danh sách Appointment theo filter và phân trang
-            List<Appointment> listA = ad.getAppointmentsByPage(st.getStaffId(), search, status, date, page, pageSize);
+            List<Appointment> listA = ad.getAppointmentsByPage(st.getStaffId(), search, status, date, page, pageSize, sort);
             int totalAppointments = ad.countAppointmentsByFilter(st.getStaffId(), search, status, date);
             int totalPages = (int) Math.ceil((double) totalAppointments / pageSize);
 
@@ -101,6 +106,7 @@ public class DoctorAppointment extends HttpServlet {
             request.setAttribute("search", search);
             request.setAttribute("status", status);
             request.setAttribute("date", dateStr);
+            request.setAttribute("sort", sort);
         } catch (Exception e) {
         }
 

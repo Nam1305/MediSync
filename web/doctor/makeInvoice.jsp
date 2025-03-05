@@ -70,16 +70,18 @@
 
                 <div class="container-fluid" style="margin-top: -4%;">
                     <div class="layout-specing">
+
                         <div class="container mt-5">
+                            <a href="doctorappointment" class="btn btn-success mb-3">Quay lại</a>
+
                             <h2 class="text-center mb-4">📋 Nhập Hóa Đơn Khám Bệnh</h2>
 
                             <!-- Thông tin cuộc hẹn -->
                             <div class="card p-3 mb-4">
                                 <h5 class="mb-3">Thông tin cuộc hẹn</h5>
-                                <p><strong>Bệnh nhân:</strong> Nguyễn Văn A</p>
-                                <p><strong>Ngày:</strong> 22/02/2025</p>
-                                <p><strong>Giờ:</strong> 10:00 - 10:30</p>
-                                <p><strong>Loại cuộc hẹn:</strong> Khám tổng quát</p>
+                                <p><strong>Bệnh nhân:</strong> ${app.customer.name}</p>
+                                <p><strong>Ngày:</strong> <fmt:formatDate value="${app.date}" pattern="dd/MM/yyyy"/></p>
+                                <p><strong>Giờ:</strong> ${app.start} - ${app.end}</p>
                             </div>
 
                             <!-- Dịch vụ đã chọn -->

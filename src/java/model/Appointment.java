@@ -5,7 +5,6 @@
 package model;
 import dal.AppointmentDAO;
 import java.sql.*;
-import java.util.List;
 /**
  *
  * @author DIEN MAY XANH

@@ -76,6 +76,10 @@
         <servlet-name>MyFeedbackServlet</servlet-name>
         <servlet-class>controller.doctor.MyFeedbackServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListInvoiceServlet</servlet-name>
+        <servlet-class>controller.doctor.ListInvoiceServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -143,5 +147,9 @@
     <servlet-mapping>
         <servlet-name>MyFeedbackServlet</servlet-name>
         <url-pattern>/mfeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListInvoiceServlet</servlet-name>
+        <url-pattern>/listinvoice</url-pattern>
     </servlet-mapping>
 </web-app>

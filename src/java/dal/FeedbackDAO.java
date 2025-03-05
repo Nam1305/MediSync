@@ -20,11 +20,33 @@ public class FeedbackDAO extends DBContext {
     StaffDAO staffDao = new StaffDAO();
     CustomerDAO customerDao = new CustomerDAO();
 
-    public List<Feedback> getFeedbackByStaffId(int staffId) {
+    public List<Feedback> getFeedbackByStaffId(int staffId, int pageNumber, int pageSize, int starFilter) {
         List<Feedback> feedbackList = new ArrayList<>();
-        String sql = "SELECT feedBackId, ratings, content, date, staffId, customerId FROM Feedback WHERE staffId = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, staffId);
+        String sql = "SELECT f.feedBackId, f.ratings, f.content, f.date, f.staffId, f.customerId "
+                + "FROM Feedback f "
+                + "WHERE f.staffId = ? ";
+
+        if (starFilter >= 1 && starFilter <= 5) {
+            sql += " AND f.ratings = ? ";
+        }
+
+        sql += " ORDER BY f.date DESC ";
+
+        // Phân trang
+        sql += " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            int paramIndex = 1;
+            ps.setInt(paramIndex++, staffId);
+
+            if (starFilter >= 1 && starFilter <= 5) {
+                ps.setInt(paramIndex++, starFilter);
+            }
+
+            ps.setInt(paramIndex++, (pageNumber - 1) * pageSize);
+            ps.setInt(paramIndex++, pageSize);
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Staff staff = staffDao.getStaffById(rs.getInt("staffId"));
@@ -44,6 +66,31 @@ public class FeedbackDAO extends DBContext {
             e.printStackTrace();
         }
         return feedbackList;
+    }
+
+    public int getTotalFeedbackCountByStaffId(int staffId, int starFilter) {
+        String sql = "SELECT COUNT(*) FROM Feedback WHERE staffId = ?";
+
+        if (starFilter >= 1 && starFilter <= 5) {
+            sql += " AND ratings = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int paramIndex = 1;
+            ps.setInt(paramIndex++, staffId);
+
+            if (starFilter >= 1 && starFilter <= 5) {
+                ps.setInt(paramIndex++, starFilter);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public double[] getRatingStatistics(int staffId) {
@@ -87,15 +134,22 @@ public class FeedbackDAO extends DBContext {
         } catch (Exception e) {
         }
         return new double[]{0, 0, 0, 0, 0, 0};
-    
-        
-}
+
+    }
+
     public static void main(String[] args) {
         FeedbackDAO f = new FeedbackDAO();
         double[] d = f.getRatingStatistics(1);
-        for(int i = 0; i < d.length; i++){
+
+        for (int i = 0; i < d.length; i++) {
             System.out.println(d[i]);
         }
+
+        List<Feedback> listFeedback = f.getFeedbackByStaffId(1, 1, 6, 0);
+        for (Feedback feedback : listFeedback) {
+            System.out.println(feedback.getRatings());
+        }
+
     }
 
 }
