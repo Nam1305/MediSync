@@ -112,7 +112,9 @@
                                             <p><span class="info-label">Tên:</span> ${app.customer.name}</p>
                                             <p><span class="info-label">Email:</span> ${app.customer.email}</p>
                                             <p><span class="info-label">Địa chỉ:</span> ${app.customer.address}</p>
-                                            <p><span class="info-label">Ngày sinh:</span> ${app.customer.dateOfBirth}</p>
+                                            <p><span class="info-label">Ngày sinh:</span> 
+                                                <fmt:formatDate value="${app.customer.dateOfBirth}" pattern="dd/MM/yyyy"/>
+                                            </p>
                                         </div>
                                         <div class="col-md-6">
                                             <p><span class="info-label">Số điện thoại:</span> ${app.customer.phone}</p>

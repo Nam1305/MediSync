@@ -41,7 +41,6 @@ public class DoctorAppointmentDetail extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        //doctorappdetail
         String appId = request.getParameter("appointmentId");
         int appointmentId = 0;
         try {

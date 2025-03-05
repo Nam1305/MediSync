@@ -84,7 +84,7 @@
                             </div>
                         </a>
                         <a class="dropdown-item text-dark" href="adminDashBoard.jsp">
-                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard
+                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Bảng điều khiển
                         </a>
                         <a class="dropdown-item text-dark" href="doctorProfile">
                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Thông tin cá nhân
@@ -156,7 +156,7 @@
                                     </c:if>
                                     <c:if test="${staff != null}">
                                         <a class="dropdown-item text-dark" href="doctorappointment">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> DashBoard
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Bảng điều khiển
                                         </a>
                                     </c:if>
                                     <div class="dropdown-divider border-top"></div>
