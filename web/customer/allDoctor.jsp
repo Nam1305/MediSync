@@ -59,15 +59,15 @@
             <!-- Start -->
             <section class="section">
                 <div class="container">
-
-                    <div class="row align-items-center">
+                    <div class="row align-items-center g-4"> <!-- Thêm khoảng cách giữa các cột -->
                         <c:forEach var="doctor" items="${doctors}"> 
-                            <div class="col-lg-6 col-md-12">
+                            <div class="col-lg-6 col-md-12 mb-4"> <!-- Thêm khoảng cách giữa các hàng -->
                                 <div class="card team border-0 rounded shadow overflow-hidden">
                                     <div class="row align-items-center">
                                         <div class="col-md-6">
                                             <div class="team-person position-relative overflow-hidden">
-                                                <img src="${doctor.avatar}" class="img-fluid" alt="">
+                                                <img src="${doctor.avatar}" class="img-fluid" alt="" 
+                                                     style="width: 150px; height: 150px; object-fit: cover; ">
                                                 <ul class="list-unstyled team-like">
                                                     <li>
                                                         <a href="doctorDetail?doctorId=${doctor.staffId}" class="btn btn-icon btn-pills btn-soft-danger">
@@ -90,6 +90,7 @@
                             </div><!--end col-->
                         </c:forEach>
                     </div><!--end row-->
+
                 </div><!--end container-->
             </section><!--end section-->
             <!-- End -->
