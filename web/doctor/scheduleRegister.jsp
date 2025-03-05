@@ -112,6 +112,19 @@
                         <!-- Danh sách bản đăng ký ca làm việc -->
                         <div class="card shadow p-4">
                             <h4 class="mb-3 text-center">Danh sách đăng ký ca làm việc</h4>
+                            <form action="registershift" method="GET">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>
+                                        <label for="pageSize">Số bản ghi hiển thị:</label>
+                                        <input type="number" id="pageSize" name="pageSize" class="form-control d-inline-block" style="width: 80px;"
+                                               min="1" step="1" value="${pageSize}" required>
+                                    </div>
+                                    <!-- Giữ giá trị trang hiện tại -->
+                                    <input type="hidden" name="page" value="${currentPage}">
+                                    <button type="submit" class="btn btn-primary">Áp dụng</button>
+                                </div>
+                            </form>
+
                             <table class="table table-bordered">
                                 <thead class="table-success">
                                     <tr>
@@ -164,14 +177,14 @@
                                         <!-- Nút 'Trước' -->
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="registershift&page=${currentPage - 1}&pageSize=${pageSize}">Trước</a>
+                                                <a class="page-link" href="registershift?page=${currentPage - 1}&pageSize=${pageSize}">Trước</a>
                                             </li>
                                         </c:if>
 
                                         <!-- Hiển thị số trang -->
                                         <c:forEach begin="1" end="${totalPages}" var="p">
                                             <li class="page-item ${p == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="registershift&page=${p}&pageSize=${pageSize}">${p}</a>
+                                                <a class="page-link" href="registershift?page=${p}&pageSize=${pageSize}">${p}</a>
                                             </li>
                                         </c:forEach>
 
