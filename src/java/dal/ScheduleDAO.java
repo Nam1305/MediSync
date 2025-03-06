@@ -202,6 +202,20 @@ public class ScheduleDAO extends DBContext {
             return false;
         }
     }
+    
+    
+    public boolean deleteShiftRegistration(int registrationId) {
+        String sql = "delete from DoctorShiftRegistration where registrationId = ?";
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, registrationId);
+            ps.executeUpdate();     
+        } catch (SQLException ex) {
+            return false;
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
         ScheduleDAO d = new ScheduleDAO();

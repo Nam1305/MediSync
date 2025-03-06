@@ -109,7 +109,7 @@
                             </form>
                         </div>
 
-                        <!-- Danh sách bản đăng ký ca làm việc -->
+                        <!-- Danh sách đăng ký ca làm việc -->
                         <div class="card shadow p-4">
                             <h4 class="mb-3 text-center">Danh sách đăng ký ca làm việc</h4>
                             <form action="registershift" method="GET">
@@ -133,6 +133,7 @@
                                         <th>Ca</th>
                                         <th>Thời gian</th>
                                         <th>Trạng thái</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -166,6 +167,15 @@
                                                         <span class="badge bg-danger">Từ chối</span>
                                                     </c:otherwise>
                                                 </c:choose>
+                                            </td>
+                                            <td>
+                                                <form action="registershift" method="GET" onsubmit="return confirm('Bạn có chắc muốn xóa đăng ký này?');">
+                                                    <input type="hidden" name="action" value="delete" />
+                                                    <input type="hidden" name="registrationId" value="${schedule.registrationId}" />
+                                                    <input type="hidden" name="page" value="${currentPage}" />
+                                                    <input type="hidden" name="pageSize" value="${pageSize}" />
+                                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -204,6 +214,7 @@
                 </div><!--end container-->
                 <!-- Footer Start -->
                 <jsp:include page="footer.jsp" />
+
                 <!-- End -->
             </main>
             <!--End page-content" -->
@@ -228,12 +239,9 @@
             });
         </script>
 
-
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/app.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </body>
-
-
 </html>
