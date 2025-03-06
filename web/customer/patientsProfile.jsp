@@ -300,8 +300,8 @@
                                     <!-- Sắp xếp -->
                                     <div class="col-md-2">
                                         <select name="sort" class="form-control">
-                                            <option value="asc" <c:if test="${sort == 'asc'}">selected</c:if>>Ngày cũ → mới</option>
-                                        <option value="desc" <c:if test="${sort == 'desc'}">selected</c:if>>Ngày mới → cũ</option>
+                                            <option value="desc" <c:if test="${sort == 'desc'}">selected</c:if>>Ngày mới → cũ</option>
+                                            <option value="asc" <c:if test="${sort == 'asc'}"></c:if>>Ngày cũ → mới</option>
                                         </select>
                                     </div>
 
@@ -399,19 +399,19 @@
                                                     <!--                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>-->
                                                     <c:if test="${currentPage > 1}">
                                                         <li class="page-item">
-                                                            <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'asc'}&page=${currentPage - 1}&pageSize=${requestScope.pageSize}" aria-label="Previous">
+                                                            <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'desc'}&page=${currentPage - 1}&pageSize=${requestScope.pageSize}" aria-label="Previous">
                                                                 Prev
                                                             </a>
                                                         </li>
                                                     </c:if>
                                                     <c:forEach var="i" begin="1" end="${totalPages}" step="1">
                                                         <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                            <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'asc'}&page=${i}&pageSize=${requestScope.pageSize}">${i}</a>
+                                                            <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'desc'}&page=${i}&pageSize=${requestScope.pageSize}">${i}</a>
                                                         </li>
                                                     </c:forEach>
                                                     <c:if test="${currentPage < totalPages}">
                                                         <li class="page-item">
-                                                            <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'asc'}&page=${currentPage + 1}&pageSize=${requestScope.pageSize}" aria-label="Next">
+                                                            <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'desc'}&page=${currentPage + 1}&pageSize=${requestScope.pageSize}" aria-label="Next">
                                                                 Next
                                                             </a>
                                                         </li>
