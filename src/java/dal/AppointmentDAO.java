@@ -27,9 +27,7 @@ public class AppointmentDAO extends DBContext {
         appointment.setDate(rs.getDate("date"));
         appointment.setStart(rs.getTime("startTime"));
         appointment.setEnd(rs.getTime("endTime"));
-        appointment.setType(rs.getString("appType"));
         appointment.setStatus(rs.getString("status"));
-
         Staff staff = staffDao.getStaffById(rs.getInt("staffId"));
         appointment.setStaff(staff);
         Customer customer = customerDao.getCustomerById(rs.getInt("customerId"));
@@ -40,7 +38,7 @@ public class AppointmentDAO extends DBContext {
     public List<Appointment> getListAppointmentsByCustomerId(int customerId) {
         List<Appointment> appointments = new ArrayList<>();
         // lấy ra lịch hẹn theo customerId
-        String sql = "select appointmentId, date, startTime, endTime, appType, status, staffId, customerId "
+        String sql = "select appointmentId, date, startTime, endTime, status, staffId, customerId "
                 + "FROM Appointment WHERE customerId = ? AND status != 'cancelled'";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -61,7 +59,7 @@ public class AppointmentDAO extends DBContext {
     public List<Appointment> getFilteredAppointments(int customerId, String search, String sort, String gender, String status, int pageNumber, int pageSize) {
         List<Appointment> appointments = new ArrayList<>();
         String sql = "SELECT a.appointmentId, a.date, a.startTime, "
-                + "a.endTime, a.appType, a.status, a.staffId, a.customerId, s.name as doctorName "
+                + "a.endTime, a.status, a.staffId, a.customerId, s.name as doctorName "
                 + "FROM Appointment a "
                 + "JOIN Staff s ON a.staffId = s.staffId "
                 + "WHERE a.customerId = ? AND a.status != 'cancelled' ";
@@ -144,7 +142,7 @@ public class AppointmentDAO extends DBContext {
 
     public List<Appointment> getAppointmentsByStaff(int staffId) throws SQLException {
         List<Appointment> appointments = new ArrayList<>();
-        String sql = "SELECT appointmentId, date, startTime, endTime, appType, status, staffId, customerId "
+        String sql = "SELECT appointmentId, date, startTime, endTime, status, staffId, customerId "
                 + "FROM Appointment "
                 + "WHERE staffId = ? AND status != 'cancelled'";
 
@@ -268,7 +266,7 @@ public class AppointmentDAO extends DBContext {
     public Appointment getAppointmentById(int appId) {
         Appointment appointment = null;
         // SQL query để lấy chi tiết cuộc hẹn theo appointmentId
-        String sql = "SELECT appointmentId, date, startTime, endTime, appType, status, staffId, customerId "
+        String sql = "SELECT appointmentId, date, startTime, endTime, status, staffId, customerId "
                 + "FROM Appointment WHERE appointmentId = ? AND status != 'cancelled'";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, appId);  // Gán appId vào câu lệnh SQL
@@ -287,7 +285,7 @@ public class AppointmentDAO extends DBContext {
 
     public List<Appointment> getAppointmentsByPage(int staffId, String search, String status, Date date, int page, int pageSize, String sort) throws SQLException {
         List<Appointment> appointments = new ArrayList<>();
-        String sql = "SELECT appointmentId, date, startTime, endTime, appType, status, staffId, customerId "
+        String sql = "SELECT appointmentId, date, startTime, endTime, status, staffId, customerId "
                 + "FROM Appointment WHERE staffId = ?";
 
         if (search != null && !search.trim().isEmpty()) {
@@ -381,7 +379,7 @@ public class AppointmentDAO extends DBContext {
     }
 
     public Appointment getAppointmentsById(int id) {
-        String sql = "select appointmentId, date, startTime, endTime, appType, status, staffId, customerId from Appointment where appointmentId = ?";
+        String sql = "select appointmentId, date, startTime, endTime, status, staffId, customerId from Appointment where appointmentId = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
