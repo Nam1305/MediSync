@@ -5,15 +5,17 @@
 package controller.doctor;
 
 import dal.AppointmentDAO;
+import dal.InvoiceDAO;
+import dal.ServiceDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import model.Appointment;
-import model.Staff;
+import model.Invoice;
+import model.Service;
 
 /**
  *
@@ -21,13 +23,14 @@ import model.Staff;
  */
 public class MakeInvoiceServlet extends HttpServlet {
 
+    ServiceDAO serviceDao = new ServiceDAO();
     AppointmentDAO ad = new AppointmentDAO();
+    InvoiceDAO invoiceDao = new InvoiceDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Staff staff = (Staff) session.getAttribute("staff");
+        response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String appId = request.getParameter("appointmentId");
@@ -38,6 +41,12 @@ public class MakeInvoiceServlet extends HttpServlet {
             appointmentId = 0;
         }
         Appointment app = ad.getAppointmentsById(appointmentId);
+        List<Invoice> invoices = invoiceDao.getInvoiceByAppointment(appointmentId);
+        List<Service> services = serviceDao.getAllActiveServices();
+
+        request.setAttribute("invoices", invoices);
+        request.setAttribute("services", services);
+
         request.setAttribute("app", app);
         request.getRequestDispatcher("doctor/makeInvoice.jsp").forward(request, response);
     }
@@ -45,6 +54,28 @@ public class MakeInvoiceServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String action = request.getParameter("action") == null
+                ? ""
+                : request.getParameter("action");
+        String appId = request.getParameter("appointmentId");
+        int appointmentId = 0;
+        try {
+            appointmentId = Integer.parseInt(appId);
+        } catch (NumberFormatException e) {
+            appointmentId = 0;
+        }
+        switch (action) {
+            case "delete":
+                int invoiceId = Integer.parseInt(request.getParameter("invoiceId"));
+                invoiceDao.deleteInvoice(invoiceId);
+                break;
+            case "add":
+                int serviceId = Integer.parseInt(request.getParameter("serviceId"));
+                invoiceDao.addInvoice(appointmentId, serviceId);
+                break;
+        }
+        response.sendRedirect("makeinvoice?appointmentId=" + appointmentId);
     }
 
 }
