@@ -119,6 +119,7 @@
         </style>
     </head>
     <body>
+        <jsp:include page="../layout/header.jsp" />
         <div class="card mt-4 p-4">
             <h4 class="text-primary">Thông tin bác sĩ phụ trách</h4>
             <div class="doctor-info mb-3">
@@ -153,67 +154,76 @@
             </div>
         </div>
 
+        <c:if test="${not hasSchedule}">
+            <div class="d-flex justify-content-center align-items-center" style="height: 100px;">
+                <p class="text-warning">Bác sĩ chưa có lịch làm việc.</p>
+            </div>
+        </c:if>
 
         <!-- Danh sách lịch khám còn trống để đặt lịch -->
-        <div class="card mt-4 p-4">
-            <h4 class="text-primary">Chọn ngày khám</h4>
-            <div class="d-flex overflow-auto border rounded p-2 bg-light">
+        <c:if test="${hasSchedule}">
+            <div class="card mt-4 p-4">
+                <h4 class="text-primary">Chọn ngày khám</h4>
+                <div class="d-flex overflow-auto border rounded p-2 bg-light">
 
-                <c:forEach var="day" items="${schedule}">
-                    <form action="doctorDetail" method="get" class="d-inline">
-                        <input type="hidden" name="doctorId" value="${doctor.staffId}">
-                        <button type="submit" name="date" value="${day.getFormatDate()}" 
-                                class="btn mx-1 ${selectedDate == day.getFormatDate() ? 'btn-success' : 'btn-outline-success'}">
-                            ${day.getFormatDate()}
-                        </button>
-                    </form>
-                </c:forEach>
-
-            </div>
-        </div>        
-        <div class="card mt-4 p-4">
-            <c:if test="${param.message == 'success'}">
-                <div class="alert alert-success" role="alert">
-                    🎉 Đặt lịch hẹn thành công!
-                </div>
-            </c:if>
-
-            <c:if test="${param.message == 'error'}">
-                <div class="alert alert-danger" role="alert">
-                    ❌ Đặt lịch hẹn thất bại! Vui lòng thử lại.
-                </div>
-            </c:if>
-            <h4 class="text-primary">Lịch khám trống</h4>
-            <table class="table table-bordered prescription-table">
-                <thead>
-                    <tr>
-                        <th>Giờ khám</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody id="appointmentTable">
-                    <c:forEach var="appointment" items="${availableSlot}">
-                        <tr>
-                            <td>${appointment.startTime} - ${appointment.endTime}</td>
-                            <td>
-                                <form action="bookAppointment" method="post">
-                                    <input type="hidden" name="doctorId" value="${doctor.staffId}">
-                                    <input type="hidden" name="startTime" value="${appointment.startTime}">
-                                    <input type="hidden" name="endTime" value="${appointment.endTime}">
-                                    <input type="hidden" name="date" value="${selectedDate}">
-                                    <button type="submit" class="btn btn-primary" ${appointment.isIsBooked() ? 'disabled' : ''}>
-                                        Đặt lịch
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                    <c:forEach var="day" items="${schedule}">
+                        <form action="doctorDetail" method="get" class="d-inline">
+                            <input type="hidden" name="doctorId" value="${doctor.staffId}">
+                            <button type="submit" name="date" value="${day.getFormatDate()}" 
+                                    class="btn mx-1 ${selectedDate == day.getFormatDate() ? 'btn-success' : 'btn-outline-success'}">
+                                ${day.getFormatDate()}
+                            </button>
+                        </form>
                     </c:forEach>
-                </tbody>
-            </table>
-            
-            <div class="text-end mb-3">
-                <a href="listAppointments" class="text-center btn btn-primary">Quay về danh sách lịch hẹn</a>
+
+                </div>
+            </div>        
+            <div class="card mt-4 p-4">
+                <c:if test="${param.message == 'success'}">
+                    <div class="alert alert-success" role="alert">
+                        🎉 Đặt lịch hẹn thành công!
+                    </div>
+                </c:if>
+
+                <c:if test="${param.message == 'error'}">
+                    <div class="alert alert-danger" role="alert">
+                        ❌ Đặt lịch hẹn thất bại! Vui lòng thử lại.
+                    </div>
+                </c:if>
+                <h4 class="text-primary">Lịch khám trống</h4>
+                <table class="table table-bordered prescription-table">
+                    <thead>
+                        <tr>
+                            <th>Giờ khám</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointmentTable">
+                        <c:forEach var="appointment" items="${availableSlot}">
+                            <tr>
+                                <td>${appointment.startTime} - ${appointment.endTime}</td>
+                                <td>
+                                    <form action="bookAppointment" method="post">
+                                        <input type="hidden" name="doctorId" value="${doctor.staffId}">
+                                        <input type="hidden" name="startTime" value="${appointment.startTime}">
+                                        <input type="hidden" name="endTime" value="${appointment.endTime}">
+                                        <input type="hidden" name="date" value="${selectedDate}">
+                                        <button type="submit" class="btn btn-primary" ${appointment.isIsBooked() ? 'disabled' : ''}>
+                                            Đặt lịch
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </c:if>
+
+
+            <div class="text-center mb-3">
+                <a href="listAppointments" class="btn btn-primary">Quay về danh sách lịch hẹn</a>
             </div>
+
 
         </div>
         <!-- Scripts -->

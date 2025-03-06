@@ -230,7 +230,7 @@
         <!-- Loader -->
 
         <!-- Navbar STart -->
-        <jsp:include page="../layout/header.jsp" /><!--end header-->
+        <jsp:include page="../layout/header.jsp" />
         <!-- Navbar End -->
 
         <!-- Start -->

@@ -1,137 +1,111 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.customer;
 
 import dal.DoctorDAO;
 import dal.ScheduleDAO;
 import java.io.IOException;
+import java.sql.Date;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 import model.Schedule;
 import model.Staff;
 import model.TimeSlot;
-import java.sql.*;
 
 /**
- *
- * @author Phạm Hoàng Nam
+ * Servlet hiển thị thông tin chi tiết của bác sĩ
  */
 @WebServlet(name = "ViewDoctorDetailServlet", urlPatterns = {"/doctorDetail"})
 public class ViewDoctorDetailServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void handleViewDoctorDetail(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
         DoctorDAO doctorDao = new DoctorDAO();
         ScheduleDAO scheduleDao = new ScheduleDAO();
-        response.setContentType("text/html;charset=UTF-8");
+
+        // Lấy doctorId từ request
         String doctorIdStr = request.getParameter("doctorId");
         if (doctorIdStr == null || doctorIdStr.trim().isEmpty()) {
-            System.out.println("Lỗi doctorId null");
+            request.setAttribute("error", "Không tìm thấy thông tin bác sĩ.");
+            request.getRequestDispatcher("customer/doctorDetail.jsp").forward(request, response);
             return;
         }
-        int doctorId = Integer.parseInt(doctorIdStr);
-        //lấy ra doctor dựa vào doctorId
+
+        int doctorId;
+        try {
+            doctorId = Integer.parseInt(doctorIdStr);
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "Mã bác sĩ không hợp lệ.");
+            request.getRequestDispatcher("customer/doctorDetail.jsp").forward(request, response);
+            return;
+        }
+
+        // Lấy thông tin bác sĩ
         Staff doctor = doctorDao.getStaffById(doctorId);
-        //lấy ra lịch làm việc của bác sĩ dựa vào doctorId
-        List<Schedule> schedule = scheduleDao.getScheduleByStaffId(doctorId);
-        if (schedule.isEmpty()) {
-            System.out.println("Lỗi schedule null");
+        if (doctor == null) {
+            request.setAttribute("error", "Không tìm thấy bác sĩ.");
+            request.getRequestDispatcher("customer/doctorDetail.jsp").forward(request, response);
             return;
         }
 
-        // Lấy ngày được chọn từ request, nếu không có thì lấy ngày đầu tiên có lịch
-//        String dateStr = request.getParameter("date");
-        //khỏi tạo selectedDate để lưu ngày được chọn
-//        Date selectedDate;//sql.Date
-//        if (dateStr != null) {
-//            try {
-//                if (dateStr.matches("\\d{4}-\\d{2}-\\d{2}")) { // Kiểm tra nếu đúng yyyy-MM-dd
-//                    selectedDate = Date.valueOf(dateStr);
-//                } else {
-//                    SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
-//                    java.util.Date utilDate = inputFormat.parse(dateStr);
-//                    selectedDate = new java.sql.Date(utilDate.getTime());
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                selectedDate = schedule.get(0).getDate(); // Nếu lỗi thì lấy ngày đầu tiên trong lịch
-//            }
-//        } else {
-//            selectedDate = schedule.get(0).getDate();
-//        }
+        // Lấy danh sách lịch làm việc của bác sĩ
+        List<Schedule> schedule = scheduleDao.getScheduleByStaffId(doctorId);
+        boolean hasSchedule = !schedule.isEmpty(); // Kiểm tra có lịch hay không
 
-        String dateStr = request.getParameter("date");
-        Date selectedDate; 
-        if(dateStr != null){
-            selectedDate = Date.valueOf(dateStr);
-        } else{
-            selectedDate = schedule.get(0).getDate();
+        Date selectedDate = null;
+        List<TimeSlot> availableSlots = null;
+
+        if (hasSchedule) {
+            // Lấy ngày được chọn từ request hoặc mặc định là ngày đầu tiên có lịch
+            String dateStr = request.getParameter("date");
+            try {
+                if (dateStr != null) {
+                    selectedDate = Date.valueOf(dateStr);
+                } else {
+                    selectedDate = schedule.get(0).getDate();
+                }
+
+                // Lấy danh sách slot khám trống của ngày đó
+                availableSlots = scheduleDao.getAvailableTimeSlots(doctorId, selectedDate);
+            } catch (IllegalArgumentException e) {
+                hasSchedule = false; // Nếu ngày không hợp lệ, ẩn lịch khám
+            }
         }
-        // Lấy danh sách slot khám trống
-        List<TimeSlot> availableSlots = scheduleDao.getAvailableTimeSlots(doctorId, selectedDate);
+
+        // Gửi dữ liệu đến JSP
         request.setAttribute("availableSlot", availableSlots);
         request.setAttribute("selectedDate", selectedDate);
         request.setAttribute("schedule", schedule);
         request.setAttribute("doctor", doctor);
+        request.setAttribute("hasSchedule", hasSchedule); // Gửi trạng thái lịch làm việc
+
+        // Nếu có message (ví dụ: đặt lịch thành công), gửi đến JSP
         String message = request.getParameter("message");
         if (message != null) {
             request.setAttribute("message", message);
         }
+
         request.getRequestDispatcher("customer/doctorDetail.jsp").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         handleViewDoctorDetail(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        // Hiện tại không xử lý POST, có thể mở rộng sau này
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Servlet hiển thị thông tin bác sĩ chi tiết";
+    }
 }
