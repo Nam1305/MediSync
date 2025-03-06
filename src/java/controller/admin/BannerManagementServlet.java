@@ -94,7 +94,7 @@ public class BannerManagementServlet extends HttpServlet {
         request.setAttribute("searchQuery", request.getParameter("search")); // Giữ giá trị gốc cho form
         request.setAttribute("sortOrder", sortOrder);
 
-        request.getRequestDispatcher("manage-banners.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/manage-banners.jsp").forward(request, response);
     }
 
     @Override

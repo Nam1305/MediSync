@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "CustomerProfileServlet", urlPatterns = {"/customer-profile"})
 @MultipartConfig(
@@ -29,6 +30,22 @@ import java.util.UUID;
 public class CustomerProfileServlet extends HttpServlet {
 
     private final String AVATAR_UPLOAD_DIR = "assets/images/avatars/";
+
+    private static final String EMAIL_REGEX
+            = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+    // Phone number validation regex pattern (10 digits)
+    private static final String PHONE_REGEX = "^[0-9]{10}$";
+
+    // Method to validate email format
+    private boolean isValidEmail(String email) {
+        return email != null && Pattern.matches(EMAIL_REGEX, email);
+    }
+
+    // Method to validate phone number (10 digits)
+    private boolean isValidPhoneNumber(String phone) {
+        return phone != null && Pattern.matches(PHONE_REGEX, phone);
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -137,6 +154,22 @@ public class CustomerProfileServlet extends HttpServlet {
                 return;
             }
 
+            // Validate email format
+            if (!isValidEmail(email)) {
+                request.setAttribute("errorMessage", "Invalid email format");
+                request.setAttribute("customer", customer);
+                request.getRequestDispatcher("patientsProfile.jsp").forward(request, response);
+                return;
+            }
+
+            // Validate phone number (10 digits)
+            if (!isValidPhoneNumber(phone)) {
+                request.setAttribute("errorMessage", "Phone number must be 10 digits");
+                request.setAttribute("customer", customer);
+                request.getRequestDispatcher("patientsProfile.jsp").forward(request, response);
+                return;
+            }
+
             // Check if email is changed and already exists
             if (!email.equals(customer.getEmail()) && customerDAO.isEmailExists(email)) {
                 request.setAttribute("errorMessage", "Email address is already used by another account");
@@ -157,8 +190,9 @@ public class CustomerProfileServlet extends HttpServlet {
             Date dateOfBirth = null;
             if (dateOfBirthStr != null && !dateOfBirthStr.trim().isEmpty()) {
                 try {
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    java.util.Date parsed = format.parse(dateOfBirthStr);
+                    // Parse from yyyy-MM-dd to java.sql.Date
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    java.util.Date parsed = inputFormat.parse(dateOfBirthStr);
                     dateOfBirth = new Date(parsed.getTime());
                 } catch (ParseException e) {
                     request.setAttribute("errorMessage", "Invalid date format. Please use yyyy-MM-dd");
