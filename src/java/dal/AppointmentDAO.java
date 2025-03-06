@@ -450,18 +450,184 @@ public class AppointmentDAO extends DBContext {
         return prescriptions;
     }
 
+    public List<Appointment> getInvoiceByPage(Integer staffId, Integer appointmentId, String search,
+            String status, Date date, Double totalFrom, Double totalTo,
+            int page, int pageSize, String sortDate, String sortPrice) {
+        List<Appointment> appointments = new ArrayList<>();
+
+        // Xử lý giá trị mặc định cho sortPrice để tránh lỗi NULL
+        sortPrice = (sortPrice == null || sortPrice.trim().isEmpty()) ? "ASC" : sortPrice;
+
+        String sql = "WITH CTE AS ( "
+                + "    SELECT a.appointmentId, a.date, a.startTime, a.endTime, a.status, "
+                + "           a.staffId, a.customerId, COALESCE(SUM(i.price), 0) AS total "
+                + "    FROM Appointment a "
+                + "    LEFT JOIN Invoice i ON a.appointmentId = i.appointmentId "
+                + "    WHERE 1=1 "; // Tránh lỗi nếu không có điều kiện lọc nào
+
+        if (staffId != null) {
+            sql += " AND a.staffId = ? ";
+        }
+        if (appointmentId != null) {
+            sql += " AND a.appointmentId = ? ";
+        }
+        if (search != null && !search.trim().isEmpty()) {
+            sql += " AND a.customerId IN (SELECT customerId FROM Customer WHERE name LIKE ?) ";
+        }
+
+        // Xử lý điều kiện status đúng với yêu cầu
+        if (status != null && !status.trim().isEmpty()) {
+            if ("paid".equalsIgnoreCase(status)) {
+                sql += " AND a.status = 'paid' ";
+            } else if ("unpaid".equalsIgnoreCase(status)) {
+                sql += " AND a.status != 'paid' ";
+            }
+        }
+
+        if (date != null) {
+            sql += " AND a.date = ? ";
+        }
+
+        sql += "    GROUP BY a.appointmentId, a.date, a.startTime, a.endTime, "
+                + "             a.status, a.staffId, a.customerId "
+                + ") SELECT * FROM CTE WHERE 1=1 ";
+
+        if (totalFrom != null) {
+            sql += " AND total >= ? ";
+        }
+        if (totalTo != null) {
+            sql += " AND total <= ? ";
+        }
+
+        // Xử lý ORDER BY: Nếu sortDate != null thì thêm ORDER BY date
+        if (sortDate != null && !sortDate.trim().isEmpty()) {
+            sql += " ORDER BY date " + sortDate + ", ";
+        } else {
+            sql += " ORDER BY ";
+        }
+
+        // ORDER BY total (0 luôn nhỏ nhất khi ASC)
+        sql += " CASE WHEN total = 0 THEN -999999 ELSE total END " + sortPrice
+                + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            if (staffId != null) {
+                ps.setInt(index++, staffId);
+            }
+            if (appointmentId != null) {
+                ps.setInt(index++, appointmentId);
+            }
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(index++, "%" + search + "%");
+            }
+            if (date != null) {
+                ps.setDate(index++, date);
+            }
+            if (totalFrom != null) {
+                ps.setDouble(index++, totalFrom);
+            }
+            if (totalTo != null) {
+                ps.setDouble(index++, totalTo);
+            }
+            ps.setInt(index++, (page - 1) * pageSize);
+            ps.setInt(index++, pageSize);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Appointment appointment = mapResultSetToAppointment(rs);
+                    appointment.setTotal(rs.getDouble("total")); // Nếu NULL -> đã thành 0 từ SQL
+                    appointments.add(appointment);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return appointments;
+    }
+
+    public int countInvoiceByPage(Integer staffId, Integer appointmentId, String search,
+            String status, Date date, Double totalFrom, Double totalTo) {
+        int count = 0;
+
+        String sql = "WITH CTE AS ( "
+                + "    SELECT a.appointmentId, a.date, a.startTime, a.endTime, a.status, "
+                + "           a.staffId, a.customerId, COALESCE(SUM(i.price), 0) AS total "
+                + "    FROM Appointment a "
+                + "    LEFT JOIN Invoice i ON a.appointmentId = i.appointmentId "
+                + "    WHERE 1=1 "; // Đảm bảo không có lỗi nếu không có điều kiện nào
+
+        if (staffId != null) {
+            sql += " AND a.staffId = ? ";
+        }
+        if (appointmentId != null) {
+            sql += " AND a.appointmentId = ? ";
+        }
+        if (search != null && !search.trim().isEmpty()) {
+            sql += " AND a.customerId IN (SELECT customerId FROM Customer WHERE name LIKE ?) ";
+        }
+
+        // Xử lý điều kiện status đúng với yêu cầu
+        if (status != null && !status.trim().isEmpty()) {
+            if ("paid".equalsIgnoreCase(status)) {
+                sql += " AND a.status = 'paid' ";
+            } else if ("unpaid".equalsIgnoreCase(status)) {
+                sql += " AND a.status != 'paid' ";
+            }
+        }
+
+        if (date != null) {
+            sql += " AND a.date = ? ";
+        }
+
+        sql += "    GROUP BY a.appointmentId, a.date, a.startTime, a.endTime, "
+                + "             a.status, a.staffId, a.customerId "
+                + ") SELECT COUNT(*) FROM CTE WHERE 1=1 ";
+
+        if (totalFrom != null) {
+            sql += " AND total >= ? ";
+        }
+        if (totalTo != null) {
+            sql += " AND total <= ? ";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            if (staffId != null) {
+                ps.setInt(index++, staffId);
+            }
+            if (appointmentId != null) {
+                ps.setInt(index++, appointmentId);
+            }
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(index++, "%" + search + "%");
+            }
+            if (date != null) {
+                ps.setDate(index++, date);
+            }
+            if (totalFrom != null) {
+                ps.setDouble(index++, totalFrom);
+            }
+            if (totalTo != null) {
+                ps.setDouble(index++, totalTo);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     public static void main(String[] args) throws SQLException {
         AppointmentDAO a = new AppointmentDAO();
-        List<Prescription> prescriptions = a.getPrescriptionDetail(1, 1);
-
-        // Kiểm tra nếu danh sách rỗng
-        if (prescriptions.isEmpty()) {
-            System.out.println("Không tìm thấy đơn thuốc nào!");
-        } else {
-            System.out.println("Danh sách đơn thuốc:");
-            for (Prescription p : prescriptions) {
-                System.out.println(p.toString());
-            }
+        List<Appointment> l = a.getInvoiceByPage(1, null, null, null, null, null, null, 1, 10, null, null);
+        for (Appointment appointment : l) {
+            System.out.println(appointment.getCustomer().getName() + " " + appointment.getTotal());
         }
     }
 
