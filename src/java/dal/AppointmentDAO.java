@@ -64,7 +64,7 @@ public class AppointmentDAO extends DBContext {
                 + "a.endTime, a.appType, a.status, a.staffId, a.customerId, s.name as doctorName "
                 + "FROM Appointment a "
                 + "JOIN Staff s ON a.staffId = s.staffId "
-                + "WHERE a.customerId = ? AND a.status != 'cancelled' ";
+                + "WHERE a.customerId = ?";
 
         // Thêm điều kiện tìm kiếm theo tên bác sĩ
         if (search != null && !search.trim().isEmpty()) {
@@ -80,12 +80,11 @@ public class AppointmentDAO extends DBContext {
         if (status != null && !status.equals("all")) {
             sql += " AND a.status = ? ";
         }
-
-        // Xử lý sắp xếp nếu sort không phải "asc" hoặc "desc" thì mặc định ASC
-        if ("desc".equalsIgnoreCase(sort)) {
-            sql += " ORDER BY a.date DESC, a.startTime DESC ";
-        } else {
+        // Sắp xếp theo ngày giảm dần, nếu cùng ngày thì startTime giảm dần
+        if ("asc".equalsIgnoreCase(sort)) {
             sql += " ORDER BY a.date ASC, a.startTime ASC ";
+        } else {
+            sql += " ORDER BY a.date DESC, a.startTime DESC ";
         }
 
         // Kiểm tra nếu pageNumber < 1 thì mặc định là 1
