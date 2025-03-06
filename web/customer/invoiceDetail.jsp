@@ -15,15 +15,15 @@
     <body>
         <div class="container mt-5">
             <h2 class="text-center">Chi tiết hóa đơn</h2>
+
             <div class="card mt-4 p-4">
-                <div class="row mb-4">
+                <div class="modal-header border-bottom p-3">
                     <div class="col-lg-8 col-md-6">
                         <img src="assets/images/logo-dark.png" height="22" alt="">
-                        <!--                    <h6 class="mt-4 pt-2">Address :</h6>
-                                            <small class="text-muted mb-0">1419 Riverwood Drive, <br>Redding, CA 96001</small>-->
                     </div><!--end col-->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="goBack()"></button>
+                </div>
 
-                </div><!--end row-->
 
                 <div class="pt-4 border-top">
                     <div class="row">
@@ -109,6 +109,11 @@
                 </div>
             </div>
         </div>
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
     </body>
 
 </html>
