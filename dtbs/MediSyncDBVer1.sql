@@ -29,7 +29,6 @@ CREATE TABLE Appointment (
   [date]         date NULL, 
   startTime      time(7) NULL, 
   endTime        time(7) NULL, 
-  appType nvarchar(50) NULL,
   status         nvarchar(255) NULL, 
   staffId        int NOT NULL, 
   customerId     int NOT NULL, 
@@ -99,11 +98,14 @@ CREATE TABLE HistoryPosition (
   PRIMARY KEY (positionId));
 
 CREATE TABLE Invoice (
-  appointmentId int NOT NULL, 
-  serviceId     int NOT NULL,
-  primary key(appointmentId, serviceId)
-  
-  );
+  invoiceId int IDENTITY Not null, 
+  appointmentId INT NOT NULL, 
+  serviceId     INT NOT NULL,
+  price         DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (invoiceId)
+
+);
+
 
 CREATE TABLE Prescription (
     prescriptionId INT IDENTITY(1,1) PRIMARY KEY,
@@ -320,37 +322,47 @@ INSERT INTO BlogType(typeId, typeName) VALUES
 (2, N'Footer');
 
 --Blog
-INSERT INTO Blog (blogName, content, image, author, [date], typeId, selectedBanner) VALUES
-(N'Bí quyết sống khỏe',N'Để có một cuộc sống khỏe mạnh, bạn cần duy trì một chế độ ăn uống cân bằng, tập thể dục thường xuyên và ngủ đủ giấc. Chế độ ăn uống là yếu tố quan trọng nhất, hãy bổ sung rau xanh, trái cây và tránh xa các thực phẩm chế biến sẵn. Ngoài ra, việc tập thể dục ít nhất 30 phút mỗi ngày sẽ giúp cơ thể dẻo dai và cải thiện sức khỏe tim mạch. Cuối cùng, một giấc ngủ chất lượng từ 7-8 tiếng mỗi đêm sẽ giúp bạn tái tạo năng lượng và tinh thần minh mẫn hơn.',
-'assets/images/blog/03.jpg', 'Anonymous', '2023-01-01', 0, 0),
+INSERT INTO Blog (blogName, content, image, author, [date], typeId, selectedBanner) 
+VALUES
+(N'Bí quyết sống khỏe',
+N'
+<h2>Bí quyết sống khỏe</h2>
+<p>Để có một cuộc sống khỏe mạnh, bạn cần duy trì một chế độ ăn uống cân bằng, tập thể dục thường xuyên và ngủ đủ giấc.</p>
+<ul>
+    <li><strong>Chế độ ăn uống:</strong> Hãy bổ sung rau xanh, trái cây và tránh xa các thực phẩm chế biến sẵn.</li>
+    <li><strong>Tập thể dục:</strong> Ít nhất 30 phút mỗi ngày giúp cải thiện sức khỏe tim mạch.</li>
+    <li><strong>Giấc ngủ:</strong> Ngủ từ 7-8 tiếng mỗi đêm giúp tái tạo năng lượng.</li>
+</ul>',
+'assets/images/blog/03.jpg', 
+'Anonymous', '2023-01-01', 0, 0),
 
-(N'Những tiến bộ trong tim mạch', 
-N'                   Những Tiến Bộ Trong Y Tế Về Tim Mạch
+(N'Những tiến bộ trong tim mạch',
+N'
+<h2>Những Tiến Bộ Trong Y Tế Về Tim Mạch</h2>
+<p>Trong những thập kỷ qua, y học đã đạt được nhiều tiến bộ đáng kể trong lĩnh vực tim mạch, từ chẩn đoán đến điều trị và phòng ngừa.</p>
 
-     Trong những thập kỷ qua, y học đã đạt được nhiều tiến bộ đáng kể trong lĩnh vực tim mạch, từ chẩn đoán đến điều trị và phòng ngừa.
+<h3>🔍 Chẩn Đoán Sớm Bệnh Tim Mạch</h3>
+<p>Công nghệ chẩn đoán hình ảnh như <strong>siêu âm tim, chụp CT, MRI</strong> giúp phát hiện sớm bệnh lý. Các xét nghiệm sinh hóa như <strong>troponin, BNP</strong> cũng hỗ trợ đánh giá nguy cơ tim mạch.</p>
 
--  Chẩn Đoán Sớm Bệnh Tim Mạch
+<h3>💊 Điều Trị Bệnh Tim Mạch</h3>
+<ul>
+    <li><strong>Thuốc mới:</strong> Chống đông máu, hạ cholesterol giúp giảm nguy cơ tái phát.</li>
+    <li><strong>Thủ thuật can thiệp:</strong> Đặt stent, phẫu thuật bắc cầu động mạch vành giúp cải thiện lưu thông máu.</li>
+    <li><strong>Công nghệ hỗ trợ tim:</strong> Máy bơm tim cơ học giúp bệnh nhân nặng.</li>
+</ul>
 
-    Công nghệ chẩn đoán hình ảnh như siêu âm tim, chụp CT và MRI đã cải thiện khả năng phát hiện sớm các vấn đề tim mạch, giúp bác sĩ đánh giá chính xác tình trạng sức khỏe của bệnh nhân. Bên cạnh đó, các thử nghiệm sinh hóa như troponin và BNP cũng cung cấp thông tin quan trọng về nguy cơ bệnh tim.
+<h3>🥗 Phòng Ngừa Bệnh Tim Mạch</h3>
+<p>Chế độ ăn Địa Trung Hải, Omega-3 và tập luyện thể chất thường xuyên giúp giảm nguy cơ mắc bệnh.</p>
 
- -  Điều Trị Bệnh Tim Mạch
+<h3>📲 Công Nghệ Thông Tin và Y Tế</h3>
+<p><strong>Telemedicine</strong> và ứng dụng di động hỗ trợ tư vấn từ xa và theo dõi sức khỏe tim mạch.</p>
 
-    Sự phát triển của thuốc mới như thuốc chống đông máu và thuốc hạ cholesterol đã giúp cải thiện triệu chứng và giảm nguy cơ tái phát. Các thủ thuật can thiệp như đặt stent và phẫu thuật bắc cầu động mạch vành đã trở nên phổ biến, giúp cải thiện lưu thông máu và rút ngắn thời gian hồi phục. Công nghệ hỗ trợ tim như máy bơm tim cơ học càng mở ra cơ hội cho bệnh nhân nặng.
+<h3>🚀 Tương Lai Của Y Tế Tim Mạch</h3>
+<p><strong>Y học chính xác & trí tuệ nhân tạo</strong> sẽ giúp cải thiện chẩn đoán và điều trị bệnh tim trong tương lai.</p>
 
- -   Phòng Ngừa Bệnh Tim Mạch
-
-    Dinh dưỡng là yếu tố quan trọng trong việc phòng ngừa bệnh tim. Chế độ ăn Địa Trung Hải và các sản phẩm chức năng như Omega-3 đã được chứng minh là có lợi cho sức khỏe tim mạch. Bên cạnh đó, lối sống tích cực với tập luyện thể chất thường xuyên cũng góp phần giảm nguy cơ mắc bệnh. Giáo dục sức khỏe giúp nâng cao nhận thức cộng đồng về các yếu tố nguy cơ và cách phòng ngừa.
-
--  Công Nghệ Thông Tin và Y Tế
-
-    Telemedicine và ứng dụng di động đã trở thành công cụ hữu ích trong chăm sóc sức khỏe tim mạch, cho phép bệnh nhân tư vấn từ xa và theo dõi sức khỏe dễ dàng.
-
- -  Tương Lai Của Y Tế Tim Mạch
-
-    Y học chính xác và trí tuệ nhân tạo đang hứa hẹn mang đến những bước tiến mới trong việc chẩn đoán và điều trị bệnh tim, từ đó cải thiện hiệu quả điều trị và chăm sóc sức khỏe tim mạch.
-
-    Những tiến bộ này không chỉ nâng cao chất lượng cuộc sống mà còn kéo dài tuổi thọ cho bệnh nhân mắc bệnh tim mạch.',
-'assets/images/blog/07.jpg', N'Chiến thần', '2023-02-01', 0, 0),
+<p><em>Những tiến bộ này không chỉ nâng cao chất lượng cuộc sống mà còn kéo dài tuổi thọ cho bệnh nhân mắc bệnh tim mạch.</em></p>',
+'assets/images/blog/07.jpg', 
+N'Chiến thần', '2023-02-01', 0, 0),
 
 (N'Tất cả về chứng đau nửa đầu', 
 N'   Tất Cả Về Chứng Đau Nửa Đầu
@@ -709,45 +721,45 @@ INSERT INTO Comment (content, [date], blogId, customerId) VALUES
  
 -- Appointment
 -- Các thuộc tính: pending, cancelled, confirmed, paid
-INSERT INTO Appointment ([date], startTime, endTime, appType, status, staffId, customerId)  
+INSERT INTO Appointment ([date], startTime, endTime, status, staffId, customerId)  
 VALUES  
 -- StaffId 1  
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'pending', 1, 1),  
-('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'confirmed', 1, 2),  
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'paid', 1, 3),  
+('2025-01-25', '08:00:00', '08:30:00', 'pending', 1, 1),  
+('2025-01-26', '13:00:00', '13:30:00',  'confirmed', 1, 2),  
+('2025-01-27', '18:00:00', '18:30:00',  'paid', 1, 3),  
 
 
 -- StaffId 2  
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'cancelled', 2, 4),  
-('2025-01-26', '13:00:00', '13:30:00', 'Offline', 'pending', 2, 5),  
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'absent', 2, 6),  
+('2025-01-25', '08:00:00', '08:30:00', 'cancelled', 2, 4),  
+('2025-01-26', '13:00:00', '13:30:00',  'pending', 2, 5),  
+('2025-01-27', '18:00:00', '18:30:00',  'absent', 2, 6),  
 
 -- StaffId 3  
-('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'confirmed', 3, 7),  
-('2025-01-26', '08:00:00', '08:30:00', 'Offline', 'confirmed', 3, 8),  
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'paid', 3, 9),  
+('2025-01-25', '13:00:00', '13:30:00',  'confirmed', 3, 7),  
+('2025-01-26', '08:00:00', '08:30:00', 'confirmed', 3, 8),  
+('2025-01-27', '18:00:00', '18:30:00',  'paid', 3, 9),  
 
 -- StaffId 5  
-('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'confirmed', 5, 10),  
-('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'absent', 5, 1),  
+('2025-01-25', '13:00:00', '13:30:00',  'confirmed', 5, 10),  
+('2025-01-26', '18:00:00', '18:30:00', 'absent', 5, 1),  
 
 -- StaffId 7  
-('2025-01-25', '08:00:00', '08:30:00', 'Offline', 'cancelled', 7, 3),  
-('2025-01-26', '18:00:00', '18:30:00', 'Offline', 'paid', 7, 4),  
-('2025-01-27', '13:00:00', '13:30:00', 'Offline', 'confirmed', 7, 5),  
+('2025-01-25', '08:00:00', '08:30:00', 'cancelled', 7, 3),  
+('2025-01-26', '18:00:00', '18:30:00',  'paid', 7, 4),  
+('2025-01-27', '13:00:00', '13:30:00',  'confirmed', 7, 5),  
 
 -- StaffId 8  
-('2025-01-25', '13:00:00', '13:30:00', 'Offline', 'cancelled', 8, 6),  
-('2025-01-26', '08:00:00', '08:30:00', 'Offline', 'paid', 8, 7),  
-('2025-01-28', '18:00:00', '18:30:00', 'Offline', 'pending', 8, 8),  
+('2025-01-25', '13:00:00', '13:30:00',  'cancelled', 8, 6),  
+('2025-01-26', '08:00:00', '08:30:00',  'paid', 8, 7),  
+('2025-01-28', '18:00:00', '18:30:00',  'pending', 8, 8),  
 
 -- StaffId 9  
-('2025-01-24', '08:00:00', '08:30:00', 'Offline', 'paid', 9, 9),  
-('2025-01-24', '13:00:00', '13:30:00', 'Offline', 'confirmed', 9, 10),
+('2025-01-24', '08:00:00', '08:30:00',  'paid', 9, 9),  
+('2025-01-24', '13:00:00', '13:30:00',  'confirmed', 9, 10),
 
-('2025-01-25', '08:30:00', '09:00:00', 'Offline', 'confirmed', 1, 8),  
-('2025-01-25', '09:00:00', '09:30:00', 'Offline', 'confirmed', 1, 9),  
-('2025-01-27', '18:00:00', '18:30:00', 'Offline', 'paid', 1, 10);
+('2025-01-25', '08:30:00', '09:00:00',  'confirmed', 1, 8),  
+('2025-01-25', '09:00:00', '09:30:00', 'confirmed', 1, 9),  
+('2025-01-27', '18:30:00', '19:00:00',  'paid', 1, 10);
 
 
 --Prescription 
@@ -847,114 +859,95 @@ INSERT INTO Service (name, content, price, status) VALUES
 (N'Chăm sóc hậu phẫu', N'Theo dõi và chăm sóc bệnh nhân sau phẫu thuật để phục hồi nhanh chóng.', 300000,N'Active');
 
 -- Invoice with updated serviceIds
-INSERT INTO Invoice (appointmentId, serviceId) 
-VALUES
--- Appointment 1
-(1, 1), -- Khám tổng quát
-(1, 11), -- Xét nghiệm máu
-(1, 3), -- Tư vấn với bác sĩ
-(1, 5), -- Tư vấn dinh dưỡng
+INSERT INTO Invoice (appointmentId, serviceId, price) VALUES
+(1, 1, 100000),  -- Khám tổng quát
+(1, 11, 200000), -- Xét nghiệm máu
+(1, 3, 150000),  -- Tư vấn với bác sĩ
+(1, 5, 100000),  -- Tư vấn dinh dưỡng
 
--- Appointment 2
-(2, 1), -- Khám tổng quát
-(2, 12), -- Xét nghiệm nước tiểu
-(2, 3), -- Tư vấn với bác sĩ
-(2, 9), -- Điều trị dị ứng
+(2, 1, 100000),  -- Khám tổng quát
+(2, 12, 180000), -- Xét nghiệm nước tiểu
+(2, 3, 150000),  -- Tư vấn với bác sĩ
+(2, 9, 180000),  -- Điều trị dị ứng
 
--- Appointment 3
-(3, 1), -- Khám tổng quát
-(3, 11), -- Xét nghiệm máu
-(3, 3), -- Tư vấn với bác sĩ
+(3, 1, 100000),  -- Khám tổng quát
+(3, 11, 200000), -- Xét nghiệm máu
+(3, 3, 150000),  -- Tư vấn với bác sĩ
 
--- Appointment 4
-(4, 1), -- Khám tổng quát
-(4, 11), -- Xét nghiệm máu
-(4, 3), -- Tư vấn với bác sĩ
-(4, 17), -- Chăm sóc hậu phẫu
+(4, 1, 100000),  -- Khám tổng quát
+(4, 11, 200000), -- Xét nghiệm máu
+(4, 3, 150000),  -- Tư vấn với bác sĩ
+(4, 17, 300000), -- Chăm sóc hậu phẫu
 
--- Appointment 5
-(5, 1), -- Khám tổng quát
-(5, 13), -- Xét nghiệm sinh hóa
-(5, 3), -- Tư vấn với bác sĩ
+(5, 1, 100000),  -- Khám tổng quát
+(5, 13, 250000), -- Xét nghiệm sinh hóa
+(5, 3, 150000),  -- Tư vấn với bác sĩ
 
--- Appointment 6
-(6, 1), -- Khám tổng quát
-(6, 14), -- Xét nghiệm vi sinh
-(6, 3), -- Tư vấn với bác sĩ
-(6, 9), -- Điều trị dị ứng
+(6, 1, 100000),  -- Khám tổng quát
+(6, 14, 300000), -- Xét nghiệm vi sinh
+(6, 3, 150000),  -- Tư vấn với bác sĩ
+(6, 9, 180000),  -- Điều trị dị ứng
 
--- Appointment 7
-(7, 1), -- Khám tổng quát
-(7, 12), -- Xét nghiệm nước tiểu
-(7, 3), -- Tư vấn với bác sĩ
-(7, 8), -- Phẫu thuật tai, mũi, họng
+(7, 1, 100000),  -- Khám tổng quát
+(7, 12, 180000), -- Xét nghiệm nước tiểu
+(7, 3, 150000),  -- Tư vấn với bác sĩ
+(7, 8, 3000000), -- Phẫu thuật tai, mũi, họng
 
--- Appointment 8
-(8, 1), -- Khám tổng quát
-(8, 13), -- Xét nghiệm sinh hóa
-(8, 3), -- Tư vấn với bác sĩ
+(8, 1, 100000),  -- Khám tổng quát
+(8, 13, 250000), -- Xét nghiệm sinh hóa
+(8, 3, 150000),  -- Tư vấn với bác sĩ
 
--- Appointment 9
-(9, 1), -- Khám tổng quát
-(9, 12), -- Xét nghiệm nước tiểu
-(9, 3), -- Tư vấn với bác sĩ
+(9, 1, 100000),  -- Khám tổng quát
+(9, 12, 180000), -- Xét nghiệm nước tiểu
+(9, 3, 150000),  -- Tư vấn với bác sĩ
 
--- Appointment 10
-(10, 1), -- Khám tổng quát
-(10, 11), -- Xét nghiệm máu
-(10, 3), -- Tư vấn với bác sĩ
-(10, 9), -- Điều trị dị ứng
+(10, 1, 100000),  -- Khám tổng quát
+(10, 11, 200000), -- Xét nghiệm máu
+(10, 3, 150000),  -- Tư vấn với bác sĩ
+(10, 9, 180000),  -- Điều trị dị ứng
 
--- Appointment 11
-(11, 1), -- Khám tổng quát
-(11, 13), -- Xét nghiệm sinh hóa
-(11, 3), -- Tư vấn với bác sĩ
-(11, 4), -- Tư vấn với chuyên gia
+(11, 1, 100000),  -- Khám tổng quát
+(11, 13, 250000), -- Xét nghiệm sinh hóa
+(11, 3, 150000),  -- Tư vấn với bác sĩ
+(11, 4, 150000),  -- Tư vấn với chuyên gia
 
--- Appointment 12
-(12, 1), -- Khám tổng quát
-(12, 11), -- Xét nghiệm máu
-(12, 3), -- Tư vấn với bác sĩ
-(12, 8), -- Phẫu thuật tai, mũi, họng
+(12, 1, 100000),  -- Khám tổng quát
+(12, 11, 200000), -- Xét nghiệm máu
+(12, 3, 150000),  -- Tư vấn với bác sĩ
+(12, 8, 3000000), -- Phẫu thuật tai, mũi, họng
 
--- Appointment 13
-(13, 1), -- Khám tổng quát
-(13, 11), -- Xét nghiệm máu
-(13, 3), -- Tư vấn với bác sĩ
-(13, 9), -- Điều trị dị ứng
+(13, 1, 100000),  -- Khám tổng quát
+(13, 11, 200000), -- Xét nghiệm máu
+(13, 3, 150000),  -- Tư vấn với bác sĩ
+(13, 9, 180000),  -- Điều trị dị ứng
 
--- Appointment 14
-(14, 1), -- Khám tổng quát
-(14, 13), -- Xét nghiệm sinh hóa
-(14, 3), -- Tư vấn với bác sĩ
+(14, 1, 100000),  -- Khám tổng quát
+(14, 13, 250000), -- Xét nghiệm sinh hóa
+(14, 3, 150000),  -- Tư vấn với bác sĩ
 
--- Appointment 15
-(15, 1), -- Khám tổng quát
-(15, 12), -- Xét nghiệm nước tiểu
-(15, 3), -- Tư vấn với bác sĩ
+(15, 1, 100000),  -- Khám tổng quát
+(15, 12, 180000), -- Xét nghiệm nước tiểu
+(15, 3, 150000),  -- Tư vấn với bác sĩ
 
--- Appointment 16
-(16, 1), -- Khám tổng quát
-(16, 14), -- Xét nghiệm vi sinh
-(16, 3), -- Tư vấn với bác sĩ
-(16, 5), -- Tư vấn dinh dưỡng
+(16, 1, 100000),  -- Khám tổng quát
+(16, 14, 300000), -- Xét nghiệm vi sinh
+(16, 3, 150000),  -- Tư vấn với bác sĩ
+(16, 5, 100000),  -- Tư vấn dinh dưỡng
 
--- Appointment 17
-(17, 1), -- Khám tổng quát
-(17, 13), -- Xét nghiệm sinh hóa
-(17, 3), -- Tư vấn với bác sĩ
-(17, 17), -- Chăm sóc hậu phẫu
+(17, 1, 100000),  -- Khám tổng quát
+(17, 13, 250000), -- Xét nghiệm sinh hóa
+(17, 3, 150000),  -- Tư vấn với bác sĩ
+(17, 17, 300000), -- Chăm sóc hậu phẫu
 
--- Appointment 18
-(18, 1), -- Khám tổng quát
-(18, 12), -- Xét nghiệm nước tiểu
-(18, 3), -- Tư vấn với bác sĩ
+(18, 1, 100000),  -- Khám tổng quát
+(18, 12, 180000), -- Xét nghiệm nước tiểu
+(18, 3, 150000),  -- Tư vấn với bác sĩ
 
--- Appointment 19
-(19, 1), -- Khám tổng quát
-(19, 11), -- Xét nghiệm máu
-(19, 3), -- Tư vấn với bác sĩ
-(19, 5); -- Tư vấn dinh dưỡng
+(19, 1, 100000),  -- Khám tổng quát
+(19, 11, 200000), -- Xét nghiệm máu
+(19, 3, 150000),  -- Tư vấn với bác sĩ
+(19, 5, 100000);  -- Tư vấn dinh dưỡng
+
 
 
 

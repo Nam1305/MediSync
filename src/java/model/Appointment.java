@@ -3,18 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+
 import dal.AppointmentDAO;
 import java.sql.*;
+
 /**
  *
  * @author DIEN MAY XANH
  */
 public class Appointment {
+
     AppointmentDAO appointmentDao = new AppointmentDAO();
     private int appointmentId;
     private Date date;
     private Time start, end;
-    private String type;
     private String status;
     private Staff staff;
     private Customer customer;
@@ -22,12 +24,11 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(int appointmentId, Date date, Time start, Time end, String type, String status, Staff staff, Customer customer) {
+    public Appointment(int appointmentId, Date date, Time start, Time end, String status, Staff staff, Customer customer) {
         this.appointmentId = appointmentId;
         this.date = date;
         this.start = start;
         this.end = end;
-        this.type = type;
         this.status = status;
         this.staff = staff;
         this.customer = customer;
@@ -65,14 +66,6 @@ public class Appointment {
         this.end = end;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -99,10 +92,7 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return "Appointment{" + "appointmentId=" + appointmentId + ", date=" + date + ", start=" + start + ", end=" + end + ", type=" + type + ", status=" + status + ", staff=" + staff + ", customer=" + customer + '}';
+        return "Appointment{" + "appointmentId=" + appointmentId + ", date=" + date + ", start=" + start + ", end=" + end + ", status=" + status + ", staff=" + staff + ", customer=" + customer + '}';
     }
-    
-    
-    
-    
+
 }
