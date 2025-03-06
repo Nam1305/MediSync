@@ -44,9 +44,8 @@ public class InvoiceDAO extends DBContext {
         }
         return invoices;
     }
-    
-    
-    public List<Invoice> getInvoiceByStaff(int staffId) {
+
+    public List<Invoice> getInvoiceByStaff(int staffId) throws SQLException {
         List<Invoice> invoices = new ArrayList<>();
         String sql = "select invoiceId, appointmentId, serviceId, price from Invoice where appointmentId = ?";
 
@@ -85,11 +84,62 @@ public class InvoiceDAO extends DBContext {
 
     public void deleteInvoice(int invoiceId) {
         String sql = "delete from Invoice where InvoiceId = ?";
-        try  {
+        try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, invoiceId);
             ps.executeUpdate();
         } catch (SQLException e) {
+        }
+    }
+
+    public boolean saveInvoice(int appointmentId, String[] serviceIds, String[] prices) {
+        String deleteSql = "DELETE FROM Invoice WHERE appointmentId = ?";
+        String insertSql = "INSERT INTO Invoice (appointmentId, serviceId, price) VALUES (?, ?, ?)";
+        try {
+            connection.setAutoCommit(false);
+
+            // Xóa các invoice cũ của appointment
+            try (PreparedStatement deletePs = connection.prepareStatement(deleteSql)) {
+                deletePs.setInt(1, appointmentId);
+                deletePs.executeUpdate();
+            }
+
+            // Chèn các invoice mới
+            try (PreparedStatement ps = connection.prepareStatement(insertSql)) {
+                for (int i = 0; i < serviceIds.length; i++) {
+                    ps.setInt(1, appointmentId);
+                    if (serviceIds[i] != null && !serviceIds[i].trim().isEmpty()) {
+                        ps.setInt(2, Integer.parseInt(serviceIds[i]));
+                        double price = (prices != null && prices.length > i && prices[i] != null && !prices[i].trim().isEmpty())
+                                ? Double.parseDouble(prices[i]) : 0.0;
+                        ps.setDouble(3, price);
+                    } else {
+                        ps.setNull(2, java.sql.Types.INTEGER);
+                        ps.setNull(3, java.sql.Types.DOUBLE);
+                    }
+                    ps.addBatch();
+                }
+                for (int res : ps.executeBatch()) {
+                    if (res == PreparedStatement.EXECUTE_FAILED) {
+                        connection.rollback();
+                        return false;
+                    }
+                }
+            }
+
+            connection.commit();
+            return true;
+        } catch (NumberFormatException | SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+            }
+            return false;
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+            }
         }
     }
 
