@@ -137,6 +137,7 @@ public class UpdateServiceServlet extends HttpServlet {
         } else {
             error.add("Cập nhật thất bại");
             request.setAttribute("error", error);
+            request.setAttribute("service", currentService);
             request.getRequestDispatcher("admin/updateService.jsp").forward(request, response);
         }
     }

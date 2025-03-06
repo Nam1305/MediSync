@@ -23,7 +23,7 @@
         </div>
 
         <ul class="sidebar-menu pt-3">
-            <li><a href="adminDashBoard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+            <li><a href="admin/adminDashBoard.jsp"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
             <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Thông tin cuộc hẹn</a></li>
 
             <li class="sidebar-dropdown">
