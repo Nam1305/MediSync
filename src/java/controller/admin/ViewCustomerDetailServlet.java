@@ -26,7 +26,7 @@ public class ViewCustomerDetailServlet extends HttpServlet {
         int customerId = Integer.parseInt(customerIdStr);
         Customer customer = customerDao.getCustomerById(customerId);
         request.setAttribute("customer", customer);
-        request.getRequestDispatcher("customerDetail.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/customerDetail.jsp").forward(request, response);
             
     } 
 

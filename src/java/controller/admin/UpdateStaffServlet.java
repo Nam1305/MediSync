@@ -64,21 +64,21 @@ public class UpdateStaffServlet extends HttpServlet {
                 request.setAttribute("listDepartment", listDepartment);
                 // Nếu tìm thấy nhân viên, gửi thông tin đến trang update.jsp
                 request.setAttribute("staff", currentstaff); // Đặt đối tượng Staff vào attribute
-                request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
+                request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);
             } else {
                 // Nếu không tìm thấy nhân viên , thông báo lỗi
                 request.setAttribute("error", "Staff with ID " + staffId + " not found.");
-                request.getRequestDispatcher("updateStaff.jsp").forward(request, response); // Quay lại danh sách
+                request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response); // Quay lại danh sách
             }
         } catch (NumberFormatException e) {
             // Xử lý lỗi nếu id không phải là số nguyên
             request.setAttribute("error", "Invalid ID format.");
-            request.getRequestDispatcher("updateStaff.jsp").forward(request, response); // Quay lại danh sách
+            request.getRequestDispatcher("dmin/updateStaff.jsp").forward(request, response); // Quay lại danh sách
         } catch (Exception e) {
             // Xử lý các lỗi khác
             System.out.println(e);
             request.setAttribute("error", "An unexpected error occurred.");
-            request.getRequestDispatcher("updateStaff.jsp").forward(request, response); // Quay lại danh sách
+            request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response); // Quay lại danh sách
         }
 
     }
@@ -162,7 +162,7 @@ public class UpdateStaffServlet extends HttpServlet {
             request.setAttribute("staff", currentStaff);
             request.setAttribute("listDepartment", departmentDao.getActiveDepartment());
             request.setAttribute("errors", errors);
-            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);
             return;
         }
         
@@ -187,7 +187,7 @@ public class UpdateStaffServlet extends HttpServlet {
             request.setAttribute("staff", currentStaff);
             request.setAttribute("listDepartment", departmentDao.getActiveDepartment());
             request.setAttribute("errors", errors);
-            request.getRequestDispatcher("updateStaff.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);
         }
     }
 

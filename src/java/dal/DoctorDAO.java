@@ -21,9 +21,9 @@ public class DoctorDAO extends DBContext {
     DepartmentDAO departDao = new DepartmentDAO();
     RoleDAO roleDao = new RoleDAO();
     PositionDAO positionDao = new PositionDAO();
-    
+
     // list ra danh sách tất cả nhân viên trừ admin
-    public List<Staff> getAllStaff(Integer roleId, String status, String searchQuery, int page, int pageSize) {
+    public List<Staff> getAllStaff(Integer roleId, String status, String searchQuery, int page, int pageSize, String sort) {
         List<Staff> listDoctor = new ArrayList<>();
         String sql = "SELECT staffId, name , email , avatar , phone , password , dateOfBirth, position, gender, status, description, roleId, departmentId FROM Staff WHERE roleId != 1"; // Loại bỏ roleId = 1
 
@@ -40,7 +40,9 @@ public class DoctorDAO extends DBContext {
             sql += " AND (name LIKE ? OR phone LIKE ?)";
         }
         //Thêm phân trang 
-        sql += " ORDER BY staffId DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY  ";
+        sql += " ORDER BY staffId " + (sort != null && sort.equals("DESC") ? "DESC" : "ASC");
+        sql += " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -55,6 +57,7 @@ public class DoctorDAO extends DBContext {
                 ps.setString(index++, "%" + searchQuery + "%");
                 ps.setString(index++, "%" + searchQuery + "%");
             }
+           
             // **Phân trang**: OFFSET = (page - 1) * pageSize, FETCH = pageSize
             ps.setInt(index++, (page - 1) * pageSize);
             ps.setInt(index++, pageSize);
@@ -83,6 +86,7 @@ public class DoctorDAO extends DBContext {
         }
         return listDoctor;
     }
+
     // đếm số nhân viên để phân trang
     public int getTotalStaffCount(Integer roleId, String status, String searchQuery) {
         String sql = "SELECT COUNT(*) FROM Staff WHERE roleId != 1"; // Đếm tất cả bác sĩ (trừ admin)
@@ -121,41 +125,41 @@ public class DoctorDAO extends DBContext {
         return 0;
     }
 
-  public int addStaff(Staff staff) {
-    // Mặc định `status` = 'Active'
-    String sql = "INSERT INTO Staff (name, email, avatar, phone, password, dateOfBirth, position, gender, status, description, roleId, departmentId) "
-               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?)";
-    
-    try {
-        // Sử dụng RETURN_GENERATED_KEYS để lấy ID tự động tăng
-        PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ps.setString(1, staff.getName());
-        ps.setString(2, staff.getEmail());
-        ps.setString(3, staff.getAvatar());
-        ps.setString(4, staff.getPhone());
-        ps.setString(5, staff.getPassword());
-        ps.setDate(6, staff.getDateOfBirth());
-        ps.setString(7, staff.getPosition());
-        ps.setString(8, staff.getGender());
-        ps.setString(9, staff.getDescription());
-        ps.setInt(10, staff.getRole().getRoleId());
-        ps.setInt(11, staff.getDepartment().getDepartmentId());
+    public int addStaff(Staff staff) {
+        // Mặc định `status` = 'Active'
+        String sql = "INSERT INTO Staff (name, email, avatar, phone, password, dateOfBirth, position, gender, status, description, roleId, departmentId) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?)";
 
-        int rowsAffected = ps.executeUpdate();
+        try {
+            // Sử dụng RETURN_GENERATED_KEYS để lấy ID tự động tăng
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, staff.getName());
+            ps.setString(2, staff.getEmail());
+            ps.setString(3, staff.getAvatar());
+            ps.setString(4, staff.getPhone());
+            ps.setString(5, staff.getPassword());
+            ps.setDate(6, staff.getDateOfBirth());
+            ps.setString(7, staff.getPosition());
+            ps.setString(8, staff.getGender());
+            ps.setString(9, staff.getDescription());
+            ps.setInt(10, staff.getRole().getRoleId());
+            ps.setInt(11, staff.getDepartment().getDepartmentId());
 
-        // Kiểm tra nếu INSERT thành công
-        if (rowsAffected > 0) {
-            ResultSet rs = ps.getGeneratedKeys(); // Lấy ID vừa tạo
-            if (rs.next()) {
-                return rs.getInt(1); // Trả về ID của nhân viên mới
+            int rowsAffected = ps.executeUpdate();
+
+            // Kiểm tra nếu INSERT thành công
+            if (rowsAffected > 0) {
+                ResultSet rs = ps.getGeneratedKeys(); // Lấy ID vừa tạo
+                if (rs.next()) {
+                    return rs.getInt(1); // Trả về ID của nhân viên mới
+                }
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+
+        return -1; // Trả về -1 nếu thêm thất bại
     }
-    
-    return -1; // Trả về -1 nếu thêm thất bại
-}
 
     public boolean deleteStaff(int staffId) {
         String sql = "UPDATE Staff SET status = 'Inactive' WHERE StaffId = ?";
@@ -170,47 +174,45 @@ public class DoctorDAO extends DBContext {
         }
     }
 
-
     public boolean updateStaff(Staff staff) {
-    // Kiểm tra xem avatar có bị thay đổi hay không
-    boolean hasAvatar = staff.getAvatar() != null && !staff.getAvatar().isEmpty();
-    
-    String sql = "UPDATE Staff SET name = ?, email = ?, phone = ?, password = ?, dateOfBirth = ?, position = ?, gender = ?, status = ?, description = ?, roleId = ?, departmentId = ?";
-    if (hasAvatar) {
-        sql += ", avatar = ?";  // Chỉ cập nhật avatar nếu có thay đổi
-    }
-    sql += " WHERE staffId = ?";
-    
-    try {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1, staff.getName());
-        ps.setString(2, staff.getEmail());
-        ps.setString(3, staff.getPhone());
-        ps.setString(4, staff.getPassword());
-        ps.setDate(5, staff.getDateOfBirth());
-        ps.setString(6, staff.getPosition());
-        ps.setString(7, staff.getGender());
-        ps.setString(8, staff.getStatus());
-        ps.setString(9, staff.getDescription());
-        ps.setInt(10, staff.getRole().getRoleId());
-        ps.setInt(11, staff.getDepartment().getDepartmentId());
+        // Kiểm tra xem avatar có bị thay đổi hay không
+        boolean hasAvatar = staff.getAvatar() != null && !staff.getAvatar().isEmpty();
 
-        int index = 12;
+        String sql = "UPDATE Staff SET name = ?, email = ?, phone = ?, password = ?, dateOfBirth = ?, position = ?, gender = ?, status = ?, description = ?, roleId = ?, departmentId = ?";
         if (hasAvatar) {
-            ps.setString(index++, staff.getAvatar());  // Chỉ set avatar nếu có
+            sql += ", avatar = ?";  // Chỉ cập nhật avatar nếu có thay đổi
         }
-        ps.setInt(index, staff.getStaffId());  // Set staffId vào cuối
+        sql += " WHERE staffId = ?";
 
-        int rowsAffected = ps.executeUpdate();
-        return rowsAffected > 0;
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        return false;
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, staff.getName());
+            ps.setString(2, staff.getEmail());
+            ps.setString(3, staff.getPhone());
+            ps.setString(4, staff.getPassword());
+            ps.setDate(5, staff.getDateOfBirth());
+            ps.setString(6, staff.getPosition());
+            ps.setString(7, staff.getGender());
+            ps.setString(8, staff.getStatus());
+            ps.setString(9, staff.getDescription());
+            ps.setInt(10, staff.getRole().getRoleId());
+            ps.setInt(11, staff.getDepartment().getDepartmentId());
+
+            int index = 12;
+            if (hasAvatar) {
+                ps.setString(index++, staff.getAvatar());  // Chỉ set avatar nếu có
+            }
+            ps.setInt(index, staff.getStaffId());  // Set staffId vào cuối
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
-}
 
     // Kiểm tra email đã tồn tại hay chưa
-
     public boolean checkEmail(String email) {
         String query = "SELECT COUNT(*) FROM Staff WHERE email = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -224,22 +226,24 @@ public class DoctorDAO extends DBContext {
         }
         return false;
     }
-        public boolean checkEmailExistsCurrentStaff(String email, int staffId) {
-    String query = "SELECT COUNT(*) FROM Staff WHERE email = ? AND staffId != ?";
-    try (
-         PreparedStatement ps = connection.prepareStatement(query)) {
-        ps.setString(1, email);
-        ps.setInt(2, staffId);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1) > 0; // Nếu số lượng > 0, nghĩa là đã tồn tại số điện thoại
+
+    public boolean checkEmailExistsCurrentStaff(String email, int staffId) {
+        String query = "SELECT COUNT(*) FROM Staff WHERE email = ? AND staffId != ?";
+        try (
+                PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, email);
+            ps.setInt(2, staffId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Nếu số lượng > 0, nghĩa là đã tồn tại số điện thoại
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return false;
     }
-    return false;
-}
-      public Staff getStaffById(int staffId) {
+
+    public Staff getStaffById(int staffId) {
         String sql = "SELECT staffId, name , email , avatar , phone , password , dateOfBirth, position, gender, status, description, roleId, departmentId FROM Staff WHERE staffId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -280,38 +284,40 @@ public class DoctorDAO extends DBContext {
         }
         return false; // Mặc định trả về false nếu có lỗi
     }
+
     // Hàm check trùng số điện thoại trừ số điện thoại của nhân viên đang update 
     public boolean checkPhoneExistsCurrentStaff(String phone, int staffId) {
-    String query = "SELECT COUNT(*) FROM Staff WHERE phone = ? AND staffId != ?";
-    try (
-         PreparedStatement ps = connection.prepareStatement(query)) {
-        ps.setString(1, phone);
-        ps.setInt(2, staffId);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1) > 0; // Nếu số lượng > 0, nghĩa là đã tồn tại số điện thoại
+        String query = "SELECT COUNT(*) FROM Staff WHERE phone = ? AND staffId != ?";
+        try (
+                PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, phone);
+            ps.setInt(2, staffId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Nếu số lượng > 0, nghĩa là đã tồn tại số điện thoại
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return false;
     }
-    return false;
-}
+
     // hàm lấy ra số sao trung bình mà nhân viên được vote
     public double getAverageRating(int staffId) {
-    String sql = "SELECT AVG(ratings) FROM FeedBack WHERE staffId = ?";
+        String sql = "SELECT AVG(ratings) FROM FeedBack WHERE staffId = ?";
 
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, staffId);
-        ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, staffId);
+            ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            return rs.getDouble(1); // Lấy giá trị trung bình từ cột đầu tiên
+            if (rs.next()) {
+                return rs.getDouble(1); // Lấy giá trị trung bình từ cột đầu tiên
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+        return 0.0; // Trả về 0 nếu không có dữ liệu
     }
-    return 0.0; // Trả về 0 nếu không có dữ liệu
-}
 //    public static void main(String[] args) {
 //        DoctorDAO doctor = new DoctorDAO();
 //        System.out.println(doctor.getAllDoctor());
@@ -360,7 +366,7 @@ public class DoctorDAO extends DBContext {
         staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
         return staff;
     }
-    
+
     public List<Staff> getAllDoctors() {
         List<Staff> allDoctors = new ArrayList<>();
         String sql = "select s.staffId, \n"

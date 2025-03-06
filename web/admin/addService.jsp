@@ -37,23 +37,23 @@
 
     <body>
         <div class="page-wrapper doctris-theme toggled">
-            <jsp:include page="layout/navbar.jsp" />
+            <jsp:include page="../layout/navbar.jsp" />
 
 
             <!-- Start Page Content -->
             <main class="page-content bg-light">
-                <jsp:include page="layout/header.jsp" />
+                <jsp:include page="../layout/header.jsp" />
 
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Thêm Phòng Ban</h5>
+                            <h5 class="mb-0">Thêm Dịch Vụ</h5>
 
                             <nav aria-label="breadcrumb" class="d-inline-block mt-4 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
 
-                                    <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'ListDepartment'">
-                                        Danh Sách Phòng Ban
+                                    <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'ListService'">
+                                        Danh Sách Dịch Vụ
                                     </button>
 
                                 </ul>
@@ -65,24 +65,39 @@
                                 <div class="card border-0 p-4 rounded shadow">
                                     <div class="row align-items-center">
 
-                                        <form class="mt-4" action="AddDepartment" method="post" >
+                                        <form class="mt-4" action="AddService" method="post" >
                                             <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Tên Dịch Vụ</label>
+                                                        <input name="serviceName" type="text" class="form-control" placeholder="Tên Dịch Vụ" required>
+                                                    </div>                                                                                           
+                                                </div><!--end col-->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Giá</label>
+                                                        <input name="price" type="number" class="form-control" placeholder="giá" required>
+                                                    </div> 
+                                                </div> 
+
                                                 <div class="col-md-12">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Tên Phòng Ban</label>
-                                                        <input name="departmentname" id="departmentname" type="text" class="form-control" placeholder="Tên Phòng Ban" required>
+                                                        <label class="form-label">Chi tiết </label>
+                                                        <input name="content" type="text" class="form-control" placeholder="Chi tiết Dịch Vụ" required>
                                                     </div>
-                                                </div><!--end col-->
-
+                                                </div>
                                                 <div>
                                                     <c:if test="${not empty error}">
                                                         <div style="color: red">${error}</div>
+                                                    </c:if>
+                                                    <c:if test="${not empty success}">
+                                                        <div style="color: green">${success}</div>
                                                     </c:if>
                                                 </div>
 
                                             </div><!--end row-->
 
-                                            <button type="submit" class="btn btn-primary">Thêm Phòng Ban </button>
+                                            <button type="submit" class="btn btn-primary">Thêm Dịch Vụ</button>
                                         </form>
 
 
@@ -99,7 +114,7 @@
                                     width: 100%;
                                     position: absolute;
                                     bottom: 0;">
-                                <jsp:include page="layout/footer.jsp" />
+                                <jsp:include page="../layout/footer.jsp" />
                             </footer><!--end footer-->
                             <!-- End -->
 

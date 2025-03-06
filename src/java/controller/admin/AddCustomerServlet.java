@@ -116,7 +116,7 @@ public class AddCustomerServlet extends HttpServlet {
             request.setAttribute("phoneNumber", phoneNumber);
             request.setAttribute("dateOfBirth", dateOfBirthString);
             request.setAttribute("adress", address);
-            request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/addCustomer.jsp").forward(request, response);
             return;
         }
 
@@ -147,13 +147,13 @@ public class AddCustomerServlet extends HttpServlet {
         request.setAttribute("email", email);
         request.setAttribute("phoneNumber", phoneNumber);
         request.setAttribute("dateOfBirth", dateOfBirthString);
-        request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/addCustomer.jsp").forward(request, response);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/addCustomer.jsp").forward(request, response);
     }
 
     @Override

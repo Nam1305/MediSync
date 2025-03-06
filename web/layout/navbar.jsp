@@ -31,7 +31,7 @@
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="ListDoctor">Danh sách nhân viên</a></li>
-                        <li><a href="addStaff.jsp">Thêm nhân viên</a></li>
+                        <li><a href="AddStaffServlet">Thêm nhân viên</a></li>
 
                     </ul>
                 </div>

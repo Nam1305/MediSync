@@ -62,7 +62,7 @@ public class ServiceDAO extends DBContext {
     }
 
     // list ra tất cả service
-    public List<Service> getAllServices(String searchQuery, String status, int page, int pageSize) {
+    public List<Service> getAllServices(String searchQuery, String status, int page, int pageSize,String sort) {
         List<Service> services = new ArrayList<>();
         String sql = "SELECT serviceId,content,price,name,status  FROM Service Where 1 = 1 ";
         if (searchQuery != null && !searchQuery.isEmpty()) {
@@ -71,7 +71,8 @@ public class ServiceDAO extends DBContext {
         if (status != null && !status.isEmpty()) {
             sql += " AND status = ?";
         }
-        sql += " ORDER BY serviceId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        sql += " ORDER BY serviceId " + (sort != null && sort.equals("DESC") ? "DESC" : "ASC");
+        sql += " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try {
             int index = 1;
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -110,7 +111,7 @@ public class ServiceDAO extends DBContext {
         if (status != null && !status.isEmpty()) {
             sql += " AND status = ?";
         }
-        
+
         try {
             int index = 1;
             PreparedStatement ps = connection.prepareStatement(sql);

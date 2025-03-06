@@ -106,49 +106,55 @@
 
     <body>
         <div class="page-wrapper doctris-theme toggled">
-            <jsp:include page="layout/navbar.jsp" />
+            <jsp:include page="../layout/navbar.jsp" />
 
 
             <!-- Start Page Content -->
             <main class="page-content bg-light">
-                <jsp:include page="layout/header.jsp" />
+                <jsp:include page="../layout/header.jsp" />
 
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
                             <h5 class="mb-0" style="color: #218838">Danh sách phòng ban</h5>
                             <form action="ListDepartment" method="get" >
-                                <label for="Page">PageSize</label>
-                                <input type="number" name="pageSize">
+                                <label for="sort">Sắp xếp </label>
+                                <select name="sort" >    
+                                    <option value="ASC" <c:if test="${sort == 'ASC'}">selected</c:if>>Tăng dần</option>
+                                    <option value="DESC" <c:if test="${sort == 'DESC'}">selected</c:if>>Giảm dần</option>
+                                    </select>
+                                    <label for="Page" style="color: green">PageSize</label>
+                                    <input type="number" name="pageSize" value="${pageSize}">
                                 <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Paging</button>                       
-                                <label for="statusFilter">Filter by Status:</label>
+                                <label for="statusFilter" style="color: green">Lọc theo Status:</label>
                                 <select name="status" id="statusFilter">
-                                    <option value="">All</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
-                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Filter</button> 
-                            </form>
-                        </div>
+                                    <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả trạng thái</option>
+                                    <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
+                                    <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >lọc</button> 
+                                    <button type="button" class="btn btn-secondary mt-4 mt-sm-0" onclick="resetFilters()">Reset</button>
+                                </form>
+                            </div>
 
-                        <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddDepartment'">
-                            Thêm Phòng Ban
-                        </button>
-                        <div class="row">
-                            <div class="col-12 mt-4">
-                                <div class="table-responsive shadow rounded">
-                                    <table class="table table-center bg-white mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Tên Phòng Ban</th>
-                                                <th class="border-bottom p-3">Status</th>
+                            <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddDepartment'">
+                                Thêm Phòng Ban
+                            </button>
+                            <div class="row">
+                                <div class="col-12 mt-4">
+                                    <div class="table-responsive shadow rounded">
+                                        <table class="table table-center bg-white mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
+                                                    <th class="border-bottom p-3" style="min-width: 180px;">Tên Phòng Ban</th>
+                                                    <th class="border-bottom p-3">Status</th>
 
-                                                <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <!--tbody-start-->
-                                        <tbody>
+                                                    <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <!--tbody-start-->
+                                            <tbody>
                                             <c:forEach var="department" items="${listDepartment}">
                                                 <tr>
                                                     <td class="p-3">${department.departmentId}</td>
@@ -192,19 +198,19 @@
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDepartment?page=${currentPage - 1}&pageSize=${pageSize}">Previous</a>
+                                                <a class="page-link" href="ListDepartment?page=${currentPage - 1}&pageSize=${pageSize}&status=${status}&sort=${sort}">Previous</a>
                                             </li>
                                         </c:if>
 
                                         <c:forEach var="i" begin="1" end="${totalPages}">
                                             <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="ListDepartment?page=${i}&pageSize=${pageSize}">${i}</a>
+                                                <a class="page-link" href="ListDepartment?page=${i}&pageSize=${pageSize}&status=${status}&sort=${sort}">${i}</a>
                                             </li>
                                         </c:forEach>
 
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDepartment?page=${currentPage + 1}&pageSize=${pageSize}">Next</a>
+                                                <a class="page-link" href="ListDepartment?page=${currentPage + 1}&pageSize=${pageSize}&status=${status}&sort=${sort}">Next</a>
                                             </li>
                                         </c:if>
                                     </ul>
@@ -217,7 +223,7 @@
                 </div>
                 <!--end container-->
 
-                <jsp:include page="layout/footer.jsp" />
+                <jsp:include page="../layout/footer.jsp" />
             </main>
             <!--End page-content" -->
         </div>
@@ -278,7 +284,11 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
-
+        <script>
+                                        function resetFilters() {
+                                            window.location.href = './ListDepartment?search=&status=&pageSize=3';
+                                        }
+        </script>
 
 
     </body>

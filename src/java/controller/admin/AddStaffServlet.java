@@ -67,7 +67,7 @@ public class AddStaffServlet extends HttpServlet {
         DepartmentDAO department = new DepartmentDAO();
         List<Department> listDepartment = department.getActiveDepartment();
         request.setAttribute("listDepartment", listDepartment);
-        request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/addStaff.jsp").forward(request, response);
 
     }
 
@@ -127,7 +127,7 @@ public class AddStaffServlet extends HttpServlet {
         if (!error.isEmpty()) {
             request.setAttribute("listDepartment", listDepartment);
             request.setAttribute("error", error);
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/addStaff.jsp").forward(request, response);
             return;
         }
 
@@ -159,7 +159,7 @@ public class AddStaffServlet extends HttpServlet {
             request.setAttribute("listDepartment", listDepartment);
             error.add("Có lỗi xảy ra, vui lòng thử lại!");
             request.setAttribute("error", error);
-            request.getRequestDispatcher("addStaff.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/addStaff.jsp").forward(request, response);
         }
     }
 

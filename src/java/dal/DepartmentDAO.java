@@ -80,7 +80,7 @@ public class DepartmentDAO extends DBContext {
 //        DepartmentDAO de = new DepartmentDAO();
 //        System.out.println(de.getActiveDepartment());
 //    }
-    public List<Department> getAllDepartments(String searchQuery, int page, int pageSize, String status) {
+    public List<Department> getAllDepartments(String searchQuery, int page, int pageSize, String status,String sort) {
         List<Department> list = new ArrayList<>();
         String sql = "select departmentId, departmentName, status from Department Where 1 = 1";
         if (searchQuery != null && !searchQuery.isEmpty()) {
@@ -89,7 +89,8 @@ public class DepartmentDAO extends DBContext {
          if (status != null && !status.isEmpty()) {
             sql += " AND status = ?";
         }
-        sql += " ORDER BY departmentId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        sql += " ORDER BY departmentId " + (sort != null && sort.equals("DESC") ? "DESC" : "ASC");
+        sql += " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try {
             int index = 1;
             PreparedStatement ps = connection.prepareStatement(sql);

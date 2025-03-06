@@ -11,7 +11,7 @@
 
 <!-- Lấy thông tin nhân viên từ session -->
 <c:set var="staff" value="${sessionScope.staff}" />
-<c:set var="customer" value="${sessionScope.customer}" />
+
 <!-- Kiểm tra nếu có staff và roleId == 1 thì hiển thị header -->
 <c:if test="${not empty staff and staff.role.roleId == 1}">
     <!-- Start Page Content -->
@@ -19,7 +19,7 @@
     <c:set var="isListDoctorPage" value="${fn:endsWith(currentPage, 'ListDoctor') or fn:contains(currentPage, 'listDoctor.jsp')}" />
     <c:set var="isListDepartmentPage" value="${fn:endsWith(currentPage, 'ListDepartment') or fn:contains(currentPage, 'listDepartment.jsp')}" />
     <c:set var="isListServicePage" value="${fn:endsWith(currentPage, 'ListService') or fn:contains(currentPage, 'listService.jsp')}" />
-
+     <c:set var="isListCustomerPage" value="${fn:endsWith(currentPage, 'listCustomer') or fn:contains(currentPage, 'listCustomer.jsp')}" />
 
     <div class="top-header">
         <div class="header-bar d-flex justify-content-between border-bottom">
@@ -68,6 +68,19 @@
                         </div>
                     </div>
                 </c:if>
+                <c:if test="${isListCustomerPage}">
+                    <div class="search-bar p-0 d-none d-lg-block ms-2">
+                        <div id="search" class="menu-search mb-0">
+                            <form role="search" method="post" id="searchform" class="searchform" action="listCustomer">
+                                <div>
+                                    <input type="text" class="form-control border rounded-pill" name="s" id="s" placeholder="Tìm kiếm bệnh nhân: tên, sđt" style="width: 100%; max-width: 600px;" value="${requestScope.searchQuery}">
+                                    <input type="hidden" name="action" value="search">
+                                    <input type="submit" id="searchsubmit" value="Search">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </c:if>
             </div>
 
             <li class="list-inline-item mb-0 ms-1">
@@ -84,9 +97,9 @@
                             </div>
                         </a>
                         <a class="dropdown-item text-dark" href="adminDashBoard.jsp">
-                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Bảng điều khiển
+                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard
                         </a>
-                        <a class="dropdown-item text-dark" href="doctorProfile">
+                        <a class="dropdown-item text-dark" href="doctorprofile">
                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Thông tin cá nhân
                         </a>
                         <div class="dropdown-divider border-top"></div>
@@ -101,6 +114,7 @@
     </div>
 
 </c:if>
+
 
 
 <c:if test="${(not empty staff and staff.role.roleId != 1) or not empty customer or empty staff and empty customer}">
@@ -190,5 +204,3 @@
     </header>
 
 </c:if>
-
-

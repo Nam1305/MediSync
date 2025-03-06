@@ -22,10 +22,14 @@
                     <div class="col-md-6">
                         <p><strong>Giới tính:</strong> 
                             <span id="profileGender" class="text-muted">
-                                ${staff.gender}
-                                </span>
-                            </p>
-                            <p><strong>Chức vụ:</strong> <span id="profilePosition" class="text-muted">${staff.position}</span></p>
+                                <c:choose>
+                                    <c:when test="${staff.gender.trim() == 'M'}">Nam</c:when>
+                                    <c:when test="${staff.gender.trim() == 'F'}">Nữ</c:when>
+                                    <c:otherwise>Khác</c:otherwise>
+                                </c:choose>
+                            </span>
+                        </p>
+                        <p><strong>Chức vụ:</strong> <span id="profilePosition" class="text-muted">${staff.position}</span></p>
                         <p><strong>Phòng ban:</strong> <span id="profileDepartment" class="text-muted">${staff.department.departmentName}</span></p>
                     </div>
                     <div class="col-md-6">
