@@ -158,7 +158,7 @@
                                                         </div>
                                                     </td>
                                                     <td class="text-center p-3">
-                                                        <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#view-invoice">Xem</a>
+                                                        <a href="invoiceDetail?appointmentId=${o.appointmentId}" class="btn btn-sm btn-primary">Xem</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -205,23 +205,6 @@
             <!--End page-content" -->
         </div>
         <!-- page-wrapper -->
-
-        <!-- View Invoice Modal -->
-        <div class="modal fade" id="view-invoice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom p-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Patient Invoice</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-3 pt-4">
-                        <!-- Nội dung hóa đơn chi tiết -->
-                        <p>Nội dung hóa đơn chi tiết sẽ hiển thị tại đây...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- View Invoice Modal End -->
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/feather.min.js"></script>
