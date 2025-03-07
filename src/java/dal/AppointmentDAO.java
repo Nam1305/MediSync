@@ -10,7 +10,6 @@ import model.Appointment;
 import model.Customer;
 import model.Service;
 import model.Staff;
-import java.sql.*;
 import model.Department;
 import model.Prescription;
 import model.Role;
@@ -621,6 +620,19 @@ public class AppointmentDAO extends DBContext {
             e.printStackTrace();
         }
         return count;
+    }
+    
+    public boolean cancelAppointment(int appointmentId){
+        String sql = "UPDATE Appointment SET status = 'cancelled' where appointmentId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, appointmentId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+        
     }
 
     public static void main(String[] args) throws SQLException {
