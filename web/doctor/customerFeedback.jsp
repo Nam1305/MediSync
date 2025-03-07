@@ -250,17 +250,17 @@
                                 <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                     <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="mfeedback?page=${currentPage - 1}&pageSize=${pageSize}&starFilter=${starFilter}?sortOrder=${sortOrder}">Trước</a>
+                                            <a class="page-link" href="mfeedback?page=${currentPage - 1}&pageSize=${pageSize}&starFilter=${starFilter}&sortOrder=${sortOrder}">Trước</a>
                                         </li>
                                     </c:if>
                                     <c:forEach begin="1" end="${totalPages}" var="p">
                                         <li class="page-item ${p == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="mfeedback?page=${p}&pageSize=${pageSize}&starFilter=${starFilter}?sortOrder=${sortOrder}">${p}</a>
+                                            <a class="page-link" href="mfeedback?page=${p}&pageSize=${pageSize}&starFilter=${starFilter}&sortOrder=${sortOrder}">${p}</a>
                                         </li>
                                     </c:forEach>
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
-                                            <a class="page-link" href="mfeedback?page=${currentPage + 1}&pageSize=${pageSize}&starFilter=${starFilter}?sortOrder=${sortOrder}">Sau</a>
+                                            <a class="page-link" href="mfeedback?page=${currentPage + 1}&pageSize=${pageSize}&starFilter=${starFilter}&sortOrder=${sortOrder}">Sau</a>
                                         </li>
                                     </c:if>
                                 </ul>
