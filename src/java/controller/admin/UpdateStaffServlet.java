@@ -181,7 +181,8 @@ public class UpdateStaffServlet extends HttpServlet {
         }
         
         if (isUpdated) {
-            response.sendRedirect("ListDoctor");
+            request.setAttribute("success", "cập nhật thành công");
+            request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);
         } else {
             errors.add("Cập nhật thất bại.");
             request.setAttribute("staff", currentStaff);

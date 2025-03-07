@@ -100,7 +100,7 @@ public class LoginServlet extends HttpServlet {
                 } else {
                     session.setAttribute("staff", staff);
                     if (staff.getRole().getRoleId() == 1) {
-                        request.getRequestDispatcher("admin/adminDashBoard.jsp").forward(request, response);
+                        request.getRequestDispatcher("AdminDashBoard").forward(request, response);
 
                     } else {
                         request.getRequestDispatcher("home").forward(request, response);

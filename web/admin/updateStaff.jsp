@@ -31,7 +31,7 @@
                             <img src="${staff.avatar}" 
                                  class="avatar avatar-md-sm rounded-circle shadow" alt="">
 
-                            <label class="form-label">Name</label>
+                            <label class="form-label">Họ và Tên</label>
                             <input name="name" id="name" type="text" class="form-control" placeholder="Họ và tên" value ="${param.name != null ? param.name : staff.name}">
                         </div>
                     </div><!--end col-->
@@ -45,7 +45,7 @@
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Phone</label>
+                            <label class="form-label">Số điện thoại</label>
                             <input name="phone" id="phone" type="text" class="form-control" placeholder="Số điện thoại" value ="${param.phone != null ? param.phone : staff.phone}">
                         </div>
                     </div><!--end col-->
@@ -53,29 +53,29 @@
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Date of Birth</label>
+                            <label class="form-label">Ngày sinb</label>
                             <input name="dateOfBirth" id="dateOfBirth" type="date" class="form-control" value ="${param.dateOfBirth != null ? param.dateOfBirth : staff.dateOfBirth}">
                         </div>
                     </div><!--end col-->
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Position</label>
+                            <label class="form-label">Vị trí làm việc</label>
 
                             <select name="position" id="position" class="form-control">
-                                <option value="Doctor">Doctor</option>
-                                <option value="Expert">Expert</option>
-                                <option value="Receptionist">Receptionist</option>
+                                <option value="Doctor">Bác sĩ</option>
+                                <option value="Expert">Chuyên gia</option>
+                                <option value="Receptionist">Nhân viên hành chính</option>
                             </select>
                         </div>
                     </div><!--end col-->
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Gender</label>
+                            <label class="form-label">Giới tính</label>
                             <select name="gender" id="gender" class="form-control">
-                                <option value="M">Male</option>
-                                <option value="F">Female</option>
+                                <option value="M">Nam</option>
+                                <option value="F">Nữ</option>
                             </select>
                         </div>
                     </div><!--end col-->
@@ -92,7 +92,7 @@
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Department</label>
+                            <label class="form-label">Phòng Ban</label>
                             <select name="departmentId" id="departmentId" class="form-control department-name select2input">
                                 <c:forEach var="department" items="${requestScope.listDepartment}">
                                     <option value="${department.departmentId}">${department.departmentName}</option>
@@ -114,7 +114,7 @@
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Description</label>
+                            <label class="form-label">Mô tả</label>
                             <input name="description" id="description" type="text" class="form-control" placeholder="Mô tả" value ="${param.description != null ? param.description : staff.description}">
                         </div>
                     </div><!--end col-->
@@ -134,7 +134,15 @@
                                     </c:forEach>
                             </ul>
                         </c:if>
+                        <c:if test="${not empty success}">
+                            <ul style="color: green">
+
+                                <li>${success}</li>
+
+                            </ul>
+                        </c:if>
                     </div>
+
 
             </form><!--end form-->
         </div>

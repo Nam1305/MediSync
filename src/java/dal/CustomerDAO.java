@@ -557,4 +557,20 @@ public class CustomerDAO extends DBContext {
         int x = d.getTotalPrice(1);
         System.out.println(x);
     }
+    
+    //Phần của Sơn 
+     public int countCustomers() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM Customer";
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+    
 }

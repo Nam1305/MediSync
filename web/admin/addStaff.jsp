@@ -157,6 +157,11 @@
                                                                 </c:forEach>
                                                         </ul>
                                                     </c:if>
+                                                     <c:if test="${not empty success}">
+                                                        <ul style="color: green">
+                                                                <li>${success}</li>    
+                                                        </ul>
+                                                    </c:if>
                                                 </div>
 
                                             </div><!--end row-->

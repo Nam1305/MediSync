@@ -121,22 +121,22 @@
                                     <option value="ASC" <c:if test="${sort == 'ASC'}">selected</c:if>>Tăng dần</option>
                                     <option value="DESC" <c:if test="${sort == 'DESC'}">selected</c:if>>Giảm dần</option>
                                 </select>
-                                <label for="roleFilter">Filter by Role:</label>
+                                <label for="roleFilter">Lọc theo Role:</label>
                                 <select name="roleId" id="roleFilter">
-                                    <option value="">All</option>
+                                    <option value="">Tất cả</option>
                                     <option value="2" <c:if test="${roleId == '2'}">selected</c:if>>Bác sĩ</option>
                                     <option value="3" <c:if test="${roleId == '3'}">selected</c:if>>Chuyên gia</option>
                                     <option value="4" <c:if test="${roleId == '4'}">selected</c:if>>Lễ tân</option>
                                 </select>
-                                <label for="statusFilter">Filter by Status:</label>
+                                <label for="statusFilter">lọc theo Status:</label>
                                 <select name="status" id="statusFilter">
                                     <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả trạng thái</option>
                                     <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
                                     <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
                                 </select>
-                                    <label for="statusFilter">PageSize</label>
+                                    <label for="statusFilter">kích thước trang</label>
                                     <input type="number" name="pageSize" value="${pageSize}">
-                                <button type="submit">Filter</button>
+                                <button type="submit">Lọc</button>
                                 <button type="button" class="btn btn-secondary mt-4 mt-sm-0" onclick="resetFilters()">Reset</button>
                             </form>
 

@@ -131,10 +131,10 @@
                                     <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
                                     <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
                                     </select>
-                                    <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Filter</button> 
-                                    <label for="Page">PageSize</label>
+                                    <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Lọc</button> 
+                                    <label for="Page">Kích thước trang</label>
                                     <input type="number" name="pageSize" value="${pageSize}">
-                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0" >Paging</button>
+                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0" >Phân trang</button>
                                 <button type="button" class="btn btn-secondary mt-4 mt-sm-0" onclick="resetFilters()">Reset</button>
                             </form>
                         </div>

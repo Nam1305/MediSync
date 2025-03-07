@@ -281,4 +281,22 @@ public class DepartmentDAO extends DBContext {
 
     return roleCounts;
 }
+    public Map<String, Integer> countStaffByRole() {
+        Map<String, Integer> roleCounts = new HashMap<>();
+        String sql = "SELECT r.role, COUNT(s.staffId) AS total FROM Staff s " +
+                     "JOIN Role r ON s.roleId = r.roleId " +
+                     "GROUP BY r.role";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                String roleName = rs.getString("role");
+                int count = rs.getInt("total");
+                roleCounts.put(roleName, count);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return roleCounts;
+    }
 }

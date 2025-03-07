@@ -92,5 +92,21 @@ public class InvoiceDAO extends DBContext {
         } catch (SQLException e) {
         }
     }
-
+    
+    //Phần Của Sơn
+    public double calculateTotalRevenue() {
+        double totalRevenue = 0;
+        String sql = "SELECT SUM(price) FROM Invoice";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                totalRevenue = rs.getDouble(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalRevenue;
+    }
+    
 }

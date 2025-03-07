@@ -123,9 +123,9 @@
                                     <option value="ASC" <c:if test="${sort == 'ASC'}">selected</c:if>>Tăng dần</option>
                                     <option value="DESC" <c:if test="${sort == 'DESC'}">selected</c:if>>Giảm dần</option>
                                     </select>
-                                    <label for="Page" style="color: green">PageSize</label>
+                                    <label for="Page" style="color: green">Kích thước trang</label>
                                     <input type="number" name="pageSize" value="${pageSize}">
-                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Paging</button>                       
+                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Phân trang</button>                       
                                 <label for="statusFilter" style="color: green">Lọc theo Status:</label>
                                 <select name="status" id="statusFilter">
                                     <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả trạng thái</option>

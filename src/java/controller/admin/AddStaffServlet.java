@@ -97,29 +97,55 @@ public class AddStaffServlet extends HttpServlet {
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         int roleId = Integer.parseInt(request.getParameter("roleId"));
 
-        if (isEmpty(name)) error.add("Tên không được để trống!");
-        if (isEmpty(email)) error.add("Email không được để trống!");
-        if (isEmpty(phone)) error.add("Số điện thoại không được để trống!");
-        if (isEmpty(gender)) error.add("Giới tính không được để trống!");
-        if (isEmpty(dateOfBirthStr)) error.add("Ngày sinh không được để trống!");
-        if (isEmpty(position)) error.add("Vị trí làm việc không được để trống!");
-        if (isEmpty(description)) error.add("Mô tả không được để trống!");
-        
+        if (isEmpty(name)) {
+            error.add("Tên không được để trống!");
+        }
+        if (isEmpty(email)) {
+            error.add("Email không được để trống!");
+        }
+        if (isEmpty(phone)) {
+            error.add("Số điện thoại không được để trống!");
+        }
+        if (isEmpty(gender)) {
+            error.add("Giới tính không được để trống!");
+        }
+        if (isEmpty(dateOfBirthStr)) {
+            error.add("Ngày sinh không được để trống!");
+        }
+        if (isEmpty(position)) {
+            error.add("Vị trí làm việc không được để trống!");
+        }
+        if (isEmpty(description)) {
+            error.add("Mô tả không được để trống!");
+        }
+
         DoctorDAO staffDao = new DoctorDAO();
-        if (staffDao.checkPhoneExists(phone)) error.add("Số điện thoại đã tồn tại!");
-        if (staffDao.checkEmail(email)) error.add("Email đã tồn tại!");
-        if (!checkPhone(phone)) error.add("Số điện thoại không hợp lệ (bắt đầu bằng 09, 08, hoặc 03 và có 10 chữ số)!");
+        if (staffDao.checkPhoneExists(phone)) {
+            error.add("Số điện thoại đã tồn tại!");
+        }
+        if (staffDao.checkEmail(email)) {
+            error.add("Email đã tồn tại!");
+        }
+        if (!checkPhone(phone)) {
+            error.add("Số điện thoại không hợp lệ (bắt đầu bằng 09, 08, hoặc 03 và có 10 chữ số)!");
+        }
 
         java.sql.Date dateOfBirth = java.sql.Date.valueOf(dateOfBirthStr);
-        if (dateOfBirth.toLocalDate().isAfter(LocalDate.now())) error.add("Ngày sinh không hợp lệ!");
+        if (dateOfBirth.toLocalDate().isAfter(LocalDate.now())) {
+            error.add("Ngày sinh không hợp lệ!");
+        }
 
         Part filePart = request.getPart("avatar");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         if (!fileName.isEmpty()) {
-            if (filePart.getSize() > 3 * 1024 * 1024) error.add("Ảnh phải nhỏ hơn 3MB!");
+            if (filePart.getSize() > 3 * 1024 * 1024) {
+                error.add("Ảnh phải nhỏ hơn 3MB!");
+            }
             String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
             List<String> allowedExtensions = Arrays.asList("png", "jpg", "jpeg");
-            if (!allowedExtensions.contains(fileExtension)) error.add("Chỉ được chọn file có đuôi png, jpg, jpeg!");
+            if (!allowedExtensions.contains(fileExtension)) {
+                error.add("Chỉ được chọn file có đuôi png, jpg, jpeg!");
+            }
         } else {
             fileName = "default-avatar.png";
         }
@@ -133,7 +159,9 @@ public class AddStaffServlet extends HttpServlet {
 
         String uploadPath = getServletContext().getRealPath("/uploads");
         File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) uploadDir.mkdirs();
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
 
         fileName = System.currentTimeMillis() + "_" + fileName;
         filePart.write(uploadPath + File.separator + fileName);
@@ -153,7 +181,8 @@ public class AddStaffServlet extends HttpServlet {
 
         if (staffId > 0) {
             positionDao.insertPositionHistory(staffId, position);
-            response.sendRedirect("ListDoctor");
+            request.setAttribute("success", "Thêm nhân viên thành công");
+            request.getRequestDispatcher("admin/addStaff.jsp").forward(request, response);
             new SendEmail().sendPasswordForStaff(email, password);
         } else {
             request.setAttribute("listDepartment", listDepartment);
