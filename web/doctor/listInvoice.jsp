@@ -84,7 +84,7 @@
                                     <div class="col-md-2">
                                         <label for="status" class="form-label">Trạng thái</label>
                                         <select class="form-select" id="status" name="status">
-                                            <option value="">--Tất cả--</option>
+                                            <option value="">Tất cả</option>
                                             <option value="paid" ${status == 'paid' ? 'selected' : ''}>Đã thanh toán</option>
                                             <option value="unpaid" ${status == 'unpaid' ? 'selected' : ''}>Chưa thanh toán</option>
                                         </select>
@@ -97,7 +97,7 @@
                                     <div class="col-md-3">
                                         <label for="sortDate" class="form-label">Sắp xếp theo Ngày tạo</label>
                                         <select class="form-select" id="sortDate" name="sortDate">
-                                            <option value="" ${empty sortDate ? 'selected' : ''}>Tất cả</option>
+                                            <option value="" ${empty sortDate ? 'selected' : ''}>Không áp dụng</option>
                                             <option value="ASC" ${sortDate == 'ASC' ? 'selected' : ''}>Tăng dần</option>
                                             <option value="DESC" ${sortDate == 'DESC' ? 'selected' : ''}>Giảm dần</option>
                                         </select>
@@ -105,7 +105,7 @@
                                     <div class="col-md-3">
                                         <label for="sortPrice" class="form-label">Sắp xếp theo Giá</label>
                                         <select class="form-select" id="sortPrice" name="sortPrice">
-                                            <option value="" ${empty sortPrice ? 'selected' : ''}>Tất cả</option>
+                                            <option value="" ${empty sortPrice ? 'selected' : ''}>Không áp dụng</option>
                                             <option value="ASC" ${sortPrice == 'ASC' ? 'selected' : ''}>Tăng dần</option>
                                             <option value="DESC" ${sortPrice == 'DESC' ? 'selected' : ''}>Giảm dần</option>
                                         </select>

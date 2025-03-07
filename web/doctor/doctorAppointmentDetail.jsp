@@ -189,15 +189,6 @@
                                                     <td><button type="button" class="btn btn-danger remove-medicine">Xóa</button></td>
                                                 </tr>
                                             </c:forEach>
-                                            <c:if test="${empty appointment.prescriptions}">
-                                                <tr>
-                                                    <td><input type="text" name="medicineName[]" class="form-control" required></td>
-                                                    <td><input type="text" name="totalQuantity[]" class="form-control" required></td>
-                                                    <td><input type="text" name="dosage[]" class="form-control" required></td>
-                                                    <td><input type="text" name="note[]" class="form-control"></td>
-                                                    <td><button type="button" class="btn btn-danger remove-medicine">Xóa</button></td>
-                                                </tr>
-                                            </c:if>
                                         </tbody>
                                     </table>
                                     <button type="button" class="btn btn-success" id="addMedicine">Thêm thuốc</button>
