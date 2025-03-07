@@ -96,7 +96,7 @@ public class PrescriptionDAO extends DBContext {
 
     public List<Prescription> getPrescriptionByAppointmentId(int appointmentId) {
         List<Prescription> prescriptions = new ArrayList<>();
-        String sql = "SELECT * FROM Prescription WHERE appointmentId = ?";
+        String sql = "SELECT prescriptionId,appointmentId, medicineName, totalQuantity, dosage , note FROM Prescription WHERE appointmentId = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, appointmentId);

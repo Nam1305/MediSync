@@ -70,27 +70,6 @@ public class InvoiceDAO extends DBContext {
         return invoices;
     }
 
-    public void addInvoice(int appointmentId, int serviceId) {
-        String sql = "insert into Invoice(appointmentId, serviceId, price) values (?, ?, (select price from Service where serviceId = ?));";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, appointmentId);
-            ps.setInt(2, serviceId);
-            ps.setInt(3, serviceId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
-
-    public void deleteInvoice(int invoiceId) {
-        String sql = "delete from Invoice where InvoiceId = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, invoiceId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
 
     public boolean saveInvoice(int appointmentId, String[] serviceIds, String[] prices) {
         String deleteSql = "DELETE FROM Invoice WHERE appointmentId = ?";

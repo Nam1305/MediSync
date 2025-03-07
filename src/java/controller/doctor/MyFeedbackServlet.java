@@ -30,7 +30,10 @@ public class MyFeedbackServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         Staff staff = (Staff) session.getAttribute("staff");
-        String sortOrder = request.getParameter("sortOrder") == null ? "desc" : "asc";
+        String sortOrder = request.getParameter("sortOrder");
+        if(sortOrder == null){
+            sortOrder = "desc";
+        }
         int page = 1;
         int pageSize = 5;
         if (request.getParameter("page") != null) {
