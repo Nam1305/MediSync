@@ -459,9 +459,9 @@ public class AppointmentDAO extends DBContext {
 
         String sql = "WITH CTE AS ( "
                 + "    SELECT a.appointmentId, a.date, a.startTime, a.endTime, a.status, "
-                + "           a.staffId, a.customerId, COALESCE(SUM(i.price), 0) AS total "
+                + "           a.staffId, a.customerId, SUM(i.price) AS total "
                 + "    FROM Appointment a "
-                + "    LEFT JOIN Invoice i ON a.appointmentId = i.appointmentId "
+                + "    INNER JOIN Invoice i ON a.appointmentId = i.appointmentId " // Chỉ lấy các appointment có invoice
                 + "    WHERE 1=1 "; // Tránh lỗi nếu không có điều kiện lọc nào
 
         if (staffId != null) {
@@ -551,10 +551,10 @@ public class AppointmentDAO extends DBContext {
 
         String sql = "WITH CTE AS ( "
                 + "    SELECT a.appointmentId, a.date, a.startTime, a.endTime, a.status, "
-                + "           a.staffId, a.customerId, COALESCE(SUM(i.price), 0) AS total "
+                + "           a.staffId, a.customerId, SUM(i.price) AS total "
                 + "    FROM Appointment a "
-                + "    LEFT JOIN Invoice i ON a.appointmentId = i.appointmentId "
-                + "    WHERE 1=1 "; // Đảm bảo không có lỗi nếu không có điều kiện nào
+                + "    INNER JOIN Invoice i ON a.appointmentId = i.appointmentId " // Chỉ lấy các appointment có invoice
+                + "    WHERE 1=1 "; // Tránh lỗi nếu không có điều kiện lọc nào
 
         if (staffId != null) {
             sql += " AND a.staffId = ? ";
@@ -621,8 +621,8 @@ public class AppointmentDAO extends DBContext {
         }
         return count;
     }
-    
-    public boolean cancelAppointment(int appointmentId){
+
+    public boolean cancelAppointment(int appointmentId) {
         String sql = "UPDATE Appointment SET status = 'cancelled' where appointmentId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -632,7 +632,7 @@ public class AppointmentDAO extends DBContext {
             e.printStackTrace();
         }
         return false;
-        
+
     }
 
     public static void main(String[] args) throws SQLException {
