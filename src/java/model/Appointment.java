@@ -13,13 +13,13 @@ import java.sql.*;
  */
 public class Appointment {
 
-    AppointmentDAO appointmentDao = new AppointmentDAO();
     private int appointmentId;
     private Date date;
     private Time start, end;
     private String status;
     private Staff staff;
     private Customer customer;
+    private double total;
 
     public Appointment() {
     }
@@ -90,6 +90,15 @@ public class Appointment {
         this.customer = customer;
     }
 
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+ 
+    
     @Override
     public String toString() {
         return "Appointment{" + "appointmentId=" + appointmentId + ", date=" + date + ", start=" + start + ", end=" + end + ", status=" + status + ", staff=" + staff + ", customer=" + customer + '}';

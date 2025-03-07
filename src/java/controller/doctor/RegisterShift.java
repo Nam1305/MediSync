@@ -45,39 +45,51 @@ public class RegisterShift extends HttpServlet {
             size = Integer.parseInt(request.getParameter("pageSize"));
         }
 
-        // Lấy tổng số bản ghi để tính số trang
-        int totalRecords = scheduleDao.countShiftRegistrationByStaffId(staff.getStaffId());
-        int totalPages = (int) Math.ceil((double) totalRecords / size);
-
-        // Xử lý đăng ký ca làm việc nếu có action
+        // Xử lý action: đăng ký hay xóa
         String action = request.getParameter("action");
         if (action != null) {
-            String[] shifts = request.getParameterValues("shifts");
-
-            if (shifts == null || shifts.length == 0) {
-                request.setAttribute("error", "Hãy chọn ít nhất 1 ca làm việc!");
-            } else {
-                Date workDate = new Date(System.currentTimeMillis());
-                boolean allSuccess = true;
-                request.setAttribute("s", shifts.length);
-                for (String shift : shifts) {
-                    int shiftId = Integer.parseInt(shift);
-                    boolean inserted = scheduleDao.insertShiftRegistration(staff.getStaffId(), shiftId, workDate);
-
-                    if (!inserted) {
-                        allSuccess = false;
+            if ("delete".equalsIgnoreCase(action)) {
+                // Xử lý xóa đăng ký ca làm việc
+                try {
+                    int registrationId = Integer.parseInt(request.getParameter("registrationId"));
+                    boolean deleted = scheduleDao.deleteShiftRegistration(registrationId);
+                    if (deleted) {
+                        request.setAttribute("success", "Xóa đăng ký ca làm việc thành công!");
+                    } else {
+                        request.setAttribute("error", "Xóa đăng ký ca làm việc thất bại!");
                     }
+                } catch (NumberFormatException ex) {
+                    request.setAttribute("error", "ID đăng ký không hợp lệ!");
                 }
-
-                if (allSuccess) {
-                    request.setAttribute("success", "Đăng ký ca làm việc thành công!");
+            } else if ("regis".equalsIgnoreCase(action)) {
+                // Xử lý đăng ký ca làm việc
+                String[] shifts = request.getParameterValues("shifts");
+                if (shifts == null || shifts.length == 0) {
+                    request.setAttribute("error", "Hãy chọn ít nhất 1 ca làm việc!");
                 } else {
-                    request.setAttribute("error", "Đăng ký thất bại! Vui lòng thử lại.");
+                    java.sql.Date workDate = new java.sql.Date(System.currentTimeMillis());
+                    boolean allSuccess = true;
+                    for (String shift : shifts) {
+                        int shiftId = Integer.parseInt(shift);
+                        boolean inserted = scheduleDao.insertShiftRegistration(staff.getStaffId(), shiftId, workDate);
+                        if (!inserted) {
+                            allSuccess = false;
+                        }
+                    }
+                    if (allSuccess) {
+                        request.setAttribute("success", "Đăng ký ca làm việc thành công!");
+                    } else {
+                        request.setAttribute("error", "Đăng ký thất bại! Vui lòng thử lại.");
+                    }
                 }
             }
         }
 
-        // Tải lại danh sách sau khi đăng ký
+        // Lấy tổng số bản ghi để tính số trang
+        int totalRecords = scheduleDao.countShiftRegistrationByStaffId(staff.getStaffId());
+        int totalPages = (int) Math.ceil((double) totalRecords / size);
+
+        // Tải lại danh sách đăng ký ca làm việc
         List<ShiftRegistration> scheduleList = scheduleDao.ShiftRegistrationByStaffId(staff.getStaffId(), page, size);
         request.setAttribute("lists", scheduleList);
         request.setAttribute("currentPage", page);
