@@ -55,9 +55,6 @@ public class MakeInvoiceServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String action = request.getParameter("action") == null
-                ? ""
-                : request.getParameter("action");
         String appId = request.getParameter("appointmentId");
         int appointmentId = 0;
         try {
@@ -65,16 +62,11 @@ public class MakeInvoiceServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             appointmentId = 0;
         }
-        switch (action) {
-            case "delete":
-                int invoiceId = Integer.parseInt(request.getParameter("invoiceId"));
-                invoiceDao.deleteInvoice(invoiceId);
-                break;
-            case "add":
-                int serviceId = Integer.parseInt(request.getParameter("serviceId"));
-                invoiceDao.addInvoice(appointmentId, serviceId);
-                break;
-        }
+
+        String[] serviceIds = request.getParameterValues("serviceId[]");
+        String[] prices = request.getParameterValues("price[]");
+
+        boolean success = invoiceDao.saveInvoice(appointmentId, serviceIds, prices);
         response.sendRedirect("makeinvoice?appointmentId=" + appointmentId);
     }
 

@@ -27,6 +27,7 @@ public class ViewInvoiceDetail extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         //lấy ra id của appointment
         int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+        request.getRequestDispatcher("customer/invoiceDetail.jsp").forward(request, response);
         
     } 
 

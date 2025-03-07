@@ -20,7 +20,7 @@ public class FeedbackDAO extends DBContext {
     StaffDAO staffDao = new StaffDAO();
     CustomerDAO customerDao = new CustomerDAO();
 
-    public List<Feedback> getFeedbackByStaffId(int staffId, int pageNumber, int pageSize, int starFilter) {
+    public List<Feedback> getFeedbackByStaffId(int staffId, int pageNumber, int pageSize, int starFilter, String sortOrder) {
         List<Feedback> feedbackList = new ArrayList<>();
         String sql = "SELECT f.feedBackId, f.ratings, f.content, f.date, f.staffId, f.customerId "
                 + "FROM Feedback f "
@@ -30,7 +30,11 @@ public class FeedbackDAO extends DBContext {
             sql += " AND f.ratings = ? ";
         }
 
-        sql += " ORDER BY f.date DESC ";
+        if (sortOrder.equals("asc")) {
+            sql += " ORDER BY f.date ASC ";
+        } else {
+            sql += " ORDER BY f.date DESC ";
+        }
 
         // Phân trang
         sql += " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
@@ -143,11 +147,6 @@ public class FeedbackDAO extends DBContext {
 
         for (int i = 0; i < d.length; i++) {
             System.out.println(d[i]);
-        }
-
-        List<Feedback> listFeedback = f.getFeedbackByStaffId(1, 1, 6, 0);
-        for (Feedback feedback : listFeedback) {
-            System.out.println(feedback.getRatings());
         }
 
     }

@@ -114,6 +114,9 @@ public class DoctorAppointment extends HttpServlet {
         request.getRequestDispatcher("doctor/doctorAppointment.jsp").forward(request, response);
 
     }
+    
+    
+    
 
     /**
      * Returns a short description of the servlet.

@@ -30,6 +30,10 @@ public class MyFeedbackServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         Staff staff = (Staff) session.getAttribute("staff");
+        String sortOrder = request.getParameter("sortOrder");
+        if(sortOrder == null){
+            sortOrder = "desc";
+        }
         int page = 1;
         int pageSize = 5;
         if (request.getParameter("page") != null) {
@@ -50,7 +54,7 @@ public class MyFeedbackServlet extends HttpServlet {
         }
 
         FeedbackDAO feedbackDAO = new FeedbackDAO();
-        List<Feedback> feedbackList = feedbackDAO.getFeedbackByStaffId(staff.getStaffId(), page, pageSize, starFilter);
+        List<Feedback> feedbackList = feedbackDAO.getFeedbackByStaffId(staff.getStaffId(), page, pageSize, starFilter, sortOrder);
         int totalRecords = feedbackDAO.getTotalFeedbackCountByStaffId(staff.getStaffId(), starFilter);
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
         double[] feedbackStar = feedbackDao.getRatingStatistics(staff.getStaffId());
@@ -58,6 +62,7 @@ public class MyFeedbackServlet extends HttpServlet {
         request.setAttribute("feedbackList", feedbackList);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("sortOrder", sortOrder);
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("starFilter", starFilter);
         request.getRequestDispatcher("doctor/customerFeedback.jsp").forward(request, response);

@@ -39,7 +39,7 @@
             <main class="page-content bg-light">
                 <jsp:include page="top-navbar.jsp" />
                 <div class="container-fluid">
-                    <div class="layout-specing" style="margin-top: -5%;">
+                    <div class="layout-specing" style="margin-top: -4%;">
                         <div id="calendar" style="max-width: 900px; margin: 40px auto;"></div>
 
 

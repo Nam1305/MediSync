@@ -301,7 +301,7 @@
                                     <div class="col-md-2">
                                         <select name="sort" class="form-control">
                                             <option value="desc" <c:if test="${sort == 'desc'}">selected</c:if>>Ngày mới → cũ</option>
-                                            <option value="asc" <c:if test="${sort == 'asc'}"></c:if>>Ngày cũ → mới</option>
+                                        <option value="asc" <c:if test="${sort == 'asc'}"></c:if>>Ngày cũ → mới</option>
                                         </select>
                                     </div>
 
@@ -373,14 +373,14 @@
                                                             </a>
 
                                                             <!-- Hủy lịch hẹn -->
-                                                            <a href="#"
+                                                            <a href="cancelAppointment?appointmentId=${appointment.appointmentId}"
                                                                class="btn btn-icon btn-pills btn-soft-danger"
                                                                onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn ngày: ${appointment.date} không?');">
                                                                 <i class="uil uil-check-circle"></i>
                                                             </a>
 
                                                             <!-- Link xem hóa đơn chi tiết-->
-                                                            <a href="#"
+                                                            <a href="invoiceDetail?appointmentId=${appointment.appointmentId}"
                                                                class="btn btn-icon btn-pills btn-soft-success">
                                                                 <i class="uil uil-times-circle"></i>
                                                             </a>
