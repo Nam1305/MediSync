@@ -57,7 +57,7 @@ public class DoctorDAO extends DBContext {
                 ps.setString(index++, "%" + searchQuery + "%");
                 ps.setString(index++, "%" + searchQuery + "%");
             }
-           
+
             // **Phân trang**: OFFSET = (page - 1) * pageSize, FETCH = pageSize
             ps.setInt(index++, (page - 1) * pageSize);
             ps.setInt(index++, pageSize);
@@ -411,5 +411,101 @@ public class DoctorDAO extends DBContext {
             ex.printStackTrace();
         }
         return allDoctors;
+    }
+
+    public List<Staff> getDoctorsByFilters(String name, int departmentId, String gender, int page, int pageSize) throws SQLException {
+        List<Staff> doctors = new ArrayList<>();
+        String sql = "SELECT staffId, name, email, avatar, phone, "
+                + "password, dateOfBirth, position, gender, "
+                + "status, description, roleId, departmentId "
+                + "FROM Staff "
+                + "WHERE (roleId = 2 OR roleId = 3) AND status = 'Active'";
+
+        if (name != null && !name.trim().isEmpty()) {
+            sql += " AND name LIKE ?";
+        }
+        if (departmentId != -1) { // Chỉ lọc theo departmentId nếu khác -1
+            sql += " AND departmentId = ?";
+        }
+        if (gender != null && !gender.trim().isEmpty()) {
+            sql += " AND gender = ?";
+        }
+
+        // Thêm ORDER BY trước OFFSET để tránh lỗi cú pháp
+        sql += " ORDER BY staffId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            if (name != null && !name.trim().isEmpty()) {
+                ps.setString(index++, "%" + name + "%");
+            }
+            if (departmentId != -1) {
+                ps.setInt(index++, departmentId);
+            }
+            if (gender != null && !gender.trim().isEmpty()) {
+                ps.setString(index++, gender);
+            }
+
+            int offset = (page - 1) * pageSize;
+            ps.setInt(index++, offset);
+            ps.setInt(index++, pageSize);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                doctors.add(mapResultSetToStaff(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return doctors;
+    }
+
+    public int getTotalDoctorsByFilters(String name, int departmentId, String gender) {
+        String sql = "SELECT COUNT(*) FROM Staff WHERE (roleId = 2 OR roleId = 3) "
+                + "AND status = 'Active'";
+
+        // Thêm điều kiện nếu có bộ lọc
+        if (name != null && !name.trim().isEmpty()) {
+            sql += " AND name LIKE ?";
+        }
+        if (departmentId > 0) {
+            sql += " AND departmentId = ?";
+        }
+        if (gender != null && !gender.trim().isEmpty()) {
+            sql += " AND gender = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int paramIndex = 1;
+
+            if (name != null && !name.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + name + "%");
+            }
+            if (departmentId > 0) {
+                ps.setInt(paramIndex++, departmentId);
+            }
+            if (gender != null && !gender.trim().isEmpty()) {
+                ps.setString(paramIndex++, gender);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1); // Lấy số lượng bác sĩ từ COUNT(*)
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        DoctorDAO d = new DoctorDAO();
+        //List<Staff> = d.getDoctorsByFilters("Nguyễn Văn A", -1, null, 1, 4);
+        try {
+            List<Staff> l = d.getDoctorsByFilters(null, 1, "M", 1, 4);
+            System.out.println(l);
+        } catch (Exception e) {
+        }
     }
 }

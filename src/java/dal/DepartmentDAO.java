@@ -299,4 +299,26 @@ public class DepartmentDAO extends DBContext {
         }
         return roleCounts;
     }
+    
+    public List<Department> getActiveDepartmentForCustomer() {
+        List<Department> list = new ArrayList<>();
+        String sql = "SELECT * FROM Department WHERE departmentName != 'Hành Chính' AND status = 'Active'";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Department o = new Department(rs.getInt(1), rs.getString(2), rs.getString(3));
+                list.add(o);
+            }
+
+            // Debug số lượng department
+            System.out.println("Number of departments found: " + list.size());
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // In lỗi để debug
+        }
+
+        return list;
+    }
 }
