@@ -254,35 +254,35 @@
                         <!-- New Banner Upload Form -->
                         <div class="card mb-4" style="margin-top: 100px;">
                             <div class="card-header">
-                                <h5 class="mb-0">Upload New Banner</h5>
+                                <h5 class="mb-0">Upload Banner mới</h5>
                             </div>
                             <div class="card-body">
                                 <form id="bannerForm" action="manage-banners" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                                     <input type="hidden" name="action" value="uploadNew">
 
                                     <div class="mb-3">
-                                        <label for="bannerName" class="form-label">Banner Title</label>
+                                        <label for="bannerName" class="form-label">Tiêu đề Banner</label>
                                         <input type="text" class="form-control" id="bannerName" name="bannerName" 
                                                value="${sessionScope.formData.bannerName[0]}" required>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="bannerContent" class="form-label">Banner Content</label>
+                                        <label for="bannerContent" class="form-label">Nội dung của Banner</label>
                                         <textarea class="form-control" id="bannerContent" name="bannerContent" rows="3" required>${sessionScope.formData.bannerContent[0]}</textarea>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="bannerImage" class="form-label">Banner Image</label>
+                                        <label for="bannerImage" class="form-label">Ảnh banner</label>
                                         <input type="file" class="form-control" id="bannerImage" name="bannerImage" 
                                                accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" 
                                                required onchange="validateFileSize()">
                                         <div class="form-text">
-                                            Maximum file size: 10MB. Accepted formats: jpg, jpeg, png, gif, webp
+                                            Kích thước file tối đa: 10MB. Các format được chấp nhận: jpg, jpeg, png, gif, webp
                                         </div>
                                         <div id="fileError" class="text-danger mt-1" style="display: none;"></div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Upload New Banner</button>
+                                    <button type="submit" class="btn btn-primary">Upload banner mới</button>
                                 </form>
                                 <% session.removeAttribute("formData"); %>
                             </div>
@@ -293,15 +293,15 @@
                                     <div class="col-md-6">
                                         <div class="input-group">
                                             <input type="text" class="form-control" name="search" 
-                                                   placeholder="Search by banner name..." 
+                                                   placeholder="Tìm theo tên banner..." 
                                                    value="${searchQuery}">
-                                            <button class="btn btn-outline-secondary" type="submit">Search</button>
+                                            <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <select name="sortOrder" class="form-select" onchange="this.form.submit()">
-                                            <option value="desc" ${sortOrder == 'desc' ? 'selected' : ''}>Newest First</option>
-                                            <option value="asc" ${sortOrder == 'asc' ? 'selected' : ''}>Oldest First</option>
+                                            <option value="desc" ${sortOrder == 'desc' ? 'selected' : ''}>Mới nhất</option>
+                                            <option value="asc" ${sortOrder == 'asc' ? 'selected' : ''}>Cũ nhất</option>
                                         </select>
                                     </div>
                                 </form>
@@ -311,8 +311,8 @@
                         <!-- Existing Banners -->
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">Manage Existing Banners</h5>
-                                <span class="text-muted">Total: ${blogs.size()} banners</span>
+                                <h5 class="mb-0">Quản lý các Banner đã đăng</h5>
+                                <span class="text-muted">Tổng cộng: ${blogs.size()} banners</span>
                             </div>
                             <div class="card-body">
                                 <c:choose>
@@ -321,7 +321,7 @@
                                             <div class="mb-3">
                                                 <i class="fas fa-image fa-3x text-muted"></i>
                                             </div>
-                                            <h5>No banners found</h5>
+                                            <h5>Không tìm thấy banner</h5>
                                             <p class="text-muted">
                                                 ${not empty searchQuery ? 'Try adjusting your search criteria' : 'Start by uploading a new banner'}
                                             </p>
@@ -340,7 +340,7 @@
 
                                                             <c:if test="${blog.selectedBanner == 1}">
                                                                 <div class="position-absolute top-0 start-0 m-2">
-                                                                    <span class="badge bg-primary">Active Banner</span>
+                                                                    <span class="badge bg-primary">Kích hoạt banner</span>
                                                                 </div>
                                                             </c:if>
                                                         </div>
