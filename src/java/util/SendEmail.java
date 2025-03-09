@@ -30,7 +30,7 @@ public class SendEmail {
         return String.format("%06d", number);
     }
 
-    private boolean sendEmail(String toEmail, String subject, String content) {
+    public boolean sendEmail(String toEmail, String subject, String content) {
         try {
             Properties props = new Properties();
             props.put("mail.smtp.host", "smtp.gmail.com");
