@@ -109,9 +109,9 @@
                                     <input type="number" name="pageSize" class="form-control" value="${param.pageSize != null ? param.pageSize : 10}" min="1" max="100" step="1" style="width: 100px;">
 
                                     <!-- Bộ lọc sắp xếp theo giờ hẹn -->
-                                    <select name="sort" class="form-control" style="width: 150px;">
-                                        <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Sớm nhất</option>
-                                        <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Muộn nhất</option>
+                                    <select name="sort" class="form-control" style="width: 170px;">
+                                        <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Sắp xếp: Cũ → Mới</option>
+                                        <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Sắp xếp: Mới → Cũ</option>
                                     </select>
 
                                     <button type="submit" class="btn btn-primary">Lọc</button>
