@@ -21,8 +21,11 @@
                     <i class="uil uil-calendar-alt me-2"></i> Duyệt ca làm việc
                 </a>
             </li>
-
-            
+            <li>
+                <a href="confirmappointment">
+                    <i class="uil uil-check-circle me-2"></i> Xác nhận lịch hẹn bệnh nhân
+                </a>
+            </li>
         </ul>
 
 

@@ -19,7 +19,7 @@
     <c:set var="isListDoctorPage" value="${fn:endsWith(currentPage, 'ListDoctor') or fn:contains(currentPage, 'listDoctor.jsp')}" />
     <c:set var="isListDepartmentPage" value="${fn:endsWith(currentPage, 'ListDepartment') or fn:contains(currentPage, 'listDepartment.jsp')}" />
     <c:set var="isListServicePage" value="${fn:endsWith(currentPage, 'ListService') or fn:contains(currentPage, 'listService.jsp')}" />
-     <c:set var="isListCustomerPage" value="${fn:endsWith(currentPage, 'listCustomer') or fn:contains(currentPage, 'listCustomer.jsp')}" />
+    <c:set var="isListCustomerPage" value="${fn:endsWith(currentPage, 'listCustomer') or fn:contains(currentPage, 'listCustomer.jsp')}" />
 
     <div class="top-header">
         <div class="header-bar d-flex justify-content-between border-bottom">
@@ -168,11 +168,20 @@
                                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Thông tin chi tiết
                                         </a>
                                     </c:if>
-                                    <c:if test="${staff != null}">
-                                        <a class="dropdown-item text-dark" href="doctorappointment">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Bảng điều khiển
-                                        </a>
-                                    </c:if>
+                                    <c:choose>
+                                        <c:when test="${staff != null and staff.role.roleId != 4}">
+                                            <a class="dropdown-item text-dark" href="doctorappointment">
+                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> 
+                                                Bảng điều khiển
+                                            </a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a class="dropdown-item text-dark" href="confirmappointment">
+                                                <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> 
+                                                Bảng điều khiển
+                                            </a>
+                                        </c:otherwise>
+                                    </c:choose>
                                     <div class="dropdown-divider border-top"></div>
                                     <a class="dropdown-item text-dark" href="logout">
                                         <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất
