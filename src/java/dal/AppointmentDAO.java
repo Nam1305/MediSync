@@ -764,6 +764,17 @@ public class AppointmentDAO extends DBContext {
         }
         return count;
     }
+    
+    public void updateStatusForPayInvoice(int appointmentId){
+        String sql = "UPDATE Appointment SET status = 'paid' where appointmentId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, appointmentId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) throws SQLException {
         AppointmentDAO a = new AppointmentDAO();

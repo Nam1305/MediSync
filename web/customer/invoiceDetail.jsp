@@ -45,6 +45,19 @@
                                     <small class="mb-0 text-muted">Tên bác sĩ:</small>
                                     <small class="mb-0 text-dark">&nbsp;&nbsp;${invoices[0].appointment.staff.name}</small>
                                 </li>
+
+                                <li class="d-flex mt-2">
+                                    <small class="mb-0 text-muted">Trạng thái:</small>
+                                    <small class="mb-0 text-dark">
+                                        &nbsp;&nbsp;
+                                        <c:choose>
+                                            <c:when test="${invoices[0].appointment.status == 'paid'}">Đã thanh toán</c:when>
+                                            <c:when test="${invoices[0].appointment.status == 'waitpay'}">Chưa thanh toán</c:when>
+                                            <c:when test="${invoices[0].appointment.status == 'confirmed'}">Chưa thanh toán</c:when>
+                                            <c:otherwise>Không xác định</c:otherwise>
+                                        </c:choose>
+                                    </small>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -62,11 +75,11 @@
                                 <tbody>
                                     <c:forEach var="invoice" items="${invoices}">
                                         <tr>
-                                            <td>
+                                            <td class="text-start">
                                                 ${invoice.service.name}
                                                 <input type="hidden" name="serviceId[]" value="${invoice.service.serviceId}">
                                             </td>
-                                            <td class="price" data-price="${invoice.price}">
+                                            <td class="text-center price" data-price="${invoice.price}">
                                                 <fmt:formatNumber value="${invoice.price}" type="currency" currencySymbol="VNĐ"/>
                                                 <input type="hidden" name="price[]" value="${invoice.price}">
                                             </td>
@@ -90,6 +103,16 @@
                                         </span>
                                     </li>
                                 </ul>
+                                <c:if test="${invoices[0].appointment.status != 'paid'}">
+                                    <div class="text-end mt-4 pt-2">
+                                        <form action="vnpay_payment" method="post">
+                                            <input type="hidden" name="amount" value="${totalPrice}">
+                                            <input type="hidden" name="appointmentId" value="${invoices[0].appointment.appointmentId}">
+                                            <button type="submit" class="btn btn-success">Thanh toán VNPay</button>
+                                        </form>
+                                    </div>
+                                </c:if>
+
                             </div>
                         </div>
                     </div>

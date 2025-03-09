@@ -370,21 +370,34 @@
 
                                                         <td class="text-center">
                                                             <!-- Link: Xem chi tiết thông tin: bác sĩ, bệnh án, đơn thuốc -->
-                                                            <a href="appointmentDetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
-                                                                <i class="uil uil-eye"></i>
-                                                            </a>
+                                                            <c:choose>
+                                                                <c:when test="${appointment.status == 'cancelled'}">
+                                                                    <button class="btn btn-icon btn-pills btn-soft-danger" disabled>
+                                                                        <i class="uil uil-ban"></i>
+                                                                    </button>
+                                                                    <small class="text-danger">Cuộc hẹn đã bị hủy</small>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="appointmentDetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
+                                                                        <i class="uil uil-eye"></i>
+                                                                    </a>
+                                                                </c:otherwise>
+                                                            </c:choose>
 
                                                             <!-- Hủy lịch hẹn -->
-                                                            <a href="cancelAppointment?appointmentId=${appointment.appointmentId}"
-                                                               class="btn btn-icon btn-pills btn-soft-danger"
-                                                               onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn ngày: ${appointment.date} không?');">
-                                                                <i class="uil uil-check-circle"></i>
-                                                            </a>
+                                                            <c:if test="${appointment.status != 'confirmed' && appointment.status != 'waitpay'}">
+                                                                <!-- Hủy lịch hẹn -->
+                                                                <a href="cancelAppointment?appointmentId=${appointment.appointmentId}"
+                                                                   class="btn btn-icon btn-pills btn-soft-danger"
+                                                                   onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn ngày: ${appointment.date} không?');">
+                                                                    <i class="uil uil-check-circle"></i>
+                                                                </a>
+                                                            </c:if>
 
-                                                            <!-- Link xem hóa đơn chi tiết-->
+                                                            <!-- Link xem hóa đơn chi tiết -->
                                                             <a href="invoiceDetail?appointmentId=${appointment.appointmentId}"
                                                                class="btn btn-icon btn-pills btn-soft-success">
-                                                                <i class="uil uil-times-circle"></i>
+                                                                <i class="uil uil-receipt"></i> <!-- Đổi icon tại đây -->
                                                             </a>
                                                         </td>
                                                     </tr>
