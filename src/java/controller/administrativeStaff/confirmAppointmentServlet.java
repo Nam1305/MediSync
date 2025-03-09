@@ -97,7 +97,7 @@ public class confirmAppointmentServlet extends HttpServlet {
         }
 
         //xử lý sort
-        String sort = "asc";
+        String sort = "desc";
         if (request.getParameter("sort") != null) {
             sort = request.getParameter("sort");
         }

@@ -118,8 +118,8 @@
 
                                     <!-- Bộ lọc sắp xếp theo giờ hẹn -->
                                     <select name="sort" class="form-control" style="width: 150px;">
-                                        <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Sớm nhất</option>
-                                        <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Muộn nhất</option>
+                                        <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Giảm dần theo ngày</option>
+                                        <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Tăng dần theo ngày</option>
                                     </select>
 
                                     
@@ -180,10 +180,10 @@
                                                     </c:choose>
                                                 </td>
                                                 <td class="text-end p-3">
-                                                    <!-- Link chuyển trạng thái: Vắng mặt -->
-                                                    <a href="confirmappointment?appointmentId=${appointment.appointmentId}&newStatus=absent&page=${currentPage}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}"
+                                                    <!-- Link chuyển trạng thái: Hủy lịch -->
+                                                    <a href="confirmappointment?appointmentId=${appointment.appointmentId}&newStatus=cancelled&page=${currentPage}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}"
                                                        class="btn btn-icon btn-pills btn-soft-danger"
-                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Vắng mặt?');">
+                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Hủy lịch hẹn?');">
                                                         <i class="uil uil-times-circle"></i>
                                                     </a>
 
@@ -243,7 +243,7 @@
         
         <script>
         function resetForm() {
-            window.location.href = './confirmappointment?search=&status=&pageSize=10&sort=asc';
+            window.location.href = './confirmappointment?search=&status=&pageSize=10&sort=desc';
         }
     </script>
     </body>
