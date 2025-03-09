@@ -26,6 +26,18 @@
                     <i class="uil uil-check-circle me-2"></i> Xác nhận lịch hẹn bệnh nhân
                 </a>
             </li>
+            <li>
+                <a href="doctorprofile">
+                    <i class="uil uil-user-circle me-2"></i> Tài khoản của tôi
+                </a>
+            </li>
+
+
+            <li class="has-submenu parent-menu-item">
+                <a href="home">
+                    <i class="uil uil-home me-2"></i> Trang chủ
+                </a>
+            </li>
         </ul>
 
 

@@ -51,7 +51,7 @@
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="ListDepartment">Danh sách Phòng Ban</a></li>
-                        
+
 
                     </ul>
                 </div>
@@ -89,6 +89,12 @@
                         <li><a href="manage-footer">Footer Management</a></li>
                     </ul>
                 </div>
+            </li>
+            <li>
+                
+                <a href="doctorprofile">
+                    <i class="uil uil-user-circle me-2"></i> Tài khoản của tôi
+                </a>
             </li>
 
         </ul>
