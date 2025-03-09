@@ -385,7 +385,7 @@
                                                             </c:choose>
 
                                                             <!-- Hủy lịch hẹn -->
-                                                            <c:if test="${appointment.status != 'confirmed' && appointment.status != 'waitpay'}">
+                                                            <c:if test="${appointment.status != 'confirmed' && appointment.status != 'waitpay' && appointment.status != 'paid'}">
                                                                 <!-- Hủy lịch hẹn -->
                                                                 <a href="cancelAppointment?appointmentId=${appointment.appointmentId}"
                                                                    class="btn btn-icon btn-pills btn-soft-danger"
