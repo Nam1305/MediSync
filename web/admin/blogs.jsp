@@ -31,7 +31,9 @@
             function confirmDelete(blogId) {
                 if (confirm("Bạn có chắc chắn muốn xóa blog này không?")) {
                     document.getElementById("deleteForm" + blogId).submit();
+                    return true;
                 }
+                return false;
             }
         </script>
 
