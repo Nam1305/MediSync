@@ -91,5 +91,11 @@ public class SendEmail {
         return sendEmail(toEmail, subject, content);
     }
     
-
+    public boolean sendScheduleNotification(String toEmail, String shiftInfo, String startDate, String endDate) {
+        String subject = "Thông báo lịch làm việc mới";
+        String content = "Bạn đã được xếp lịch:\n\n" +
+                         "Ca " + shiftInfo + " từ ngày " + startDate + 
+                         " đến ngày " + endDate;
+        return sendEmail(toEmail, subject, content);
+    }
 }
