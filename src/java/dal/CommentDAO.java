@@ -19,21 +19,16 @@ public class CommentDAO extends DBContext {
         super();
     }
 
-    public List<Comment> getCommentsByBlogId(int blogId, int offset, int limit) {
+    public List<Comment> getCommentsByBlogId(int blogId) {
         List<Comment> comments = new ArrayList<>();
-        String sql = "WITH CTE AS ( "
-                + "SELECT c.commentId, c.content, c.date, c.blogId, cu.customerId, cu.name, cu.avatar, "
-                + "ROW_NUMBER() OVER (ORDER BY c.date DESC) AS RowNum "
-                + "FROM Comment c "
-                + "JOIN Customer cu ON c.customerId = cu.customerId "
-                + "WHERE c.blogId = ? "
-                + ") "
-                + "SELECT * FROM CTE WHERE RowNum BETWEEN ? AND ?";
+        String sql = "SELECT c.commentId, c.content, c.date, c.blogId, cu.customerId, cu.name, cu.avatar "
+            + "FROM Comment c "
+            + "JOIN Customer cu ON c.customerId = cu.customerId "
+            + "WHERE c.blogId = ? "
+            + "ORDER BY c.date DESC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, blogId);
-            ps.setInt(2, offset);   // Bắt đầu từ dòng (page - 1) * limit
-            ps.setInt(3, offset + limit - 1); // Kết thúc ở dòng offset + limit - 1
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     comments.add(mapResultSetToComment(rs));
@@ -104,8 +99,5 @@ public class CommentDAO extends DBContext {
         return true;
     }
 
-    public static void main(String[] args) {
-        CommentDAO cd = new CommentDAO();
-        System.out.println(cd.getCommentsByBlogId(4, 1, 5).size());
-    }
+
 }
