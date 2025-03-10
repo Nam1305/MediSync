@@ -74,7 +74,9 @@ public class BlogDAO extends DBContext {
         List<Blog> list = new ArrayList<>();
         String sql = "WITH CTE AS ( "
                 + "SELECT *, ROW_NUMBER() OVER (ORDER BY date "
-                + (sort != null && sort.equals("asc") ? "ASC" : "DESC") // Xử lý phần sắp xếp
+                + (sort != null && sort.equals("asc") ? "ASC" : "DESC")
+                + ", blogId "
+                + (sort != null && sort.equals("asc") ? "ASC" : "DESC")
                 + ") AS RowNum "
                 + "FROM Blog WHERE blogName LIKE ? and typeId = 0  ) "
                 + "SELECT * FROM CTE WHERE RowNum BETWEEN ? AND ?";
@@ -230,8 +232,8 @@ public class BlogDAO extends DBContext {
         }
         return 0;
     }
-    
-        public int getTotalBlogs() {
+
+    public int getTotalBlogs() {
         int total = 0;
         String sql = "SELECT COUNT(*) FROM Blog WHERE typeId = 0";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
