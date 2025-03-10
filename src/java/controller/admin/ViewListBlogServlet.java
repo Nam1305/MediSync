@@ -43,8 +43,7 @@ public class ViewListBlogServlet extends HttpServlet {
             throws ServletException, IOException {
         BlogDAO blogDAO = new BlogDAO();
         int currentPage = 1;
-        int itemsPerPage = 6;//
-        int totalBlogs = blogDAO.getTotalBlogs();
+        int itemsPerPage = 6; // Default value
 
         String itemsPerPageParam = request.getParameter("itemsPerPage");
         if (itemsPerPageParam != null && !itemsPerPageParam.isEmpty()) {
@@ -55,34 +54,41 @@ public class ViewListBlogServlet extends HttpServlet {
             }
         }
 
-        // Lấy tham số page từ URL, nếu có thì parse sang số nguyên
+        // Get page parameter
         String pageParam = request.getParameter("page");
         if (pageParam != null && !pageParam.isEmpty()) {
             try {
                 currentPage = Integer.parseInt(pageParam);
             } catch (NumberFormatException e) {
-                currentPage = 1;  // Nếu lỗi, mặc định là trang 1
+                currentPage = 1;  // Default to page 1 if error
             }
         }
 
-        // Lấy tham số tìm kiếm và sắp xếp từ URL
+        // Get search and sort parameters
         String search = request.getParameter("search");
         String sort = request.getParameter("sort");
         if (search != null) {
-            search = search.trim().replaceAll("\\s+", " "); // Loại bỏ khoảng trắng thừa
+            search = search.trim().replaceAll("\\s+", " "); // Clean up search term
         }
 
-        // Gọi BlogDAO để lấy danh sách blog theo tìm kiếm, sắp xếp và phân trang
+        // Get total filtered blogs count for pagination
+        int totalBlogs = blogDAO.getTotalBlogsCount(search);
+
+        // Get blogs with pagination
         List<Blog> listBlog = blogDAO.getBlogs(search, sort, currentPage, itemsPerPage);
+
+        // Calculate total pages based on the total blogs and items per page
         int totalPages = (int) Math.ceil((double) totalBlogs / itemsPerPage);
 
+        // Set attributes for JSP
         request.setAttribute("listBlog", listBlog);
         request.setAttribute("search", search);
         request.setAttribute("sort", sort);
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("itemsPerPage", itemsPerPage);
         request.setAttribute("totalPages", totalPages);
-        
+        request.setAttribute("totalBlogs", totalBlogs);
+
         request.getRequestDispatcher("admin/blogs.jsp").forward(request, response);
     }
 

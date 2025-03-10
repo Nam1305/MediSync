@@ -156,17 +156,17 @@
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="blogs?page=${currentPage - 1}&search=${param.search}" aria-label="Previous">Prev</a>
+                                                <a class="page-link" href="blogs?page=${currentPage - 1}&search=${param.search}&sort=${param.sort}&itemsPerPage=${itemsPerPage}" aria-label="Previous">Prev</a>
                                             </li>
                                         </c:if>
                                         <c:forEach var="i" begin="1" end="${totalPages}" step="1">
                                             <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="blogs?page=${i}&search=${param.search}">${i}</a>
+                                                <a class="page-link" href="blogs?page=${i}&search=${param.search}&sort=${param.sort}&itemsPerPage=${itemsPerPage}">${i}</a>
                                             </li>
                                         </c:forEach>
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="blogs?page=${currentPage + 1}&search=${param.search}" aria-label="Next">Next</a>
+                                                <a class="page-link" href="blogs?page=${currentPage + 1}&search=${param.search}&sort=${param.sort}&itemsPerPage=${itemsPerPage}" aria-label="Next">Next</a>
                                             </li>
                                         </c:if>
                                     </ul>

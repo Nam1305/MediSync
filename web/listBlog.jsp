@@ -31,58 +31,58 @@
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <style>
             .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+            }
 
-.pagination a {
-    text-decoration: none;
-    padding: 10px 15px;
-    margin: 0 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f1f1f1;
-    color: #333;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
+            .pagination a {
+                text-decoration: none;
+                padding: 10px 15px;
+                margin: 0 5px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #f1f1f1;
+                color: #333;
+                font-size: 14px;
+                transition: all 0.3s ease;
+            }
 
-.pagination a:hover {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
+            .pagination a:hover {
+                background-color: #007bff;
+                color: white;
+                border-color: #007bff;
+            }
 
-.pagination a.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-    font-weight: bold;
-}
+            .pagination a.active {
+                background-color: #007bff;
+                color: white;
+                border-color: #007bff;
+                font-weight: bold;
+            }
 
-.pagination a:disabled {
-    background-color: #ddd;
-    color: #aaa;
-    border-color: #ddd;
-    pointer-events: none;
-}
+            .pagination a:disabled {
+                background-color: #ddd;
+                color: #aaa;
+                border-color: #ddd;
+                pointer-events: none;
+            }
 
-.pagination .prev, .pagination .next {
-    font-weight: bold;
-}
+            .pagination .prev, .pagination .next {
+                font-weight: bold;
+            }
 
-.pagination .prev:hover, .pagination .next:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
+            .pagination .prev:hover, .pagination .next:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
 
-.pagination .prev, .pagination .next {
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: 25px;
-}
+            .pagination .prev, .pagination .next {
+                font-size: 16px;
+                padding: 10px 20px;
+                border-radius: 25px;
+            }
 
         </style>
     </head>
@@ -138,46 +138,49 @@
 
 
 
-        <!-- list blog -->
-        <div class="row">
-            <c:forEach items="${listBlog}" var="blog">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-12 mt-4 pt-2">
-                    <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                        <img src="${blog.image}" class="img-fluid" alt="${blog.blogName}">
-                        <div class="card-body p-4">
-                            <ul class="list-unstyled mb-2">
-                                <li class="list-inline-item text-muted small me-3">
-                                    <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
-                                    <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
-                                </li>
-                            </ul>
-                            <a href="blogDetail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
-                            <div class="post-meta d-flex justify-content-between mt-3">
+            <!-- list blog -->
+            <div class="row">
+                <c:forEach items="${listBlog}" var="blog">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-12 mt-4 pt-2">
+                        <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
+                            <div class="blog-image-container" style="height: 200px; overflow: hidden; position: relative;">
+                                <img src="${blog.image}" class="img-fluid w-100" alt="${blog.blogName}" 
+                                     style="object-fit: cover; height: 100%; width: 100%; position: absolute; top: 0; left: 0;">
+                            </div>
+                            <div class="card-body p-4">
+                                <ul class="list-unstyled mb-2">
+                                    <li class="list-inline-item text-muted small me-3">
+                                        <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
+                                        <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
+                                    </li>
+                                </ul>
+                                <a href="blogDetail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
+                                <div class="post-meta d-flex justify-content-between mt-3">
 <!--                                <ul class="list-unstyled mb-0">
                                     <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>3</a></li>
                                 </ul>-->
-                                <a href="blogDetail?blogId=${blog.blogId}" class="link">Chi Tiết<i class="mdi mdi-chevron-right align-middle"></i></a>
+                                    <a href="blogDetail?blogId=${blog.blogId}" class="link">Chi Tiết<i class="mdi mdi-chevron-right align-middle"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </c:forEach>
-        </div>
+                </c:forEach>
+            </div>
 
-        <!-- phan trang -->
-        <div class="pagination">
-            <c:if test="${currentPage > 1}">
-                <a href="?page=${currentPage - 1}&search=${param.search}&sort=${param.sort}">Prev</a>
-            </c:if>
+            <!-- phan trang -->
+            <div class="pagination">
+                <c:if test="${currentPage > 1}">
+                    <a href="?page=${currentPage - 1}&search=${param.search}&sort=${param.sort}">Prev</a>
+                </c:if>
 
-            <c:forEach var="i" begin="1" end="${totalPages}">
-                <a href="?page=${i}&search=${param.search}&sort=${param.sort}" class="${i == currentPage ? 'active' : ''}">${i}</a>
-            </c:forEach>
+                <c:forEach var="i" begin="1" end="${totalPages}">
+                    <a href="?page=${i}&search=${param.search}&sort=${param.sort}" class="${i == currentPage ? 'active' : ''}">${i}</a>
+                </c:forEach>
 
-            <c:if test="${currentPage < totalPages}">
-                <a href="?page=${currentPage + 1}&search=${param.search}&sort=${param.sort}">Next</a>
-            </c:if>
-        </div>
+                <c:if test="${currentPage < totalPages}">
+                    <a href="?page=${currentPage + 1}&search=${param.search}&sort=${param.sort}">Next</a>
+                </c:if>
+            </div>
 
 
         </div><!--end container-->
