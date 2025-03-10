@@ -162,11 +162,15 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="schedule-management">
+                                    <i class="uil uil-calendar-alt me-2"></i> Xếp lịch làm việc cho bác sỹ/chuyên gia
+                                </a>
+                            </li>
+                            <li>
                                 <a href="confirmappointment">
                                     <i class="uil uil-check-circle me-2"></i> Xác nhận lịch hẹn bệnh nhân
                                 </a>
                             </li>
-
                             <li>
                                 <a href="doctorprofile">
                                     <i class="uil uil-user-circle me-2"></i> Tài khoản của tôi
@@ -180,6 +184,7 @@
                                 </a>
                             </li>
                         </ul>
+
                     </c:when>
                 </c:choose>
             </c:when>
