@@ -4,6 +4,8 @@
  */
 package controller.doctor;
 
+import dal.AppointmentDAO;
+import dal.CustomerDAO;
 import dal.DoctorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,7 +15,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
+import model.Appointment;
+import model.Customer;
 import model.Staff;
 
 /**
@@ -62,15 +67,21 @@ public class PatientDetail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DoctorDAO staffDao = new DoctorDAO();
+        CustomerDAO customerDao = new CustomerDAO();
+        AppointmentDAO appoiment = new AppointmentDAO();
         HttpSession session = request.getSession();
         Staff staff = (Staff) session.getAttribute("staff");
         String patientIdStr = request.getParameter("id");
-
+        
         int patientId = Integer.parseInt(patientIdStr);
-
+        List<Appointment> listAppointment = appoiment.getListAppointmentsByCustomerId(patientId);
+        Customer customer = customerDao.getCustomerById(patientId);
         Map<String, Object> patientDetail = staffDao.getPatientDetail(patientId, staff.getStaffId());
-
+        System.out.println("listAppointment size: " + listAppointment.size());
+        
         // Đẩy dữ liệu lên request
+        request.setAttribute("listAppointment", listAppointment);
+        request.setAttribute("customer", customer);
         request.setAttribute("patientDetail", patientDetail);
         request.getRequestDispatcher("doctor/Patientdetail.jsp").forward(request, response);
     }
