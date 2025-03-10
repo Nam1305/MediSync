@@ -63,9 +63,11 @@ public class VnPayReturnServlet extends HttpServlet {
                 //cập nhật vào appointment status thành paid
                 int appointmentId = Integer.parseInt(params.get("vnp_TxnRef"));
                 appointmentDAO.updateStatusForPayInvoice(appointmentId);
+                // Lấy amount và chia cho 100
+                long amount = Long.parseLong(params.get("vnp_Amount")) / 100;
                 request.setAttribute("message", "Giao dịch thành công!");
                 request.setAttribute("orderId", params.get("vnp_TxnRef"));
-                request.setAttribute("amount", params.get("vnp_Amount"));
+                request.setAttribute("amount", amount);
                 request.setAttribute("bankCode", params.get("vnp_BankCode"));
             } else {
                 // Giao dịch thất bại
