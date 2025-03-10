@@ -168,20 +168,20 @@
                                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Thông tin chi tiết
                                         </a>
                                     </c:if>
-                                    <c:choose>
-                                        <c:when test="${staff != null and staff.role.roleId != 4}">
+                                    <c:if test="${staff != null}">
+                                        <c:if test="${staff.role.roleId  == 2 or staff.role.roleId  == 3}">
                                             <a class="dropdown-item text-dark" href="doctorappointment">
                                                 <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> 
                                                 Bảng điều khiển
                                             </a>
-                                        </c:when>
-                                        <c:otherwise>
+                                        </c:if>
+                                        <c:if test="${staff.role.roleId == 4}">
                                             <a class="dropdown-item text-dark" href="confirmappointment">
                                                 <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> 
                                                 Bảng điều khiển
                                             </a>
-                                        </c:otherwise>
-                                    </c:choose>
+                                        </c:if>
+                                    </c:if>
                                     <div class="dropdown-divider border-top"></div>
                                     <a class="dropdown-item text-dark" href="logout">
                                         <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất

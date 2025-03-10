@@ -30,7 +30,7 @@
                 <div class="col-lg-5 col-md-8">
                     <div class="card login-page bg-white shadow mt-4 rounded border-0">
                         <div class="card-body">
-                            <h4 class="text-center">Change Password</h4>
+                            <h4 class="text-center">Đổi mật khẩu</h4>
                             
                             <!-- Error message display -->
                             <% if(request.getAttribute("error") != null) { %>
@@ -43,14 +43,14 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Current Password <span class="text-danger">*</span></label>
+                                            <label class="form-label">Mật khẩu hiện tại <span class="text-danger">*</span></label>
                                             <input type="password" class="form-control" name="currentPassword" required="">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label class="form-label">New Password <span class="text-danger">*</span></label>
+                                            <label class="form-label">Mật khẩu mới <span class="text-danger">*</span></label>
                                             <input type="password" class="form-control" id="newPassword" 
                                                    name="newPassword" required="">
                                         </div>
@@ -58,7 +58,7 @@
 
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Confirm New Password <span class="text-danger">*</span></label>
+                                            <label class="form-label">Xác nhận mật khẩu mới <span class="text-danger">*</span></label>
                                             <input type="password" class="form-control" id="confirmPassword" 
                                                    name="confirmPassword" required="">
                                         </div>
@@ -66,7 +66,7 @@
                                     
                                     <div class="col-lg-12">
                                         <div class="d-grid">
-                                            <button class="btn btn-primary">Change Password</button>
+                                            <button class="btn btn-primary">Đổi mật khẩu</button>
                                         </div>
                                     </div>
                                 </div>
