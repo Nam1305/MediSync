@@ -45,18 +45,34 @@ public class ListBlogServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         BlogDAO blogDAO = new BlogDAO();
-        int currentPage = 1; // Mặc định trang 1
-        int itemsPerPage = 6; // Mỗi trang có 6 blog
+        int currentPage = 1;
+        int itemsPerPage = 6;
+
+        // Get itemsPerPage from request parameter
+        String itemsPerPageParam = request.getParameter("itemsPerPage");
+        if (itemsPerPageParam != null && !itemsPerPageParam.isEmpty()) {
+            try {
+                itemsPerPage = Integer.parseInt(itemsPerPageParam);
+            } catch (NumberFormatException e) {
+                itemsPerPage = 6;
+            }
+        }
+
+        int totalBlogCount = blogDAO.getTotalBlogs();
         if (request.getParameter("page") != null) {
-            currentPage = Integer.parseInt(request.getParameter("page"));
+            try {
+                currentPage = Integer.parseInt(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                currentPage = 1;
+            }
         }
         String search = request.getParameter("search");
         String sort = request.getParameter("sort");
 
         if (search != null) {
-            search = search.trim().replaceAll("\\s+", " "); // Xóa khoảng trắng thừa
+            search = search.trim().replaceAll("\\s+", " "); // Remove extra whitespace
         }
-        // Lấy danh sách blog theo tìm kiếm và sắp xếp
+        // Get blogs list with search and sort
         List<Blog> listBlog = blogDAO.getBlogs(search, sort, currentPage, itemsPerPage);
         int totalBlogs = blogDAO.getTotalBlogsCount(search);
         int totalPages = (int) Math.ceil((double) totalBlogs / itemsPerPage);
@@ -66,6 +82,9 @@ public class ListBlogServlet extends HttpServlet {
         request.setAttribute("sort", sort);
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("totalBlogCount", totalBlogCount);
+        request.setAttribute("itemsPerPage", itemsPerPage);
+        request.setAttribute("totalBlogs", totalBlogs);
 
         request.getRequestDispatcher("listBlog.jsp").forward(request, response);
     }
@@ -77,15 +96,6 @@ public class ListBlogServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Xử lý POST vẫn giữ kiểm tra đăng nhập như cũ
-        HttpSession session = request.getSession();
-        Customer customer = (Customer) session.getAttribute("customer");
-
-        if (customer == null) {
-            session.setAttribute("redirectURL", request.getRequestURL().toString());
-            response.sendRedirect("login");
-            return;
-        }
         processRequest(request, response);
     }
 
