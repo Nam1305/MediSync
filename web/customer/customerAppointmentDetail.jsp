@@ -112,8 +112,8 @@
             }
         </style>
     </head>
-    
-    
+
+
 
     <body>
         <div class="container mt-5">
@@ -153,7 +153,7 @@
                     <p class="border p-3 bg-light">${doctor.description}</p>
                 </div>
             </div>
-                
+
             <!-- Bệnh án -->
             <c:if test="${not empty treat}">
                 <div class="card mt-4 p-4">
@@ -197,6 +197,34 @@
                     </table>
                 </div>
             </c:if>
+            <div class="mt-4 card p-4">
+                <h4 class="text-primary">Đánh giá bác sĩ</h4>
+
+                <form action="appointmentDetail" method="post">
+                    <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
+
+                    <div class="mb-3">
+                        <label for="ratings" class="form-label">Chọn số sao (1 - 5):</label>
+                        <select name="ratings" class="form-control" required>
+                            <option value="5" ${ratings == 5 ? 'selected' : ''}>⭐⭐⭐⭐⭐: Cực kì hài lòng</option>
+                            <option value="4" ${ratings == 4 ? 'selected' : ''}>⭐⭐⭐⭐: Hài lòng</option>
+                            <option value="3" ${ratings == 3 ? 'selected' : ''}>⭐⭐⭐: Tốt</option>
+                            <option value="2" ${ratings == 2 ? 'selected' : ''}>⭐⭐: Không tốt</option>
+                            <option value="1" ${ratings == 1 ? 'selected' : ''}>⭐: Tệ</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Nội dung đánh giá (tối đa 500 ký tự):</label>
+                        <textarea name="content" class="form-control" maxlength="500" rows="3" required>${content}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                </form>
+
+                <p class="text-success mt-2">${message}</p> <!-- Hiển thị thông báo nếu có -->
+            </div>
+
 
 
             <!-- Nút quay lại -->

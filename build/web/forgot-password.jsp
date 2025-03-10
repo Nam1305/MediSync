@@ -55,14 +55,14 @@
                         <img src="assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
-                                <h4 class="text-center">Recover Account</h4>  
+                                <h4 class="text-center">Khôi phục mật khẩu</h4>  
                                 <form class="login-form mt-4" action="reset-password" method="POST">
                                     <input type="hidden" name="action" value="request">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <p class="text-muted">Please enter your email address. You will receive a link to create a new password via email.</p>
+                                            <p class="text-muted">Xin hãy nhập email của bạn. Bạn sẽ nhận được link tạo mật khẩu mới qua email.</p>
                                             <div class="mb-3">
-                                                <label class="form-label">Email address <span class="text-danger">*</span></label>
+                                                <label class="form-label">Địa chỉ email <span class="text-danger">*</span></label>
                                                 <input type="email" class="form-control" placeholder="Enter Your Email Address" 
                                                        name="email" required="">
                                                 <!-- Thêm thông báo lỗi -->
@@ -75,7 +75,7 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="d-grid">
-                                                <button type="submit" class="btn btn-primary">Send</button>
+                                                <button type="submit" class="btn btn-primary">Gửi email</button>
                                             </div>
                                         </div>
                                         <div class="mx-auto">

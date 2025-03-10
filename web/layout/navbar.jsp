@@ -51,7 +51,7 @@
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="ListDepartment">Danh sách Phòng Ban</a></li>
-                        
+
 
                     </ul>
                 </div>
@@ -69,8 +69,8 @@
                 <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="blogs.html">Blogs</a></li>
-                        <li><a href="blog-detail.html">Blog Detail</a></li>
+                        <li><a href="blogs">Danh sách blog</a></li>
+                        <li><a href="addBlog">Thêm blog</a></li>
                     </ul>
                 </div>
             </li>
@@ -89,6 +89,12 @@
                         <li><a href="manage-footer">Footer Management</a></li>
                     </ul>
                 </div>
+            </li>
+            <li>
+                
+                <a href="doctorprofile">
+                    <i class="uil uil-user-circle me-2"></i> Tài khoản của tôi
+                </a>
             </li>
 
         </ul>

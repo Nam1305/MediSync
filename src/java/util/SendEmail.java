@@ -9,11 +9,15 @@ import java.util.Random;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 
 /**
  *
@@ -30,7 +34,7 @@ public class SendEmail {
         return String.format("%06d", number);
     }
 
-    private boolean sendEmail(String toEmail, String subject, String content) {
+    public boolean sendEmail(String toEmail, String subject, String content) {
         try {
             Properties props = new Properties();
             props.put("mail.smtp.host", "smtp.gmail.com");
@@ -47,49 +51,63 @@ public class SendEmail {
 
             Message message = new MimeMessage(session);
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-            message.setFrom(new InternetAddress(FROM_EMAIL));
-            message.setSubject(subject);
-            message.setText(content);
+            message.setFrom(new InternetAddress(FROM_EMAIL, MimeUtility.encodeText("Hệ thống quản lý đặt lịch hẹn bác sĩ!", "UTF-8", "B")));
+            message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B"));
+
+            // Thiết lập nội dung email với UTF-8
+            MimeBodyPart mimeBodyPart = new MimeBodyPart();
+            mimeBodyPart.setContent(content, "text/html; charset=UTF-8"); // Hỗ trợ tiếng Việt và HTML
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(mimeBodyPart);
+
+            message.setContent(multipart);
 
             Transport.send(message);
             return true;
-        } catch (MessagingException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
 
     public boolean sendMailVerify(String toEmail, String code) {
-        String subject = "Email Verification";
-        String content = "Registered successfully. Please verify your account using this code: " + code;
+        String subject = "Xác minh địa chỉ email";
+        String content = "Bạn đã đăng ký thành công. Vui lòng xác minh tài khoản của bạn bằng mã sau: " + code;
         return sendEmail(toEmail, subject, content);
     }
 
     public boolean sendMailResetPassword(String toEmail, String code) {
-        String subject = "Password Reset Request";
-        String content = "You have requested to reset your password. Use this code to reset your password: " + code
-                + "\n\nIf you didn't request this, please ignore this email.";
+        String subject = "Yêu cầu đặt lại mật khẩu";
+        String content = "Bạn đã yêu cầu đặt lại mật khẩu. Vui lòng sử dụng mã sau để đặt lại mật khẩu: " + code
+                + "\n\nNếu bạn không yêu cầu, vui lòng bỏ qua email này.";
         return sendEmail(toEmail, subject, content);
     }
 
     public boolean sendPasswordChangeConfirmation(String toEmail) {
-        String subject = "Password Change Confirmation";
-        String content = "Your password has been successfully changed.\n\n"
-                + "If you did not make this change, please contact our support team immediately.";
+        String subject = "Xác nhận thay đổi mật khẩu";
+        String content = "Mật khẩu của bạn đã được thay đổi thành công.\n\n"
+                + "Nếu bạn không thực hiện thay đổi này, vui lòng liên hệ ngay với bộ phận hỗ trợ.";
         return sendEmail(toEmail, subject, content);
     }
 
-        public boolean sendPasswordForStaff(String toEmail, String password) {
-        String subject = "Password for account";
-        String content = "You have requested register account. Use this password to login the system: " + password;
+    public boolean sendPasswordForStaff(String toEmail, String password) {
+        String subject = "Mật khẩu tài khoản nhân viên";
+        String content = "Bạn đã yêu cầu đăng ký tài khoản. Vui lòng sử dụng mật khẩu sau để đăng nhập vào hệ thống: " + password;
         return sendEmail(toEmail, subject, content);
     }
-
 
     public boolean sendPasswordForCustomer(String toEmail, String password) {
-        String subject = "You have been created an account!";
-        String content = "Use: " + password + " to sign in!";        
+        String subject = "Tài khoản của bạn đã được tạo!";
+        String content = "Vui lòng sử dụng mật khẩu: " + password + " để đăng nhập!";
         return sendEmail(toEmail, subject, content);
     }
-    
 
+    public boolean sendScheduleNotification(String toEmail, String shiftInfo, String startDate, String endDate) {
+        String subject = "Thông báo lịch làm việc mới";
+        String content = "Bạn đã được xếp lịch:\n\n"
+                + "Ca " + shiftInfo + " từ ngày " + startDate
+                + " đến ngày " + endDate;
+        return sendEmail(toEmail, subject, content);
+    }
 }

@@ -3,11 +3,8 @@
     Created on : Feb 15, 2025, 4:15:19 PM
     Author     : DIEN MAY XANH
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<c:set var="currentPage" value="${pageContext.request.requestURI}" />
-<c:set var="isListPatientPage" value="${fn:endsWith(currentPage, 'ListPatient') or fn:contains(currentPage, 'listPatient.jsp')}" />
 
 <div class="top-header">
     <div class="header-bar d-flex justify-content-between border-bottom">
@@ -23,16 +20,6 @@
                 <i class="uil uil-bars"></i>
             </a>
         </div>
-        <c:if test="${isListPatientPage}">
-            <div class="search-bar p-0 d-none d-lg-block me-auto">
-                <div id="search" class="menu-search mb-0">
-                    <form action="ListPatient" method="get" class="searchform d-flex">
-                        <input type="text" class="form-control border rounded-pill me-2" name="search" value ="${search}" placeholder="Search by name or phone...">
-                        <input type="submit" class="btn btn-primary rounded-pill" value="Search">
-                    </form>
-                </div>
-            </div>
-        </c:if>
         <ul class="list-unstyled mb-0">
 
             <li class="list-inline-item mb-0 ms-1">
@@ -47,7 +34,7 @@
                             </div>
                         </a>
                         <a class="dropdown-item text-dark" href="doctorappointment"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span>Bảng điều khiển</a>
-                        <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-user-circle align-middle h6"></i></span>Tài khoản của tôi</a>
+
                         <div class="dropdown-divider border-top"></div>
                         <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span>Đăng xuất</a>
                     </div>

@@ -216,6 +216,170 @@ public class ScheduleDAO extends DBContext {
         }
         return true;
     }
+    
+    //Them boi Nguyen Dinh Chinh
+    public boolean updateShiftRegistration(ShiftRegistration registration) {
+        String sql = "UPDATE DoctorShiftRegistration SET staffId = ?, shift = ?, status = ?, registrationDate = ? WHERE registrationId = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, registration.getStaffId());
+            ps.setInt(2, registration.getShift());
+            ps.setString(3, registration.getStatus());
+            ps.setDate(4, registration.getRegisDate());
+            ps.setInt(5, registration.getRegistrationId());
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Lấy danh sách đăng ký ca làm việc với các tùy chọn lọc và phân trang
+     *
+     * @param staffId ID của nhân viên, truyền vào null để lấy tất cả nhân viên
+     * @param fromDate Ngày bắt đầu tìm kiếm, truyền vào null để không giới hạn
+     * @param toDate Ngày kết thúc tìm kiếm, truyền vào null để không giới hạn
+     * @param page Số trang hiện tại
+     * @param pageSize Số lượng bản ghi trên mỗi trang
+     * @return Danh sách các đăng ký ca làm việc
+     */
+    public List<ShiftRegistration> getShiftRegistrations(Integer staffId, Date fromDate, Date toDate, int page, int pageSize) {
+        List<ShiftRegistration> list = new ArrayList<>();
+        StringBuilder sqlBuilder = new StringBuilder();
+        sqlBuilder.append("SELECT registrationId, staffId, shift, status, registrationDate ")
+                .append("FROM DoctorShiftRegistration WHERE 1=1 ");
+
+        if (staffId != null) {
+            sqlBuilder.append("AND staffId = ? ");
+        }
+
+        if (fromDate != null) {
+            sqlBuilder.append("AND registrationDate >= ? ");
+        }
+
+        if (toDate != null) {
+            sqlBuilder.append("AND registrationDate <= ? ");
+        }
+
+        sqlBuilder.append("ORDER BY registrationDate DESC ")
+                .append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sqlBuilder.toString());
+            int paramIndex = 1;
+
+            if (staffId != null) {
+                ps.setInt(paramIndex++, staffId);
+            }
+
+            if (fromDate != null) {
+                ps.setDate(paramIndex++, fromDate);
+            }
+
+            if (toDate != null) {
+                ps.setDate(paramIndex++, toDate);
+            }
+
+            ps.setInt(paramIndex++, (page - 1) * pageSize);
+            ps.setInt(paramIndex, pageSize);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ShiftRegistration o = new ShiftRegistration(
+                        rs.getInt("registrationId"),
+                        rs.getInt("staffId"),
+                        rs.getInt("shift"),
+                        rs.getString("status"),
+                        rs.getDate("registrationDate")
+                );
+                list.add(o);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    /**
+     * Đếm tổng số bản ghi đăng ký ca làm việc thỏa mãn điều kiện lọc
+     *
+     * @param staffId ID của nhân viên, truyền vào null để đếm tất cả nhân viên
+     * @param fromDate Ngày bắt đầu tìm kiếm, truyền vào null để không giới hạn
+     * @param toDate Ngày kết thúc tìm kiếm, truyền vào null để không giới hạn
+     * @return Tổng số bản ghi thỏa mãn điều kiện
+     */
+    public int countShiftRegistrations(Integer staffId, Date fromDate, Date toDate) {
+        StringBuilder sqlBuilder = new StringBuilder();
+        sqlBuilder.append("SELECT COUNT(*) FROM DoctorShiftRegistration WHERE 1=1 ");
+
+        if (staffId != null) {
+            sqlBuilder.append("AND staffId = ? ");
+        }
+
+        if (fromDate != null) {
+            sqlBuilder.append("AND registrationDate >= ? ");
+        }
+
+        if (toDate != null) {
+            sqlBuilder.append("AND registrationDate <= ? ");
+        }
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sqlBuilder.toString());
+            int paramIndex = 1;
+
+            if (staffId != null) {
+                ps.setInt(paramIndex++, staffId);
+            }
+
+            if (fromDate != null) {
+                ps.setDate(paramIndex++, fromDate);
+            }
+
+            if (toDate != null) {
+                ps.setDate(paramIndex++, toDate);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
+    /**
+     * Lấy thông tin đăng ký ca làm việc theo ID
+     *
+     * @param registrationId ID của đăng ký cần tìm
+     * @return Đối tượng ShiftRegistration nếu tìm thấy, null nếu không tìm thấy
+     */
+    public ShiftRegistration getShiftRegistrationById(int registrationId) {
+        String sql = "SELECT registrationId, staffId, shift, status, registrationDate "
+                + "FROM DoctorShiftRegistration WHERE registrationId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, registrationId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new ShiftRegistration(
+                        rs.getInt("registrationId"),
+                        rs.getInt("staffId"),
+                        rs.getInt("shift"),
+                        rs.getString("status"),
+                        rs.getDate("registrationDate")
+                );
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
         ScheduleDAO d = new ScheduleDAO();
@@ -267,5 +431,24 @@ public class ScheduleDAO extends DBContext {
         
         boolean x = d.bookAppointment(1, 11,Time.valueOf("10:00:00"), Time.valueOf("10:30:00"), Date.valueOf("2025-01-25"));
         System.out.println(x);
+    }
+    
+    public boolean insertSchedule(Schedule schedule) {
+        String sql = "INSERT INTO Schedule (startTime, endTime, shift, date, staffId) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setTime(1, schedule.getStartTime());
+            ps.setTime(2, schedule.getEndTime());
+            ps.setInt(3, schedule.getShift());
+            ps.setDate(4, schedule.getDate());
+            ps.setInt(5, schedule.getStaffId());
+
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -9,7 +9,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>MediSyns System - New Password</title>
+    <title>MediSyns System - Đổi mật khẩu mới</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Các thẻ meta giữ nguyên như template -->
     <link rel="shortcut icon" href="assets/images/favicon.ico.png">
@@ -42,7 +42,7 @@
                     <img src="assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
                     <div class="card login-page bg-white shadow mt-4 rounded border-0">
                         <div class="card-body">
-                            <h4 class="text-center">Set New Password</h4>
+                            <h4 class="text-center">Đặt mật khẩu mới</h4>
                             
                             <!-- Hiển thị thông báo lỗi nếu có -->
                             <% if(request.getAttribute("error") != null) { %>
@@ -58,7 +58,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label class="form-label">New Password <span class="text-danger">*</span></label>
+                                            <label class="form-label">Mật khẩu mới <span class="text-danger">*</span></label>
                                             <input type="password" class="form-control" id="newPassword" 
                                                    name="newPassword" placeholder="Enter new password" required="">
                                         </div>
@@ -66,7 +66,7 @@
 
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                            <label class="form-label">Xác nhận mật khẩu mới <span class="text-danger">*</span></label>
                                             <input type="password" class="form-control" id="confirmPassword" 
                                                    name="confirmPassword" placeholder="Confirm password" required="">
                                         </div>
@@ -74,7 +74,7 @@
                                     
                                     <div class="col-lg-12">
                                         <div class="d-grid">
-                                            <button class="btn btn-primary">Reset Password</button>
+                                            <button class="btn btn-primary">Đặt lại mật khẩu</button>
                                         </div>
                                     </div>
                                 </div>

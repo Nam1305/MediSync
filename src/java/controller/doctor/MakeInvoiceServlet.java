@@ -63,10 +63,13 @@ public class MakeInvoiceServlet extends HttpServlet {
             appointmentId = 0;
         }
 
-        String[] serviceIds = request.getParameterValues("serviceId[]");
-        String[] prices = request.getParameterValues("price[]");
+        if (request.getParameterValues("serviceId[]") != null || request.getParameterValues("price[]") != null) {
+            String[] serviceIds = request.getParameterValues("serviceId[]");
+            String[] prices = request.getParameterValues("price[]");
+            boolean success = invoiceDao.saveInvoice(appointmentId, serviceIds, prices);
 
-        boolean success = invoiceDao.saveInvoice(appointmentId, serviceIds, prices);
+        }
+
         response.sendRedirect("makeinvoice?appointmentId=" + appointmentId);
     }
 

@@ -72,7 +72,7 @@ public class ListAppointmentServlet extends HttpServlet {
         }
 
         // Tính tổng số lịch hẹn để phân trang
-        int totalAppointment = appointmentDao.getTotalAppointments(customerId);
+        int totalAppointment = appointmentDao.countAllAppointmentsByFilterForPatient(customerId, search, gender, status);
         int totalPages = (int) Math.ceil((double) totalAppointment / pageSize);
 
         // Lấy danh sách lịch hẹn

@@ -266,64 +266,66 @@
                         </ul>
 
                         <!-- Thêm lớp mt-4 để tạo khoảng cách -->
-                        <form action="listAppointments" method="GET" class="mb-3 mt-4">
 
-
-                            <div class="row g-3"> <!-- Thêm g-3 để tạo khoảng cách giữa các cột -->
-                                <!-- Ô tìm kiếm theo tên bác sĩ -->
-                                <div class="col-md-4">
-                                    <input type="text" name="search" value="${not empty search ? search : ''}" class="form-control" placeholder="Tìm theo tên bác sĩ...">
-                                </div>
-
-                                <!-- Lọc theo giới tính -->
-                                <div class="col-md-2">
-                                    <select name="gender" class="form-control">
-                                        <option value="" <c:if test="${empty gender}">selected</c:if>>Giới tính</option>
-                                        <option value="M" <c:if test="${gender == 'M'}">selected</c:if>>Nam</option>
-                                        <option value="F" <c:if test="${gender == 'F'}">selected</c:if>>Nữ</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Lọc theo trạng thái -->
-                                    <div class="col-md-2">
-                                        <select name="status" class="form-control">
-                                            <option value="all" <c:if test="${empty status or status == 'all'}">selected</c:if>>Trạng thái</option>
-                                        <option value="pending" <c:if test="${status == 'pending'}">selected</c:if>>Chờ xác nhận</option>
-                                        <option value="confirmed" <c:if test="${status == 'confirmed'}">selected</c:if>>Đã xác nhận</option>
-                                        <option value="paid" <c:if test="${status == 'paid'}">selected</c:if>>Đã thanh toán</option>
-                                        <option value="cancelled" <c:if test="${status == 'cancelled'}">selected</c:if>>Đã hủy</option>
-                                        <option value="waitpay" <c:if test="${status == 'waitpay'}">selected</c:if>>Chờ thanh toán</option>
-                                        <option value="absent" <c:if test="${status == 'absent'}">selected</c:if>>Vắng mặt</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Sắp xếp -->
-                                    <div class="col-md-2">
-                                        <select name="sort" class="form-control">
-                                            <option value="desc" <c:if test="${sort == 'desc'}">selected</c:if>>Ngày mới → cũ</option>
-                                        <option value="asc" <c:if test="${sort == 'asc'}"></c:if>>Ngày cũ → mới</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Input số lượng/trang -->
-                                    <div class="col-md-2">
-                                        <input type="number" class="form-control" name="pageSize" min="1" max="${totalAppointment}" 
-                                           value="${not empty pageSize ? pageSize : 2}" placeholder="Số lượng/trang">
-                                </div>
-
-                                <!-- Nút submit -->
-                                <div class="col-md-2 d-flex gap-2">
-                                    <button type="submit" class="btn btn-primary w-100">Lọc</button>
-                                    <button type="button" class="btn btn-primary w-100" onclick="resetForm()">Reset</button>
-                                </div>
-                            </div>
-                        </form>
 
 
 
 
                         <div class="tab-content p-4" id="pills-tabContent">
+
                             <div class="tab-pane fade show active" id="pills-overview" role="tabpanel" aria-labelledby="overview-tab">
+                                <form action="listAppointments" method="GET" class="mb-3 mt-4">
+
+
+                                    <div class="row g-3"> <!-- Thêm g-3 để tạo khoảng cách giữa các cột -->
+                                        <!-- Ô tìm kiếm theo tên bác sĩ -->
+                                        <div class="col-md-4">
+                                            <input type="text" name="search" value="${not empty search ? search : ''}" class="form-control" placeholder="Tìm theo tên bác sĩ...">
+                                        </div>
+
+                                        <!-- Lọc theo giới tính -->
+                                        <div class="col-md-2">
+                                            <select name="gender" class="form-control">
+                                                <option value="" <c:if test="${empty gender}">selected</c:if>>Giới tính</option>
+                                                <option value="M" <c:if test="${gender == 'M'}">selected</c:if>>Nam</option>
+                                                <option value="F" <c:if test="${gender == 'F'}">selected</c:if>>Nữ</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Lọc theo trạng thái -->
+                                            <div class="col-md-2">
+                                                <select name="status" class="form-control">
+                                                    <option value="all" <c:if test="${empty status or status == 'all'}">selected</c:if>>Trạng thái</option>
+                                                <option value="pending" <c:if test="${status == 'pending'}">selected</c:if>>Chờ xác nhận</option>
+                                                <option value="confirmed" <c:if test="${status == 'confirmed'}">selected</c:if>>Đã xác nhận</option>
+                                                <option value="paid" <c:if test="${status == 'paid'}">selected</c:if>>Đã thanh toán</option>
+                                                <option value="cancelled" <c:if test="${status == 'cancelled'}">selected</c:if>>Đã hủy</option>
+                                                <option value="waitpay" <c:if test="${status == 'waitpay'}">selected</c:if>>Chờ thanh toán</option>
+                                                <option value="absent" <c:if test="${status == 'absent'}">selected</c:if>>Vắng mặt</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Sắp xếp -->
+                                            <div class="col-md-2">
+                                                <select name="sort" class="form-control">
+                                                    <option value="desc" <c:if test="${sort == 'desc'}">selected</c:if>>Ngày mới → cũ</option>
+                                                <option value="asc" <c:if test="${sort == 'asc'}"></c:if>>Ngày cũ → mới</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Input số lượng/trang -->
+                                            <div class="col-md-2">
+                                                <input type="number" class="form-control" name="pageSize" min="1" max="${totalAppointment}" 
+                                                   value="${not empty pageSize ? pageSize : 2}" placeholder="Số lượng/trang">
+                                        </div>
+
+                                        <!-- Nút submit -->
+                                        <div class="col-md-2 d-flex gap-2">
+                                            <button type="submit" class="btn btn-primary w-100">Lọc</button>
+                                            <button type="button" class="btn btn-primary w-100" onclick="resetForm()">Reset</button>
+                                        </div>
+                                    </div>
+                                </form>
                                 <div class="row">
                                     <div class="table-container col-lg-6 col-12 mt-4">
                                         <table class="table table-bordered table-hover table-appointments" >
@@ -368,21 +370,34 @@
 
                                                         <td class="text-center">
                                                             <!-- Link: Xem chi tiết thông tin: bác sĩ, bệnh án, đơn thuốc -->
-                                                            <a href="appointmentDetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
-                                                                <i class="uil uil-eye"></i>
-                                                            </a>
+                                                            <c:choose>
+                                                                <c:when test="${appointment.status == 'cancelled'}">
+                                                                    <button class="btn btn-icon btn-pills btn-soft-danger" disabled>
+                                                                        <i class="uil uil-ban"></i>
+                                                                    </button>
+                                                                    <small class="text-danger">Cuộc hẹn đã bị hủy</small>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="appointmentDetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
+                                                                        <i class="uil uil-eye"></i>
+                                                                    </a>
+                                                                </c:otherwise>
+                                                            </c:choose>
 
                                                             <!-- Hủy lịch hẹn -->
-                                                            <a href="cancelAppointment?appointmentId=${appointment.appointmentId}"
-                                                               class="btn btn-icon btn-pills btn-soft-danger"
-                                                               onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn ngày: ${appointment.date} không?');">
-                                                                <i class="uil uil-check-circle"></i>
-                                                            </a>
+                                                            <c:if test="${appointment.status != 'confirmed' && appointment.status != 'waitpay' && appointment.status != 'paid'}">
+                                                                <!-- Hủy lịch hẹn -->
+                                                                <a href="cancelAppointment?appointmentId=${appointment.appointmentId}"
+                                                                   class="btn btn-icon btn-pills btn-soft-danger"
+                                                                   onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn ngày: ${appointment.date} không?');">
+                                                                    <i class="uil uil-check-circle"></i>
+                                                                </a>
+                                                            </c:if>
 
-                                                            <!-- Link xem hóa đơn chi tiết-->
+                                                            <!-- Link xem hóa đơn chi tiết -->
                                                             <a href="invoiceDetail?appointmentId=${appointment.appointmentId}"
                                                                class="btn btn-icon btn-pills btn-soft-success">
-                                                                <i class="uil uil-times-circle"></i>
+                                                                <i class="uil uil-receipt"></i> <!-- Đổi icon tại đây -->
                                                             </a>
                                                         </td>
                                                     </tr>

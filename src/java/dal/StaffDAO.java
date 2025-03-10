@@ -1,6 +1,8 @@
 package dal;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import model.Staff;
 
 /**
@@ -184,5 +186,41 @@ public class StaffDAO extends DBContext {
 
         }
         return null;
+    }
+    
+    //Them boi Nguyen Dinh Chinh
+    public List<Staff> getStaffsByNameAndRoles(String name, int[] roleIds) {
+        List<Staff> staffs = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT * FROM Staff WHERE name LIKE ? AND roleId IN ("
+        );
+
+        // Build the IN clause for roleIds
+        for (int i = 0; i < roleIds.length; i++) {
+            sql.append("?");
+            if (i < roleIds.length - 1) {
+                sql.append(",");
+            }
+        }
+        sql.append(")");
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            ps.setString(1, "%" + name + "%");
+
+            // Set role ID parameters
+            for (int i = 0; i < roleIds.length; i++) {
+                ps.setInt(i + 2, roleIds[i]);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    staffs.add(mapResultSetToStaff(rs));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return staffs;
     }
 }

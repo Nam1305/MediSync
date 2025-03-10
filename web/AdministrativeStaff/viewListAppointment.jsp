@@ -1,3 +1,9 @@
+<%-- 
+    Document   : viewListAppointment
+    Created on : Mar 9, 2025, 9:58:55 AM
+    Author     : Phạm Hoàng Nam
+--%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -75,21 +81,20 @@
         <!-- Loader -->
 
         <div class="page-wrapper doctris-theme toggled">
-            <jsp:include page="left-navbar.jsp" />
             <!-- sidebar-wrapper  -->
-
+            <jsp:include page="left-navbar.jsp" />
             <!-- Start Page Content -->
             <main class="page-content bg-light">
-                <jsp:include page="top-navbar.jsp" />
-                <div class="container-fluid">
-                    <div class="layout-specing">
-                        <div class="table-container">
-                            <h4 class="mb-3 text-center">Danh sách lịch hẹn</h4>
-                            <div class="mb-4">
-                                <!-- Form tìm kiếm, lọc dữ liệu -->
-                                <form action="doctorappointment" method="get" class="d-flex justify-content-between">
-                                    <!-- Ô tìm kiếm bệnh nhân -->
-                                    <input type="text" name="search" class="form-control" placeholder="Tìm kiếm bệnh nhân" value="${param.search}" style="width: 200px;">
+                <jsp:include page="../doctor/top-navbar.jsp"></jsp:include>
+                    <div class="container-fluid">
+                        <div class="layout-specing">
+                            <div class="table-container">
+                                <h4 class="mb-3 text-center">Danh sách lịch hẹn</h4>
+                                <div class="mb-4">
+                                    <!-- Form tìm kiếm, lọc dữ liệu -->
+                                    <form action="confirmappointment" method="get" class="d-flex justify-content-between">
+                                        <!-- Ô tìm kiếm bệnh nhân -->
+                                        <input type="text" name="search" class="form-control" placeholder="Tìm kiếm bệnh nhân" value="${param.search}" style="width: 200px;">
 
                                     <!-- Bộ lọc trạng thái -->
                                     <select name="status" class="form-control" style="width: 150px;">
@@ -106,15 +111,22 @@
                                     <input type="date" name="date" class="form-control" value="${param.date}" style="width: 150px;">
 
                                     <!-- Bộ lọc số lượng hiển thị trên trang -->
-                                    <input type="number" name="pageSize" class="form-control" value="${param.pageSize != null ? param.pageSize : 10}" min="1" max="100" step="1" style="width: 100px;">
+                                    <div class="col-md-2">
+                                        <input type="number" class="form-control" name="pageSize" min="1" max="${totalAppointment}" 
+                                               value="${not empty pageSize ? pageSize : 2}" placeholder="Số lượng/trang">
+                                    </div>
 
                                     <!-- Bộ lọc sắp xếp theo giờ hẹn -->
-                                    <select name="sort" class="form-control" style="width: 170px;">
-                                        <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Sắp xếp: Cũ → Mới</option>
-                                        <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Sắp xếp: Mới → Cũ</option>
+                                    <select name="sort" class="form-control" style="width: 150px;">
+                                        <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Giảm dần theo ngày</option>
+                                        <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Tăng dần theo ngày</option>
                                     </select>
 
-                                    <button type="submit" class="btn btn-primary">Lọc</button>
+                                    
+                                    <div class="col-md-2 d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary">Lọc</button>
+                                        <button type="button" class="btn btn-primary w-100" onclick="resetForm()">Reset</button>
+                                    </div>
                                 </form>
 
                             </div>
@@ -168,26 +180,20 @@
                                                     </c:choose>
                                                 </td>
                                                 <td class="text-end p-3">
-                                                    <a href="makeinvoice?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-primary">
-                                                            <i class="uil uil-shopping-cart"></i>
-                                                    </a>
-
-                         
-                                                    <a href="doctorappdetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
-                                                        <i class="uil uil-eye"></i>
-                                                    </a>
-                                                    <!-- Link chuyển trạng thái: Vắng mặt -->
-                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=absent&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}"
+                                                    <!-- Link chuyển trạng thái: Hủy lịch -->
+                                                    <a href="confirmappointment?appointmentId=${appointment.appointmentId}&newStatus=cancelled&page=${currentPage}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}"
                                                        class="btn btn-icon btn-pills btn-soft-danger"
-                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Vắng mặt?');">
-                                                        <i class="uil uil-check-circle"></i>
-                                                    </a>
-                                                    <!-- Link chuyển trạng thái: Chờ thanh toán -->
-                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=waitpay&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}"
-                                                       class="btn btn-icon btn-pills btn-soft-success"
-                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Chờ thanh toán?');">
+                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Hủy lịch hẹn?');">
                                                         <i class="uil uil-times-circle"></i>
                                                     </a>
+
+                                                    <!-- Link chuyển trạng thái: Xác nhận -->
+                                                    <a href="confirmappointment?appointmentId=${appointment.appointmentId}&newStatus=confirmed&page=${currentPage}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}"
+                                                       class="btn btn-icon btn-pills btn-soft-danger"
+                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Đã xác nhận?');">
+                                                        <i class="uil uil-check-circle"></i>
+                                                    </a>
+
                                                 </td>
 
                                             </tr>
@@ -223,7 +229,6 @@
                     </div>
                 </div><!--end container-->
                 <!-- Footer Start -->
-                <jsp:include page="footer.jsp" />
                 <!-- End -->
             </main>
             <!--End page-content" -->
@@ -235,5 +240,12 @@
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/app.js"></script>
+        
+        <script>
+        function resetForm() {
+            window.location.href = './confirmappointment?search=&status=&pageSize=10&sort=desc';
+        }
+    </script>
     </body>
 </html>
+

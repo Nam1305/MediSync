@@ -635,11 +635,144 @@ public class AppointmentDAO extends DBContext {
 
     }
 
-    public static void main(String[] args) throws SQLException {
-        AppointmentDAO a = new AppointmentDAO();
-        List<Appointment> l = a.getInvoiceByPage(1, null, null, null, null, null, null, 1, 10, null, null);
-        for (Appointment appointment : l) {
-            System.out.println(appointment.getCustomer().getName() + " " + appointment.getTotal());
+    public List<Appointment> getAllAppointmentsByPage(String search, String status, Date date, int page, int pageSize, String sort) throws SQLException {
+        List<Appointment> appointments = new ArrayList<>();
+        String sql = "SELECT appointmentId, date, startTime, endTime, status, staffId, customerId "
+                + "FROM Appointment WHERE 1=1";
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql += " AND customerId IN (SELECT customerId FROM Customer WHERE name LIKE ?)";
+        }
+        if (status != null && !status.trim().isEmpty()) {
+            sql += " AND status = ?";
+        }
+        if (date != null) {
+            sql += " AND date = ?";
+        }
+
+        // Sử dụng ORDER BY để sắp xếp theo ngày và thời gian
+        sql += " ORDER BY date " + (sort.equalsIgnoreCase("asc") ? "ASC" : "DESC") 
+     + ", startTime " + (sort.equalsIgnoreCase("asc") ? "ASC" : "DESC")
+     + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(index++, "%" + search + "%");
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(index++, status);
+            }
+            if (date != null) {
+                ps.setDate(index++, date);
+            }
+            int offset = (page - 1) * pageSize;
+            ps.setInt(index++, offset);
+            ps.setInt(index++, pageSize);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    appointments.add(mapResultSetToAppointment(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return appointments;
+    }
+
+    public int countAllAppointmentsByFilter(String search, String status, Date date) throws SQLException {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM Appointment WHERE 1=1";
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql += " AND customerId IN (SELECT customerId FROM Customer WHERE name LIKE ?)";
+        }
+        if (status != null && !status.trim().isEmpty()) {
+            sql += " AND status = ?";
+        }
+        if (date != null) {
+            sql += " AND date = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(index++, "%" + search + "%");
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(index++, status);
+            }
+            if (date != null) {
+                ps.setDate(index++, date);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public int countAllAppointmentsByFilterForPatient(int customerId, String search, String gender, String status) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM Appointment a "
+                + "JOIN Staff s ON a.staffId = s.staffId "
+                + "WHERE a.customerId = ?";
+
+        // Thêm điều kiện tìm kiếm theo tên bác sĩ
+        if (search != null && !search.trim().isEmpty()) {
+            sql += " AND s.name LIKE ? ";
+        }
+
+        // Lọc theo giới tính bác sĩ
+        if (gender != null && (gender.equals("M") || gender.equals("F"))) {
+            sql += " AND s.gender = ? ";
+        }
+
+        // Lọc theo trạng thái lịch hẹn
+        if (status != null && !status.equals("all")) {
+            sql += " AND a.status = ? ";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int paramIndex = 1;
+            ps.setInt(paramIndex++, customerId);
+
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + search + "%");
+            }
+
+            if (gender != null && (gender.equals("M") || gender.equals("F"))) {
+                ps.setString(paramIndex++, gender);
+            }
+
+            if (status != null && !status.equals("all")) {
+                ps.setString(paramIndex++, status);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
+    
+    public void updateStatusForPayInvoice(int appointmentId){
+        String sql = "UPDATE Appointment SET status = 'paid' where appointmentId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, appointmentId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
     
@@ -654,6 +787,16 @@ public class AppointmentDAO extends DBContext {
             e.printStackTrace();
         }
         return 0; // Trả về 0 nếu có lỗi
+    }
+
+    public static void main(String[] args) throws SQLException {
+        AppointmentDAO a = new AppointmentDAO();
+//        List<Appointment> l = a.getInvoiceByPage(1, null, null, null, null, null, null, 1, 10, null, null);
+//        for (Appointment appointment : l) {
+//            System.out.println(appointment.getCustomer().getName() + " " + appointment.getTotal());
+//        }
+        int x = a.countAllAppointmentsByFilterForPatient(1, null, "M", "all");
+        System.out.println(x);
     }
 
 }

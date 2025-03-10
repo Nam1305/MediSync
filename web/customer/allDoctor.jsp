@@ -44,6 +44,47 @@
             <!-- Start Hero -->
             <section class="bg-half-150 bg-light d-table w-100">
                 <div class="container">
+                    <!-- Form tìm kiếm & lọc -->
+                    <form action="allDoctors" method="GET" class="mb-4">
+                        <div class="row g-3">
+                            <!-- Tìm kiếm theo tên -->
+                            <div class="col-md-4">
+                                <input type="text" name="name" class="form-control" placeholder="Tìm kiếm theo tên" value="${name}">
+                            </div>
+
+                            <!-- Lọc theo khoa -->
+                            <div class="col-md-3">
+                                <select name="departmentId" class="form-control">
+                                    <option value="">-- Chọn khoa --</option>
+                                    <c:forEach var="dept" items="${departments}">
+                                        <option value="${dept.departmentId}" ${departmentId == dept.departmentId ? 'selected' : ''}>${dept.departmentName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+
+                            <!-- Lọc theo giới tính -->
+                            <div class="col-md-3">
+                                <select name="gender" class="form-control">
+                                    <option value="">-- Chọn giới tính --</option>
+                                    <option value="M" ${gender == 'M' ? 'selected' : ''}>Nam</option>
+                                    <option value="F" ${gender == 'F' ? 'selected' : ''}>Nữ</option>
+                                </select>
+                            </div>
+
+                            <!-- Lọc theo số lượng bác sĩ -->
+                            <div class="col-md-2">
+                                <input type="number" name="pageSize" class="form-control" placeholder="Số lượng bác sĩ" value="${pageSize}">
+                            </div>
+
+                            <!-- Nút lọc & reset -->
+                            <div class="col-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary me-2">Lọc</button>
+                                <a href="allDoctors" class="btn btn-primary me-2">Reset</a>
+                            </div>
+                        </div>
+                    </form>
+
+
                     <div class="row mt-5 justify-content-center">
                         <div class="col-12">
                             <div class="section-title text-center">
@@ -90,10 +131,36 @@
                             </div><!--end col-->
                         </c:forEach>
                     </div><!--end row-->
-
                 </div><!--end container-->
+                <c:if test="${totalPages > 1}">
+                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                        <c:if test="${currentPage > 1}">
+                            <li class="page-item">
+                                <a class="page-link" href="allDoctors?name=${name}&departmentId=${departmentId}&gender=${gender}&pageSize=${pageSize}&page=${currentPage - 1}" aria-label="Previous">
+                                    Prev
+                                </a>
+                            </li>
+                        </c:if>
+
+                        <c:forEach var="i" begin="1" end="${totalPages}" step="1">
+                            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                <a class="page-link" href="allDoctors?name=${name}&departmentId=${departmentId}&gender=${gender}&pageSize=${pageSize}&page=${i}">${i}</a>
+                            </li>
+                        </c:forEach>
+
+                        <c:if test="${currentPage < totalPages}">
+                            <li class="page-item">
+                                <a class="page-link" href="allDoctors?name=${name}&departmentId=${departmentId}&gender=${gender}&pageSize=${pageSize}&page=${currentPage + 1}" aria-label="Next">
+                                    Next
+                                </a>
+                            </li>
+                        </c:if>
+                    </ul>
+                </c:if>
+
             </section><!--end section-->
             <!-- End -->
+
 
             <!-- Start -->
             <jsp:include page="../layout/footer.jsp" />   
@@ -101,76 +168,7 @@
 
             <!-- Back to top -->
             <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-pills btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
-            <!-- Back to top -->
 
-            <!-- Offcanvas Start -->
-            <div class="offcanvas bg-white offcanvas-top" tabindex="-1" id="offcanvasTop">
-                <div class="offcanvas-body d-flex align-items-center align-items-center">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <div class="text-center">
-                                    <h4>Search now.....</h4>
-                                    <div class="subcribe-form mt-4">
-                                        <form>
-                                            <div class="mb-0">
-                                                <input type="text" id="help" name="name" class="border bg-white rounded-pill" required="" placeholder="Search">
-                                                <button type="submit" class="btn btn-pills btn-primary">Search</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end container-->
-                </div>
-            </div>
-            <!-- Offcanvas End -->
-
-            <!-- Offcanvas Start -->
-            <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                <div class="offcanvas-header p-4 border-bottom">
-                    <h5 id="offcanvasRightLabel" class="mb-0">
-                        <img src="assets/images/logo-dark.png" height="24" class="light-version" alt="">
-                        <img src="assets/images/logo-light.png" height="24" class="dark-version" alt="">
-                    </h5>
-                    <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
-                </div>
-                <div class="offcanvas-body p-4 px-md-5">
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- Style switcher -->
-                            <div id="style-switcher">
-                                <div>
-                                    <ul class="text-center list-unstyled mb-0">
-                                        <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets/images/layouts/landing-light-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                        <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                        <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets/images/layouts/landing-dark-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                        <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets/images/layouts/landing-dark.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                        <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets/images/layouts/landing-dark.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
-                                        <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
-                                        <li class="d-grid"><a href="admin/index.html" target="_blank" class="mt-4"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Admin Dashboard</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- end Style switcher -->
-                        </div><!--end col-->
-                    </div><!--end row-->
-                </div>
-
-                <div class="offcanvas-footer p-4 border-top text-center">
-                    <ul class="list-unstyled social-icon mb-0">
-                        <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
-                        <li class="list-inline-item mb-0"><a href="index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
-                    </ul><!--end icon-->
-                </div>
-            </div>
-            <!-- Offcanvas End -->
 
             <!-- javascript -->
             <script src="assets/js/bootstrap.bundle.min.js"></script>

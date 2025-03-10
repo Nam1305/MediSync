@@ -74,7 +74,9 @@ public class BlogDAO extends DBContext {
         List<Blog> list = new ArrayList<>();
         String sql = "WITH CTE AS ( "
                 + "SELECT *, ROW_NUMBER() OVER (ORDER BY date "
-                + (sort != null && sort.equals("asc") ? "ASC" : "DESC") // Xử lý phần sắp xếp
+                + (sort != null && sort.equals("asc") ? "ASC" : "DESC")
+                + ", blogId "
+                + (sort != null && sort.equals("asc") ? "ASC" : "DESC")
                 + ") AS RowNum "
                 + "FROM Blog WHERE blogName LIKE ? and typeId = 0  ) "
                 + "SELECT * FROM CTE WHERE RowNum BETWEEN ? AND ?";
@@ -229,6 +231,78 @@ public class BlogDAO extends DBContext {
             ex.printStackTrace();
         }
         return 0;
+    }
+
+    public int getTotalBlogs() {
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM Blog WHERE typeId = 0";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getInt(1);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return total;
+    }
+
+    public boolean updateBlog(Blog blog) {
+        boolean isUpdated = false;
+        String sql = "UPDATE Blog SET blogName=?, content=?, image=?, author=?, date=?, typeId=?, selectedBanner=? WHERE blogId=?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, blog.getBlogName());
+            ps.setString(2, blog.getContent());
+            ps.setString(3, blog.getImage());
+            ps.setString(4, blog.getAuthor());
+            ps.setDate(5, blog.getDate());
+            ps.setInt(6, blog.getTypeId());
+            ps.setInt(7, blog.getSelectedBanner());
+            ps.setInt(8, blog.getBlogId());
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                isUpdated = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error updating blog: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return isUpdated;
+    }
+
+    public boolean addBlog(Blog blog) {
+        String sql = "INSERT INTO Blog (blogName, content, image, author, date, typeId, selectedBanner) VALUES (?, ?, ?, ?, ?, 0, 0)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, blog.getBlogName());
+            ps.setString(2, blog.getContent());
+            ps.setString(3, blog.getImage());
+            ps.setString(4, blog.getAuthor());
+            ps.setDate(5, blog.getDate());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public boolean deleteBlog(int blogId) {
+        boolean isDeleted = false;
+        String sql = "DELETE FROM Blog WHERE blogId = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, blogId);
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                isDeleted = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error in deleteBlog: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return isDeleted;
     }
 
     public boolean isBannerNameExists(String bannerName) {

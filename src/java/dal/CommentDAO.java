@@ -30,11 +30,11 @@ public class CommentDAO extends DBContext {
                 + ") "
                 + "SELECT * FROM CTE WHERE RowNum BETWEEN ? AND ?";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, blogId);
             ps.setInt(2, offset);   // Bắt đầu từ dòng (page - 1) * limit
             ps.setInt(3, offset + limit - 1); // Kết thúc ở dòng offset + limit - 1
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     comments.add(mapResultSetToComment(rs));
                 }
@@ -48,7 +48,7 @@ public class CommentDAO extends DBContext {
     public void addComment(Comment comment, int blogId) {
         String sql = "INSERT INTO Comment (content, date, blogId, customerId) VALUES (?, ?, ?, ?)";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             if (comment.getContent().trim().isEmpty()) {
                 throw new SQLException("Nội dung bình luận không được để trống!");
             }
@@ -78,9 +78,9 @@ public class CommentDAO extends DBContext {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM Comment WHERE blogId = ?";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, blogId);
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     count = rs.getInt(1);
                 }
@@ -89,6 +89,19 @@ public class CommentDAO extends DBContext {
             ex.printStackTrace();
         }
         return count;
+    }
+    
+    
+    public boolean deleteComment(int commentId) {
+        String sql = "DELETE FROM Comment WHERE commentId = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, commentId);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return true;
     }
 
     public static void main(String[] args) {
