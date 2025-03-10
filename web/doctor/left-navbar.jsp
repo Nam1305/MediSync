@@ -9,17 +9,11 @@
 <nav id="sidebar" class="sidebar-wrapper">
     <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
         <div class="sidebar-brand">
-            <a href="index.html">
+            <a href="home">
                 <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
                 <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
             </a>
         </div>
-
-
-
-
-
-        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
         <c:choose>
             <c:when test="${not empty sessionScope.staff}">
@@ -129,7 +123,7 @@
                             </li>
 
                             <li>
-                                <a href="doctor/patient-list.jsp">
+                                <a href="ListPatient">
                                     <i class="uil uil-user-nurse me-2"></i> Bệnh nhân
                                 </a>
                             </li>
@@ -162,11 +156,15 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="schedule-management">
+                                    <i class="uil uil-calendar-alt me-2"></i> Xếp lịch làm việc cho bác sỹ/chuyên gia
+                                </a>
+                            </li>
+                            <li>
                                 <a href="confirmappointment">
                                     <i class="uil uil-check-circle me-2"></i> Xác nhận lịch hẹn bệnh nhân
                                 </a>
                             </li>
-
                             <li>
                                 <a href="doctorprofile">
                                     <i class="uil uil-user-circle me-2"></i> Tài khoản của tôi
@@ -180,6 +178,7 @@
                                 </a>
                             </li>
                         </ul>
+
                     </c:when>
                 </c:choose>
             </c:when>

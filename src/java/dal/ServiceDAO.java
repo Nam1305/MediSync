@@ -62,7 +62,7 @@ public class ServiceDAO extends DBContext {
     }
 
     // list ra tất cả service
-    public List<Service> getAllServices(String searchQuery, String status, int page, int pageSize,String sort) {
+    public List<Service> getAllServices(String searchQuery, String status, int page, int pageSize, String sort) {
         List<Service> services = new ArrayList<>();
         String sql = "SELECT serviceId,content,price,name,status  FROM Service Where 1 = 1 ";
         if (searchQuery != null && !searchQuery.isEmpty()) {
@@ -223,11 +223,47 @@ public class ServiceDAO extends DBContext {
         }
         return false;
     }
+
+    // lấy ra tổng số service
+    public int getTotalServices() {
+        String sql = "SELECT COUNT(*) FROM Service";
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1); // Lấy giá trị COUNT từ kết quả truy vấn
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; // Trả về 0 nếu có lỗi
+    }
+
+    // Lấy top 4 dịch vụ được sử dụng nhiều nhất
+    public List<String> getTop4MostUsedServices() {
+        String sql = "SELECT TOP 4 s.name, COUNT(i.serviceId) AS usageCount "
+                + "FROM Invoice i "
+                + "JOIN Service s ON i.serviceId = s.serviceId "
+                + "GROUP BY s.name "
+                + "ORDER BY usageCount DESC"; // Giới hạn 4 kết quả
+
+        List<String> topServices = new ArrayList<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                String serviceName = rs.getString("name");
+                int count = rs.getInt("usageCount");
+                topServices.add(serviceName + " (Số lần sử dụng: " + count + ")");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return topServices;
+    }
+//
 //    public static void main(String[] args) {
 //        ServiceDAO service = new ServiceDAO();
-//        service.deleteService(17);
-//        System.out.println(service.getServiceById(17));
-//        
+//
+//        System.out.println(service.getTop4MostUsedServices());
+//
 //    }
 
     private Service mapResultSetToService(ResultSet rs) throws SQLException {

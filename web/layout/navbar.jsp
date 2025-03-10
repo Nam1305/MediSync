@@ -24,7 +24,7 @@
 
         <ul class="sidebar-menu pt-3">
             <li><a href="AdminDashBoard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-            <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Thông tin cuộc hẹn</a></li>
+            
 
             <li class="sidebar-dropdown">
                 <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Nhân Viên</a>
@@ -47,7 +47,7 @@
             </li>
 
             <li class="sidebar-dropdown">
-                <a href="javascript:void(0)"><i class="uil uil-wheelchair me-2 d-inline-block"></i>Phòng Ban</a>
+                <a href="javascript:void(0)"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Phòng Ban</a>
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="ListDepartment">Danh sách Phòng Ban</a></li>

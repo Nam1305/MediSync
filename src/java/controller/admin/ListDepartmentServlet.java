@@ -107,6 +107,7 @@ public class ListDepartmentServlet extends HttpServlet {
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("status", status);
         request.setAttribute("sort", sort);
+        request.setAttribute("search", searchQueryNormalized);
         request.getRequestDispatcher("admin/listDepartment.jsp").forward(request, response);
     }
 

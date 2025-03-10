@@ -104,6 +104,7 @@ public class ListServiceServlet extends HttpServlet {
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("status", status);
         request.setAttribute("sort", sort);
+        request.setAttribute("search", searchQueryNormalized);
         request.getRequestDispatcher("admin/listService.jsp").forward(request, response);
     } 
 
