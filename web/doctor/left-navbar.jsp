@@ -21,7 +21,7 @@
                     <c:when test="${sessionScope.staff.role.roleId == 1}">
                         <ul class="sidebar-menu pt-3">
                             <li><a href="AdminDashBoard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                            <li><a href="appointment.html"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Thông tin cuộc hẹn</a></li>
+                            
 
                             <li class="sidebar-dropdown">
                                 <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Nhân Viên</a>

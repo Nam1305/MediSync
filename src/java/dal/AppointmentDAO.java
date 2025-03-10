@@ -789,14 +789,18 @@ public class AppointmentDAO extends DBContext {
         return 0; // Trả về 0 nếu có lỗi
     }
 
-    public static void main(String[] args) throws SQLException {
-        AppointmentDAO a = new AppointmentDAO();
-//        List<Appointment> l = a.getInvoiceByPage(1, null, null, null, null, null, null, 1, 10, null, null);
-//        for (Appointment appointment : l) {
-//            System.out.println(appointment.getCustomer().getName() + " " + appointment.getTotal());
-//        }
-        int x = a.countAllAppointmentsByFilterForPatient(1, null, "M", "all");
-        System.out.println(x);
-    }
-
+//    public static void main(String[] args) throws SQLException {
+//        AppointmentDAO a = new AppointmentDAO();
+////        List<Appointment> l = a.getInvoiceByPage(1, null, null, null, null, null, null, 1, 10, null, null);
+////        for (Appointment appointment : l) {
+////            System.out.println(appointment.getCustomer().getName() + " " + appointment.getTotal());
+////        }
+//        int x = a.countAllAppointmentsByFilterForPatient(1, null, "M", "all");
+//        System.out.println(x);
+//    }
+//      public static void main(String[] args) {
+//        AppointmentDAO appointmentDAO = new AppointmentDAO();
+//        List<Appointment> listappoinment = appointmentDAO.getListAppointmentsByCustomerId(9);
+//          System.out.println(listappoinment);
+//    }
 }

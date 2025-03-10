@@ -27,7 +27,7 @@
             <div class="search-bar p-0 d-none d-lg-block me-auto">
                 <div id="search" class="menu-search mb-0">
                     <form action="ListPatient" method="get" class="searchform d-flex">
-                        <input type="text" class="form-control border rounded-pill me-2" name="search" value ="${search}" placeholder="Search by name or phone...">
+                        <input type="text" class="form-control border rounded-pill me-2" name="search" value ="${search}" placeholder="Search by name...">
                         <input type="submit" class="btn btn-primary rounded-pill" value="Search">
                     </form>
                 </div>
