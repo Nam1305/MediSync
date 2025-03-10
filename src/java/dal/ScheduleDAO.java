@@ -432,4 +432,23 @@ public class ScheduleDAO extends DBContext {
         boolean x = d.bookAppointment(1, 11,Time.valueOf("10:00:00"), Time.valueOf("10:30:00"), Date.valueOf("2025-01-25"));
         System.out.println(x);
     }
+    
+    public boolean insertSchedule(Schedule schedule) {
+        String sql = "INSERT INTO Schedule (startTime, endTime, shift, date, staffId) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setTime(1, schedule.getStartTime());
+            ps.setTime(2, schedule.getEndTime());
+            ps.setInt(3, schedule.getShift());
+            ps.setDate(4, schedule.getDate());
+            ps.setInt(5, schedule.getStaffId());
+
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
