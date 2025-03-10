@@ -40,7 +40,7 @@
                     <div class="search-bar p-0 d-none d-lg-block ms-2">
                         <div id="search" class="menu-search mb-0">
                             <form action="ListDoctor" method="get" class="searchform">
-                                <input type="text" class="form-control border rounded-pill" name="s" placeholder="Search by name or phone...">
+                                <input type="text" class="form-control border rounded-pill" name="s" value="${s}" placeholder="Search by name or phone...">
                                 <input type="submit" value="Search">
                             </form>
                         </div>
@@ -51,7 +51,7 @@
                     <div class="search-bar p-0 d-none d-lg-block ms-2">
                         <div id="search" class="menu-search mb-0">
                             <form action="ListDepartment" method="get" class="searchform">
-                                <input type="text" class="form-control border rounded-pill" name="search" placeholder="Search by name ">
+                                <input type="text" class="form-control border rounded-pill" name="search" value= "${search}"placeholder="Search by name ">
                                 <input type="submit" value="Search">
                             </form>
                         </div>
@@ -62,7 +62,7 @@
                     <div class="search-bar p-0 d-none d-lg-block ms-2">
                         <div id="search" class="menu-search mb-0">
                             <form action="ListService" method="get" class="searchform">
-                                <input type="text" class="form-control border rounded-pill" name="search" placeholder="Search by name ">
+                                <input type="text" class="form-control border rounded-pill" name="search" value = "${search}" placeholder="Search by name ">
                                 <input type="submit" value="Search">
                             </form>
                         </div>

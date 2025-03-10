@@ -9,7 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import model.Customer;
 import model.Staff;
 
 /**
@@ -57,7 +62,7 @@ public class DoctorDAO extends DBContext {
                 ps.setString(index++, "%" + searchQuery + "%");
                 ps.setString(index++, "%" + searchQuery + "%");
             }
-           
+
             // **Phân trang**: OFFSET = (page - 1) * pageSize, FETCH = pageSize
             ps.setInt(index++, (page - 1) * pageSize);
             ps.setInt(index++, pageSize);
@@ -318,13 +323,208 @@ public class DoctorDAO extends DBContext {
         }
         return 0.0; // Trả về 0 nếu không có dữ liệu
     }
+
+    // hàm lấy ra 3 id nhân viên có số sao y=trung bình cao nhát 
+    public List<Integer> getTop3HighestRatedStaffIds() {
+        List<Integer> staffIds = new ArrayList<>();
+        String sql = "SELECT TOP 3 staffId "
+                + "FROM FeedBack "
+                + "GROUP BY staffId "
+                + "ORDER BY AVG(ratings) DESC";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                staffIds.add(rs.getInt("staffId"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return staffIds;
+    }
+
+    public Map<Staff, Double> getTop3HighestRatedStaff() {
+        Map<Staff, Double> topStaffMap = new LinkedHashMap<>();
+        List<Integer> topStaffIds = getTop3HighestRatedStaffIds(); // Lấy danh sách top 3 ID nhân viên
+
+        for (int staffId : topStaffIds) {
+            Staff staff = getStaffById(staffId); // Lấy thông tin nhân viên
+            double avgRating = getAverageRating(staffId); // Lấy số sao trung bình
+
+            if (staff != null) {
+                topStaffMap.put(staff, avgRating);
+            }
+        }
+        return topStaffMap;
+    }
+
+    public List<Customer> getPatientsByDoctor(int doctorId, String searchQuery, int page, int pageSize, String sort, String bloodType) {
+        List<Customer> patientList = new ArrayList<>();
+        String sql = "SELECT DISTINCT c.customerId, c.name, c.avatar, c.email, c.phone, "
+                + "c.gender, c.address, c.dateOfBirth, c.bloodType, c.status "
+                + "FROM Customer c "
+                + "JOIN Appointment a ON c.customerId = a.customerId "
+                + "WHERE a.staffId = ?";
+
+        // Nếu có tìm kiếm theo tên hoặc số điện thoại
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            sql += " AND (c.name LIKE ? OR c.phone LIKE ?)";
+        }
+
+        // Nếu có lọc theo nhóm máu
+        if (bloodType != null && !bloodType.isEmpty()) {
+            sql += " AND c.bloodType = ?";
+        }
+
+        // Sắp xếp theo tên hoặc id
+        sql += " ORDER BY c.name " + (sort != null && sort.equals("DESC") ? "DESC" : "ASC");
+
+        // Thêm phân trang
+        sql += " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            ps.setInt(index++, doctorId);
+
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                ps.setString(index++, "%" + searchQuery + "%");
+                ps.setString(index++, "%" + searchQuery + "%");
+            }
+
+            if (bloodType != null && !bloodType.isEmpty()) {
+                ps.setString(index++, bloodType);
+            }
+
+            // Phân trang
+            ps.setInt(index++, (page - 1) * pageSize);
+            ps.setInt(index++, pageSize);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Customer patient = new Customer();
+                patient.setCustomerId(rs.getInt("customerId"));
+                patient.setName(rs.getString("name"));
+                patient.setAvatar(rs.getString("avatar"));
+                patient.setEmail(rs.getString("email"));
+                patient.setPhone(rs.getString("phone"));
+                patient.setGender(rs.getString("gender"));
+                patient.setAddress(rs.getString("address"));
+                patient.setBloodType(rs.getString("bloodType"));
+                patient.setStatus(rs.getString("status"));
+
+                Date dateOfBirth = rs.getDate("dateOfBirth");
+                patient.setDateOfBirth(dateOfBirth != null ? new java.sql.Date(dateOfBirth.getTime()) : null);
+
+                patientList.add(patient);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return patientList;
+    }
+
+    public int getTotalPatientsByDoctor(int doctorId, String searchQuery, String bloodType) {
+        String sql = "SELECT COUNT(DISTINCT c.customerId) FROM Customer c "
+                + "JOIN Appointment a ON c.customerId = a.customerId "
+                + "WHERE a.staffId = ?";
+
+        // Nếu có tìm kiếm theo tên hoặc số điện thoại
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            sql += " AND (c.name LIKE ? OR c.phone LIKE ?)";
+        }
+        // Nếu có lọc theo nhóm máu
+        if (bloodType != null && !bloodType.isEmpty()) {
+            sql += " AND c.bloodType = ?";
+        }
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            ps.setInt(index++, doctorId);
+
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                ps.setString(index++, "%" + searchQuery + "%");
+                ps.setString(index++, "%" + searchQuery + "%");
+            }
+            if (bloodType != null && !bloodType.isEmpty()) {
+                ps.setString(index++, bloodType);
+            }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1); // Trả về tổng số bệnh nhân
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; // Trả về 0 nếu có lỗi
+    }
+    public Map<String, Object> getPatientDetail(int customerId, int doctorId) {
+    Map<String, Object> patientDetail = new HashMap<>();
+    String sql = """
+        SELECT 
+            c.customerId, 
+            c.name, 
+            c.phone, 
+            c.email, 
+            c.gender, 
+            c.dateOfBirth, 
+            c.bloodType,
+            p.prescriptionId, 
+            p.medicineName, 
+            p.totalQuantity, 
+            p.dosage, 
+            p.note, 
+            t.treatmentId, 
+            t.symptoms, 
+            t.diagnosis, 
+            t.testResults, 
+            t.treatmentPlan, 
+            t.followUp
+        FROM Customer c
+        JOIN Appointment a ON c.customerId = a.customerId
+        LEFT JOIN TreatmentPlan t ON a.appointmentId = t.appointmentId
+        LEFT JOIN Staff s ON s.staffId = a.staffId
+        LEFT JOIN Prescription p ON a.appointmentId = p.appointmentId
+        WHERE s.staffId = ? AND c.customerId = ?
+        ORDER BY a.date DESC, a.startTime DESC
+    """;
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, doctorId);
+        ps.setInt(2, customerId);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                patientDetail.put("customerId", rs.getInt("customerId"));
+                patientDetail.put("name", rs.getString("name"));
+                patientDetail.put("phone", rs.getString("phone"));
+                patientDetail.put("email", rs.getString("email"));
+                patientDetail.put("gender", rs.getString("gender"));
+                patientDetail.put("dateOfBirth", rs.getDate("dateOfBirth"));
+                patientDetail.put("bloodType", rs.getString("bloodType"));
+                patientDetail.put("prescriptionId", rs.getInt("prescriptionId"));
+                patientDetail.put("medicineName", rs.getString("medicineName"));
+                patientDetail.put("totalQuantity", rs.getString("totalQuantity"));
+                patientDetail.put("dosage", rs.getString("dosage"));
+                patientDetail.put("note", rs.getString("note"));
+                patientDetail.put("treatmentId", rs.getInt("treatmentId"));
+                patientDetail.put("symptoms", rs.getString("symptoms"));
+                patientDetail.put("diagnosis", rs.getString("diagnosis"));
+                patientDetail.put("testResults", rs.getString("testResults"));
+                patientDetail.put("treatmentPlan", rs.getString("treatmentPlan"));
+                patientDetail.put("followUp", rs.getString("followUp"));
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return patientDetail;
+}
+
+
 //    public static void main(String[] args) {
 //        DoctorDAO doctor = new DoctorDAO();
-//        System.out.println(doctor.getAllDoctor());
+//        System.out.println(doctor.getPatientDetail(5, 2));
 //        
 //    }
-
     //Them boi Nguyen Dinh Chinh 1-2-25
+
     public List<Staff> getTopRatedDoctors() {
         List<Staff> topDoctors = new ArrayList<>();
         String sql = """

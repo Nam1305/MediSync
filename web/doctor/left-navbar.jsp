@@ -41,7 +41,7 @@
             </li>
 
             <li>
-                <a href="doctor/patient-list.jsp">
+                <a href="ListPatient">
                     <i class="uil uil-user-nurse me-2"></i> Bệnh nhân
                 </a>
             </li>

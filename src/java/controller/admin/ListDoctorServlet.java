@@ -108,6 +108,7 @@ public class ListDoctorServlet extends HttpServlet {
         request.setAttribute("status", status);
         request.setAttribute("roleId", roleId);
         request.setAttribute("sort", sort);
+        request.setAttribute("s", searchQueryNormalized);
         request.getRequestDispatcher("admin/listDoctor.jsp").forward(request, response);
         response.setContentType("text/html;charset=UTF-8");
 

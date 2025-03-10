@@ -642,5 +642,18 @@ public class AppointmentDAO extends DBContext {
             System.out.println(appointment.getCustomer().getName() + " " + appointment.getTotal());
         }
     }
+    
+    public int getTotalAppointments() {
+        String sql = "SELECT COUNT(*) FROM Appointment";
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1); // Lấy giá trị COUNT từ kết quả truy vấn
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; // Trả về 0 nếu có lỗi
+    }
 
 }

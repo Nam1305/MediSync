@@ -31,69 +31,7 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        <style>
-            /* Style chung cho form (trừ form có id bắt đầu bằng "deleteForm") */
-            form:not([id^="deleteForm"]) {
-                display: flex;
-                align-items: center;
-                justify-content: center; /* Căn giữa theo chiều ngang */
-                gap: 8px;
-                background: #fff;
-                padding: 8px;
-                border-radius: 6px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            }
 
-            /* Căn giữa chữ trong label */
-            form:not([id^="deleteForm"]) label {
-                font-weight: bold;
-                color: #555;
-                font-size: 12px;
-                display: flex;
-                align-items: center; /* Căn giữa chữ theo chiều dọc */
-                height: 24px; /* Đồng bộ chiều cao với input */
-            }
-
-            /* Style cho input và select */
-            form:not([id^="deleteForm"]) select,
-            form:not([id^="deleteForm"]) input[type="number"] {
-                padding: 3px 5px;
-                font-size: 12px;
-                border: 1px solid #ddd;
-                border-radius: 3px;
-                outline: none;
-                transition: border-color 0.3s;
-                width: 60px;
-                height: 24px; /* Đồng bộ chiều cao */
-            }
-
-            /* Hiệu ứng focus */
-            form:not([id^="deleteForm"]) select:focus,
-            form:not([id^="deleteForm"]) input[type="number"]:focus {
-                border-color: #28a745;
-            }
-
-            /* Style cho button */
-            form:not([id^="deleteForm"]) button {
-                background: #28a745;
-                color: white;
-                border: none;
-                padding: 3px 6px;
-                font-size: 12px;
-                border-radius: 3px;
-                cursor: pointer;
-                transition: background 0.3s;
-                height: 24px; /* Đồng bộ chiều cao */
-                display: flex;
-                align-items: center; /* Căn giữa chữ */
-                justify-content: center; /* Căn giữa theo chiều ngang */
-            }
-
-            /* Hiệu ứng hover */
-            form:not([id^="deleteForm"]) button:hover {
-                background: #218838;
-            }
-        </style>
 
         <script type="text/javascript">
             function doDelete(id) {
@@ -117,29 +55,35 @@
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
                             <h5 class="mb-0" style="color: #218838">Danh sách phòng ban</h5>
-                            <form action="ListDepartment" method="get" >
-                                <label for="sort">Sắp xếp </label>
-                                <select name="sort" >    
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <form action="ListDepartment" method="get" class="d-flex align-items-center gap-2">
+                                <input type="hidden" name="search" value="${search}"> <!-- Giữ lại giá trị search -->
+                                <select name="sort" class="form-select">
                                     <option value="ASC" <c:if test="${sort == 'ASC'}">selected</c:if>>Tăng dần</option>
                                     <option value="DESC" <c:if test="${sort == 'DESC'}">selected</c:if>>Giảm dần</option>
                                     </select>
-                                    <label for="Page" style="color: green">Kích thước trang</label>
-                                    <input type="number" name="pageSize" value="${pageSize}">
-                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Phân trang</button>                       
-                                <label for="statusFilter" style="color: green">Lọc theo Status:</label>
-                                <select name="status" id="statusFilter">
+
+                                    <input type="number" name="pageSize" value="${pageSize}" class="form-control" placeholder="Số dòng">
+
+                                <button type="submit" class="btn btn-primary form-control">Phân trang</button>
+
+                                <select name="status" id="statusFilter" class="form-select">
                                     <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả trạng thái</option>
                                     <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
                                     <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
                                     </select>
-                                    <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >lọc</button> 
-                                    <button type="button" class="btn btn-secondary mt-4 mt-sm-0" onclick="resetFilters()">Reset</button>
+
+                                    <button type="submit" class="btn btn-primary">Lọc</button>
+                                    <button type="button" class="btn btn-secondary" onclick="resetFilters()">Reset</button>
                                 </form>
                             </div>
 
-                            <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddDepartment'">
-                                Thêm Phòng Ban
-                            </button>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddDepartment'">
+                                    Thêm Phòng Ban
+                                </button>
+                            </div>
                             <div class="row">
                                 <div class="col-12 mt-4">
                                     <div class="table-responsive shadow rounded">
@@ -198,19 +142,19 @@
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDepartment?page=${currentPage - 1}&pageSize=${pageSize}&status=${status}&sort=${sort}">Previous</a>
+                                                <a class="page-link" href="ListDepartment?page=${currentPage - 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Previous</a>
                                             </li>
                                         </c:if>
 
                                         <c:forEach var="i" begin="1" end="${totalPages}">
                                             <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="ListDepartment?page=${i}&pageSize=${pageSize}&status=${status}&sort=${sort}">${i}</a>
+                                                <a class="page-link" href="ListDepartment?page=${i}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">${i}</a>
                                             </li>
                                         </c:forEach>
 
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDepartment?page=${currentPage + 1}&pageSize=${pageSize}&status=${status}&sort=${sort}">Next</a>
+                                                <a class="page-link" href="ListDepartment?page=${currentPage + 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Next</a>
                                             </li>
                                         </c:if>
                                     </ul>

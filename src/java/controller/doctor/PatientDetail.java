@@ -2,14 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.admin;
+package controller.doctor;
 
-import dal.AppointmentDAO;
-import dal.CustomerDAO;
-import dal.DepartmentDAO;
 import dal.DoctorDAO;
-import dal.InvoiceDAO;
-import dal.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,7 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
+import jakarta.servlet.http.HttpSession;
 import java.util.Map;
 import model.Staff;
 
@@ -25,8 +20,8 @@ import model.Staff;
  *
  * @author Acer
  */
-@WebServlet(name = "AdminDashBoardServlet", urlPatterns = {"/AdminDashBoard"})
-public class AdminDashBoardServlet extends HttpServlet {
+@WebServlet(name = "PatientDetail", urlPatterns = {"/PatientDetail"})
+public class PatientDetail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +40,10 @@ public class AdminDashBoardServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AdminDashBoardServlet</title>");
+            out.println("<title>Servlet PatientDetail</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AdminDashBoardServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet PatientDetail at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,28 +62,17 @@ public class AdminDashBoardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DoctorDAO staffDao = new DoctorDAO();
-        CustomerDAO customerDao = new CustomerDAO();
-        InvoiceDAO invoiceDao = new InvoiceDAO();
-        DepartmentDAO departmentDao = new DepartmentDAO();
-        AppointmentDAO appointmentDao = new AppointmentDAO();
-        ServiceDAO serviceDao = new ServiceDAO();
-        Map<String, Integer> staffByRole = departmentDao.countStaffByRole();
-        double totalRevenue = invoiceDao.calculateTotalRevenue();
-        int customerCount = customerDao.countCustomers();
-        int totalAppintment = appointmentDao.getTotalAppointments();
-        int totalService = serviceDao.getTotalServices();
-        List<String> topServices = serviceDao.getTop4MostUsedServices();
-       
-        Map<Staff, Double> topStaffList = staffDao.getTop3HighestRatedStaff();
-        // Gửi kết quả về view
-        request.setAttribute("topStaffList", topStaffList);
-        request.setAttribute("topServices", topServices);
-        request.setAttribute("totalService", totalService);
-        request.setAttribute("totalAppintment", totalAppintment);
-        request.setAttribute("staffByRole", staffByRole);
-        request.setAttribute("totalRevenue", totalRevenue);
-        request.setAttribute("customerCount", customerCount);
-        request.getRequestDispatcher("admin/adminDashBoard.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        Staff staff = (Staff) session.getAttribute("staff");
+        String patientIdStr = request.getParameter("id");
+
+        int patientId = Integer.parseInt(patientIdStr);
+
+        Map<String, Object> patientDetail = staffDao.getPatientDetail(patientId, staff.getStaffId());
+
+        // Đẩy dữ liệu lên request
+        request.setAttribute("patientDetail", patientDetail);
+        request.getRequestDispatcher("doctor/Patientdetail.jsp").forward(request, response);
     }
 
     /**
@@ -102,7 +86,7 @@ public class AdminDashBoardServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+          doGet(request, response);
     }
 
     /**

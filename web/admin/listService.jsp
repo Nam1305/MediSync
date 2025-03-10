@@ -32,69 +32,7 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        <style>
-            /* Style chung cho form (trừ form có id bắt đầu bằng "deleteForm") */
-            form:not([id^="deleteForm"]) {
-                display: flex;
-                align-items: center;
-                justify-content: center; /* Căn giữa theo chiều ngang */
-                gap: 8px;
-                background: #fff;
-                padding: 8px;
-                border-radius: 6px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            }
-
-            /* Căn giữa chữ trong label */
-            form:not([id^="deleteForm"]) label {
-                font-weight: bold;
-                color: #555;
-                font-size: 12px;
-                display: flex;
-                align-items: center; /* Căn giữa chữ theo chiều dọc */
-                height: 24px; /* Đồng bộ chiều cao với input */
-            }
-
-            /* Style cho input và select */
-            form:not([id^="deleteForm"]) select,
-            form:not([id^="deleteForm"]) input[type="number"] {
-                padding: 3px 5px;
-                font-size: 12px;
-                border: 1px solid #ddd;
-                border-radius: 3px;
-                outline: none;
-                transition: border-color 0.3s;
-                width: 60px;
-                height: 24px; /* Đồng bộ chiều cao */
-            }
-
-            /* Hiệu ứng focus */
-            form:not([id^="deleteForm"]) select:focus,
-            form:not([id^="deleteForm"]) input[type="number"]:focus {
-                border-color: #28a745;
-            }
-
-            /* Style cho button */
-            form:not([id^="deleteForm"]) button {
-                background: #28a745;
-                color: white;
-                border: none;
-                padding: 3px 6px;
-                font-size: 12px;
-                border-radius: 3px;
-                cursor: pointer;
-                transition: background 0.3s;
-                height: 24px; /* Đồng bộ chiều cao */
-                display: flex;
-                align-items: center; /* Căn giữa chữ */
-                justify-content: center; /* Căn giữa theo chiều ngang */
-            }
-
-            /* Hiệu ứng hover */
-            form:not([id^="deleteForm"]) button:hover {
-                background: #218838;
-            }
-        </style>
+        
 
         <script type="text/javascript">
             function doDelete(id) {
@@ -119,117 +57,121 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0" style="color: #218838">Danh sách Dịch vụ </h5>
-                            <form action="ListService" method="get" >
-                                 <label for="sort">Sắp xếp </label>
-                                <select name="sort" >    
-                                    <option value="ASC" <c:if test="${sort == 'ASC'}">selected</c:if>>Tăng dần</option>
-                                    <option value="DESC" <c:if test="${sort == 'DESC'}">selected</c:if>>Giảm dần</option>
-                                </select>
-                                <select name="status" id="statusFilter">
-                                    <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả trạng thái</option>
-                                    <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
-                                    <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
-                                    </select>
-                                    <button type="submit" class="btn btn-primary mt-4 mt-sm-0"  >Lọc</button> 
-                                    <label for="Page">Kích thước trang</label>
-                                    <input type="number" name="pageSize" value="${pageSize}">
-                                <button type="submit" class="btn btn-primary mt-4 mt-sm-0" >Phân trang</button>
-                                <button type="button" class="btn btn-secondary mt-4 mt-sm-0" onclick="resetFilters()">Reset</button>
-                            </form>
+                            <h5 class="mb-0" style="color: #218838">Danh sách Dịch Vụ</h5>
                         </div>
+                            <div class="d-flex justify-content-end">
+                                <form action="ListService" method="get" class="d-flex align-items-center gap-2">
+                                     <input type="hidden" name="search" value="${search}"> <!-- Giữ lại giá trị search -->
+                                    <select name="sort" class="form-select">
+                                        <option value="ASC" <c:if test="${sort == 'ASC'}">selected</c:if>>Tăng dần</option>
+                                        <option value="DESC" <c:if test="${sort == 'DESC'}">selected</c:if>>Giảm dần</option>
+                                        </select>
 
-                        <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddService'">
-                            Thêm Dịch Vụ 
-                        </button>
-                        <div class="row">
-                            <div class="col-12 mt-4">
-                                <div class="table-responsive shadow rounded">
-                                    <table class="table table-center bg-white mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Tên Dịch Vụ</th>
+                                        <select name="status" id="statusFilter" class="form-select">
+                                            <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả</option>
+                                        <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
+                                        <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
+                                        </select>                                        
+                                        <input type="number" name="pageSize" value="${pageSize}" class="form-control" style="width: 100px;" placeholder="Kích thước">
+                                        <button type="submit" class="form-control">Lọc</button>
+                                    
+                                    <button type="button" class=" form-control" onclick="resetFilters()">Reset</button>
+                                </form>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-primary" onclick="window.location.href = 'AddService'">
+                                    Thêm Dịch Vụ
+                                </button>
+                            </div>
 
-                                                <th class="border-bottom p-3">Giá</th>
-                                                <th class="border-bottom p-3">Status</th>
-
-                                                <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <!--tbody-start-->
-                                        <tbody>
-                                            <c:forEach var="service" items="${listService}">
+                            <div class="row">
+                                <div class="col-12 mt-4">
+                                    <div class="table-responsive shadow rounded">
+                                        <table class="table table-center bg-white mb-0">
+                                            <thead>
                                                 <tr>
-                                                    <td class="p-3">${service.serviceId}</td>
-                                                    <td class="p-3">${service.name}</td>
+                                                    <th class="border-bottom p-3" style="min-width: 50px;">ID</th>
+                                                    <th class="border-bottom p-3" style="min-width: 180px;">Tên Dịch Vụ</th>
 
-                                                    <td class="p-3"><fmt:formatNumber value="${service.price}" type="number" groupingUsed="true"/></td>
-                                                    <td class="p-3">${service.status}</td>
-                                                    <td class=" p-3">
-                                                        <!-- Action Buttons -->
-                                                        <a href="ViewServiceDetail?id=${service.serviceId}" class="btn btn-icon btn-pills btn-soft-primary" >
-                                                            <i class="uil uil-eye"></i>
-                                                        </a>
-                                                        <!-- Edit button with data-* attributes for customer info -->
-                                                        <a href="UpdateService?id=${service.serviceId}" class="btn btn-icon btn-pills btn-soft-success">
-                                                            <i class="uil uil-pen"></i> 
-                                                        </a>
-                                                        <form id="deleteForm${service.serviceId}" action="DeleteService" method="post" style="display: inline;">
-                                                            <input type="hidden" name="id" value="${service.serviceId}">
-                                                            <a onclick="doDelete(${service.serviceId})" class="btn btn-icon btn-pills btn-soft-danger">
-                                                                <i class="uil uil-trash"></i>
-                                                            </a>
-                                                        </form>
+                                                    <th class="border-bottom p-3">Giá</th>
+                                                    <th class="border-bottom p-3">Status</th>
 
-                                                    </td>
+                                                    <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
                                                 </tr>
+                                            </thead>
+                                            <!--tbody-start-->
+                                            <tbody>
+                                                <c:forEach var="service" items="${listService}">
+                                                    <tr>
+                                                        <td class="p-3">${service.serviceId}</td>
+                                                        <td class="p-3">${service.name}</td>
+
+                                                        <td class="p-3"><fmt:formatNumber value="${service.price}" type="number" groupingUsed="true"/></td>
+                                                        <td class="p-3">${service.status}</td>
+                                                        <td class=" p-3">
+                                                            <!-- Action Buttons -->
+                                                            <a href="ViewServiceDetail?id=${service.serviceId}" class="btn btn-icon btn-pills btn-soft-primary" >
+                                                                <i class="uil uil-eye"></i>
+                                                            </a>
+                                                            <!-- Edit button with data-* attributes for customer info -->
+                                                            <a href="UpdateService?id=${service.serviceId}" class="btn btn-icon btn-pills btn-soft-success">
+                                                                <i class="uil uil-pen"></i> 
+                                                            </a>
+                                                            <form id="deleteForm${service.serviceId}" action="DeleteService" method="post" style="display: inline;">
+                                                                <input type="hidden" name="id" value="${service.serviceId}">
+                                                                <a onclick="doDelete(${service.serviceId})" class="btn btn-icon btn-pills btn-soft-danger">
+                                                                    <i class="uil uil-trash"></i>
+                                                                </a>
+                                                            </form>
+
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                            <!--Tbody-end-->
+
+                                        </table>
+                                        <!-- Phân trang -->
+
+
+                                    </div>
+                                </div>
+                            </div><!--end row-->
+
+                            <div class="row text-center">
+                                <!--                                                     PAGINATION START -->
+                                <div class="col-12 mt-4">
+                                    <div class="d-md-flex align-items-center text-center justify-content-between">
+                                        <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
+                                        <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                            <c:if test="${currentPage > 1}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="ListService?page=${currentPage - 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Previous</a>
+                                                </li>
+                                            </c:if>
+
+                                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                    <a class="page-link" href="ListService?page=${i}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">${i}</a>
+                                                </li>
                                             </c:forEach>
-                                        </tbody>
-                                        <!--Tbody-end-->
 
-                                    </table>
-                                    <!-- Phân trang -->
-
-
+                                            <c:if test="${currentPage < totalPages}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="ListService?page=${currentPage + 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Next</a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </div>
                                 </div>
+
+                                <!--PAGINATION END -->
                             </div>
-                        </div><!--end row-->
-
-                        <div class="row text-center">
-                            <!--                                                     PAGINATION START -->
-                            <div class="col-12 mt-4">
-                                <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
-                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                        <c:if test="${currentPage > 1}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="ListService?page=${currentPage - 1}&pageSize=${pageSize}&status=${status}&sort=${sort}">Previous</a>
-                                            </li>
-                                        </c:if>
-
-                                        <c:forEach var="i" begin="1" end="${totalPages}">
-                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="ListService?page=${i}&pageSize=${pageSize}&status=${status}&sort=${sort}">${i}</a>
-                                            </li>
-                                        </c:forEach>
-
-                                        <c:if test="${currentPage < totalPages}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="ListService?page=${currentPage + 1}&pageSize=${pageSize}&status=${status}&sort=${sort}">Next</a>
-                                            </li>
-                                        </c:if>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!--PAGINATION END -->
                         </div>
                     </div>
-                </div>
-                <!--end container-->
+                    <!--end container-->
 
-                <jsp:include page="../layout/footer.jsp" />
+                    <jsp:include page="../layout/footer.jsp" />
             </main>
             <!--End page-content" -->
         </div>
