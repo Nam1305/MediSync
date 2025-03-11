@@ -152,7 +152,8 @@ CREATE TABLE Staff (
   status       nvarchar(255) NULL, 
   description  nvarchar(max) null,
   roleId       int NOT NULL, 
-  departmentId int NOT NULL, 
+  departmentId int NOT NULL,
+  certificate  nvarchar(max) null,
   PRIMARY KEY (staffId));
 
 CREATE TABLE DoctorShiftRegistration (

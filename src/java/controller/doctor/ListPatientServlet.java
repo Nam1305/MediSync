@@ -101,15 +101,15 @@ public class ListPatientServlet extends HttpServlet {
             String sort = request.getParameter("sort");
             String bloodType = request.getParameter("bloodType");
             if (bloodType != null) {
-    bloodType = bloodType.replace(" ", "+");  // Chuyển khoảng trắng thành +
-}
+                bloodType = bloodType.replace(" ", "+");  // Chuyển khoảng trắng thành +
+            }
             String searchQuery = request.getParameter("search");
             String searchQueryNormalized = "";
             if (searchQuery != null) {
                 searchQueryNormalized = normalizationSearchQuery(searchQuery);
             }
 
-            List<Customer> patientList = staffDao.getPatientsByDoctor(staff.getStaffId(), searchQueryNormalized, page, pageSize, sort,bloodType);
+            List<Customer> patientList = staffDao.getPatientsByDoctor(staff.getStaffId(), searchQueryNormalized, page, pageSize, sort, bloodType);
             int totalPatient = staffDao.getTotalPatientsByDoctor(staff.getStaffId(), searchQuery, bloodType);
             int totalPages = (int) Math.ceil((double) totalPatient / pageSize);
             request.setAttribute("patientList", patientList);

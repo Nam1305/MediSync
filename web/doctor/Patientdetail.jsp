@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -116,7 +116,7 @@
                         </div>
 
                         <div class="container mt-5">
-                            
+
                             <table class="table table-center bg-white mb-0">
                                 <thead>
                                     <tr>
@@ -134,7 +134,7 @@
                                         <c:forEach var="appointment" items="${listAppointment}">
                                             <tr>
                                                 <td class="p-3">${appointment.appointmentId}</td>
-                                                <td class="p-3">${appointment.date}</td>
+                                                <td class="p-3"><fmt:formatDate value="${appointment.date}" pattern="dd/MM/yyyy"/></td>
                                                 <td class="p-3">${appointment.start}</td>
                                                 <td class="p-3">${appointment.end}</td>
                                                 <td class="p-3">${appointment.status}</td>                                       
@@ -151,10 +151,10 @@
                             </table>
                         </div>
 
-                        <div class="container mt-5">
+<!--                        <div class="container mt-5">
                             <h2 class="text-center">Chi tiết Bệnh Án</h2>
 
-                            <!-- Bệnh án -->
+                             Bệnh án 
                             <c:if test="${not empty patientDetail}">
                                 <div class="card mt-4 p-4">
                                     <h4 class="text-center">Bệnh án</h4>
@@ -168,11 +168,11 @@
                                 </div>
                             </c:if>
 
-                            <!-- Nút quay lại -->
+                             Nút quay lại 
                             <div class="text-center mt-3">
                                 <a href="${pageContext.request.contextPath}/ListPatient" class="btn btn-primary">Quay lại danh sách Bệnh nhân</a>
                             </div>
-                        </div>  
+                        </div>  -->
 
 
 
@@ -186,7 +186,7 @@
         </div>
         <!-- page-wrapper -->
 
-
+       
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>

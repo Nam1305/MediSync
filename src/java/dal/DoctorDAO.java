@@ -132,8 +132,8 @@ public class DoctorDAO extends DBContext {
 
     public int addStaff(Staff staff) {
         // Mặc định `status` = 'Active'
-        String sql = "INSERT INTO Staff (name, email, avatar, phone, password, dateOfBirth, position, gender, status, description, roleId, departmentId) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?)";
+        String sql = "INSERT INTO Staff (name, email, avatar, phone, password, dateOfBirth, position, gender, status, description, roleId, departmentId,certificate) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?,?)";
 
         try {
             // Sử dụng RETURN_GENERATED_KEYS để lấy ID tự động tăng
@@ -149,7 +149,7 @@ public class DoctorDAO extends DBContext {
             ps.setString(9, staff.getDescription());
             ps.setInt(10, staff.getRole().getRoleId());
             ps.setInt(11, staff.getDepartment().getDepartmentId());
-
+            ps.setString(12, staff.getCertificate());
             int rowsAffected = ps.executeUpdate();
 
             // Kiểm tra nếu INSERT thành công
@@ -183,7 +183,7 @@ public class DoctorDAO extends DBContext {
         // Kiểm tra xem avatar có bị thay đổi hay không
         boolean hasAvatar = staff.getAvatar() != null && !staff.getAvatar().isEmpty();
 
-        String sql = "UPDATE Staff SET name = ?, email = ?, phone = ?, password = ?, dateOfBirth = ?, position = ?, gender = ?, status = ?, description = ?, roleId = ?, departmentId = ?";
+        String sql = "UPDATE Staff SET name = ?, email = ?, phone = ?, password = ?, dateOfBirth = ?, position = ?, gender = ?, status = ?, description = ?, roleId = ?, departmentId = ?,certificate = ?";
         if (hasAvatar) {
             sql += ", avatar = ?";  // Chỉ cập nhật avatar nếu có thay đổi
         }
@@ -202,8 +202,8 @@ public class DoctorDAO extends DBContext {
             ps.setString(9, staff.getDescription());
             ps.setInt(10, staff.getRole().getRoleId());
             ps.setInt(11, staff.getDepartment().getDepartmentId());
-
-            int index = 12;
+            ps.setString(12, staff.getCertificate());
+            int index = 13;
             if (hasAvatar) {
                 ps.setString(index++, staff.getAvatar());  // Chỉ set avatar nếu có
             }
@@ -249,7 +249,7 @@ public class DoctorDAO extends DBContext {
     }
 
     public Staff getStaffById(int staffId) {
-        String sql = "SELECT staffId, name , email , avatar , phone , password , dateOfBirth, position, gender, status, description, roleId, departmentId FROM Staff WHERE staffId = ?";
+        String sql = "SELECT staffId, name , email , avatar , phone , password , dateOfBirth, position, gender, status, description, roleId, departmentId, certificate FROM Staff WHERE staffId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, staffId);
@@ -269,6 +269,7 @@ public class DoctorDAO extends DBContext {
                 staff.setDescription(rs.getString("description"));
                 staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
                 staff.setDepartment(departDao.getDepartmentById(rs.getInt("departmentId")));
+                staff.setCertificate(rs.getString("certificate"));
                 return staff;
             }
         } catch (SQLException ex) {
@@ -518,11 +519,11 @@ public class DoctorDAO extends DBContext {
 }
 
 
-//    public static void main(String[] args) {
-//        DoctorDAO doctor = new DoctorDAO();
-//        System.out.println(doctor.getPatientDetail(5, 2));
-//        
-//    }
+    public static void main(String[] args) {
+        DoctorDAO doctor = new DoctorDAO();
+        System.out.println(doctor.getStaffById(13).getCertificate());
+        
+    }
     //Them boi Nguyen Dinh Chinh 1-2-25
 
     public List<Staff> getTopRatedDoctors() {
@@ -564,6 +565,7 @@ public class DoctorDAO extends DBContext {
         staff.setDescription(rs.getString("description"));
         staff.setDepartment(departDao.getDepartmentById(rs.getInt("departmentId")));
         staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
+        staff.setCertificate(rs.getString("certificate"));
         return staff;
     }
 
@@ -617,7 +619,7 @@ public class DoctorDAO extends DBContext {
         List<Staff> doctors = new ArrayList<>();
         String sql = "SELECT staffId, name, email, avatar, phone, "
                 + "password, dateOfBirth, position, gender, "
-                + "status, description, roleId, departmentId "
+                + "status, description, roleId, departmentId,certificate "
                 + "FROM Staff "
                 + "WHERE (roleId = 2 OR roleId = 3) AND status = 'Active'";
 
@@ -699,13 +701,13 @@ public class DoctorDAO extends DBContext {
         return 0;
     }
 
-    public static void main(String[] args) {
-        DoctorDAO d = new DoctorDAO();
-        //List<Staff> = d.getDoctorsByFilters("Nguyễn Văn A", -1, null, 1, 4);
-        try {
-            List<Staff> l = d.getDoctorsByFilters(null, 1, "M", 1, 4);
-            System.out.println(l);
-        } catch (Exception e) {
-        }
-    }
+//    public static void main(String[] args) {
+//        DoctorDAO d = new DoctorDAO();
+//        //List<Staff> = d.getDoctorsByFilters("Nguyễn Văn A", -1, null, 1, 4);
+//        try {
+//            List<Staff> l = d.getDoctorsByFilters(null, 1, "M", 1, 4);
+//            System.out.println(l);
+//        } catch (Exception e) {
+//        }
+//    }
 }

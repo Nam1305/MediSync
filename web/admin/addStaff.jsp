@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+
 <html lang="en">
 
     <head>
@@ -27,7 +28,8 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-
+        <script src="https://cdn.tiny.cloud/1/vnufc6yakojjcovpkijlauot8hfpbxd3uscxatfq2m4yijay/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>        
+        <script src="assets/js/tinymce-init.js"></script>
     </head>
 
     <body>
@@ -68,14 +70,14 @@
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
                                                         <label class="form-label">Họ và tên</label>
-                                                        <input name="name" id="name" type="text" class="form-control" placeholder="Họ và tên" required>
+                                                        <input name="name" id="name" type="text" class="form-control" value="${name}" placeholder="Họ và tên" required>
                                                     </div>
                                                 </div><!--end col-->
 
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
                                                         <label class="form-label">Email</label>
-                                                        <input name="email" id="email" type="email" class="form-control" placeholder="Email :" required>
+                                                        <input name="email" id="email" type="email" class="form-control" value="${email}"  placeholder="Email :" required>
                                                     </div> 
                                                 </div><!--end col-->
                                                 <div class="col-md-6">
@@ -88,7 +90,7 @@
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
                                                         <label class="form-label">Số Điện Thoại</label>
-                                                        <input name="phone" id="phone" type="text" class="form-control" placeholder="Số điện thoại:" required>
+                                                        <input name="phone" id="phone" type="text" class="form-control" value="${phone}" placeholder="Số điện thoại:" required>
                                                     </div>                                                                               
                                                 </div><!--end col-->
 
@@ -146,7 +148,13 @@
                                                 <div class="col-md-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Giới Thiệu Bản Thân</label>
-                                                        <input name="description" id="desctiption" type="text" class="form-control" placeholder="Mô tả :" required>
+                                                        <textarea name="description" id="desctiption"  class="form-control" placeholder="Mô tả :" required>${description}</textarea>
+                                                    </div> 
+                                                </div><!--end col-->
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Chứng chỉ</label>
+                                                        <textarea id="testResults" class="form-control" name="certificate"></textarea>
                                                     </div> 
                                                 </div><!--end col-->
                                                 <div>
@@ -157,9 +165,9 @@
                                                                 </c:forEach>
                                                         </ul>
                                                     </c:if>
-                                                     <c:if test="${not empty success}">
+                                                    <c:if test="${not empty success}">
                                                         <ul style="color: green">
-                                                                <li>${success}</li>    
+                                                            <li>${success}</li>    
                                                         </ul>
                                                     </c:if>
                                                 </div>

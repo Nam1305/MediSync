@@ -5,6 +5,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,7 +14,8 @@
         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-
+        <script src="https://cdn.tiny.cloud/1/vnufc6yakojjcovpkijlauot8hfpbxd3uscxatfq2m4yijay/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>        
+        <script src="assets/js/tinymce-init.js"></script>
     </head>
     <body>
 
@@ -118,7 +120,12 @@
                             <input name="description" id="description" type="text" class="form-control" placeholder="Mô tả" value ="${param.description != null ? param.description : staff.description}">
                         </div>
                     </div><!--end col-->
-
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label">Chứng chỉ</label>
+                            <textarea id="testResults" class="form-control" name="certificate" >${staff.certificate}</textarea>
+                        </div> 
+                    </div><!--end col-->
                     <div class="col-sm-12">
                         <div class="mb-3">
                             <input type="submit" id="submit" name="update" class="btn btn-primary" value="Lưu thay đổi">
