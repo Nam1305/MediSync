@@ -123,7 +123,7 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label class="form-label">Chứng chỉ</label>
-                            <textarea id="testResults" class="form-control" name="certificate">${param.certificate != null ? param.certificate: staff.certificate} </textarea>
+                            <textarea id="testResults" class="form-control" name="certificate" >${staff.certificate}</textarea>
                         </div> 
                     </div><!--end col-->
                     <div class="col-sm-12">

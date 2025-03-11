@@ -28,21 +28,21 @@ public class Staff {
     public Staff() {
     }
 
-    public Staff(int staffId, String name, String email, String avatar, String phone, String password, Date dateOfBirth, String position, String gender, String status, String description, Department department, Role role) {
-        this.staffId = staffId;
-        this.name = name;
-        this.email = email;
-        this.avatar = avatar;
-        this.phone = phone;
-        this.password = password;
-        this.dateOfBirth = dateOfBirth;
-        this.position = position;
-        this.gender = gender;
-        this.status = status;
-        this.description = description;
-        this.department = department;
-        this.role = role;
-    }
+//    public Staff(int staffId, String name, String email, String avatar, String phone, String password, Date dateOfBirth, String position, String gender, String status, String description, Department department, Role role) {
+//        this.staffId = staffId;
+//        this.name = name;
+//        this.email = email;
+//        this.avatar = avatar;
+//        this.phone = phone;
+//        this.password = password;
+//        this.dateOfBirth = dateOfBirth;
+//        this.position = position;
+//        this.gender = gender;
+//        this.status = status;
+//        this.description = description;
+//        this.department = department;
+//        this.role = role;
+//    }
     
     public Staff(int staffId, String name, String email, String avatar, String phone, String password, Date dateOfBirth, String position, String gender, String status, String description, Department department, Role role, String certificate) {
         this.staffId = staffId;

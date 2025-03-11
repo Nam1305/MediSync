@@ -249,7 +249,7 @@ public class DoctorDAO extends DBContext {
     }
 
     public Staff getStaffById(int staffId) {
-        String sql = "SELECT staffId, name , email , avatar , phone , password , dateOfBirth, position, gender, status, description, roleId, departmentId FROM Staff WHERE staffId = ?";
+        String sql = "SELECT staffId, name , email , avatar , phone , password , dateOfBirth, position, gender, status, description, roleId, departmentId, certificate FROM Staff WHERE staffId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, staffId);
@@ -269,6 +269,7 @@ public class DoctorDAO extends DBContext {
                 staff.setDescription(rs.getString("description"));
                 staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
                 staff.setDepartment(departDao.getDepartmentById(rs.getInt("departmentId")));
+                staff.setCertificate(rs.getString("certificate"));
                 return staff;
             }
         } catch (SQLException ex) {
@@ -518,11 +519,11 @@ public class DoctorDAO extends DBContext {
 }
 
 
-//    public static void main(String[] args) {
-//        DoctorDAO doctor = new DoctorDAO();
-//        System.out.println(doctor.getPatientDetail(5, 2));
-//        
-//    }
+    public static void main(String[] args) {
+        DoctorDAO doctor = new DoctorDAO();
+        System.out.println(doctor.getStaffById(13).getCertificate());
+        
+    }
     //Them boi Nguyen Dinh Chinh 1-2-25
 
     public List<Staff> getTopRatedDoctors() {
@@ -700,13 +701,13 @@ public class DoctorDAO extends DBContext {
         return 0;
     }
 
-    public static void main(String[] args) {
-        DoctorDAO d = new DoctorDAO();
-        //List<Staff> = d.getDoctorsByFilters("Nguyễn Văn A", -1, null, 1, 4);
-        try {
-            List<Staff> l = d.getDoctorsByFilters(null, 1, "M", 1, 4);
-            System.out.println(l);
-        } catch (Exception e) {
-        }
-    }
+//    public static void main(String[] args) {
+//        DoctorDAO d = new DoctorDAO();
+//        //List<Staff> = d.getDoctorsByFilters("Nguyễn Văn A", -1, null, 1, 4);
+//        try {
+//            List<Staff> l = d.getDoctorsByFilters(null, 1, "M", 1, 4);
+//            System.out.println(l);
+//        } catch (Exception e) {
+//        }
+//    }
 }
