@@ -618,7 +618,7 @@ public class DoctorDAO extends DBContext {
         List<Staff> doctors = new ArrayList<>();
         String sql = "SELECT staffId, name, email, avatar, phone, "
                 + "password, dateOfBirth, position, gender, "
-                + "status, description, roleId, departmentId "
+                + "status, description, roleId, departmentId,certificate "
                 + "FROM Staff "
                 + "WHERE (roleId = 2 OR roleId = 3) AND status = 'Active'";
 
