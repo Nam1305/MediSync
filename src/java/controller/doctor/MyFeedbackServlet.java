@@ -31,16 +31,31 @@ public class MyFeedbackServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Staff staff = (Staff) session.getAttribute("staff");
         String sortOrder = request.getParameter("sortOrder");
-        if(sortOrder == null){
+        if (sortOrder == null) {
             sortOrder = "desc";
         }
         int page = 1;
         int pageSize = 5;
-        if (request.getParameter("page") != null) {
-            page = Integer.parseInt(request.getParameter("page"));
+
+        String pageStr = request.getParameter("page");
+        String pageSizeStr = request.getParameter("pageSize");
+
+        if (pageStr != null && !pageStr.trim().isEmpty()) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (NumberFormatException e) {
+                // Log lỗi nếu cần, giữ giá trị mặc định
+                page = 1;
+            }
         }
-        if (request.getParameter("pageSize") != null) {
-            pageSize = Integer.parseInt(request.getParameter("pageSize"));
+
+        if (pageSizeStr != null && !pageSizeStr.trim().isEmpty()) {
+            try {
+                pageSize = Integer.parseInt(pageSizeStr);
+            } catch (NumberFormatException e) {
+                // Log lỗi nếu cần, giữ giá trị mặc định
+                pageSize = 5;
+            }
         }
 
         int starFilter = 0;
@@ -58,7 +73,9 @@ public class MyFeedbackServlet extends HttpServlet {
         int totalRecords = feedbackDAO.getTotalFeedbackCountByStaffId(staff.getStaffId(), starFilter);
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
         double[] feedbackStar = feedbackDao.getRatingStatistics(staff.getStaffId());
+        double[] statistic = feedbackDAO.getFeedbackTypePercentages(staff.getStaffId());
         request.setAttribute("feedbackStar", feedbackStar);
+        request.setAttribute("statistic", statistic);
         request.setAttribute("feedbackList", feedbackList);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);

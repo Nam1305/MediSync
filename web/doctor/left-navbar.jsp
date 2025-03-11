@@ -21,7 +21,7 @@
                     <c:when test="${sessionScope.staff.role.roleId == 1}">
                         <ul class="sidebar-menu pt-3">
                             <li><a href="AdminDashBoard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
-                            
+
 
                             <li class="sidebar-dropdown">
                                 <a href="javascript:void(0)"><i class="uil uil-user me-2 d-inline-block"></i>Nhân Viên</a>
@@ -116,11 +116,7 @@
                                 </a>
                             </li>
 
-                            <li>
-                                <a href="listinvoice">
-                                    <i class="uil uil-receipt me-2"></i> Hóa đơn
-                                </a>
-                            </li>
+
 
                             <li>
                                 <a href="ListPatient">
@@ -163,6 +159,11 @@
                             <li>
                                 <a href="confirmappointment">
                                     <i class="uil uil-check-circle me-2"></i> Xác nhận lịch hẹn bệnh nhân
+                                </a>
+                            </li>
+                            <li>
+                                <a href="listinvoice">
+                                    <i class="uil uil-receipt me-2"></i> Hóa đơn
                                 </a>
                             </li>
                             <li>

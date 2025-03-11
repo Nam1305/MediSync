@@ -21,7 +21,7 @@ import model.Service;
  *
  * @author DIEN MAY XANH
  */
-public class MakeInvoiceServlet extends HttpServlet {
+public class MakeServiceOrder extends HttpServlet {
 
     ServiceDAO serviceDao = new ServiceDAO();
     AppointmentDAO ad = new AppointmentDAO();
@@ -48,7 +48,7 @@ public class MakeInvoiceServlet extends HttpServlet {
         request.setAttribute("services", services);
 
         request.setAttribute("app", app);
-        request.getRequestDispatcher("doctor/makeInvoice.jsp").forward(request, response);
+        request.getRequestDispatcher("doctor/makeServiceOrder.jsp").forward(request, response);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class MakeInvoiceServlet extends HttpServlet {
 
         }
 
-        response.sendRedirect("makeinvoice?appointmentId=" + appointmentId);
+        response.sendRedirect("makeorder?appointmentId=" + appointmentId);
     }
 
 }

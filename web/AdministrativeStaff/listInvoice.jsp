@@ -52,35 +52,28 @@
                     <div class="layout-specing">
                         <div class="card shadow p-3 mb-4">
                             <form class="filter-form" method="GET" action="listinvoice">
-                                <div class="row">
+                                <!-- Row 1: ID, Tên, Từ ngày, Đến ngày, Trạng thái, Số bản ghi -->
+                                <div class="row g-2 align-items-end">
                                     <div class="col-md-2">
                                         <label for="invoiceId" class="form-label">ID</label>
-                                        <input type="number" class="form-control" id="invoiceId" name="invoiceId" 
+                                        <input type="number" class="form-control" id="invoiceId" name="invoiceId"
                                                value="${invoiceIdFilter != null ? invoiceIdFilter : ''}">
                                     </div>
                                     <div class="col-md-2">
                                         <label for="name" class="form-label">Tên</label>
-                                        <input type="text" class="form-control" id="name" name="name" 
+                                        <input type="text" class="form-control" id="name" name="name"
                                                value="${name != null ? name : ''}">
                                     </div>
                                     <div class="col-md-2">
-                                        <label for="creationDate" class="form-label">Ngày tạo</label>
-                                        <input type="date" class="form-control" id="creationDate" name="date" 
-                                               value="${date != null ? date : ''}">
+                                        <label for="dateFrom" class="form-label">Từ ngày</label>
+                                        <input type="date" class="form-control" id="dateFrom" name="dateFrom"
+                                               value="${dateFrom != null ? dateFrom : ''}">
                                     </div>
-                                    <div class="col-md-3">
-                                        <label for="totalFrom" class="form-label">Tổng tiền từ</label>
-                                        <input type="number" step="0.01" class="form-control" id="totalFrom" name="totalFrom" 
-                                               value="${totalFrom != null ? totalFrom : ''}">
+                                    <div class="col-md-2">
+                                        <label for="dateTo" class="form-label">Đến ngày</label>
+                                        <input type="date" class="form-control" id="dateTo" name="dateTo"
+                                               value="${dateTo != null ? dateTo : ''}">
                                     </div>
-                                    <div class="col-md-3">
-                                        <label for="totalTo" class="form-label">Đến</label>
-                                        <input type="number" step="0.01" class="form-control" id="totalTo" name="totalTo" 
-                                               value="${totalTo != null ? totalTo : ''}">
-                                    </div>
-                                </div>
-
-                                <div class="row mt-2">
                                     <div class="col-md-2">
                                         <label for="status" class="form-label">Trạng thái</label>
                                         <select class="form-select" id="status" name="status">
@@ -91,30 +84,69 @@
                                     </div>
                                     <div class="col-md-2">
                                         <label for="pageSize" class="form-label">Số bản ghi</label>
-                                        <input type="number" class="form-control" id="pageSize" name="pageSize" min="1" 
-                                               value="${pageSize}">
+                                        <input type="number" class="form-control" id="pageSize" name="pageSize" min="1"
+                                              value="${empty param.pageSize ? 5 : param.pageSize}">
                                     </div>
-                                    <div class="col-md-3">
-                                        <label for="sortDate" class="form-label">Sắp xếp theo Ngày tạo</label>
-                                        <select class="form-select" id="sortDate" name="sortDate">
-                                            <option value="" ${empty sortDate ? 'selected' : ''}>Không áp dụng</option>
-                                            <option value="ASC" ${sortDate == 'ASC' ? 'selected' : ''}>Tăng dần</option>
-                                            <option value="DESC" ${sortDate == 'DESC' ? 'selected' : ''}>Giảm dần</option>
+                                </div>
+
+                                <!-- Row 2: Tổng tiền, Sắp xếp, Nút Lọc & Reset -->
+                                <div class="row g-2 mt-2 align-items-end">
+                                    <!-- Tổng tiền từ -->
+                                    <div class="col-md-2">
+                                        <label for="totalFrom" class="form-label">Tổng tiền từ</label>
+                                        <input type="number" step="0.01" class="form-control form-control-sm" id="totalFrom" name="totalFrom"
+                                               value="${totalFrom != null ? totalFrom : ''}">
+                                    </div>
+                                    <!-- Tổng tiền đến -->
+                                    <div class="col-md-2">
+                                        <label for="totalTo" class="form-label">Đến</label>
+                                        <input type="number" step="0.01" class="form-control form-control-sm" id="totalTo" name="totalTo"
+                                               value="${totalTo != null ? totalTo : ''}">
+                                    </div>
+                                    <!-- Sắp xếp theo Ngày tạo -->
+                                    <div class="col-md-2">
+                                        <label for="sortDate" class="form-label" style="font-size: 0.8rem;">Ngày tạo</label>
+                                        <select class="form-select form-select-sm" id="sortDate" name="sortDate">
+                                            <option value="" ${empty sortDate ? 'selected' : ''}>Không</option>
+                                            <option value="ASC" ${sortDate == 'ASC' ? 'selected' : ''}>Tăng</option>
+                                            <option value="DESC" ${sortDate == 'DESC' ? 'selected' : ''}>Giảm</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
-                                        <label for="sortPrice" class="form-label">Sắp xếp theo Giá</label>
-                                        <select class="form-select" id="sortPrice" name="sortPrice">
-                                            <option value="" ${empty sortPrice ? 'selected' : ''}>Không áp dụng</option>
-                                            <option value="ASC" ${sortPrice == 'ASC' ? 'selected' : ''}>Tăng dần</option>
-                                            <option value="DESC" ${sortPrice == 'DESC' ? 'selected' : ''}>Giảm dần</option>
+                                    <!-- Sắp xếp theo Giá -->
+                                    <div class="col-md-2">
+                                        <label for="sortPrice" class="form-label" style="font-size: 0.8rem;">Giá</label>
+                                        <select class="form-select form-select-sm" id="sortPrice" name="sortPrice">
+                                            <option value="" ${empty sortPrice ? 'selected' : ''}>Không</option>
+                                            <option value="ASC" ${sortPrice == 'ASC' ? 'selected' : ''}>Tăng</option>
+                                            <option value="DESC" ${sortPrice == 'DESC' ? 'selected' : ''}>Giảm</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-2 d-flex align-items-end">
-                                        <button type="submit" class="btn btn-primary w-100">Lọc</button>
+                                    <!-- Nút Lọc -->
+                                    <div class="col-md-2 text-center">
+                                        <button type="submit" class="btn btn-primary btn-sm">Lọc</button>
+                                    </div>
+                                    <!-- Nút Reset -->
+                                    <div class="col-md-2 text-center">
+                                        <button type="button" class="btn btn-secondary btn-sm" id="btnReset">Làm mới</button>
                                     </div>
                                 </div>
                             </form>
+
+                            <script>
+                                document.getElementById("btnReset").addEventListener("click", function () {
+                                    var form = document.querySelector("form.filter-form");
+                                    // Xóa tất cả các trường input (text, number, date)
+                                    form.querySelectorAll("input[type='text'], input[type='number'], input[type='date']").forEach(function (input) {
+                                        input.value = "";
+                                    });
+                                    // Đưa các select về lựa chọn đầu tiên
+                                    form.querySelectorAll("select").forEach(function (select) {
+                                        select.selectedIndex = 0;
+                                    });
+                                });
+                            </script>
+
+
 
                         </div>
                         <!-- Invoice Table -->
@@ -130,7 +162,7 @@
                                                 <th class="text-center border-bottom p-3" style="min-width: 140px;">Ngày tạo</th>
                                                 <th class="text-center border-bottom p-3">Tổng tiền</th>
                                                 <th class="text-center border-bottom p-3">Trạng thái</th>
-                                                <th class="text-center border-bottom p-3">Xóa</th>
+                                                <th class="text-center border-bottom p-3">Xem</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -175,26 +207,27 @@
                                     <!-- Nút "Trước" -->
                                     <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="listinvoice?invoiceId=${param.invoiceId}&name=${param.name}&date=${param.date}&totalFrom=${param.totalFrom}&totalTo=${param.totalTo}&status=${param.status}&pageSize=${param.pageSize}&sortDate=${param.sortDate}&sortPrice=${param.sortPrice}&page=${currentPage - 1}">Trước</a>
+                                            <a class="page-link" href="listinvoice?invoiceId=${param.invoiceId}&name=${param.name}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&totalFrom=${param.totalFrom}&totalTo=${param.totalTo}&status=${param.status}&pageSize=${param.pageSize}&sortDate=${param.sortDate}&sortPrice=${param.sortPrice}&page=${currentPage - 1}">Trước</a>
                                         </li>
                                     </c:if>
 
                                     <!-- Hiển thị số trang -->
                                     <c:forEach begin="1" end="${totalPages}" var="p">
                                         <li class="page-item ${p == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="listinvoice?invoiceId=${param.invoiceId}&name=${param.name}&date=${param.date}&totalFrom=${param.totalFrom}&totalTo=${param.totalTo}&status=${param.status}&pageSize=${param.pageSize}&sortDate=${param.sortDate}&sortPrice=${param.sortPrice}&page=${p}">${p}</a>
+                                            <a class="page-link" href="listinvoice?invoiceId=${param.invoiceId}&name=${param.name}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&totalFrom=${param.totalFrom}&totalTo=${param.totalTo}&status=${param.status}&pageSize=${param.pageSize}&sortDate=${param.sortDate}&sortPrice=${param.sortPrice}&page=${p}">${p}</a>
                                         </li>
                                     </c:forEach>
 
                                     <!-- Nút "Sau" -->
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
-                                            <a class="page-link" href="listinvoice?invoiceId=${param.invoiceId}&name=${param.name}&date=${param.date}&totalFrom=${param.totalFrom}&totalTo=${param.totalTo}&status=${param.status}&pageSize=${param.pageSize}&sortDate=${param.sortDate}&sortPrice=${param.sortPrice}&page=${currentPage + 1}">Sau</a>
+                                            <a class="page-link" href="listinvoice?invoiceId=${param.invoiceId}&name=${param.name}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&totalFrom=${param.totalFrom}&totalTo=${param.totalTo}&status=${param.status}&pageSize=${param.pageSize}&sortDate=${param.sortDate}&sortPrice=${param.sortPrice}&page=${currentPage + 1}">Sau</a>
                                         </li>
                                     </c:if>
                                 </ul>
                             </div>
                         </div>
+
 
 
                     </div><!--end container-->
@@ -205,9 +238,27 @@
             <!--End page-content" -->
         </div>
         <!-- page-wrapper -->
+        <script>
+            <script>
+        document.getElementById("bt nReset").addEventListener("click", function()  {
+                    // Lấy form
+                    var form = document.querySelector("form.filter-form");
+            // Xóa tất cả input (text, number, date)
+            form.querySelectorAll("input[type='text'], input[type='number'], input[type='date']").forEach(function (input) {
+                input.value = "";
+            });
+            // Đưa các select về lựa chọn đầu tiên
+            form.querySelectorAll("select").forEach(function(select) {
+            select.selectedIndex = 0;
+            });
+                    }
+            
+                    );
+                    </script>
 
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/feather.min.js"></script>
-        <script src="assets/js/app.js"></script>
-    </body>
+    </script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/feather.min.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
 </html>
