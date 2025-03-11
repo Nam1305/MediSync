@@ -19,19 +19,6 @@ public class ViewBlogDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String blogIdRaw = request.getParameter("blogId");
-        String pageRaw = request.getParameter("page");
-
-        int page = 1;
-        if (pageRaw != null && !pageRaw.isEmpty()) {
-            try {
-                page = Integer.parseInt(pageRaw);
-                if (page < 1) {
-                    page = 1;
-                }
-            } catch (NumberFormatException e) {
-                page = 1;
-            }
-        }
 
         if (blogIdRaw == null || blogIdRaw.isEmpty()) {
             response.sendRedirect("admin/blogs");
@@ -42,8 +29,6 @@ public class ViewBlogDetailServlet extends HttpServlet {
             int blogId = Integer.parseInt(blogIdRaw);
             BlogDAO blogDAO = new BlogDAO();
             CommentDAO commentDAO = new CommentDAO();
-            int limit = 5;
-            int offset = (page - 1) * limit;
 
             Blog blog = blogDAO.getBlogById(blogId);
             if (blog == null) {
@@ -51,17 +36,18 @@ public class ViewBlogDetailServlet extends HttpServlet {
                 return;
             }
 
-            List<Comment> comments = commentDAO.getCommentsByBlogId(blogId, offset, limit);
-            int totalComments = commentDAO.getCommentsCountByBlogId(blogId);
-            int totalPages = (totalComments + limit - 1) / limit; // Tính tổng số trang
-
+            // Lấy tất cả comments không phân trang
+            List<Comment> comments = commentDAO.getCommentsByBlogId(blogId);
+            
             List<Blog> nearestBlogs = blogDAO.getNearestBlogs();
 
             request.setAttribute("topBlog", nearestBlogs);
             request.setAttribute("blog", blog);
             request.setAttribute("comments", comments);
-            request.setAttribute("currentPage", page);
-            request.setAttribute("totalPages", totalPages);
+            
+            // Bỏ các thuộc tính phân trang
+            // request.setAttribute("currentPage", page);
+            // request.setAttribute("totalPages", totalPages);
 
             request.getRequestDispatcher("admin/blogs-detail.jsp").forward(request, response);
         } catch (NumberFormatException e) {

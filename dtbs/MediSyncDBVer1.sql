@@ -326,7 +326,7 @@ INSERT INTO Blog (blogName, content, image, author, [date], typeId, selectedBann
 VALUES
 (N'Bí quyết sống khỏe',
 N'
-<h2>Bí quyết sống khỏe</h2>
+<h5>Bí quyết sống khỏe</h5>
 <p>Để có một cuộc sống khỏe mạnh, bạn cần duy trì một chế độ ăn uống cân bằng, tập thể dục thường xuyên và ngủ đủ giấc.</p>
 <ul>
     <li><strong>Chế độ ăn uống:</strong> Hãy bổ sung rau xanh, trái cây và tránh xa các thực phẩm chế biến sẵn.</li>
@@ -364,91 +364,85 @@ N'
 'assets/images/blog/07.jpg', 
 N'Chiến thần', '2023-02-01', 0, 0),
 
-(N'Tất cả về chứng đau nửa đầu', 
-N'   Tất Cả Về Chứng Đau Nửa Đầu
+(N'Tất cả về chứng đau nửa đầu',
+N'
+<h5>Tất Cả Về Chứng Đau Nửa Đầu</h5>
+<p>Đau nửa đầu, hay còn gọi là chứng migraine, là một dạng đau đầu gây ra những cơn đau dữ dội, thường xảy ra ở một bên đầu. Đây là một tình trạng phổ biến, ảnh hưởng đến hàng triệu người trên toàn thế giới.</p>
 
-     Đau nửa đầu, hay còn gọi là chứng migraine, là một dạng đau đầu gây ra những cơn đau dữ dội, thường xảy ra ở một bên đầu. Đây là một tình trạng phổ biến, ảnh hưởng đến hàng triệu người trên toàn thế giới.
+<h6>Nguyên Nhân Gây Ra Đau Nửa Đầu</h6>
+<p>Nguyên nhân chính xác của chứng đau nửa đầu vẫn chưa được xác định hoàn toàn. Tuy nhiên, có một số yếu tố có thể kích thích cơn đau, bao gồm:</p>
+<ul>
+    <li><strong>Thay đổi hormone:</strong> Như trong kỳ kinh nguyệt.</li>
+    <li><strong>Stress và lo âu:</strong> Là yếu tố phổ biến gây khởi phát cơn đau.</li>
+    <li><strong>Thiếu ngủ:</strong> Giấc ngủ không đủ hoặc không chất lượng.</li>
+    <li><strong>Thực phẩm và đồ uống:</strong> Như rượu, caffeine, thực phẩm chế biến sẵn.</li>
+    <li><strong>Thay đổi thời tiết:</strong> Áp suất không khí có thể ảnh hưởng đến chứng đau đầu.</li>
+</ul>
 
--  Nguyên Nhân Gây Ra Đau Nửa Đầu
+<h6>Triệu Chứng Đau Nửa Đầu</h6>
+<p>Triệu chứng của chứng đau nửa đầu có thể khác nhau giữa các cá nhân, nhưng thường bao gồm:</p>
+<ul>
+    <li>Đau nhói hoặc đau như búa ở một bên đầu.</li>
+    <li>Nhạy cảm với ánh sáng, âm thanh và mùi.</li>
+    <li>Buồn nôn hoặc nôn.</li>
+    <li>Thay đổi thị giác, như nhìn thấy ánh sáng nhấp nháy.</li>
+</ul>
 
-    Nguyên nhân chính xác của chứng đau nửa đầu vẫn chưa được xác định hoàn toàn. Tuy nhiên, có một số yếu tố có thể kích thích cơn đau, bao gồm:
+<h6>Phân Loại Đau Nửa Đầu</h6>
+<ul>
+    <li><strong>Migraine có aura:</strong> Có triệu chứng cảnh báo trước như nhìn thấy ánh sáng nhấp nháy hoặc cảm giác tê ngứa.</li>
+    <li><strong>Migraine không có aura:</strong> Không có triệu chứng cảnh báo, nhưng cơn đau thường kéo dài từ vài giờ đến vài ngày.</li>
+</ul>
 
-    - Thay đổi hormone (như trong kỳ kinh nguyệt)
-    - Stress và lo âu
-    - Thiếu ngủ hoặc giấc ngủ không đủ
-    - Thức ăn và đồ uống (như rượu, caffeine, thực phẩm chế biến sẵn)
-    - Thay đổi thời tiết và áp suất không khí
+<h6>Phương Pháp Điều Trị</h6>
+<ul>
+    <li><strong>Thuốc giảm đau:</strong> Các loại thuốc như ibuprofen hoặc aspirin có thể giúp giảm cơn đau.</li>
+    <li><strong>Thuốc đặc trị:</strong> Một số loại thuốc được chỉ định riêng cho chứng đau nửa đầu có thể ngăn ngừa hoặc giảm tần suất cơn đau.</li>
+    <li><strong>Thay đổi lối sống:</strong> Giữ thói quen ăn uống lành mạnh, tập thể dục thường xuyên và quản lý stress có thể giúp giảm nguy cơ tái phát.</li>
+</ul>
 
--  Triệu Chứng Đau Nửa Đầu
+<h6>Phòng Ngừa Chứng Đau Nửa Đầu</h6>
+<ul>
+    <li>Ghi chép nhật ký đau đầu để nhận diện các yếu tố kích thích.</li>
+    <li>Duy trì thói quen ngủ đều đặn và đủ giấc.</li>
+    <li>Tránh các thực phẩm và đồ uống có thể gây ra cơn đau.</li>
+</ul>
 
-    Triệu chứng của chứng đau nửa đầu có thể khác nhau giữa các cá nhân, nhưng thường bao gồm:
+<p>Chứng đau nửa đầu có thể ảnh hưởng lớn đến chất lượng cuộc sống, nhưng với sự hiểu biết và biện pháp điều trị phù hợp, bạn có thể kiểm soát tốt tình trạng này. Nếu bạn gặp phải cơn đau nửa đầu thường xuyên, hãy tham khảo ý kiến bác sĩ để có phương pháp điều trị thích hợp.</p>',
+'assets/images/blog/05.jpg', 
+'Ben Davis', '2023-03-01', 0, 0),
 
-    - Đau nhói hoặc đau như búa ở một bên đầu
-    - Nhạy cảm với ánh sáng, âm thanh và mùi
-    - Buồn nôn hoặc nôn
-    - Thay đổi thị lực (như nhìn thấy ánh sáng nhấp nháy)
-
--  Phân Loại Đau Nửa Đầu
-
-    Đau nửa đầu có thể được phân thành hai loại chính:
-
-    - **Migraine có aura:** Có triệu chứng cảnh báo trước như nhìn thấy ánh sáng nhấp nháy hoặc cảm giác tê ngứa.
-    - **Migraine không có aura:** Không có triệu chứng cảnh báo, nhưng cơn đau thường kéo dài từ vài giờ đến vài ngày.
-
--  Phương Pháp Điều Trị
-
-    Có nhiều phương pháp điều trị chứng đau nửa đầu, bao gồm:
-
-    - **Thuốc giảm đau:** Các loại thuốc như ibuprofen hoặc aspirin có thể giúp giảm cơn đau.
-    - **Thuốc đặc trị:** Một số loại thuốc được chỉ định riêng cho chứng đau nửa đầu có thể ngăn ngừa hoặc giảm tần suất cơn đau.
-    - **Thay đổi lối sống:** Giữ thói quen ăn uống lành mạnh, tập thể dục thường xuyên và quản lý stress có thể giúp giảm nguy cơ tái phát.
-
--  Phòng Ngừa Chứng Đau Nửa Đầu
-
-    Để phòng ngừa cơn đau nửa đầu, bạn có thể thực hiện một số biện pháp như:
-
-    - Ghi chép nhật ký đau đầu để nhận diện các yếu tố kích thích.
-    - Duy trì thói quen ngủ đều đặn và đủ giấc.
-    - Tránh các thực phẩm và đồ uống có thể gây ra cơn đau.
-
-     Chứng đau nửa đầu có thể ảnh hưởng lớn đến chất lượng cuộc sống, nhưng với sự hiểu biết và biện pháp điều trị phù hợp, bạn có thể kiểm soát tốt tình trạng này. Nếu bạn gặp phải cơn đau nửa đầu thường xuyên, hãy tham khảo ý kiến bác sĩ để có phương pháp điều trị thích hợp.',
-'assets/images/blog/05.jpg', 'Ben Davis', '2023-03-01', 0, 0),
 
 (N'Chăm sóc sức khỏe trẻ em', 
-N'                                 Chăm Sóc Sức Khỏe Trẻ Em
+N'
+<h5>Chăm Sóc Sức Khỏe Trẻ Em</h5>
+<p>Chăm sóc sức khỏe trẻ em là một nhiệm vụ quan trọng không chỉ đối với cha mẹ mà còn đối với toàn xã hội. Sức khỏe của trẻ em ảnh hưởng trực tiếp đến sự phát triển toàn diện của chúng trong tương lai.</p>
 
-     Chăm sóc sức khỏe trẻ em là một nhiệm vụ quan trọng không chỉ đối với cha mẹ mà còn đối với toàn xã hội. Sức khỏe của trẻ em ảnh hưởng trực tiếp đến sự phát triển toàn diện của chúng trong tương lai.
+<h6>Dinh Dưỡng Hợp Lý</h6>
+<p>Dinh dưỡng là yếu tố then chốt trong việc phát triển thể chất và trí tuệ của trẻ. Một chế độ ăn cân bằng, giàu vitamin, khoáng chất, protein và chất xơ sẽ giúp trẻ phát triển khỏe mạnh. Hạn chế đường, muối và thực phẩm chế biến sẵn cũng là điều cần thiết.</p>
 
--  Dinh Dưỡng Hợp Lý
+<h6>Tiêm Phòng Đầy Đủ</h6>
+<p>Tiêm phòng là biện pháp hiệu quả nhất để bảo vệ trẻ khỏi các bệnh truyền nhiễm nguy hiểm. Theo khuyến cáo của tổ chức y tế, cha mẹ cần đảm bảo trẻ được tiêm phòng đúng thời gian và đầy đủ các loại vắc xin cần thiết.</p>
 
-    Dinh dưỡng là yếu tố then chốt trong việc phát triển thể chất và trí tuệ của trẻ. Một chế độ ăn cân bằng, giàu vitamin, khoáng chất, protein và chất xơ sẽ giúp trẻ phát triển khỏe mạnh. Hạn chế đường, muối và thực phẩm chế biến sẵn cũng là điều cần thiết.
+<h6>Khám Sức Khỏe Định Kỳ</h6>
+<p>Khám sức khỏe định kỳ giúp phát hiện sớm các vấn đề sức khỏe và theo dõi sự phát triển của trẻ. Bác sĩ có thể đưa ra những lời khuyên hữu ích về dinh dưỡng, vận động và các vấn đề khác liên quan đến sức khỏe.</p>
 
--  Tiêm Phòng Đầy Đủ
+<h6>Tập Luyện Thể Chất</h6>
+<p>Thể dục thể thao không chỉ giúp trẻ phát triển thể chất mà còn tăng cường sức khỏe tinh thần. Khuyến khích trẻ tham gia các hoạt động thể thao, như bơi lội, đi bộ, hoặc tham gia các trò chơi nhóm, sẽ giúp trẻ vui vẻ và năng động hơn.</p>
 
-    Tiêm phòng là biện pháp hiệu quả nhất để bảo vệ trẻ khỏi các bệnh truyền nhiễm nguy hiểm. Theo khuyến cáo của tổ chức y tế, cha mẹ cần đảm bảo trẻ được tiêm phòng đúng thời gian và đầy đủ các loại vắc xin cần thiết.
+<h6>Sức Khỏe Tâm Thần</h6>
+<p>Sức khỏe tâm thần cũng rất quan trọng đối với trẻ em. Cha mẹ cần tạo môi trường an toàn và yêu thương, khuyến khích trẻ chia sẻ cảm xúc và lo âu. Nếu trẻ có dấu hiệu căng thẳng hoặc lo âu, hãy tìm kiếm sự hỗ trợ từ chuyên gia tâm lý.</p>
 
--  Khám Sức Khỏe Định Kỳ
+<h6>Giấc Ngủ Đầy Đủ</h6>
+<p>Giấc ngủ đóng vai trò quan trọng trong sự phát triển của trẻ. Trẻ em cần khoảng 9-12 giờ ngủ mỗi đêm, tùy thuộc vào độ tuổi. Thiết lập thói quen ngủ đều đặn và tạo không gian ngủ thoải mái sẽ giúp trẻ có giấc ngủ chất lượng hơn.</p>
 
-    Khám sức khỏe định kỳ giúp phát hiện sớm các vấn đề sức khỏe và theo dõi sự phát triển của trẻ. Bác sĩ có thể đưa ra những lời khuyên hữu ích về dinh dưỡng, vận động và các vấn đề khác liên quan đến sức khỏe.
+<h6>Giáo Dục Về Sức Khỏe</h6>
+<p>Giáo dục sức khỏe cần được bắt đầu từ khi trẻ còn nhỏ. Hướng dẫn trẻ về tầm quan trọng của việc giữ gìn sức khỏe, vệ sinh cá nhân và cách chăm sóc bản thân sẽ giúp trẻ hình thành thói quen lành mạnh trong tương lai.</p>
 
--  Tập Luyện Thể Chất
+<p>Chăm sóc sức khỏe trẻ em là trách nhiệm của tất cả mọi người. Hãy cùng nhau tạo ra một môi trường lành mạnh và an toàn để giúp trẻ phát triển tốt nhất có thể.</p>',
+'assets/images/blog/09.jpg', 
+'Michael Jackson', '2023-04-01', 0, 0),
 
-    Thể dục thể thao không chỉ giúp trẻ phát triển thể chất mà còn tăng cường sức khỏe tinh thần. Khuyến khích trẻ tham gia các hoạt động thể thao, như bơi lội, đi bộ, hoặc tham gia các trò chơi nhóm, sẽ giúp trẻ vui vẻ và năng động hơn.
-
--  Sức Khỏe Tâm Thần
-
-    Sức khỏe tâm thần cũng rất quan trọng đối với trẻ em. Cha mẹ cần tạo môi trường an toàn và yêu thương, khuyến khích trẻ chia sẻ cảm xúc và lo âu. Nếu trẻ có dấu hiệu căng thẳng hoặc lo âu, hãy tìm kiếm sự hỗ trợ từ chuyên gia tâm lý.
-
--  Giấc Ngủ Đầy Đủ
-
-    Giấc ngủ đóng vai trò quan trọng trong sự phát triển của trẻ. Trẻ em cần khoảng 9-12 giờ ngủ mỗi đêm, tùy thuộc vào độ tuổi. Thiết lập thói quen ngủ đều đặn và tạo không gian ngủ thoải mái sẽ giúp trẻ có giấc ngủ chất lượng hơn.
-
--  Giáo Dục Về Sức Khỏe
-
-    Giáo dục sức khỏe cần được bắt đầu từ khi trẻ còn nhỏ. Hướng dẫn trẻ về tầm quan trọng của việc giữ gìn sức khỏe, vệ sinh cá nhân và cách chăm sóc bản thân sẽ giúp trẻ hình thành thói quen lành mạnh trong tương lai.
-
-     Chăm sóc sức khỏe trẻ em là trách nhiệm của tất cả mọi người. Hãy cùng nhau tạo ra một môi trường lành mạnh và an toàn để giúp trẻ phát triển tốt nhất có thể.',
-'assets/images/blog/09.jpg', 'Michael Jackson', '2023-04-01', 0, 0),
 
 (N'Ngăn ngừa các bệnh xương khớp', 
 N'
@@ -506,7 +500,7 @@ N'  Bí Quyết Chăm Sóc Da
 'assets/images/blog/06.jpg', 'David Johnson', '2023-06-01', 1, 0),
 
 (N'Công nghệ hình ảnh y học hiện đại', 
-N'                                 Công Nghệ Hình Ảnh Y Học Hiện Đại
+N'   Công Nghệ Hình Ảnh Y Học Hiện Đại
 
      Công nghệ hình ảnh y học đã trở thành một phần quan trọng trong chẩn đoán và điều trị bệnh. Những tiến bộ trong lĩnh vực này đã giúp cải thiện độ chính xác và hiệu quả trong việc phát hiện và theo dõi các tình trạng sức khỏe.
 
@@ -626,44 +620,38 @@ N'   Kiểm Soát Căng Thẳng Trong Cuộc Sống
 'assets/images/blog/08.jpg', 'Olivia Garcia', '2023-09-01', 0, 0),
 
 (N'Đột phá trong phẫu thuật', 
-N'Đột Phá Trong Phẫu Thuật
+N'
+<h5>Đột Phá Trong Phẫu Thuật</h5>
+<p>Ngành phẫu thuật đã trải qua nhiều tiến bộ đáng kể trong những năm gần đây, với các công nghệ và kỹ thuật mới giúp cải thiện hiệu quả điều trị và giảm thiểu rủi ro cho bệnh nhân. Dưới đây là một số đột phá nổi bật trong lĩnh vực phẫu thuật.</p>
 
-     Ngành phẫu thuật đã trải qua nhiều tiến bộ đáng kể trong những năm gần đây, với các công nghệ và kỹ thuật mới giúp cải thiện hiệu quả điều trị và giảm thiểu rủi ro cho bệnh nhân. Dưới đây là một số đột phá nổi bật trong lĩnh vực phẫu thuật.
+<h6>Phẫu Thuật Nội Soi</h6>
+<p>Phẫu thuật nội soi cho phép bác sĩ thực hiện các can thiệp thông qua những vết rạch nhỏ, sử dụng camera và dụng cụ chuyên dụng. Phương pháp này giúp giảm đau, thời gian hồi phục và nguy cơ nhiễm trùng so với phẫu thuật mở truyền thống.</p>
 
--  Phẫu Thuật Nội Soi
+<h6>Phẫu Thuật Robot</h6>
+<p>Sự phát triển của công nghệ robot trong phẫu thuật đã mở ra nhiều khả năng mới. Các hệ thống robot như da Vinci cho phép bác sĩ thực hiện các ca phẫu thuật với độ chính xác cao hơn, ít xâm lấn hơn và tạo điều kiện cho việc phục hồi nhanh chóng.</p>
 
-    Phẫu thuật nội soi cho phép bác sĩ thực hiện các can thiệp thông qua những vết rạch nhỏ, sử dụng camera và dụng cụ chuyên dụng. Phương pháp này giúp giảm đau, thời gian hồi phục và nguy cơ nhiễm trùng so với phẫu thuật mở truyền thống.
+<h6>Kỹ Thuật Phẫu Thuật 3D</h6>
+<p>Công nghệ hình ảnh 3D cho phép bác sĩ xem mô hình chính xác của các cơ quan và cấu trúc bên trong cơ thể trước khi phẫu thuật. Điều này giúp cải thiện khả năng lập kế hoạch và thực hiện phẫu thuật, giảm thiểu rủi ro và tăng cường hiệu quả.</p>
 
--  Phẫu Thuật Robot
+<h6>Phẫu Thuật Tế Bào Gốc</h6>
+<p>Nghiên cứu về tế bào gốc đã dẫn đến những ứng dụng mới trong phẫu thuật, đặc biệt là trong điều trị các chấn thương và bệnh lý về khớp. Tế bào gốc có khả năng tái tạo mô, giúp phục hồi chức năng nhanh chóng và hiệu quả hơn.</p>
 
-    Sự phát triển của công nghệ robot trong phẫu thuật đã mở ra nhiều khả năng mới. Các hệ thống robot như da Vinci cho phép bác sĩ thực hiện các ca phẫu thuật với độ chính xác cao hơn, ít xâm lấn hơn và tạo điều kiện cho việc phục hồi nhanh chóng.
+<h6>Phẫu Thuật Thẩm Mỹ Tạo Hình</h6>
+<p>Những tiến bộ trong công nghệ và kỹ thuật phẫu thuật thẩm mỹ đã giúp cải thiện kết quả và giảm thiểu rủi ro. Các phương pháp mới như tiêm filler và botox đã trở thành lựa chọn phổ biến cho những ai muốn cải thiện vẻ ngoài mà không cần phẫu thuật lớn.</p>
 
--  Kỹ Thuật Phẫu Thuật 3D
+<h6>Hệ Thống Theo Dõi Thông Minh</h6>
+<p>Việc áp dụng công nghệ theo dõi thông minh trong phẫu thuật giúp bác sĩ và nhân viên y tế theo dõi tình trạng sức khỏe của bệnh nhân một cách liên tục và hiệu quả. Điều này giúp phát hiện sớm các biến chứng và can thiệp kịp thời.</p>
 
-    Công nghệ hình ảnh 3D cho phép bác sĩ xem mô hình chính xác của các cơ quan và cấu trúc bên trong cơ thể trước khi phẫu thuật. Điều này giúp cải thiện khả năng lập kế hoạch và thực hiện phẫu thuật, giảm thiểu rủi ro và tăng cường hiệu quả.
+<h6>Tích Hợp Công Nghệ Thông Tin</h6>
+<p>Sự kết hợp giữa công nghệ thông tin và phẫu thuật đã cải thiện quy trình làm việc trong phòng mổ. Hệ thống lưu trữ hồ sơ điện tử, phần mềm lập kế hoạch phẫu thuật và giao tiếp giữa các chuyên gia y tế giúp nâng cao hiệu quả và an toàn cho bệnh nhân.</p>
 
--  Phẫu Thuật Tế Bào Gốc
+<h6>Nghiên Cứu và Phát Triển Liệu Pháp Mới</h6>
+<p>Nghiên cứu liên tục trong lĩnh vực phẫu thuật đã dẫn đến việc phát triển các liệu pháp mới, như liệu pháp gen và liệu pháp miễn dịch, mở ra hy vọng cho những bệnh nhân mắc bệnh hiểm nghèo.</p>
 
-    Nghiên cứu về tế bào gốc đã dẫn đến những ứng dụng mới trong phẫu thuật, đặc biệt là trong điều trị các chấn thương và bệnh lý về khớp. Tế bào gốc có khả năng tái tạo mô, giúp phục hồi chức năng nhanh chóng và hiệu quả hơn.
+<p>Đột phá trong phẫu thuật không chỉ nâng cao chất lượng điều trị mà còn mang lại hy vọng mới cho bệnh nhân. Với sự phát triển không ngừng của công nghệ và nghiên cứu, tương lai của ngành phẫu thuật hứa hẹn sẽ tiếp tục có những bước tiến lớn.</p>',
+'assets/images/blog/01.jpg', 
+'James Miller', '2023-10-01', 0, 0);
 
--  Phẫu Thuật Thẩm Mỹ Tạo Hình
-
-    Những tiến bộ trong công nghệ và kỹ thuật phẫu thuật thẩm mỹ đã giúp cải thiện kết quả và giảm thiểu rủi ro. Các phương pháp mới như tiêm filler và botox đã trở thành lựa chọn phổ biến cho những ai muốn cải thiện vẻ ngoài mà không cần phẫu thuật lớn.
-
--  Hệ Thống Theo Dõi Thông Minh
-
-    Việc áp dụng công nghệ theo dõi thông minh trong phẫu thuật giúp bác sĩ và nhân viên y tế theo dõi tình trạng sức khỏe của bệnh nhân một cách liên tục và hiệu quả. Điều này giúp phát hiện sớm các biến chứng và can thiệp kịp thời.
-
--  Tích Hợp Công Nghệ Thông Tin
-
-    Sự kết hợp giữa công nghệ thông tin và phẫu thuật đã cải thiện quy trình làm việc trong phòng mổ. Hệ thống lưu trữ hồ sơ điện tử, phần mềm lập kế hoạch phẫu thuật và giao tiếp giữa các chuyên gia y tế giúp nâng cao hiệu quả và an toàn cho bệnh nhân.
-
--  Nghiên Cứu và Phát Triển Liệu Pháp Mới
-
-    Nghiên cứu liên tục trong lĩnh vực phẫu thuật đã dẫn đến việc phát triển các liệu pháp mới, như liệu pháp gen và liệu pháp miễn dịch, mở ra hy vọng cho những bệnh nhân mắc bệnh hiểm nghèo.
-
-     Đột phá trong phẫu thuật không chỉ nâng cao chất lượng điều trị mà còn mang lại hy vọng mới cho bệnh nhân. Với sự phát triển không ngừng của công nghệ và nghiên cứu, tương lai của ngành phẫu thuật hứa hẹn sẽ tiếp tục có những bước tiến lớn.',
-'assets/images/blog/01.jpg', 'James Miller', '2023-10-01', 0, 0);
 
 
 --COMMENT

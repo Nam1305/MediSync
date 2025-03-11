@@ -86,6 +86,9 @@
             }
 
         </style>
+        <script src="https://cdn.tiny.cloud/1/vnufc6yakojjcovpkijlauot8hfpbxd3uscxatfq2m4yijay/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>        
+        <script src="assets/js/tinymce-init.js"></script>
+
     </head>
 
     <body>

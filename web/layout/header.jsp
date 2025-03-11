@@ -20,6 +20,8 @@
     <c:set var="isListDepartmentPage" value="${fn:endsWith(currentPage, 'ListDepartment') or fn:contains(currentPage, 'listDepartment.jsp')}" />
     <c:set var="isListServicePage" value="${fn:endsWith(currentPage, 'ListService') or fn:contains(currentPage, 'listService.jsp')}" />
     <c:set var="isListCustomerPage" value="${fn:endsWith(currentPage, 'listCustomer') or fn:contains(currentPage, 'listCustomer.jsp')}" />
+    <c:set var="isListBlogPage" value="${fn:endsWith(currentPage, 'blogs') or fn:contains(currentPage, 'blogs.jsp')}" />
+
 
     <div class="top-header">
         <div class="header-bar d-flex justify-content-between border-bottom">
@@ -77,6 +79,16 @@
                                     <input type="hidden" name="action" value="search">
                                     <input type="submit" id="searchsubmit" value="Search">
                                 </div>
+                            </form>
+                        </div>
+                    </div>
+                </c:if>
+                <c:if test="${isListBlogPage}">
+                    <div class="search-bar p-0 d-none d-lg-block ms-2">
+                        <div id="search" class="menu-search mb-0">
+                            <form action="blogs" method="get" class="searchform">
+                                <input type="text" class="form-control border rounded-pill" name="search" placeholder="Tìm kiếm blogs...">
+                                <input type="submit" value="Search">
                             </form>
                         </div>
                     </div>
@@ -202,7 +214,7 @@
                     <li class="parent-menu-item">
                         <a href="home">Trang chủ</a><span class="menu-arrow"></span>
                     </li>
-                    <li class="has-submenu parent-parent-menu-item">
+                    <li class="parent-parent-menu-item">
                         <a href="allDoctors">Bác Sĩ</a><span class="menu-arrow"></span>
                     </li>
                     <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
