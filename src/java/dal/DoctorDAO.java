@@ -564,6 +564,7 @@ public class DoctorDAO extends DBContext {
         staff.setDescription(rs.getString("description"));
         staff.setDepartment(departDao.getDepartmentById(rs.getInt("departmentId")));
         staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
+        staff.setCertificate(rs.getString("certificate"));
         return staff;
     }
 

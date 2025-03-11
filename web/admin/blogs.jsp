@@ -54,7 +54,7 @@
                     <div class="layout-specing">
                         <!-- Tiêu đề trang -->
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Danh sách blogs</h5>
+                            <h5 class="mb-0">Danh sách blog</h5>
                         </div>
 
                         <div class="row">
@@ -83,6 +83,7 @@
                             <div class="d-flex justify-content-end mb-3">
                                 <div class="d-flex align-items-center">
                                     <!-- Dropdown chọn sắp xếp theo ngày đăng -->
+                                    <label class="me-2 align-self-center fw-bold">Sắp xếp:</label>
                                     <select class="form-select me-2" name="sort" style="width: 150px;">
                                         <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Mới nhất</option>
                                         <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Cũ nhất</option>
@@ -156,7 +157,7 @@
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="blogs?page=${currentPage - 1}&search=${param.search}&sort=${param.sort}&itemsPerPage=${itemsPerPage}" aria-label="Previous">Prev</a>
+                                                <a class="page-link" href="blogs?page=${currentPage - 1}&search=${param.search}&sort=${param.sort}&itemsPerPage=${itemsPerPage}" aria-label="Previous">Trước</a>
                                             </li>
                                         </c:if>
                                         <c:forEach var="i" begin="1" end="${totalPages}" step="1">
@@ -166,7 +167,7 @@
                                         </c:forEach>
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="blogs?page=${currentPage + 1}&search=${param.search}&sort=${param.sort}&itemsPerPage=${itemsPerPage}" aria-label="Next">Next</a>
+                                                <a class="page-link" href="blogs?page=${currentPage + 1}&search=${param.search}&sort=${param.sort}&itemsPerPage=${itemsPerPage}" aria-label="Next">Sau</a>
                                             </li>
                                         </c:if>
                                     </ul>

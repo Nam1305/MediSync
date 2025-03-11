@@ -169,8 +169,8 @@
                     <c:forEach var="day" items="${schedule}">
                         <form action="doctorDetail" method="get" class="d-inline">
                             <input type="hidden" name="doctorId" value="${doctor.staffId}">
-                            <button type="submit" name="date" value="${day.getFormatDate()}" 
-                                    class="btn mx-1 ${selectedDate == day.getFormatDate() ? 'btn-success' : 'btn-outline-success'}">
+                            <button type="submit" name="date" value="${day.getUrlDate()}" 
+                                    class="btn mx-1 ${selectedDate == day.getUrlDate() ? 'btn-success' : 'btn-outline-success'}">
                                 ${day.getFormatDate()}
                             </button>
                         </form>

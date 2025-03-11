@@ -84,9 +84,14 @@ public class Schedule {
     }
     
     public String getFormatDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy");
         return sdf.format(this.date);
     }
+    
+    public String getUrlDate() {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    return sdf.format(this.date);
+}
     
     
     
