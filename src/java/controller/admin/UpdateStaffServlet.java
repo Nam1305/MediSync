@@ -104,18 +104,13 @@ public class UpdateStaffServlet extends HttpServlet {
         if (staffIdStr == null || staffIdStr.trim().isEmpty()) {
             errors.add("Không có ID nhân viên.");
         }
-        int staffId = -1;
-        try {
-            staffId = Integer.parseInt(staffIdStr);
-        } catch (NumberFormatException e) {
-            errors.add("ID nhân viên không hợp lệ.");
-        }
-
+        int staffId = Integer.parseInt(staffIdStr);
+        
         Staff currentStaff = staffDao.getStaffById(staffId);
         if (currentStaff == null) {
             errors.add("Nhân viên không tồn tại.");
         }
-
+        String certificate = request.getParameter("certificate");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
@@ -172,7 +167,7 @@ public class UpdateStaffServlet extends HttpServlet {
         role.setRoleId(roleId);
         
         String hashedPassword = currentStaff.getPassword();
-        Staff updatedStaff = new Staff(staffId, name, email, "", phone, hashedPassword, dateOfBirth, position, gender, status, description, department, role);
+        Staff updatedStaff = new Staff(staffId, name, email, "", phone, hashedPassword, dateOfBirth, position, gender, status, description, department, role,certificate);
         boolean isUpdated = staffDao.updateStaff(updatedStaff);
         
         String currentPosition = positionDao.getPositionByStaffId(staffId);

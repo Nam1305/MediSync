@@ -68,7 +68,7 @@ public class UpdateServiceServlet extends HttpServlet {
             Service currentService = serviceDao.getServiceById(serviceId);
             if (currentService != null) {
                 request.setAttribute("service", currentService);
-                request.getRequestDispatcher("admmin/updateService.jsp").forward(request, response);
+                request.getRequestDispatcher("admin/updateService.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", "Không thấy service này");
                 request.getRequestDispatcher("admin/updateService.jsp").forward(request, response);

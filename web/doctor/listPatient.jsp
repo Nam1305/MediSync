@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.net.URLEncoder" %>
-<%@ page import="java.net.URLEncoder" %>
+
 <%
     String bloodTypeParam = request.getParameter("bloodType");
     String encodedBloodType = (bloodTypeParam != null) ? URLEncoder.encode(bloodTypeParam, "UTF-8") : "";
@@ -214,7 +214,12 @@
             <!--End page-content" -->
         </div>
         <!-- page-wrapper -->
+         <script>
+            function resetFilters() {
+                window.location.href = './ListPatient?search=&status=&bloodType=&pageSize=6';
+            }
 
+        </script>
 
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>

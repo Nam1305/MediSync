@@ -86,7 +86,7 @@ public class AddStaffServlet extends HttpServlet {
         List<Department> listDepartment = departmentDao.getActiveDepartment();
         List<String> error = new ArrayList<>();
         GeneratePassword generatePassword = new GeneratePassword();
-
+        String certificate = request.getParameter("certificate");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
@@ -96,7 +96,9 @@ public class AddStaffServlet extends HttpServlet {
         String dateOfBirthStr = request.getParameter("dateOfBirth");
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         int roleId = Integer.parseInt(request.getParameter("roleId"));
-
+        if(isEmpty(certificate)){
+            error.add("Bằng cấp không được để trống!");
+        }
         if (isEmpty(name)) {
             error.add("Tên không được để trống!");
         }
@@ -151,6 +153,10 @@ public class AddStaffServlet extends HttpServlet {
         }
 
         if (!error.isEmpty()) {
+            request.setAttribute("name", name);
+            request.setAttribute("email", email);
+            request.setAttribute("phone", phone);
+            request.setAttribute("description", description);
             request.setAttribute("listDepartment", listDepartment);
             request.setAttribute("error", error);
             request.getRequestDispatcher("admin/addStaff.jsp").forward(request, response);
@@ -175,7 +181,7 @@ public class AddStaffServlet extends HttpServlet {
         Role role = new Role();
         role.setRoleId(roleId);
 
-        Staff newStaff = new Staff(0, name, email, avatarPath, phone, hashedPassword, dateOfBirth, position, gender, "Active", description, department, role);
+        Staff newStaff = new Staff(0, name, email, avatarPath, phone, hashedPassword, dateOfBirth, position, gender, "Active", description, department, role,certificate);
         int staffId = staffDao.addStaff(newStaff);
         PositionDAO positionDao = new PositionDAO();
 

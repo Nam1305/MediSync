@@ -132,8 +132,8 @@ public class DoctorDAO extends DBContext {
 
     public int addStaff(Staff staff) {
         // Mặc định `status` = 'Active'
-        String sql = "INSERT INTO Staff (name, email, avatar, phone, password, dateOfBirth, position, gender, status, description, roleId, departmentId) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?)";
+        String sql = "INSERT INTO Staff (name, email, avatar, phone, password, dateOfBirth, position, gender, status, description, roleId, departmentId,certificate) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?,?)";
 
         try {
             // Sử dụng RETURN_GENERATED_KEYS để lấy ID tự động tăng
@@ -149,7 +149,7 @@ public class DoctorDAO extends DBContext {
             ps.setString(9, staff.getDescription());
             ps.setInt(10, staff.getRole().getRoleId());
             ps.setInt(11, staff.getDepartment().getDepartmentId());
-
+            ps.setString(12, staff.getCertificate());
             int rowsAffected = ps.executeUpdate();
 
             // Kiểm tra nếu INSERT thành công
@@ -183,7 +183,7 @@ public class DoctorDAO extends DBContext {
         // Kiểm tra xem avatar có bị thay đổi hay không
         boolean hasAvatar = staff.getAvatar() != null && !staff.getAvatar().isEmpty();
 
-        String sql = "UPDATE Staff SET name = ?, email = ?, phone = ?, password = ?, dateOfBirth = ?, position = ?, gender = ?, status = ?, description = ?, roleId = ?, departmentId = ?";
+        String sql = "UPDATE Staff SET name = ?, email = ?, phone = ?, password = ?, dateOfBirth = ?, position = ?, gender = ?, status = ?, description = ?, roleId = ?, departmentId = ?,certificate = ?";
         if (hasAvatar) {
             sql += ", avatar = ?";  // Chỉ cập nhật avatar nếu có thay đổi
         }
@@ -202,8 +202,8 @@ public class DoctorDAO extends DBContext {
             ps.setString(9, staff.getDescription());
             ps.setInt(10, staff.getRole().getRoleId());
             ps.setInt(11, staff.getDepartment().getDepartmentId());
-
-            int index = 12;
+            ps.setString(12, staff.getCertificate());
+            int index = 13;
             if (hasAvatar) {
                 ps.setString(index++, staff.getAvatar());  // Chỉ set avatar nếu có
             }
