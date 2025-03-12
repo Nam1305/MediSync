@@ -47,9 +47,14 @@
                     </c:choose>
 
 
-                    <div class="mt-4">
-                        <a href="listAppointments" class="btn btn-primary px-4">🏠 Quay về danh sách lịch hẹn</a>
-                    </div>
+                    <c:choose>
+                        <c:when test="${not empty customer}">
+                            <a href="listAppointments" class="btn btn-primary px-4">🏠 Quay về danh sách lịch hẹn</a>
+                        </c:when>
+                        <c:when test="${not empty staff and sessionScope.staff.role.roleId == 4}">
+                            <a href="listinvoice" class="btn btn-primary px-4">🏠 Quay về danh sách hóa đơn</a>
+                        </c:when>
+                    </c:choose>
                 </div>
             </div>
         </div>
