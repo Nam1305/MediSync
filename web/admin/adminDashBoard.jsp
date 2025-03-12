@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
+
 <html lang="en">
 
     <head>
@@ -31,7 +32,7 @@
         <link href="assets/css/tiny-slider.css" rel="stylesheet" />
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
 
     <body>
@@ -205,6 +206,23 @@
                             </c:forEach>
                         </div>
 
+                        <div class="row">
+                            <h2>Thống kê khách hàng và doanh thu</h2>
+                            <form action="AdminDashBoard" method="get">
+                                <label>Chọn năm:</label>
+                                <input type="number" name="year">
+
+                                <label>Chọn tháng:</label>
+                                <input type="number" name="month">
+
+                                <label>Chọn ngày:</label>
+                                <input type="number" name="day">
+
+                                <button type="submit">Thống kê</button>
+                            </form>
+
+                            <canvas id="statsChart"></canvas>
+                        </div>
                     </div>
                 </div><!--end container-->
 
@@ -270,7 +288,49 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
+         <script>
+        var labels = [];
+        var customerCounts = [];
+        var revenueCounts = [];
 
+        <c:forEach var="label" items="${labels}">
+            labels.push("${label}");
+        </c:forEach>
+
+        <c:forEach var="count" items="${customerCounts}">
+            customerCounts.push(${count});
+        </c:forEach>
+
+        <c:forEach var="revenue" items="${revenueCounts}">
+            revenueCounts.push(${revenue});
+        </c:forEach>
+
+        var ctx = document.getElementById('statsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Số lượng khách',
+                        data: customerCounts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                    },
+                    {
+                        label: 'Doanh thu (VND)',
+                        data: revenueCounts,
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
     </body>
 
 </html>

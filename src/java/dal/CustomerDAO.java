@@ -3,7 +3,9 @@ package dal;
 import model.Customer;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CustomerDAO extends DBContext {
 
@@ -554,8 +556,8 @@ public class CustomerDAO extends DBContext {
 
     public static void main(String[] args) {
         CustomerDAO d = new CustomerDAO();
-        int x = d.getTotalPrice(1);
-        System.out.println(x);
+        
+        System.out.println(d.getCustomerStats(2025, 1, 25));
     }
     
     //Phần của Sơn 
@@ -572,5 +574,29 @@ public class CustomerDAO extends DBContext {
         }
         return count;
     }
-    
+     
+   public Map<String, Integer> getCustomerStats(int year, int month, int day) {
+    Map<String, Integer> stats = new LinkedHashMap<>();
+    String sql = "SELECT FORMAT(date, 'yyyy-MM-dd') AS day, COUNT(DISTINCT customerId) AS totalCustomers " +
+                 "FROM Appointment WHERE (YEAR(date) = ? OR ? = 0) " +
+                 "AND (MONTH(date) = ? OR ? = 0) " +
+                 "AND (DAY(date) = ? OR ? = 0) " +
+                 "GROUP BY FORMAT(date, 'yyyy-MM-dd') ORDER BY MIN(date)";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, year);
+        ps.setInt(2, year);
+        ps.setInt(3, month);
+        ps.setInt(4, month);
+        ps.setInt(5, day);
+        ps.setInt(6, day);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            stats.put(rs.getString("day"), rs.getInt("totalCustomers"));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return stats;
+}
+   
 }

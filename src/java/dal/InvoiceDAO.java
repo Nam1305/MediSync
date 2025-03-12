@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Invoice;
 import java.sql.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import model.Appointment;
 import model.Service;
 
@@ -137,5 +139,33 @@ public class InvoiceDAO extends DBContext {
         }
         return totalRevenue;
     }
-    
+    public Map<String, Double> getRevenueStats(int year, int month, int day) {
+    Map<String, Double> stats = new LinkedHashMap<>();
+    String sql = "SELECT FORMAT(a.date, 'yyyy-MM-dd') AS day, SUM(i.price) AS totalRevenue " +
+                 "FROM Appointment a JOIN Invoice i ON a.appointmentId = i.appointmentId " +
+                 "WHERE (YEAR(a.date) = ? OR ? = 0) " +
+                 "AND (MONTH(a.date) = ? OR ? = 0) " +
+                 "AND (DAY(a.date) = ? OR ? = 0) " +
+                 "GROUP BY FORMAT(a.date, 'yyyy-MM-dd') ORDER BY MIN(a.date)";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, year);
+        ps.setInt(2, year);
+        ps.setInt(3, month);
+        ps.setInt(4, month);
+        ps.setInt(5, day);
+        ps.setInt(6, day);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            stats.put(rs.getString("day"), rs.getDouble("totalRevenue"));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return stats;
+}
+
+    public static void main(String[] args) {
+        InvoiceDAO i = new InvoiceDAO();
+        System.out.println(i.getRevenueStats(2025, 1, 25));
+    }
 }
