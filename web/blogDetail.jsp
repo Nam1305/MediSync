@@ -104,7 +104,7 @@
         <!-- Loader -->
 
         <!-- Navbar STart -->
-        <jsp:include page="layout/header2.jsp" /><!--end header-->
+        <jsp:include page="layout/header.jsp" /><!--end header-->
         <!-- Navbar End -->
 
         <!-- Blog Detail -->

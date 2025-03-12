@@ -206,6 +206,109 @@ public class FeedbackDAO extends DBContext {
         return false;
     }
 
+    public int getTotalFeedbacks(int staffId) {
+        String sql = "SELECT COUNT(*) FROM FeedBack WHERE staffId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, staffId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int countFeedbacksByRating(int staffId, int rating) {
+        String sql = "SELECT COUNT(*) FROM FeedBack WHERE staffId = ? AND ratings = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, staffId);
+            ps.setInt(2, rating);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Hàm đếm số lượng feedback có nội dung (comment)
+    public int countFeedbacksWithComment(int staffId) {
+        String sql = "SELECT COUNT(*) FROM Feedback WHERE staffId = ? AND content IS NOT NULL AND LEN(content) > 0";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, staffId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<Feedback> getFeedbackByStaff(int staffId, int pageNumber, int pageSize, int starFilter, String sortOrder) {
+        List<Feedback> feedbacks = new ArrayList<>();
+        String sql = "SELECT f.feedBackId, f.ratings, f.content, f.date, f.staffId, f.customerId, "
+                + "c.name, c.avatar " // Changed from username, fullName to name
+                + "FROM Feedback f "
+                + "JOIN Customer c ON f.customerId = c.customerId "
+                + "WHERE f.staffId = ? ";
+
+        if (starFilter >= 1 && starFilter <= 5) {
+            sql += " AND f.ratings = ? ";
+        }
+
+        if (sortOrder.equals("asc")) {
+            sql += " ORDER BY f.date ASC ";
+        } else {
+            sql += " ORDER BY f.date DESC ";
+        }
+
+        // Phân trang
+        sql += " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            int paramIndex = 1;
+            ps.setInt(paramIndex++, staffId);
+
+            if (starFilter >= 1 && starFilter <= 5) {
+                ps.setInt(paramIndex++, starFilter);
+            }
+
+            ps.setInt(paramIndex++, (pageNumber - 1) * pageSize);
+            ps.setInt(paramIndex++, pageSize);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Staff staff = new Staff();
+                staff.setStaffId(rs.getInt("staffId"));
+
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("customerId"));
+                customer.setName(rs.getString("name")); // Using the actual name field
+                customer.setAvatar(rs.getString("avatar"));
+
+                Feedback feedback = new Feedback(
+                        rs.getInt("feedBackId"),
+                        rs.getInt("ratings"),
+                        rs.getString("content"),
+                        rs.getDate("date"),
+                        staff,
+                        customer
+                );
+                feedbacks.add(feedback);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return feedbacks;
+    }
+
     public static void main(String[] args) {
         FeedbackDAO f = new FeedbackDAO();
         double[] d = f.getRatingStatistics(1);
