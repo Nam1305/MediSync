@@ -106,7 +106,7 @@
                                     <input type="date" name="date" class="form-control" value="${param.date}" style="width: 150px;">
 
                                     <!-- Bộ lọc số lượng hiển thị trên trang -->
-                                    <input type="number" name="pageSize" class="form-control" value="${param.pageSize != null ? param.pageSize : 10}" min="1" max="100" step="1" style="width: 100px;">
+                                    <input type="number" name="pageSize" class="form-control" value="${empty param.pageSize ? 10 : param.pageSize}" min="1" max="100" step="1" style="width: 100px;">
 
                                     <!-- Bộ lọc sắp xếp theo giờ hẹn -->
                                     <select name="sort" class="form-control" style="width: 170px;">
@@ -168,11 +168,11 @@
                                                     </c:choose>
                                                 </td>
                                                 <td class="text-end p-3">
-                                                    <a href="makeinvoice?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-primary">
-                                                            <i class="uil uil-shopping-cart"></i>
+                                                    <a href="makeorder?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-primary">
+                                                        <i class="uil uil-shopping-cart"></i>
                                                     </a>
 
-                         
+
                                                     <a href="doctorappdetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
                                                         <i class="uil uil-eye"></i>
                                                     </a>

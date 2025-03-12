@@ -104,21 +104,28 @@ public class FeedbackDAO extends DBContext {
                 staffId,
                 COUNT(*) AS total_feedback,
                 AVG(CAST(ratings AS FLOAT)) AS avg_rating,
-                SUM(CASE WHEN ratings = 5 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS percent_5_star,
-                SUM(CASE WHEN ratings = 4 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS percent_4_star,
-                SUM(CASE WHEN ratings = 3 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS percent_3_star,
-                SUM(CASE WHEN ratings = 2 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS percent_2_star,
-                SUM(CASE WHEN ratings = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS percent_1_star
+                SUM(CASE WHEN ratings = 5 THEN 1 ELSE 0 END) AS count_5_star,
+                SUM(CASE WHEN ratings = 4 THEN 1 ELSE 0 END) AS count_4_star,
+                SUM(CASE WHEN ratings = 3 THEN 1 ELSE 0 END) AS count_3_star,
+                SUM(CASE WHEN ratings = 2 THEN 1 ELSE 0 END) AS count_2_star,
+                SUM(CASE WHEN ratings = 1 THEN 1 ELSE 0 END) AS count_1_star,
+                COUNT(*) AS total_count
             FROM Feedback
             WHERE staffId = ?
             GROUP BY staffId
         )
-        SELECT ROUND(avg_rating, 2), 
-               ROUND(percent_5_star, 2),
-               ROUND(percent_4_star, 2),
-               ROUND(percent_3_star, 2),
-               ROUND(percent_2_star, 2),
-               ROUND(percent_1_star, 2)
+        SELECT 
+            ROUND(avg_rating, 2) AS avg_rating, 
+            ROUND(count_5_star * 100.0 / total_count, 2) AS percent_5_star,
+            count_5_star AS count_5_star,
+            ROUND(count_4_star * 100.0 / total_count, 2) AS percent_4_star,
+            count_4_star AS count_4_star,
+            ROUND(count_3_star * 100.0 / total_count, 2) AS percent_3_star,
+            count_3_star AS count_3_star,
+            ROUND(count_2_star * 100.0 / total_count, 2) AS percent_2_star,
+            count_2_star AS count_2_star,
+            ROUND(count_1_star * 100.0 / total_count, 2) AS percent_1_star,
+            count_1_star AS count_1_star
         FROM RatingCount;
     """;
         try {
@@ -127,18 +134,59 @@ public class FeedbackDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new double[]{
-                    rs.getDouble(1),
-                    rs.getDouble(2),
-                    rs.getDouble(3),
-                    rs.getDouble(4),
-                    rs.getDouble(5),
-                    rs.getDouble(6)
+                    rs.getDouble("avg_rating"),
+                    rs.getDouble("percent_5_star"),
+                    rs.getInt("count_5_star"),
+                    rs.getDouble("percent_4_star"),
+                    rs.getInt("count_4_star"),
+                    rs.getDouble("percent_3_star"),
+                    rs.getInt("count_3_star"),
+                    rs.getDouble("percent_2_star"),
+                    rs.getInt("count_2_star"),
+                    rs.getDouble("percent_1_star"),
+                    rs.getInt("count_1_star")
                 };
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return new double[]{0, 0, 0, 0, 0, 0};
+        return new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    }
 
+    public double[] getFeedbackTypePercentages(int staffId) {
+        String sql = """
+        WITH RatingCount AS (
+            SELECT 
+                COUNT(*) AS total_count,
+                SUM(CASE WHEN ratings = 1 THEN 1 ELSE 0 END) AS count_1_star,
+                SUM(CASE WHEN ratings = 2 THEN 1 ELSE 0 END) AS count_2_star,
+                SUM(CASE WHEN ratings = 3 THEN 1 ELSE 0 END) AS count_3_star,
+                SUM(CASE WHEN ratings = 4 THEN 1 ELSE 0 END) AS count_4_star,
+                SUM(CASE WHEN ratings = 5 THEN 1 ELSE 0 END) AS count_5_star
+            FROM Feedback
+            WHERE staffId = ?
+        )
+        SELECT 
+            total_count,
+            ROUND((count_1_star + count_2_star) * 100.0 / total_count, 2) AS negativePercent,
+            ROUND((count_3_star + count_4_star + count_5_star) * 100.0 / total_count, 2) AS positivePercent
+        FROM RatingCount;
+    """;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, staffId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new double[]{
+                        rs.getDouble("total_count"), // Tổng số feedback
+                        rs.getDouble("negativePercent"), // Phần trăm phản hồi tiêu cực (1-2 sao)
+                        rs.getDouble("positivePercent") // Phần trăm phản hồi tích cực (3-5 sao)
+                    };
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new double[]{0, 0, 0};
     }
 
     public boolean insertNewFeedback(Feedback feedback) {
@@ -157,7 +205,7 @@ public class FeedbackDAO extends DBContext {
         }
         return false;
     }
-    
+
     public static void main(String[] args) {
         FeedbackDAO f = new FeedbackDAO();
         double[] d = f.getRatingStatistics(1);

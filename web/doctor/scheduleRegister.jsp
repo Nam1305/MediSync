@@ -117,7 +117,7 @@
                                     <div>
                                         <label for="pageSize">Số bản ghi hiển thị:</label>
                                         <input type="number" id="pageSize" name="pageSize" class="form-control d-inline-block" style="width: 80px;"
-                                               min="1" step="1" value="${pageSize}" required>
+                                               min="1" step="1" value="${empty param.pageSize ? 5 : param.pageSize}" required>
                                     </div>
                                     <!-- Giữ giá trị trang hiện tại -->
                                     <input type="hidden" name="page" value="${currentPage}">

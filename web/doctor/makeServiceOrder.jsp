@@ -76,8 +76,8 @@
                                 <p><strong>Ngày:</strong> <fmt:formatDate value="${app.date}" pattern="dd/MM/yyyy"/></p>
                                 <p><strong>Giờ:</strong> ${app.start} - ${app.end}</p>
                             </div>
-                            <form id="invoiceForm" action="makeinvoice" method="post">
 
+                            <form id="invoiceForm" action="makeorder" method="post">
                                 <!-- Bảng hiển thị các dịch vụ đã chọn (Invoice) -->
                                 <div class="card p-3 mb-4">
                                     <h5 class="mb-3">✅ Dịch vụ đã chọn</h5>
@@ -85,7 +85,8 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>Dịch vụ</th>
-                                                <th>Giá</th>
+                                                <!-- Ẩn cột Giá -->
+                                                <th style="display:none;">Giá</th>
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
@@ -97,8 +98,7 @@
                                                         ${invoice.service.name}
                                                         <input type="hidden" name="serviceId[]" value="${invoice.service.serviceId}">
                                                     </td>
-                                                    <td class="price" data-price="${invoice.price}">
-                                                        <fmt:formatNumber value="${invoice.price}" type="currency" currencySymbol="VNĐ"/>
+                                                    <td class="price" data-price="${invoice.price}" style="display:none;">
                                                         <input type="hidden" name="price[]" value="${invoice.price}">
                                                     </td>
                                                     <td>
@@ -108,7 +108,7 @@
                                             </c:forEach>
                                         </tbody>
                                     </table>
-                                    <h5 class="text-end mt-3">💰 Tổng tiền: <span id="total-price">0</span> VNĐ</h5>
+                                    <!-- Bỏ phần tính tổng -->
                                 </div>
 
                                 <!-- Phần chọn và thêm dịch vụ mới -->
@@ -119,7 +119,7 @@
                                             <select class="form-select" id="serviceSelect">
                                                 <c:forEach var="service" items="${services}">
                                                     <option value="${service.serviceId}" data-price="${service.price}">
-                                                        ${service.name} - <fmt:formatNumber value="${service.price}" type="currency" currencySymbol="VNĐ"/>
+                                                        ${service.name}
                                                     </option>
                                                 </c:forEach>
                                             </select>
@@ -130,16 +130,14 @@
                                     </div>
                                 </div>
 
-                                <!-- Nút Lưu hóa đơn -->
-                                <div class="text-end">
-                                    <!-- Bao bọc bảng và nút lưu bên trong form để các input ẩn được gửi trực tiếp -->
-                                    <input type="hidden" name="appointmentId" value="${app.appointmentId}">
-                                    <!-- Phần table đã chứa các input ẩn sẽ được submit kèm theo -->
-
-                                    <button type="submit" class="btn btn-success">Lưu hóa đơn</button>
-                                </div>
+                                <!-- Nút Lưu hóa đơn (ẩn nếu app.status = 'paid') -->
+                                <c:if test="${app.status != 'paid'}">
+                                    <div class="text-end">
+                                        <input type="hidden" name="appointmentId" value="${app.appointmentId}">
+                                        <button type="submit" class="btn btn-success">Lưu hóa đơn</button>
+                                    </div>
+                                </c:if>
                             </form>
-
                         </div>
                     </div>
                 </div><!-- end container -->
@@ -161,44 +159,25 @@
                 $("#btnAddService").click(function () {
                     var selected = $("#serviceSelect option:selected");
                     var serviceId = selected.val();
-                    // Tách lấy tên dịch vụ từ option (giả sử định dạng: "Tên Dịch Vụ - Giá")
-                    var serviceName = selected.text().split(" - ")[0].trim();
+                    var serviceName = selected.text().trim();
                     var price = parseFloat(selected.data("price")) || 0;
 
-                    // Tạo dòng mới với các input ẩn cho serviceId và price
                     var rowHtml = '<tr>' +
                             '<td>' + serviceName +
                             '<input type="hidden" name="serviceId[]" value="' + serviceId + '">' +
                             '</td>' +
-                            '<td class="price" data-price="' + price + '">' +
-                            price.toLocaleString('vi-VN') +
+                            '<td class="price" data-price="' + price + '" style="display:none;">' +
                             '<input type="hidden" name="price[]" value="' + price + '">' +
                             '</td>' +
                             '<td><button type="button" class="btn btn-danger btn-sm btnRemoveService">Xóa</button></td>' +
                             '</tr>';
-
                     $("#selectedInvoiceTable tbody").append(rowHtml);
-                    updateTotalPrice();
                 });
 
                 // Xóa dòng dịch vụ khi nhấn nút "Xóa" trên mỗi hàng
                 $(document).on("click", ".btnRemoveService", function () {
                     $(this).closest("tr").remove();
-                    updateTotalPrice();
                 });
-
-                // Hàm tính tổng tiền của các dịch vụ đã chọn
-                function updateTotalPrice() {
-                    var total = 0;
-                    $("#selectedInvoiceTable tbody tr").each(function () {
-                        var rowPrice = parseFloat($(this).find(".price").data("price")) || 0;
-                        total += rowPrice;
-                    });
-                    $("#total-price").text(total.toLocaleString('vi-VN'));
-                }
-
-                // Gọi hàm updateTotalPrice() khi trang load để tính tổng các dịch vụ có sẵn
-                updateTotalPrice();
             });
         </script>
     </body>

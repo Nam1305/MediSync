@@ -34,7 +34,7 @@
     </servlet>
     <servlet>
         <servlet-name>DoctorProfileServlet</servlet-name>
-        <servlet-class>controller.doctor.StaffProfile</servlet-class>
+        <servlet-class>controller.StaffProfile</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListBlogServlet</servlet-name>
@@ -62,7 +62,7 @@
     </servlet>
     <servlet>
         <servlet-name>TinyMCEUploadImage</servlet-name>
-        <servlet-class>controller.doctor.TinyMCEUploadImage</servlet-class>
+        <servlet-class>controller.TinyMCEUploadImage</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterShift</servlet-name>
@@ -78,7 +78,11 @@
     </servlet>
     <servlet>
         <servlet-name>ListInvoiceServlet</servlet-name>
-        <servlet-class>controller.doctor.ListInvoiceServlet</servlet-class>
+        <servlet-class>controller.administrativeStaff.ListInvoiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MakeServiceOrder</servlet-name>
+        <servlet-class>controller.doctor.MakeServiceOrder</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -151,5 +155,9 @@
     <servlet-mapping>
         <servlet-name>ListInvoiceServlet</servlet-name>
         <url-pattern>/listinvoice</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MakeServiceOrder</servlet-name>
+        <url-pattern>/makeorder</url-pattern>
     </servlet-mapping>
 </web-app>

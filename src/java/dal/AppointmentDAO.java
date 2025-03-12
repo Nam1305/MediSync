@@ -449,32 +449,27 @@ public class AppointmentDAO extends DBContext {
         return prescriptions;
     }
 
-    public List<Appointment> getInvoiceByPage(Integer staffId, Integer appointmentId, String search,
-            String status, Date date, Double totalFrom, Double totalTo,
+    public List<Appointment> getInvoiceByPage(Integer appointmentId, String search,
+            String status, Date dateFrom, Date dateTo, Double totalFrom, Double totalTo,
             int page, int pageSize, String sortDate, String sortPrice) {
         List<Appointment> appointments = new ArrayList<>();
 
-        // Xử lý giá trị mặc định cho sortPrice để tránh lỗi NULL
+        // Đảm bảo sortPrice có giá trị mặc định nếu NULL
         sortPrice = (sortPrice == null || sortPrice.trim().isEmpty()) ? "ASC" : sortPrice;
 
         String sql = "WITH CTE AS ( "
                 + "    SELECT a.appointmentId, a.date, a.startTime, a.endTime, a.status, "
                 + "           a.staffId, a.customerId, SUM(i.price) AS total "
                 + "    FROM Appointment a "
-                + "    INNER JOIN Invoice i ON a.appointmentId = i.appointmentId " // Chỉ lấy các appointment có invoice
-                + "    WHERE 1=1 "; // Tránh lỗi nếu không có điều kiện lọc nào
+                + "    INNER JOIN Invoice i ON a.appointmentId = i.appointmentId "
+                + "    WHERE 1=1 ";
 
-        if (staffId != null) {
-            sql += " AND a.staffId = ? ";
-        }
         if (appointmentId != null) {
             sql += " AND a.appointmentId = ? ";
         }
         if (search != null && !search.trim().isEmpty()) {
             sql += " AND a.customerId IN (SELECT customerId FROM Customer WHERE name LIKE ?) ";
         }
-
-        // Xử lý điều kiện status đúng với yêu cầu
         if (status != null && !status.trim().isEmpty()) {
             if ("paid".equalsIgnoreCase(status)) {
                 sql += " AND a.status = 'paid' ";
@@ -482,13 +477,15 @@ public class AppointmentDAO extends DBContext {
                 sql += " AND a.status != 'paid' ";
             }
         }
-
-        if (date != null) {
-            sql += " AND a.date = ? ";
+        // Sử dụng khoảng ngày (từ dateFrom đến dateTo)
+        if (dateFrom != null) {
+            sql += " AND a.date >= ? ";
+        }
+        if (dateTo != null) {
+            sql += " AND a.date <= ? ";
         }
 
-        sql += "    GROUP BY a.appointmentId, a.date, a.startTime, a.endTime, "
-                + "             a.status, a.staffId, a.customerId "
+        sql += "    GROUP BY a.appointmentId, a.date, a.startTime, a.endTime, a.status, a.staffId, a.customerId "
                 + ") SELECT * FROM CTE WHERE 1=1 ";
 
         if (totalFrom != null) {
@@ -497,31 +494,28 @@ public class AppointmentDAO extends DBContext {
         if (totalTo != null) {
             sql += " AND total <= ? ";
         }
-
-        // Xử lý ORDER BY: Nếu sortDate != null thì thêm ORDER BY date
+        // Xử lý ORDER BY
         if (sortDate != null && !sortDate.trim().isEmpty()) {
             sql += " ORDER BY date " + sortDate + ", ";
         } else {
             sql += " ORDER BY ";
         }
-
-        // ORDER BY total (0 luôn nhỏ nhất khi ASC)
         sql += " CASE WHEN total = 0 THEN -999999 ELSE total END " + sortPrice
                 + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
-            if (staffId != null) {
-                ps.setInt(index++, staffId);
-            }
             if (appointmentId != null) {
                 ps.setInt(index++, appointmentId);
             }
             if (search != null && !search.trim().isEmpty()) {
                 ps.setString(index++, "%" + search + "%");
             }
-            if (date != null) {
-                ps.setDate(index++, date);
+            if (dateFrom != null) {
+                ps.setDate(index++, dateFrom);
+            }
+            if (dateTo != null) {
+                ps.setDate(index++, dateTo);
             }
             if (totalFrom != null) {
                 ps.setDouble(index++, totalFrom);
@@ -535,7 +529,7 @@ public class AppointmentDAO extends DBContext {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Appointment appointment = mapResultSetToAppointment(rs);
-                    appointment.setTotal(rs.getDouble("total")); // Nếu NULL -> đã thành 0 từ SQL
+                    appointment.setTotal(rs.getDouble("total")); // Nếu NULL -> 0
                     appointments.add(appointment);
                 }
             }
@@ -545,28 +539,23 @@ public class AppointmentDAO extends DBContext {
         return appointments;
     }
 
-    public int countInvoiceByPage(Integer staffId, Integer appointmentId, String search,
-            String status, Date date, Double totalFrom, Double totalTo) {
+    public int countInvoiceByPage(Integer appointmentId, String search,
+            String status, Date dateFrom, Date dateTo, Double totalFrom, Double totalTo) {
         int count = 0;
 
         String sql = "WITH CTE AS ( "
                 + "    SELECT a.appointmentId, a.date, a.startTime, a.endTime, a.status, "
                 + "           a.staffId, a.customerId, SUM(i.price) AS total "
                 + "    FROM Appointment a "
-                + "    INNER JOIN Invoice i ON a.appointmentId = i.appointmentId " // Chỉ lấy các appointment có invoice
-                + "    WHERE 1=1 "; // Tránh lỗi nếu không có điều kiện lọc nào
+                + "    INNER JOIN Invoice i ON a.appointmentId = i.appointmentId "
+                + "    WHERE 1=1 ";
 
-        if (staffId != null) {
-            sql += " AND a.staffId = ? ";
-        }
         if (appointmentId != null) {
             sql += " AND a.appointmentId = ? ";
         }
         if (search != null && !search.trim().isEmpty()) {
             sql += " AND a.customerId IN (SELECT customerId FROM Customer WHERE name LIKE ?) ";
         }
-
-        // Xử lý điều kiện status đúng với yêu cầu
         if (status != null && !status.trim().isEmpty()) {
             if ("paid".equalsIgnoreCase(status)) {
                 sql += " AND a.status = 'paid' ";
@@ -574,13 +563,14 @@ public class AppointmentDAO extends DBContext {
                 sql += " AND a.status != 'paid' ";
             }
         }
-
-        if (date != null) {
-            sql += " AND a.date = ? ";
+        if (dateFrom != null) {
+            sql += " AND a.date >= ? ";
+        }
+        if (dateTo != null) {
+            sql += " AND a.date <= ? ";
         }
 
-        sql += "    GROUP BY a.appointmentId, a.date, a.startTime, a.endTime, "
-                + "             a.status, a.staffId, a.customerId "
+        sql += "    GROUP BY a.appointmentId, a.date, a.startTime, a.endTime, a.status, a.staffId, a.customerId "
                 + ") SELECT COUNT(*) FROM CTE WHERE 1=1 ";
 
         if (totalFrom != null) {
@@ -592,17 +582,17 @@ public class AppointmentDAO extends DBContext {
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
-            if (staffId != null) {
-                ps.setInt(index++, staffId);
-            }
             if (appointmentId != null) {
                 ps.setInt(index++, appointmentId);
             }
             if (search != null && !search.trim().isEmpty()) {
                 ps.setString(index++, "%" + search + "%");
             }
-            if (date != null) {
-                ps.setDate(index++, date);
+            if (dateFrom != null) {
+                ps.setDate(index++, dateFrom);
+            }
+            if (dateTo != null) {
+                ps.setDate(index++, dateTo);
             }
             if (totalFrom != null) {
                 ps.setDouble(index++, totalFrom);
@@ -651,9 +641,9 @@ public class AppointmentDAO extends DBContext {
         }
 
         // Sử dụng ORDER BY để sắp xếp theo ngày và thời gian
-        sql += " ORDER BY date " + (sort.equalsIgnoreCase("asc") ? "ASC" : "DESC") 
-     + ", startTime " + (sort.equalsIgnoreCase("asc") ? "ASC" : "DESC")
-     + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        sql += " ORDER BY date " + (sort.equalsIgnoreCase("asc") ? "ASC" : "DESC")
+                + ", startTime " + (sort.equalsIgnoreCase("asc") ? "ASC" : "DESC")
+                + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
@@ -764,8 +754,8 @@ public class AppointmentDAO extends DBContext {
         }
         return count;
     }
-    
-    public void updateStatusForPayInvoice(int appointmentId){
+
+    public void updateStatusForPayInvoice(int appointmentId) {
         String sql = "UPDATE Appointment SET status = 'paid' where appointmentId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -775,11 +765,10 @@ public class AppointmentDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public int getTotalAppointments() {
         String sql = "SELECT COUNT(*) FROM Appointment";
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 return rs.getInt(1); // Lấy giá trị COUNT từ kết quả truy vấn
             }

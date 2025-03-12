@@ -32,6 +32,11 @@
                 </a>
             </li>
             <li>
+                <a href="listinvoice">
+                    <i class="uil uil-receipt me-2"></i> Hóa đơn
+                </a>
+            </li>
+            <li>
                 <a href="doctorprofile">
                     <i class="uil uil-user-circle me-2"></i> Tài khoản của tôi
                 </a>
