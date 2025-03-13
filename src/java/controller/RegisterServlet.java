@@ -65,7 +65,7 @@ public class RegisterServlet extends HttpServlet {
             customer.setPhone(phone);
             customer.setPassword(hashedPassword);
             customer.setEmail(email);
-            customer.setAvatar("https://thumbs.dreamstime.com/z/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg");
+            customer.setAvatar("assets/images/defaultavatar.png");
             customer.setStatus("Active");
             customerDao.insertCustomer(customer);
             System.out.println(customer.toString());

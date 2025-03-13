@@ -7,103 +7,119 @@
         <meta charset="utf-8" />
         <title>Lịch làm việc</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <!-- CSS Bootstrap, Icons, FullCalendar -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
+
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" />
+        <link href="assets/css/remixicon.css" rel="stylesheet" />
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet" />
-        <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="assets/css/style.min.css" rel="stylesheet" id="theme-opt" />
         <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
-        <link href="assets/css/fullcalendar.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/fullcalendar.min.css" rel="stylesheet" />
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
         <style>
-            /* Page background */
             body {
-                background-color: #e9ecef; /* Light gray */
+                background-color: #e9ecef;
             }
-            /* Calendar container */
             #calendar {
-                background-color: #ffffff; /* White */
+                width: 90%;
+                max-width: 1200px;
+                margin: auto;
+                background: #fff;
                 border: 1px solid #ced4da;
                 padding: 10px;
                 border-radius: 6px;
                 box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-                max-width: 900px;
-                margin: 40px auto;
+                min-height: 500px;
             }
-            /* Toolbar */
+
             .fc-toolbar {
-                color: #000000; /* Dark text */
-                border-radius: 4px;
-                padding: 5px;
+                background: #c3e6cb;
+                color: #155724;
+                border-radius: 6px;
+                padding: 8px;
             }
-            .fc-toolbar button {
-                background-color: #ffffff;
-                color: #000000;
+            .fc-toolbar h2 {
+                color: #155724 !important;
+            }
+            .fc-toolbar .fc-button {
+                background: #28a745;
+                color: #fff;
                 border: none;
                 border-radius: 4px;
-                margin: 2px;
+                padding: 6px 12px;
             }
-            .fc-toolbar button:hover {
-                background-color: #b8daff; /* Slightly darker blue */
+            .fc-toolbar .fc-button:hover {
+                background: #218838 !important;
             }
-            /* Header cells */
+            .fc-toolbar .fc-button-active {
+                background: #1e7e34 !important;
+            }
             .fc-col-header-cell {
-                background-color: #f1f3f5;
-                border: 1px solid #ced4da;
+                background: #f1f3f5;
+                color: #155724;
                 font-weight: bold;
+                border: 1px solid #ced4da;
             }
-            /* Event styling */
             .fc-event {
-                background-color: #28a745 !important; /* Green */
-                border-color: #28a745 !important;
-                color: #ffffff !important;
+                background: #28a745;
+                border-color: #218838;
+                color: #fff;
                 border-radius: 4px;
-                padding: 2px 4px;
             }
+            .fc-event:hover {
+                background: #1e7e34 !important;
+            }
+            .fc-day-today {
+                background: #d4edda !important;
+            }
+
+            @media (max-width: 768px) {
+                #calendar {
+                    width: 95vw;
+                    min-height: 400px;
+                }
+                .fc-toolbar {
+                    flex-direction: column;
+                    text-align: center;
+                }
+            }
+            @media (max-width: 480px) {
+                #calendar {
+                    width: 100%;
+                    min-height: 350px;
+                }
+            }
+            @media (min-width: 1024px) {
+                #calendar {
+                    width: 60vw; /* Giảm chiều rộng xuống 60% màn hình */
+                    max-width: 900px; /* Giới hạn kích thước tối đa để bảng không quá dài */
+                    max-height: 600px; /* Đảm bảo bảng không quá cao */
+                }
+            }
+
 
         </style>
     </head>
     <body>
-        <!-- Loader -->
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-                </div>
-            </div>
-        </div>
-        <!-- END Loader -->
-
         <div class="page-wrapper doctris-theme toggled">
             <jsp:include page="left-navbar.jsp" />
-            <!-- sidebar-wrapper -->
-
-            <!-- Start Page Content -->
             <main class="page-content bg-light">
                 <jsp:include page="top-navbar.jsp" />
                 <div class="container-fluid">
-                    <div class="layout-specing" style="margin-top: -4%;">
+                    <div class="layout-specing" style="margin-top: -1%;">
                         <div id="calendar"></div>
                     </div>
                 </div>
-                <!--end container-->
                 <jsp:include page="footer.jsp" />
             </main>
-            <!-- End Page Content -->
         </div>
-        <!-- END page-wrapper -->
-
-        <!-- Loại bỏ modal vì không cần popup nữa -->
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
             var calendarEl = document.getElementById("calendar");
-            // Hàm xác định tên ca dựa trên startTime (có thể dùng nếu cần hiển thị trong event)
             function getShiftTitle(startTime) {
             switch (startTime) {
             case "08:00:00": return "Ca 1";
@@ -112,7 +128,6 @@
             default: return "Ca khác";
             }
             }
-
             var events = [
             <c:if test="${not empty list}">
                 <c:forEach var="s" items="${list}" varStatus="status">
@@ -139,23 +154,13 @@
                                                     center: "title",
                                                     right: "dayGridMonth,timeGridWeek,timeGridDay"
                                             },
-                                            buttonText: {
-                                            today: 'Hôm nay',
-                                                    month: 'Tháng',
-                                                    week: 'Tuần',
-                                                    day: 'Ngày'
-                                            },
+                                            buttonText: { today: 'Hôm nay', month: 'Tháng', week: 'Tuần', day: 'Ngày' },
                                             events: events,
-                                            // Hiển thị chi tiết event trực tiếp trong ngày (inline)
                                             eventContent: function(info) {
                                             var title = info.event.title;
                                             var startTime = info.event.extendedProps.startTime;
                                             var endTime = info.event.extendedProps.endTime;
-                                            var html = '<div style="font-size: 0.8em; text-align: center;">'
-                                                    + title + '<br>'
-                                                    + startTime + ' - ' + endTime
-                                                    + '</div>';
-                                            return { html: html };
+                                            return { html: '<div style="font-size: 0.8em; text-align: center;">' + title + '<br>' + startTime + ' - ' + endTime + '</div>' };
                                             }
                                     });
                                     calendar.render();

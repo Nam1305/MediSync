@@ -15,7 +15,7 @@
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
         <link href="assets/css/fullcalendar.min.css" rel="stylesheet" type="text/css" />
-        <!-- JS dependencies -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <style>
@@ -95,7 +95,51 @@
                 font-weight: 600;
                 color: #555;
             }
-
+            .filter-container {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+            .rating-container {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .rating-box {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 80px;       /* giảm kích thước để tiết kiệm không gian */
+                height: 40px;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s;
+                background-color: #f8f9fa;
+                font-size: 14px;
+            }
+            .rating-box:hover {
+                border-color: #007bff;
+                background-color: #e9f5ff;
+            }
+            .rating-box input {
+                display: none;
+            }
+            .rating-box.active {
+                border-color: #28a745;
+                background-color: #d4edda;
+                color: #155724;
+            }
+            .rating-box i {
+                font-size: 1rem; /* icon nhỏ hơn */
+            }
+            .other-filters {
+                display: flex;
+                gap: 20px;
+                align-items: center;
+            }
         </style>
     </head>
     <body>
@@ -223,32 +267,47 @@
                             <div class="col-xl-9 col-lg-7 col-md-7 col-12 mt-4 pt-2">
                                 <!-- Bộ lọc -->
                                 <div class="card p-3 shadow-sm mb-4">
-                                    <form action="mfeedback" method="GET" id="filterForm" class="row g-2 align-items-center">
-                                        <!-- Các trường filter: starFilter, pageSize, sortOrder -->
-                                        <div class="col-md-3">
-                                            <select class="form-select" name="starFilter">
-                                                <option value="0" ${param.starFilter == null || param.starFilter == '0' ? 'selected' : ''}>Tất cả</option>
-                                                <c:forEach var="i" begin="1" end="5">
-                                                    <option value="${i}" ${param.starFilter == i ? 'selected' : ''}>${i} sao</option>
-                                                </c:forEach>
-                                            </select>
+                                    <form action="mfeedback" method="GET" id="filterForm" class="filter-container" onchange="this.submit()">
+                                        <!-- Rating Filter: Hiển thị các ô đánh giá -->
+                                        <div class="rating-container">
+                                            <!-- Lựa chọn từ 1 đến 5 sao: hiển thị số và một icon sao -->
+                                            <c:forEach var="i" begin="1" end="5">
+                                                <label class="rating-box">
+                                                    <input type="radio" name="starFilter" value="${i}" ${param.starFilter == i ? 'checked' : ''}>
+                                                    ${i} <i class="fas fa-star text-success"></i>
+                                                </label>
+                                            </c:forEach>
+                                            <!-- Lựa chọn Tiêu cực: value = 6 -->
+                                            <label class="rating-box">
+                                                <input type="radio" name="starFilter" value="6" ${param.starFilter == '6' ? 'checked' : ''}>
+                                                Tiêu cực
+                                            </label>
+                                            <!-- Lựa chọn Tích cực: value = 7 -->
+                                            <label class="rating-box">
+                                                <input type="radio" name="starFilter" value="7" ${param.starFilter == '7' ? 'checked' : ''}>
+                                                Tích cực
+                                            </label>
+                                            <!-- Lựa chọn Tất cả: value = 0 -->
+                                            <label class="rating-box">
+                                                <input type="radio" name="starFilter" value="0" ${param.starFilter == null || param.starFilter == '0' ? 'checked' : ''}>
+                                                Tất cả
+                                            </label>
                                         </div>
-                                        <div class="col-md-3">
-                                            <input type="number" name="pageSize" id="pageSizeInput" min="1" step="1"
-                                                   value="${empty param.pageSize ? 5 : param.pageSize}"
-                                                   class="form-control" placeholder="Số bản ghi">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <select class="form-select" name="sortOrder">
-                                                <option value="desc" ${param.sortOrder == 'desc' ? 'selected' : ''}>Mới nhất</option>
-                                                <option value="asc" ${param.sortOrder == 'asc' ? 'selected' : ''}>Cũ nhất</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- Nút Lọc và Reset nằm chung hàng -->
-                                        <div class="col-3 d-flex justify-content-end mt-2">
-                                            <button type="submit" class="btn btn-primary me-2">Lọc</button>
-                                            <button type="button" class="btn btn-secondary" id="btnReset">Làm mới</button>
+                                        <!-- Other Filters: Số bản ghi & Sắp xếp -->
+                                        <div class="other-filters">
+                                            <div class="d-flex align-items-center">
+                                                <label class="fw-bold me-2">Số bản ghi:</label>
+                                                <input type="number" name="pageSize" id="pageSizeInput" min="1" step="1"
+                                                       value="${empty param.pageSize ? 5 : param.pageSize}"
+                                                       class="form-control" style="width: 80px;" placeholder="Bản ghi">
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <label class="fw-bold me-2">Sắp xếp:</label>
+                                                <select class="form-select" name="sortOrder" style="width: 120px;">
+                                                    <option value="desc" ${param.sortOrder=='desc' ? 'selected' : ''}>Mới nhất</option>
+                                                    <option value="asc" ${param.sortOrder=='asc' ? 'selected' : ''}>Cũ nhất</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </form>
 
@@ -324,19 +383,18 @@
             </main>
         </div>
         <script>
-            // Nút Reset: Xóa tất cả các giá trị trong form
-            document.getElementById("btnReset").addEventListener("click", function () {
-                var form = document.getElementById("filterForm");
-                // Reset tất cả các select về lựa chọn đầu tiên
-                form.querySelectorAll("select").forEach(function (select) {
-                    select.selectedIndex = 0;
-                });
-                // Reset tất cả các input (text, number, v.v.)
-                form.querySelectorAll("input").forEach(function (input) {
-                    input.value = "";
+            // Xử lý active state cho rating-box khi click
+            document.querySelectorAll(".rating-box").forEach(box => {
+                box.addEventListener("click", function () {
+                    document.querySelectorAll(".rating-box").forEach(b => b.classList.remove("active"));
+                    this.classList.add("active");
                 });
             });
-        </script>F
+            // Khi trang load, nếu có input đã được chọn, thêm active cho thẻ chứa
+            document.querySelectorAll('input[name="starFilter"]:checked').forEach(input => {
+                input.parentElement.classList.add("active");
+            });
+        </script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/app.js"></script>

@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Appointment;
 import java.sql.*;
+import java.time.LocalDate;
 import model.Staff;
 
 /**
@@ -24,31 +25,25 @@ public class DoctorAppointment extends HttpServlet {
 
     AppointmentDAO ad = new AppointmentDAO();
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Staff st = (Staff) session.getAttribute("staff");
+
         // Đặt charset cho request và response
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+
+        // Xử lý cập nhật trạng thái nếu có
         String appId = request.getParameter("appointmentId");
         String newStatus = request.getParameter("newStatus");
         if (appId != null && newStatus != null) {
             try {
                 int appointmentId = Integer.parseInt(appId);
-                // Cập nhật trạng thái của appointment
                 ad.updateAppointmentStatus(appointmentId, newStatus);
             } catch (NumberFormatException e) {
+                // Log lỗi nếu cần
             }
         }
 
@@ -57,15 +52,38 @@ public class DoctorAppointment extends HttpServlet {
         if (search != null) {
             search = search.trim().replaceAll("\\s+", " ");
         }
-        String status = request.getParameter("status");
-        String dateStr = request.getParameter("date");
-        Date date = null;
-        if (dateStr != null && !dateStr.trim().isEmpty()) {
+        String status = request.getParameter("status"); // filter status: "pending", "confirmed", "absent"
+
+        // Lấy giá trị từDate và toDate từ request
+        String fromDateStr = request.getParameter("fromDate");
+        String toDateStr = request.getParameter("toDate");
+        Date fromDate = null, toDate = null;
+
+        // Tách riêng xử lý fromDate và toDate
+        if (fromDateStr != null && !fromDateStr.trim().isEmpty()) {
             try {
-                date = Date.valueOf(dateStr);
+                fromDate = Date.valueOf(fromDateStr);
             } catch (Exception e) {
-                date = null;
+                fromDate = null;
             }
+        }
+        if (toDateStr != null && !toDateStr.trim().isEmpty()) {
+            try {
+                toDate = Date.valueOf(toDateStr);
+            } catch (Exception e) {
+                toDate = null;
+            }
+        }
+        // Nếu cả 2 đều null, mặc định lấy ngày hôm nay
+        if (fromDateStr == null) {
+            LocalDate today = LocalDate.now();
+            fromDate = Date.valueOf(today);
+            fromDateStr = fromDate.toString();
+        }
+        if (toDateStr == null) {
+            LocalDate today = LocalDate.now();
+            toDate = Date.valueOf(today);
+            toDateStr = toDate.toString();
         }
 
         // Xử lý phân trang: mặc định page = 1, pageSize = 10
@@ -85,38 +103,34 @@ public class DoctorAppointment extends HttpServlet {
                 pageSize = 10;
             }
         }
-        
+
         String sort = "asc";
-        if(request.getParameter("sort") != null){
+        if (request.getParameter("sort") != null) {
             sort = request.getParameter("sort");
         }
 
         try {
             // Lấy danh sách Appointment theo filter và phân trang
-            List<Appointment> listA = ad.getAppointmentsByPage(st.getStaffId(), search, status, date, page, pageSize, sort);
-            int totalAppointments = ad.countAppointmentsByFilter(st.getStaffId(), search, status, date);
-            int totalPages = (int) Math.ceil((double) totalAppointments / pageSize);
+            List<Appointment> listA = ad.getAppointmentsByPage(st.getStaffId(), search, status, fromDate, toDate, page, pageSize, sort);
+            int statis[] = ad.countAppointmentStatsByFilter(st.getStaffId(), search, status, fromDate, toDate);
+            int totalPages = (int) Math.ceil((double) statis[0] / pageSize);
 
-            // Đẩy dữ liệu ra JSP
             request.setAttribute("listA", listA);
             request.setAttribute("currentPage", page);
             request.setAttribute("pageSize", pageSize);
-            request.setAttribute("totalAppointments", totalAppointments);
-            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("statis", statis);
+            request.setAttribute("totalPages", totalPages);     // "Vắng mặt"
             request.setAttribute("search", search);
             request.setAttribute("status", status);
-            request.setAttribute("date", dateStr);
+            request.setAttribute("fromDate", fromDateStr);
+            request.setAttribute("toDate", toDateStr);
             request.setAttribute("sort", sort);
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        // Forward đến JSP hiển thị danh sách lịch hẹn
         request.getRequestDispatcher("doctor/doctorAppointment.jsp").forward(request, response);
-
     }
-    
-    
-    
 
     /**
      * Returns a short description of the servlet.

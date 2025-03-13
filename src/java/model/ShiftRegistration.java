@@ -3,15 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+
 import java.sql.*;
+
 /**
  *
  * @author DIEN MAY XANH
  */
-public class ShiftRegistration {  
+public class ShiftRegistration {
+
     private int registrationId, staffId, shift;
     private String status;
     private Date regisDate;
+    private Date startDate; // New field
+    private Date endDate;   // New field
 
     public ShiftRegistration() {
     }
@@ -22,6 +27,17 @@ public class ShiftRegistration {
         this.shift = shift;
         this.status = status;
         this.regisDate = regisDate;
+    }
+
+    // New constructor with startDate and endDate
+    public ShiftRegistration(int registrationId, int staffId, int shift, String status, Date regisDate, Date startDate, Date endDate) {
+        this.registrationId = registrationId;
+        this.staffId = staffId;
+        this.shift = shift;
+        this.status = status;
+        this.regisDate = regisDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public int getRegistrationId() {
@@ -64,10 +80,26 @@ public class ShiftRegistration {
         this.regisDate = regisDate;
     }
 
+    // Getters and setters for new fields
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     @Override
     public String toString() {
-        return "ShiftRegistration{" + "registrationId=" + registrationId + ", staffId=" + staffId + ", shift=" + shift + ", status=" + status + ", regisDate=" + regisDate + '}';
+        return "ShiftRegistration{" + "registrationId=" + registrationId + ", staffId=" + staffId + ", shift=" + shift
+                + ", status=" + status + ", regisDate=" + regisDate + ", startDate=" + startDate + ", endDate=" + endDate + '}';
     }
-    
-    
 }

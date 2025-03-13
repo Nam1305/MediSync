@@ -46,7 +46,7 @@ public class ScheduleDAO extends DBContext {
 
     public List<ShiftRegistration> ShiftRegistrationByStaffId(int staffId, int page, int pageSize) {
         List<ShiftRegistration> list = new ArrayList<>();
-        String sql = "SELECT registrationId, staffId, shift, status, registrationDate "
+        String sql = "SELECT registrationId, staffId, shift, status, registrationDate, startDate, endDate "
                 + "FROM DoctorShiftRegistration "
                 + "WHERE staffId = ? "
                 + "ORDER BY registrationDate DESC "
@@ -65,7 +65,9 @@ public class ScheduleDAO extends DBContext {
                         rs.getInt(2), // staffId
                         rs.getInt(3), // shift
                         rs.getString(4), // status
-                        rs.getDate(5) // registrationDate
+                        rs.getDate(5), // registrationDate
+                        rs.getDate(6), // startDate
+                        rs.getDate(7) // endDate
                 );
                 list.add(o);
             }
@@ -92,15 +94,36 @@ public class ScheduleDAO extends DBContext {
         return 0;
     }
 
-    public boolean insertShiftRegistration(int staffId, int shift, Date date) {
-        String sql = "insert into DoctorShiftRegistration (staffId, shift, status, registrationDate) values(?,?,'Pending',?)";
+    public boolean insertShiftRegistration(int staffId, int shift, Date fromDate, Date toDate) {
+        String sql = "INSERT INTO DoctorShiftRegistration (staffId, shift, status, registrationDate, startDate, endDate) VALUES (?, ?, 'Pending', ?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, staffId);
             ps.setInt(2, shift);
-            ps.setDate(3, date);
+            ps.setDate(3, new java.sql.Date(System.currentTimeMillis())); // Lấy ngày hiện tại làm registrationDate
+            ps.setDate(4, fromDate);
+            ps.setDate(5, toDate);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    //Method moi
+    public boolean insertShiftRegistration(int staffId, int shift, Date registrationDate, Date startDate, Date endDate) {
+        String sql = "insert into DoctorShiftRegistration (staffId, shift, status, registrationDate, startDate, endDate) values(?,?,'Pending',?,?,?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, staffId);
+            ps.setInt(2, shift);
+            ps.setDate(3, registrationDate);
+            ps.setDate(4, startDate);
+            ps.setDate(5, endDate);
             ps.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -197,29 +220,28 @@ public class ScheduleDAO extends DBContext {
             ps.setDate(5, date);
             ps.setString(6, "pending");
             return ps.executeUpdate() > 0;
-            
+
         } catch (SQLException e) {
             return false;
         }
     }
-    
-    
+
     public boolean deleteShiftRegistration(int registrationId) {
         String sql = "delete from DoctorShiftRegistration where registrationId = ?";
-        
+
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, registrationId);
-            ps.executeUpdate();     
+            ps.executeUpdate();
         } catch (SQLException ex) {
             return false;
         }
         return true;
     }
-    
+
     //Them boi Nguyen Dinh Chinh
     public boolean updateShiftRegistration(ShiftRegistration registration) {
-        String sql = "UPDATE DoctorShiftRegistration SET staffId = ?, shift = ?, status = ?, registrationDate = ? WHERE registrationId = ?";
+        String sql = "UPDATE DoctorShiftRegistration SET staffId = ?, shift = ?, status = ?, registrationDate = ?, startDate = ?, endDate = ? WHERE registrationId = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -227,7 +249,9 @@ public class ScheduleDAO extends DBContext {
             ps.setInt(2, registration.getShift());
             ps.setString(3, registration.getStatus());
             ps.setDate(4, registration.getRegisDate());
-            ps.setInt(5, registration.getRegistrationId());
+            ps.setDate(5, registration.getStartDate());
+            ps.setDate(6, registration.getEndDate());
+            ps.setInt(7, registration.getRegistrationId());
 
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
@@ -249,7 +273,7 @@ public class ScheduleDAO extends DBContext {
     public List<ShiftRegistration> getShiftRegistrations(Integer staffId, Date fromDate, Date toDate, int page, int pageSize) {
         List<ShiftRegistration> list = new ArrayList<>();
         StringBuilder sqlBuilder = new StringBuilder();
-        sqlBuilder.append("SELECT registrationId, staffId, shift, status, registrationDate ")
+        sqlBuilder.append("SELECT registrationId, staffId, shift, status, registrationDate, startDate, endDate ")
                 .append("FROM DoctorShiftRegistration WHERE 1=1 ");
 
         if (staffId != null) {
@@ -293,7 +317,9 @@ public class ScheduleDAO extends DBContext {
                         rs.getInt("staffId"),
                         rs.getInt("shift"),
                         rs.getString("status"),
-                        rs.getDate("registrationDate")
+                        rs.getDate("registrationDate"),
+                        rs.getDate("startDate"),
+                        rs.getDate("endDate")
                 );
                 list.add(o);
             }
@@ -360,7 +386,7 @@ public class ScheduleDAO extends DBContext {
      * @return Đối tượng ShiftRegistration nếu tìm thấy, null nếu không tìm thấy
      */
     public ShiftRegistration getShiftRegistrationById(int registrationId) {
-        String sql = "SELECT registrationId, staffId, shift, status, registrationDate "
+        String sql = "SELECT registrationId, staffId, shift, status, registrationDate, startDate, endDate "
                 + "FROM DoctorShiftRegistration WHERE registrationId = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -372,7 +398,9 @@ public class ScheduleDAO extends DBContext {
                         rs.getInt("staffId"),
                         rs.getInt("shift"),
                         rs.getString("status"),
-                        rs.getDate("registrationDate")
+                        rs.getDate("registrationDate"),
+                        rs.getDate("startDate"),
+                        rs.getDate("endDate")
                 );
             }
         } catch (SQLException ex) {
@@ -381,58 +409,6 @@ public class ScheduleDAO extends DBContext {
         return null;
     }
 
-    public static void main(String[] args) {
-        ScheduleDAO d = new ScheduleDAO();
-//        List<Schedule> l = d.getScheduleByPage(1, null, null, 1, 3);
-//        for (Schedule s : l) {
-//            System.out.println(s.toString());
-//        }
-//        System.out.println(l.size());
-//        Schedule schedule = new Schedule(
-//                1, // scheduleId
-//                Time.valueOf("08:00:00"), // startTime
-//                Time.valueOf("17:00:00"), // endTime
-//                1, // shift
-//                Date.valueOf("2025-02-17"), // date
-//                101 // staffId
-//        );
-//
-//        Date workDate = new Date(System.currentTimeMillis());
-//        d.insertShiftRegistration(1, 1, workDate);
-//        List<ShiftRegistration> l = d.ShiftRegistrationByStaffId(1, 1, 10);
-//        for (ShiftRegistration sh : l) {
-//            System.out.println(sh);
-//        }
-
-//        int staffId = 1; // ID của bác sĩ cần test
-//        List<Schedule> schedules = d.getSchedulesByDoctor(staffId, Date.valueOf("2025-01-26"));
-//        if (schedules.isEmpty()) {
-//            System.out.println("Không có lịch làm việc nào cho bác sĩ " + staffId + " vào ngày " );
-//        } else {
-//            System.out.println("Lịch làm việc của bác sĩ " + staffId + " vào ngày "  + ":");
-//            for (Schedule schedule : schedules) {
-//                System.out.println("Schedule ID: " + schedule.getScheduleId()
-//                        + ", Start Time: " + schedule.getStartTime()
-//                        + ", End Time: " + schedule.getEndTime()
-//                        + ", Shift: " + schedule.getShift());
-//            }
-//        }
-//        List<TimeSlot> timeSlot = d.generateTimeSlots(Time.valueOf("08:00:00"), Time.valueOf("10:00:00"));
-//        for (TimeSlot timeSlot1 : timeSlot) {
-//            System.out.println(timeSlot);
-//        }
-        List<TimeSlot> timeSlot = d.getAvailableTimeSlots(1, Date.valueOf("2025-01-25"));
-        for (TimeSlot timeSlot1 : timeSlot) {
-            if (timeSlot1.isIsBooked() == false) {
-                System.out.println(timeSlot1);
-            }
-
-        }
-        
-        boolean x = d.bookAppointment(1, 11,Time.valueOf("10:00:00"), Time.valueOf("10:30:00"), Date.valueOf("2025-01-25"));
-        System.out.println(x);
-    }
-    
     public boolean insertSchedule(Schedule schedule) {
         String sql = "INSERT INTO Schedule (startTime, endTime, shift, date, staffId) VALUES (?, ?, ?, ?, ?)";
 

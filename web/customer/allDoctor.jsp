@@ -115,6 +115,11 @@
                                                             <i data-feather="eye" class="icons"></i>
                                                         </a>
                                                     </li>
+                                                    <li class="mt-2">
+                                                        <a href="staffFeedback?staffId=${doctor.staffId}" class="btn btn-icon btn-pills btn-soft-warning">
+                                                            <i data-feather="star" class="icons"></i>
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>

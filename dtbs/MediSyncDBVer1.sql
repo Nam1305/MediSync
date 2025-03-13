@@ -160,6 +160,8 @@ CREATE TABLE DoctorShiftRegistration (
     registrationId INT IDENTITY PRIMARY KEY,  
     staffId INT NOT NULL,                     
     shift TINYINT CHECK (shift IN (1, 2, 3)) NOT NULL, 
+    startDate date NULL,
+    endDate date NULL,
     status NVARCHAR(50) DEFAULT 'Pending' 
         CHECK (status IN ('Pending', 'Approved', 'Rejected')), 
     registrationDate DATE DEFAULT GETDATE(),  
@@ -710,46 +712,52 @@ INSERT INTO Comment (content, [date], blogId, customerId) VALUES
  
 -- Appointment
 -- Các thuộc tính: pending, cancelled, confirmed, paid
-INSERT INTO Appointment ([date], startTime, endTime, status, staffId, customerId)  
-VALUES  
--- StaffId 1  
-('2025-01-25', '08:00:00', '08:30:00', 'pending', 1, 1),  
-('2025-01-26', '13:00:00', '13:30:00',  'confirmed', 1, 2),  
-('2025-01-27', '18:00:00', '18:30:00',  'paid', 1, 3),  
+INSERT INTO Appointment ([date], startTime, endTime, status, staffId, customerId)
+VALUES
+-- StaffID = 1 (đầy đủ các ngày từ 13 đến 31/03, bắt buộc có ngày 30/03)
+('2025-03-13', '08:00:00', '08:30:00', 'pending',   1, 1),
+('2025-03-15', '08:30:00', '09:00:00', 'confirmed', 1, 2),
+('2025-03-17', '09:00:00', '09:30:00', 'paid',      1, 3),
 
 
--- StaffId 2  
-('2025-01-25', '08:00:00', '08:30:00', 'cancelled', 2, 4),  
-('2025-01-26', '13:00:00', '13:30:00',  'pending', 2, 5),  
-('2025-01-27', '18:00:00', '18:30:00',  'waitpay', 2, 6),  
+-- StaffID = 2 (lịch làm việc ca 2: 13:00–17:00)
+('2025-03-17', '13:00:00', '13:30:00', 'cancelled', 2, 4),
+('2025-03-20', '13:00:00', '13:30:00', 'pending',   2, 5),
+('2025-03-24', '13:00:00', '13:30:00', 'pending',   2, 6),
 
--- StaffId 3  
-('2025-01-25', '13:00:00', '13:30:00',  'confirmed', 3, 7),  
-('2025-01-26', '08:00:00', '08:30:00', 'confirmed', 3, 8),  
-('2025-01-27', '18:00:00', '18:30:00',  'paid', 3, 9),  
+-- StaffID = 3 (lịch làm việc ca 2: 13:00–17:00)
+('2025-03-18', '13:00:00', '13:30:00', 'confirmed', 3, 7),
+('2025-03-21', '13:00:00', '13:30:00', 'confirmed', 3, 8),
+('2025-03-25', '13:00:00', '13:30:00', 'paid',      3, 9),
 
--- StaffId 5  
-('2025-01-25', '13:00:00', '13:30:00',  'confirmed', 5, 10),  
-('2025-01-26', '18:00:00', '18:30:00', 'waitpay', 5, 1),  
+-- StaffID = 5 (lịch làm việc ca 1: 08:00–12:00)
+('2025-03-17', '08:00:00', '08:30:00', 'confirmed', 5, 10),
+('2025-03-19', '08:00:00', '08:30:00', 'pending',   5, 1),  -- thay "waitpay" thành "pending"
 
--- StaffId 7  
-('2025-01-25', '08:00:00', '08:30:00', 'cancelled', 7, 3),  
-('2025-01-26', '18:00:00', '18:30:00',  'paid', 7, 4),  
-('2025-01-27', '13:00:00', '13:30:00',  'confirmed', 7, 5),  
+-- StaffID = 7 (lịch làm việc ca 2: 13:00–17:00)
+('2025-03-18', '13:00:00', '13:30:00', 'cancelled', 7, 3),
+('2025-03-20', '13:00:00', '13:30:00', 'paid',      7, 4),
+('2025-03-24', '13:00:00', '13:30:00', 'confirmed', 7, 5),
 
--- StaffId 8  
-('2025-01-25', '13:00:00', '13:30:00',  'cancelled', 8, 6),  
-('2025-01-26', '08:00:00', '08:30:00',  'paid', 8, 7),  
-('2025-01-28', '18:00:00', '18:30:00',  'pending', 8, 8),  
+-- StaffID = 8 (lịch làm việc ca 2: 13:00–17:00)
+('2025-03-17', '13:00:00', '13:30:00', 'cancelled', 8, 6),
+('2025-03-21', '13:00:00', '13:30:00', 'paid',      8, 7),
+('2025-03-28', '13:00:00', '13:30:00', 'pending',   8, 8),
 
--- StaffId 9  
-('2025-01-24', '08:00:00', '08:30:00',  'paid', 9, 9),  
-('2025-01-24', '13:00:00', '13:30:00',  'confirmed', 9, 10),
-
-('2025-01-25', '08:30:00', '09:00:00',  'confirmed', 1, 8),  
-('2025-01-25', '09:00:00', '09:30:00', 'confirmed', 1, 9),  
-('2025-01-27', '18:30:00', '19:00:00',  'paid', 1, 10);
-
+-- StaffID = 9 (lịch làm việc ca 1: 08:00–12:00)
+('2025-03-16', '08:00:00', '08:30:00', 'paid',      9, 9),
+('2025-03-20', '08:00:00', '08:30:00', 'confirmed', 9, 10),
+--StaffID = 1
+('2025-03-18', '09:30:00', '10:00:00', 'pending',   1, 1),
+('2025-03-18', '10:00:00', '10:30:00', 'confirmed', 1, 2),
+('2025-03-20', '09:30:00', '10:00:00', 'pending',   1, 3),
+('2025-03-20', '10:00:00', '10:30:00', 'confirmed', 1, 4),
+('2025-03-25', '09:30:00', '10:00:00', 'pending',   1, 5),
+('2025-03-25', '10:00:00', '10:30:00', 'confirmed', 1, 6),
+('2025-03-27', '09:30:00', '10:00:00', 'pending',   1, 7),
+('2025-03-27', '10:00:00', '10:30:00', 'confirmed', 1, 8),
+('2025-03-30', '09:30:00', '10:00:00', 'pending',   1, 9),
+('2025-03-30', '10:00:00', '10:30:00', 'confirmed', 1, 10);
 
 --Prescription 
 -- Đơn thuốc 1
@@ -821,121 +829,147 @@ VALUES
 
 
 
-INSERT INTO Service (name, content, price, status) VALUES
+INSERT INTO Service (name, content, price, status) VALUES 
 -- Khoa Nội Tổng Quát
-(N'Khám tổng quát', N'Bao gồm đo huyết áp, kiểm tra tim mạch, khám tổng quát hệ tiêu hóa, hô hấp, thần kinh và tư vấn sức khỏe.', 100000,N'Active'),
-(N'Khám sức khỏe định kỳ', N'Khám tổng quát định kỳ để theo dõi tình trạng sức khỏe, phát hiện sớm các bệnh lý tiềm ẩn.', 120000,N'Active'),
-(N'Tư vấn với bác sĩ', N'Tư vấn trực tiếp hoặc online với bác sĩ chuyên khoa về triệu chứng, hướng dẫn điều trị, đơn thuốc và chăm sóc sức khỏe.', 150000,N'Active'),
-(N'Tư vấn với chuyên gia', N'Gặp chuyên gia hàng đầu trong lĩnh vực y tế để có hướng dẫn điều trị chuyên sâu và kế hoạch chăm sóc sức khỏe cá nhân hoặc qua online.', 150000,N'Active'),
-(N'Tư vấn dinh dưỡng', N'Tư vấn chế độ ăn uống phù hợp với từng độ tuổi, tình trạng sức khỏe và bệnh lý.', 100000,N'Active'),
+(N'Khám tổng quát', N'Bao gồm đo huyết áp, kiểm tra tim mạch, khám tổng quát hệ tiêu hóa, hô hấp, thần kinh và tư vấn sức khỏe.', 100000, N'Active'),
+(N'Khám sức khỏe định kỳ', N'Khám tổng quát định kỳ để theo dõi tình trạng sức khỏe, phát hiện sớm các bệnh lý tiềm ẩn.', 120000, N'Active'),
+(N'Tư vấn với bác sĩ', N'Tư vấn trực tiếp hoặc online với bác sĩ chuyên khoa về triệu chứng, hướng dẫn điều trị, đơn thuốc và chăm sóc sức khỏe.', 150000, N'Active'),
+(N'Tư vấn với chuyên gia', N'Gặp chuyên gia hàng đầu trong lĩnh vực y tế để có hướng dẫn điều trị chuyên sâu và kế hoạch chăm sóc sức khỏe cá nhân hoặc qua online.', 150000, N'Active'),
+(N'Tư vấn dinh dưỡng', N'Tư vấn chế độ ăn uống phù hợp với từng độ tuổi, tình trạng sức khỏe và bệnh lý.', 100000, N'Active'),
 
 -- Khoa Tai-Mũi-Họng
-(N'Khám và điều trị viêm tai, mũi, họng', N'Khám và điều trị các bệnh lý về viêm họng, viêm xoang, viêm tai giữa.', 120000,N'Active'),
-(N'Nội soi tai, mũi, họng', N'Sử dụng nội soi để kiểm tra và chẩn đoán các bệnh lý vùng tai, mũi, họng.', 250000,N'Active'),
-(N'Phẫu thuật tai, mũi, họng', N'Thực hiện phẫu thuật tai, mũi, họng khi cần thiết như cắt amidan, nạo VA.', 3000000,N'Active'),
-(N'Điều trị dị ứng', N'Tư vấn và điều trị các bệnh lý dị ứng liên quan đến đường hô hấp, da liễu.', 180000,N'Active'),
-(N'Phục hồi chức năng thính giác', N'Hỗ trợ phục hồi thính lực với các bài tập và thiết bị trợ thính.', 500000,N'Active'),
+(N'Khám và điều trị viêm tai, mũi, họng', N'Khám và điều trị các bệnh lý về viêm họng, viêm xoang, viêm tai giữa.', 120000, N'Active'),
+(N'Nội soi tai, mũi, họng', N'Sử dụng nội soi để kiểm tra và chẩn đoán các bệnh lý vùng tai, mũi, họng.', 250000, N'Active'),
+(N'Phẫu thuật tai, mũi, họng', N'Thực hiện phẫu thuật tai, mũi, họng khi cần thiết như cắt amidan, nạo VA.', 3000000, N'Active'),
+(N'Điều trị dị ứng', N'Tư vấn và điều trị các bệnh lý dị ứng liên quan đến đường hô hấp, da liễu.', 180000, N'Active'),
+(N'Phục hồi chức năng thính giác', N'Hỗ trợ phục hồi thính lực với các bài tập và thiết bị trợ thính.', 500000, N'Active'),
 
 -- Khoa Xét nghiệm
-(N'Xét nghiệm máu', N'Xét nghiệm công thức máu, đường huyết, mỡ máu, chức năng gan, chức năng thận và các chỉ số sinh hóa khác.', 200000,N'Active'),
-(N'Xét nghiệm nước tiểu', N'Kiểm tra chức năng thận, đường huyết, và các chỉ số sức khỏe khác qua xét nghiệm nước tiểu.', 180000,N'Active'),
-(N'Xét nghiệm sinh hóa', N'Đánh giá chức năng gan, thận, đường huyết, mỡ máu qua các chỉ số sinh hóa.', 250000,N'Active'),
-(N'Xét nghiệm vi sinh', N'Phát hiện vi khuẩn, virus, nấm và ký sinh trùng gây bệnh.', 300000,N'Active'),
+(N'Xét nghiệm máu', N'Xét nghiệm công thức máu, đường huyết, mỡ máu, chức năng gan, chức năng thận và các chỉ số sinh hóa khác.', 200000, N'Active'),
+(N'Xét nghiệm nước tiểu', N'Kiểm tra chức năng thận, đường huyết, và các chỉ số sức khỏe khác qua xét nghiệm nước tiểu.', 180000, N'Active'),
+(N'Xét nghiệm sinh hóa', N'Đánh giá chức năng gan, thận, đường huyết, mỡ máu qua các chỉ số sinh hóa.', 250000, N'Active'),
+(N'Xét nghiệm vi sinh', N'Phát hiện vi khuẩn, virus, nấm và ký sinh trùng gây bệnh.', 300000, N'Active'),
 
 -- Khoa Ngoại cơ bản
-(N'Tiểu phẫu', N'Thực hiện các tiểu phẫu nhỏ như cắt u bướu nhỏ, xử lý áp xe, cắt bao quy đầu, khâu vết thương hở dưới gây tê tại chỗ.', 2000000,N'Active'),
-(N'Điều trị chấn thương', N'Can thiệp y tế để điều trị gãy xương, bong gân, tổn thương mô mềm.', 250000,N'Active'),
-(N'Chăm sóc hậu phẫu', N'Theo dõi và chăm sóc bệnh nhân sau phẫu thuật để phục hồi nhanh chóng.', 300000,N'Active');
+(N'Tiểu phẫu', N'Thực hiện các tiểu phẫu nhỏ như cắt u bướu nhỏ, xử lý áp xe, cắt bao quy đầu, khâu vết thương hở dưới gây tê tại chỗ.', 2000000, N'Active'),
+(N'Điều trị chấn thương', N'Can thiệp y tế để điều trị gãy xương, bong gân, tổn thương mô mềm.', 250000, N'Active'),
+(N'Chăm sóc hậu phẫu', N'Theo dõi và chăm sóc bệnh nhân sau phẫu thuật để phục hồi nhanh chóng.', 300000, N'Active'),
+
+-- Dịch vụ mới thêm vào
+(N'Đặt lịch hẹn với bác sĩ', N'Cho phép bệnh nhân đặt lịch hẹn với bác sĩ chuyên khoa theo thời gian mong muốn.', 300000, N'Active'),
+(N'Đặt lịch hẹn với chuyên gia', N'Dịch vụ hỗ trợ đặt lịch với các chuyên gia y tế có kinh nghiệm cao, tư vấn chuyên sâu.', 500000, N'Active');
+
 
 -- Invoice with updated serviceIds
+-- Invoice with updated serviceIds (randomly adding "Đặt lịch hẹn với bác sĩ" or "Đặt lịch hẹn với chuyên gia")
 INSERT INTO Invoice (appointmentId, serviceId, price) VALUES
 (1, 1, 100000),  -- Khám tổng quát
 (1, 11, 200000), -- Xét nghiệm máu
 (1, 3, 150000),  -- Tư vấn với bác sĩ
 (1, 5, 100000),  -- Tư vấn dinh dưỡng
+(1, 18, 200000), -- Đặt lịch hẹn với bác sĩ
 
-(2, 1, 100000),  -- Khám tổng quát
-(2, 12, 180000), -- Xét nghiệm nước tiểu
-(2, 3, 150000),  -- Tư vấn với bác sĩ
-(2, 9, 180000),  -- Điều trị dị ứng
+(2, 1, 100000),
+(2, 12, 180000),
+(2, 3, 150000),
+(2, 9, 180000),
+(2, 19, 250000), -- Đặt lịch hẹn với chuyên gia
 
-(3, 1, 100000),  -- Khám tổng quát
-(3, 11, 200000), -- Xét nghiệm máu
-(3, 3, 150000),  -- Tư vấn với bác sĩ
+(3, 1, 100000),
+(3, 11, 200000),
+(3, 3, 150000),
+(3, 18, 200000),
 
-(4, 1, 100000),  -- Khám tổng quát
-(4, 11, 200000), -- Xét nghiệm máu
-(4, 3, 150000),  -- Tư vấn với bác sĩ
-(4, 17, 300000), -- Chăm sóc hậu phẫu
+(4, 1, 100000),
+(4, 11, 200000),
+(4, 3, 150000),
+(4, 17, 300000),
+(4, 19, 250000),
 
-(5, 1, 100000),  -- Khám tổng quát
-(5, 13, 250000), -- Xét nghiệm sinh hóa
-(5, 3, 150000),  -- Tư vấn với bác sĩ
+(5, 1, 100000),
+(5, 13, 250000),
+(5, 3, 150000),
+(5, 18, 200000),
 
-(6, 1, 100000),  -- Khám tổng quát
-(6, 14, 300000), -- Xét nghiệm vi sinh
-(6, 3, 150000),  -- Tư vấn với bác sĩ
-(6, 9, 180000),  -- Điều trị dị ứng
+(6, 1, 100000),
+(6, 14, 300000),
+(6, 3, 150000),
+(6, 9, 180000),
+(6, 19, 250000),
 
-(7, 1, 100000),  -- Khám tổng quát
-(7, 12, 180000), -- Xét nghiệm nước tiểu
-(7, 3, 150000),  -- Tư vấn với bác sĩ
-(7, 8, 3000000), -- Phẫu thuật tai, mũi, họng
+(7, 1, 100000),
+(7, 12, 180000),
+(7, 3, 150000),
+(7, 8, 3000000),
+(7, 18, 200000),
 
-(8, 1, 100000),  -- Khám tổng quát
-(8, 13, 250000), -- Xét nghiệm sinh hóa
-(8, 3, 150000),  -- Tư vấn với bác sĩ
+(8, 1, 100000),
+(8, 13, 250000),
+(8, 3, 150000),
+(8, 19, 250000),
 
-(9, 1, 100000),  -- Khám tổng quát
-(9, 12, 180000), -- Xét nghiệm nước tiểu
-(9, 3, 150000),  -- Tư vấn với bác sĩ
+(9, 1, 100000),
+(9, 12, 180000),
+(9, 3, 150000),
+(9, 18, 200000),
 
-(10, 1, 100000),  -- Khám tổng quát
-(10, 11, 200000), -- Xét nghiệm máu
-(10, 3, 150000),  -- Tư vấn với bác sĩ
-(10, 9, 180000),  -- Điều trị dị ứng
+(10, 1, 100000),
+(10, 11, 200000),
+(10, 3, 150000),
+(10, 9, 180000),
+(10, 19, 250000),
 
-(11, 1, 100000),  -- Khám tổng quát
-(11, 13, 250000), -- Xét nghiệm sinh hóa
-(11, 3, 150000),  -- Tư vấn với bác sĩ
-(11, 4, 150000),  -- Tư vấn với chuyên gia
+(11, 1, 100000),
+(11, 13, 250000),
+(11, 3, 150000),
+(11, 4, 150000),
+(11, 18, 200000),
 
-(12, 1, 100000),  -- Khám tổng quát
-(12, 11, 200000), -- Xét nghiệm máu
-(12, 3, 150000),  -- Tư vấn với bác sĩ
-(12, 8, 3000000), -- Phẫu thuật tai, mũi, họng
+(12, 1, 100000),
+(12, 11, 200000),
+(12, 3, 150000),
+(12, 8, 3000000),
+(12, 19, 250000),
 
-(13, 1, 100000),  -- Khám tổng quát
-(13, 11, 200000), -- Xét nghiệm máu
-(13, 3, 150000),  -- Tư vấn với bác sĩ
-(13, 9, 180000),  -- Điều trị dị ứng
+(13, 1, 100000),
+(13, 11, 200000),
+(13, 3, 150000),
+(13, 9, 180000),
+(13, 18, 200000),
 
-(14, 1, 100000),  -- Khám tổng quát
-(14, 13, 250000), -- Xét nghiệm sinh hóa
-(14, 3, 150000),  -- Tư vấn với bác sĩ
+(14, 1, 100000),
+(14, 13, 250000),
+(14, 3, 150000),
+(14, 19, 250000),
 
-(15, 1, 100000),  -- Khám tổng quát
-(15, 12, 180000), -- Xét nghiệm nước tiểu
-(15, 3, 150000),  -- Tư vấn với bác sĩ
+(15, 1, 100000),
+(15, 12, 180000),
+(15, 3, 150000),
+(15, 18, 200000),
 
-(16, 1, 100000),  -- Khám tổng quát
-(16, 14, 300000), -- Xét nghiệm vi sinh
-(16, 3, 150000),  -- Tư vấn với bác sĩ
-(16, 5, 100000),  -- Tư vấn dinh dưỡng
+(16, 1, 100000),
+(16, 14, 300000),
+(16, 3, 150000),
+(16, 5, 100000),
+(16, 19, 250000),
 
-(17, 1, 100000),  -- Khám tổng quát
-(17, 13, 250000), -- Xét nghiệm sinh hóa
-(17, 3, 150000),  -- Tư vấn với bác sĩ
-(17, 17, 300000), -- Chăm sóc hậu phẫu
+(17, 1, 100000),
+(17, 13, 250000),
+(17, 3, 150000),
+(17, 17, 300000),
+(17, 18, 200000),
 
-(18, 1, 100000),  -- Khám tổng quát
-(18, 12, 180000), -- Xét nghiệm nước tiểu
-(18, 3, 150000),  -- Tư vấn với bác sĩ
+(18, 1, 100000),
+(18, 12, 180000),
+(18, 3, 150000),
+(18, 19, 250000),
 
-(19, 1, 100000),  -- Khám tổng quát
-(19, 11, 200000), -- Xét nghiệm máu
-(19, 3, 150000),  -- Tư vấn với bác sĩ
-(19, 5, 100000);  -- Tư vấn dinh dưỡng
+(19, 1, 100000),
+(19, 11, 200000),
+(19, 3, 150000),
+(19, 5, 100000),
+(19, 18, 200000);
+
 
 
 
@@ -976,82 +1010,114 @@ INSERT INTO FeedBack (ratings, content, [date], staffId, customerId) VALUES
 (5, N'Bác sĩ tuyệt vời, luôn lắng nghe và rất chuyên nghiệp.', '2023-02-05', 9, 3);
 
 --Schedule 
-INSERT INTO Schedule (startTime, endTime, [shift], [date], staffId) 
+INSERT INTO Schedule (startTime, endTime, [shift], [date], staffId)
 VALUES
--- StaffId 1
-('08:00:00', '12:00:00', 30, '2025-01-25', 1),
-('08:00:00', '12:00:00', 30, '2025-01-26', 1),
-('08:00:00', '12:00:00', 30, '2025-01-27', 1),
-('08:00:00', '12:00:00', 30, '2025-01-28', 1),
-('08:00:00', '12:00:00', 30, '2025-01-29', 1),
-('08:00:00', '12:00:00', 30, '2025-01-30', 1),
-('08:00:00', '12:00:00', 30, '2025-02-01', 1),
-('08:00:00', '12:00:00', 30, '2025-02-02', 1),
-('08:00:00', '12:00:00', 30, '2025-02-03', 1),
-('13:00:00', '17:00:00', 30, '2025-02-04', 1),
-('13:00:00', '17:00:00', 30, '2025-02-05', 1),
+-- StaffID = 1 (theo đăng ký ca 1: 08:00–12:00; chèn từ 15/03 đến 15/04/2025, bỏ Chủ nhật trừ 30/03)
+('08:00:00', '12:00:00', 30, '2025-03-15', 1), -- 15/03: Thứ Bảy
+('08:00:00', '12:00:00', 30, '2025-03-17', 1), -- 17/03: Thứ Hai
+('08:00:00', '12:00:00', 30, '2025-03-18', 1), -- 18/03: Thứ Ba
+('08:00:00', '12:00:00', 30, '2025-03-19', 1), -- 19/03: Thứ Tư
+('08:00:00', '12:00:00', 30, '2025-03-20', 1), -- 20/03: Thứ Năm
+('08:00:00', '12:00:00', 30, '2025-03-21', 1), -- 21/03: Thứ Sáu
+('08:00:00', '12:00:00', 30, '2025-03-22', 1), -- 22/03: Thứ Bảy
+('08:00:00', '12:00:00', 30, '2025-03-24', 1), -- 24/03: Thứ Hai
+('08:00:00', '12:00:00', 30, '2025-03-25', 1), -- 25/03: Thứ Ba
+('08:00:00', '12:00:00', 30, '2025-03-26', 1), -- 26/03: Thứ Tư
+('08:00:00', '12:00:00', 30, '2025-03-27', 1), -- 27/03: Thứ Năm
+('08:00:00', '12:00:00', 30, '2025-03-28', 1), -- 28/03: Thứ Sáu
+('08:00:00', '12:00:00', 30, '2025-03-29', 1), -- 29/03: Thứ Bảy
+('08:00:00', '12:00:00', 30, '2025-03-30', 1), -- 30/03: Chủ nhật nhưng vẫn chèn theo yêu cầu
+('08:00:00', '12:00:00', 30, '2025-03-31', 1), -- 31/03: Thứ Hai
+('08:00:00', '12:00:00', 30, '2025-04-01', 1), -- 01/04: Thứ Ba
+('08:00:00', '12:00:00', 30, '2025-04-02', 1), -- 02/04: Thứ Tư
+('08:00:00', '12:00:00', 30, '2025-04-03', 1), -- 03/04: Thứ Năm
+('08:00:00', '12:00:00', 30, '2025-04-04', 1), -- 04/04: Thứ Sáu
+('08:00:00', '12:00:00', 30, '2025-04-05', 1), -- 05/04: Thứ Bảy
+('08:00:00', '12:00:00', 30, '2025-04-07', 1), -- 07/04: Thứ Hai
+('08:00:00', '12:00:00', 30, '2025-04-08', 1), -- 08/04: Thứ Ba
+('08:00:00', '12:00:00', 30, '2025-04-09', 1), -- 09/04: Thứ Tư
+('08:00:00', '12:00:00', 30, '2025-04-10', 1), -- 10/04: Thứ Năm
+('08:00:00', '12:00:00', 30, '2025-04-11', 1), -- 11/04: Thứ Sáu
+('08:00:00', '12:00:00', 30, '2025-04-12', 1), -- 12/04: Thứ Bảy
+('08:00:00', '12:00:00', 30, '2025-04-14', 1), -- 14/04: Thứ Hai
+('08:00:00', '12:00:00', 30, '2025-04-15', 1), -- 15/04: Thứ Ba
 
+-- Các StaffID khác (chọn 4–5 ngày trong khoảng 15/03–15/04/2025)
+-- Với StaffID có đăng ký Approved ca 2 (thường lấy thời gian 13:00–17:00):
+('13:00:00', '17:00:00', 30, '2025-03-17', 2),
+('13:00:00', '17:00:00', 30, '2025-03-20', 2),
+('13:00:00', '17:00:00', 30, '2025-03-24', 2),
+('13:00:00', '17:00:00', 30, '2025-03-27', 2),
 
--- StaffId 2
-('08:00:00', '12:00:00', 30, '2025-01-25', 2),
-('13:00:00', '17:00:00', 30, '2025-01-26', 2),
-('18:00:00', '22:00:00', 30, '2025-01-27', 2),
+('13:00:00', '17:00:00', 30, '2025-03-18', 3),
+('13:00:00', '17:00:00', 30, '2025-03-21', 3),
+('13:00:00', '17:00:00', 30, '2025-03-25', 3),
+('13:00:00', '17:00:00', 30, '2025-03-28', 3),
 
--- StaffId 3
-('13:00:00', '17:00:00', 30, '2025-01-25', 3),
-('08:00:00', '12:00:00', 30, '2025-01-26', 3),
-('18:00:00', '22:00:00', 30, '2025-01-27', 3),
+-- Với StaffID có đăng ký Approved ca 1 (08:00–12:00):
+('08:00:00', '12:00:00', 30, '2025-03-17', 5),
+('08:00:00', '12:00:00', 30, '2025-03-19', 5),
+('08:00:00', '12:00:00', 30, '2025-03-22', 5),
+('08:00:00', '12:00:00', 30, '2025-03-26', 5),
 
--- StaffId 5
-('13:00:00', '17:00:00', 30, '2025-01-25', 5),
-('18:00:00', '22:00:00', 30, '2025-01-26', 5),
-('08:00:00', '12:00:00', 30, '2025-01-27', 5),
+-- Với StaffID có đăng ký Approved ca 2 (13:00–17:00):
+('13:00:00', '17:00:00', 30, '2025-03-18', 7),
+('13:00:00', '17:00:00', 30, '2025-03-20', 7),
+('13:00:00', '17:00:00', 30, '2025-03-24', 7),
+('13:00:00', '17:00:00', 30, '2025-03-27', 7),
 
--- StaffId 7
-('08:00:00', '12:00:00', 30, '2025-01-25', 7),
-('18:00:00', '22:00:00', 30, '2025-01-26', 7),
-('13:00:00', '17:00:00', 30, '2025-01-27', 7),
+('13:00:00', '17:00:00', 30, '2025-03-17', 8),
+('13:00:00', '17:00:00', 30, '2025-03-21', 8),
+('13:00:00', '17:00:00', 30, '2025-03-25', 8),
+('13:00:00', '17:00:00', 30, '2025-03-29', 8),
 
--- StaffId 8
-('13:00:00', '17:00:00', 30, '2025-01-25', 8),
-('08:00:00', '12:00:00', 30, '2025-01-26', 8),
-('18:00:00', '22:00:00', 30, '2025-01-27', 8),
+-- Với StaffID có đăng ký Approved ca 1 (08:00–12:00):
+('08:00:00', '12:00:00', 30, '2025-03-17', 9),
+('08:00:00', '12:00:00', 30, '2025-03-20', 9),
+('08:00:00', '12:00:00', 30, '2025-03-24', 9),
+('08:00:00', '12:00:00', 30, '2025-03-27', 9),
 
--- StaffId 9
-('08:00:00', '12:00:00', 30, '2025-01-25', 9),
-('13:00:00', '17:00:00', 30, '2025-01-26', 9),
-('18:00:00', '22:00:00', 30, '2025-01-27', 9);
+('13:00:00', '17:00:00', 30, '2025-03-18', 10),
+('13:00:00', '17:00:00', 30, '2025-03-22', 10),
+('13:00:00', '17:00:00', 30, '2025-03-26', 10),
+('13:00:00', '17:00:00', 30, '2025-03-31', 10);
 
 
 -- DoctorShiftRegistration 
--- StaffId 1 đăng ký 2 ca trong ngày 2025-02-03
-INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
-VALUES (1, 1, '2025-02-03', 'Approved');
-
-INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
-VALUES (1, 2, '2025-02-03', 'Pending');
-
--- Các bác sĩ khác đăng ký 1 ca mỗi người
-INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
-VALUES (2, 1, '2025-02-07', 'Rejected');
-
-INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
-VALUES (3, 1, '2025-02-07', 'Pending');
-
-INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
-VALUES (5, 1, '2025-02-07', 'Approved');
-
-INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
-VALUES (7, 1, '2025-02-10', 'Pending');
-
-INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
-VALUES (8, 1, '2025-02-02', 'Rejected');
-
-INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
-VALUES (9, 1, '2025-02-03', 'Approved');
-
-INSERT INTO DoctorShiftRegistration (staffId, shift, registrationDate, status)
-VALUES (10, 1, '2025-02-04', 'Pending');
+INSERT INTO DoctorShiftRegistration (staffId, shift, startDate, endDate, registrationDate, status)
+VALUES
+(1, 1, '2025-01-01', '2025-06-30', '2025-02-03', 'Approved'),
+(1, 2, '2025-01-01', '2025-06-30', '2025-02-03', 'Pending'),
+(1, 3, '2024-01-01', '2024-06-30', '2024-02-03', 'Approved'),
+(1, 1, '2025-07-01', '2025-12-31', '2025-08-01', 'Approved'),
+(2, 1, '2025-01-01', '2025-06-30', '2025-02-07', 'Rejected'),
+(2, 2, '2024-01-01', '2024-06-30', '2024-03-05', 'Approved'),
+(2, 3, '2024-07-01', '2024-12-31', '2024-08-10', 'Pending'),
+(2, 1, '2025-07-01', '2025-12-31', '2025-09-15', 'Approved'),
+(3, 1, '2025-01-01', '2025-06-30', '2025-02-07', 'Pending'),
+(3, 2, '2024-01-01', '2024-06-30', '2024-04-01', 'Approved'),
+(3, 3, '2024-07-01', '2024-12-31', '2024-09-01', 'Rejected'),
+(3, 1, '2025-07-01', '2025-12-31', '2025-10-01', 'Pending'),
+(5, 1, '2025-01-01', '2025-06-30', '2025-02-07', 'Approved'),
+(5, 2, '2024-01-01', '2024-06-30', '2024-03-15', 'Pending'),
+(5, 3, '2024-07-01', '2024-12-31', '2024-08-20', 'Rejected'),
+(5, 1, '2025-07-01', '2025-12-31', '2025-11-01', 'Approved'),
+(7, 1, '2025-01-01', '2025-06-30', '2025-02-10', 'Pending'),
+(7, 2, '2024-01-01', '2024-06-30', '2024-02-20', 'Approved'),
+(7, 3, '2024-07-01', '2024-12-31', '2024-07-25', 'Rejected'),
+(7, 1, '2025-07-01', '2025-12-31', '2025-10-15', 'Pending'),
+(8, 1, '2025-01-01', '2025-06-30', '2025-02-02', 'Rejected'),
+(8, 2, '2024-01-01', '2024-06-30', '2024-03-10', 'Approved'),
+(8, 3, '2024-07-01', '2024-12-31', '2024-08-05', 'Pending'),
+(8, 1, '2025-07-01', '2025-12-31', '2025-11-10', 'Approved'),
+(9, 1, '2025-01-01', '2025-06-30', '2025-02-03', 'Approved'),
+(9, 2, '2024-01-01', '2024-06-30', '2024-04-10', 'Rejected'),
+(9, 3, '2024-07-01', '2024-12-31', '2024-09-15', 'Pending'),
+(9, 1, '2025-07-01', '2025-12-31', '2025-12-01', 'Approved'),
+(10, 1, '2025-01-01', '2025-06-30', '2025-02-04', 'Pending'),
+(10, 2, '2024-01-01', '2024-06-30', '2024-05-01', 'Approved'),
+(10, 3, '2024-07-01', '2024-12-31', '2024-10-01', 'Rejected'),
+(10, 1, '2025-07-01', '2025-12-31', '2025-11-20', 'Pending');
 
 
 

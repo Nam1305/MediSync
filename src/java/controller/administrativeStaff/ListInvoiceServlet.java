@@ -1,25 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller.administrativeStaff;
 
 import dal.AppointmentDAO;
 import java.io.IOException;
+import java.time.LocalDate;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
 import java.util.List;
 import model.Appointment;
-import model.Staff;
-import java.sql.Date;
 
-/**
- *
- * @author DIEN MAY XANH
- */
 public class ListInvoiceServlet extends HttpServlet {
 
     AppointmentDAO appointmentDao = new AppointmentDAO();
@@ -30,11 +21,23 @@ public class ListInvoiceServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        // Lấy các tham số từ form
-        String invoiceIdStr = request.getParameter("invoiceId"); // Sử dụng appointmentId
+        // Lấy tham số cập nhật trạng thái từ request
+        String appointmentIdStr = request.getParameter("invoiceId");
+        String statusUpdate = request.getParameter("statusUpdate");
+
+        // Nếu có statusUpdate, tiến hành cập nhật trạng thái
+        if (appointmentIdStr != null && !appointmentIdStr.isEmpty()
+                && statusUpdate != null && !statusUpdate.isEmpty()) {
+            try {
+                int appointmentId = Integer.parseInt(appointmentIdStr);
+                appointmentDao.updateInvoiceStatus(appointmentId, statusUpdate);
+            } catch (NumberFormatException ignored) {
+            }
+        }
+
+        // Lấy các tham số lọc
         String name = request.getParameter("name");
         String status = request.getParameter("status");
-        // Thay vì 1 ngày, bây giờ có 2 tham số: từ ngày và đến ngày
         String dateFromStr = request.getParameter("dateFrom");
         String dateToStr = request.getParameter("dateTo");
         String totalFromStr = request.getParameter("totalFrom");
@@ -46,28 +49,26 @@ public class ListInvoiceServlet extends HttpServlet {
             name = name.trim().replaceAll("\\s+", " ");
         }
 
-        int page;
-        int pageSize;
+        int page = 1, pageSize = 5;
         try {
             page = Integer.parseInt(request.getParameter("page"));
         } catch (NumberFormatException ignored) {
-            page = 1;
         }
         try {
             pageSize = Integer.parseInt(request.getParameter("pageSize"));
         } catch (NumberFormatException ignored) {
-            pageSize = 5;
         }
 
-        // Chuyển đổi dữ liệu từ String sang các kiểu dữ liệu tương ứng
+        // Chuyển đổi dữ liệu
         Integer appointmentIdFilter = null;
-        Date dateFrom = null;
-        Date dateTo = null;
         Double totalFrom = null, totalTo = null;
+        LocalDate today = LocalDate.now();
+        Date dateFrom = Date.valueOf(today);
+        Date dateTo = Date.valueOf(today);
 
         try {
-            if (invoiceIdStr != null && !invoiceIdStr.isEmpty()) {
-                appointmentIdFilter = Integer.valueOf(invoiceIdStr);
+            if (appointmentIdStr != null && !appointmentIdStr.isEmpty()) {
+                appointmentIdFilter = Integer.valueOf(appointmentIdStr);
             }
             if (dateFromStr != null && !dateFromStr.isEmpty()) {
                 dateFrom = Date.valueOf(dateFromStr);
@@ -81,11 +82,10 @@ public class ListInvoiceServlet extends HttpServlet {
             if (totalToStr != null && !totalToStr.isEmpty()) {
                 totalTo = Double.valueOf(totalToStr);
             }
-        } catch (NumberFormatException e) {
-            // Ghi log hoặc xử lý lỗi nếu cần
+        } catch (NumberFormatException ignored) {
         }
 
-        // Lấy danh sách hóa đơn theo bộ lọc (appointment)
+        // Lấy danh sách hóa đơn
         List<Appointment> listInvoice = appointmentDao.getInvoiceByPage(
                 appointmentIdFilter, name, status, dateFrom, dateTo, totalFrom, totalTo,
                 page, pageSize, sortDate, sortPrice
@@ -105,8 +105,8 @@ public class ListInvoiceServlet extends HttpServlet {
         request.setAttribute("invoiceIdFilter", appointmentIdFilter);
         request.setAttribute("name", name);
         request.setAttribute("status", status);
-        request.setAttribute("dateFrom", dateFromStr);
-        request.setAttribute("dateTo", dateToStr);
+        request.setAttribute("dateFrom", dateFrom.toString());
+        request.setAttribute("dateTo", dateTo.toString());
         request.setAttribute("totalFrom", totalFromStr);
         request.setAttribute("totalTo", totalToStr);
         request.setAttribute("sortDate", sortDate);
@@ -114,5 +114,4 @@ public class ListInvoiceServlet extends HttpServlet {
 
         request.getRequestDispatcher("AdministrativeStaff/listInvoice.jsp").forward(request, response);
     }
-
 }
