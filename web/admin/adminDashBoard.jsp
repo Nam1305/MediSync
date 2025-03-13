@@ -208,7 +208,7 @@
 
                         <div class="row">
                             <h2>Thống kê khách hàng và doanh thu</h2>
-                            <form action="AdminDashBoard" method="get">
+                            <form action="AdminDashBoard" method="post">
                                 <label>Chọn năm:</label>
                                 <input type="number" name="year">
 

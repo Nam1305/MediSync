@@ -67,6 +67,21 @@ public class AdminDashBoardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            doPost(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
         DoctorDAO staffDao = new DoctorDAO();
         CustomerDAO customerDao = new CustomerDAO();
         InvoiceDAO invoiceDao = new InvoiceDAO();
@@ -80,12 +95,12 @@ public class AdminDashBoardServlet extends HttpServlet {
         int totalService = serviceDao.getTotalServices();
         List<String> topServices = serviceDao.getTop4MostUsedServices();
         Map<Staff, Double> topStaffList = staffDao.getTop3HighestRatedStaff();
-
+        
         String selectedYear = request.getParameter("year");
         String selectedMonth = request.getParameter("month");
         String selectedDay = request.getParameter("day");
         int day = 0, month = 0, year = 0;
-
+        
         if (selectedYear != null && !selectedYear.trim().isEmpty()) {
             year = Integer.parseInt(selectedYear);
         }
@@ -119,20 +134,6 @@ public class AdminDashBoardServlet extends HttpServlet {
         request.setAttribute("totalRevenue", totalRevenue);
         request.setAttribute("customerCount", customerCount);
         request.getRequestDispatcher("admin/adminDashBoard.jsp").forward(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
     }
 
     /**

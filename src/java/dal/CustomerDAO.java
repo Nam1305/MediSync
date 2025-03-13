@@ -577,11 +577,11 @@ public class CustomerDAO extends DBContext {
      
    public Map<String, Integer> getCustomerStats(int year, int month, int day) {
     Map<String, Integer> stats = new LinkedHashMap<>();
-    String sql = "SELECT FORMAT(date, 'yyyy-MM-dd') AS day, COUNT(DISTINCT customerId) AS totalCustomers " +
+    String sql = "SELECT FORMAT(date, 'dd-MM-yyyy') AS day, COUNT(DISTINCT customerId) AS totalCustomers " +
                  "FROM Appointment WHERE (YEAR(date) = ? OR ? = 0) " +
                  "AND (MONTH(date) = ? OR ? = 0) " +
                  "AND (DAY(date) = ? OR ? = 0) " +
-                 "GROUP BY FORMAT(date, 'yyyy-MM-dd') ORDER BY MIN(date)";
+                 "GROUP BY FORMAT(date, 'dd-MM-yyyy') ORDER BY MIN(date)";
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
         ps.setInt(1, year);
         ps.setInt(2, year);

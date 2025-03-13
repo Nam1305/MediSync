@@ -141,12 +141,12 @@ public class InvoiceDAO extends DBContext {
     }
     public Map<String, Double> getRevenueStats(int year, int month, int day) {
     Map<String, Double> stats = new LinkedHashMap<>();
-    String sql = "SELECT FORMAT(a.date, 'yyyy-MM-dd') AS day, SUM(i.price) AS totalRevenue " +
+    String sql = "SELECT FORMAT(a.date, 'dd-MM-yyyy') AS day, SUM(i.price) AS totalRevenue " +
                  "FROM Appointment a JOIN Invoice i ON a.appointmentId = i.appointmentId " +
                  "WHERE (YEAR(a.date) = ? OR ? = 0) " +
                  "AND (MONTH(a.date) = ? OR ? = 0) " +
                  "AND (DAY(a.date) = ? OR ? = 0) " +
-                 "GROUP BY FORMAT(a.date, 'yyyy-MM-dd') ORDER BY MIN(a.date)";
+                 "GROUP BY FORMAT(a.date, 'dd-MM-yyyy') ORDER BY MIN(a.date)";
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
         ps.setInt(1, year);
         ps.setInt(2, year);
