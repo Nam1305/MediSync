@@ -73,7 +73,9 @@ public class SendEmail {
 
     public boolean sendMailVerify(String toEmail, String code) {
         String subject = "Xác minh địa chỉ email";
-        String content = "Bạn đã đăng ký thành công. Vui lòng xác minh tài khoản của bạn bằng mã sau: " + code;
+        String content = "Bạn đã đăng ký thành công. Vui lòng xác minh tài khoản của bạn bằng mã sau: "
+                + code
+                + ".\nLưu ý: Mã này sẽ hết hạn sau 5 phút.";
         return sendEmail(toEmail, subject, content);
     }
 
