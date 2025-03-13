@@ -281,7 +281,7 @@ public class AppointmentDAO extends DBContext {
         return appointment;
     }
 
-    public List<Appointment> getAppointmentsByPage(int staffId, String search, String status, Date date, int page, int pageSize, String sort) throws SQLException {
+    public List<Appointment> getAppointmentsByPage(int staffId, String search, String status, Date fromDate, Date toDate, int page, int pageSize, String sort) throws SQLException {
         List<Appointment> appointments = new ArrayList<>();
         String sql = "SELECT appointmentId, date, startTime, endTime, status, staffId, customerId "
                 + "FROM Appointment WHERE staffId = ?";
@@ -289,79 +289,153 @@ public class AppointmentDAO extends DBContext {
         if (search != null && !search.trim().isEmpty()) {
             sql += " AND customerId IN (SELECT customerId FROM Customer WHERE name LIKE ?)";
         }
+
         if (status != null && !status.trim().isEmpty()) {
-            sql += " AND status = ?";
-        }
-        if (date != null) {
-            sql += " AND date = ?";
+            // Nếu status được truyền, áp dụng mapping đã định:
+            if ("pending".equals(status)) {
+                sql += " AND status = 'confirmed'";
+            } else if ("confirmed".equals(status)) {
+                sql += " AND status IN ('waitpay','paid')";
+            } else if ("absent".equals(status)) {
+                sql += " AND status = 'absent'";
+            }
+        } else {
+            // Nếu không có status được truyền, lọc tất cả nhưng loại trừ cancelled và pending
+            sql += " AND status NOT IN ('cancelled','pending')";
         }
 
-        // Sử dụng cú pháp OFFSET FETCH cho phân trang (SQL Server)
+        // Xử lý date: hỗ trợ nhập 1 trong 2 hoặc cả 2
+        if (fromDate != null && toDate != null) {
+            sql += " AND date BETWEEN ? AND ?";
+        } else if (fromDate != null) {
+            sql += " AND date >= ?";
+        } else if (toDate != null) {
+            sql += " AND date <= ?";
+        }
+
         sql += " ORDER BY date DESC, startTime " + sort + " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            int index = 1;
-            ps.setInt(index++, staffId);
-            if (search != null && !search.trim().isEmpty()) {
-                ps.setString(index++, "%" + search + "%");
-            }
-            if (status != null && !status.trim().isEmpty()) {
-                ps.setString(index++, status);
-            }
-            if (date != null) {
-                ps.setDate(index++, date);
-            }
-            int offset = (page - 1) * pageSize;
-            ps.setInt(index++, offset);
-            ps.setInt(index++, pageSize);
+        PreparedStatement ps = connection.prepareStatement(sql);
+        int index = 1;
+        ps.setInt(index++, staffId);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                appointments.add(mapResultSetToAppointment(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (search != null && !search.trim().isEmpty()) {
+            ps.setString(index++, "%" + search + "%");
+        }
+
+        if (fromDate != null && toDate != null) {
+            ps.setDate(index++, fromDate);
+            ps.setDate(index++, toDate);
+        } else if (fromDate != null) {
+            ps.setDate(index++, fromDate);
+        } else if (toDate != null) {
+            ps.setDate(index++, toDate);
+        }
+
+        int offset = (page - 1) * pageSize;
+        ps.setInt(index++, offset);
+        ps.setInt(index++, pageSize);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            appointments.add(mapResultSetToAppointment(rs));
         }
         return appointments;
     }
 
-    public int countAppointmentsByFilter(int staffId, String search, String status, Date date) throws SQLException {
-        int count = 0;
-        String sql = "SELECT COUNT(*) FROM Appointment WHERE staffId = ?";
+    public int[] countAppointmentStatsByFilter(int staffId, String search, String status, Date fromDate, Date toDate) throws SQLException {
+        // Mảng kết quả: [total, completed, waiting, absent]
+        int[] stats = new int[4];
 
+        String sql = "SELECT COUNT(*) as total, "
+                + "SUM(CASE WHEN status IN ('waitpay','paid') THEN 1 ELSE 0 END) as completed, "
+                + "SUM(CASE WHEN status = 'confirmed' THEN 1 ELSE 0 END) as waiting, "
+                + "SUM(CASE WHEN status = 'absent' THEN 1 ELSE 0 END) as absent "
+                + "FROM Appointment WHERE staffId = ?";
+
+        // Filter theo tìm kiếm
         if (search != null && !search.trim().isEmpty()) {
             sql += " AND customerId IN (SELECT customerId FROM Customer WHERE name LIKE ?)";
         }
+
+        // Filter theo status:
         if (status != null && !status.trim().isEmpty()) {
-            sql += " AND status = ?";
+            if ("pending".equals(status)) {
+                // Nếu filter là pending, thì chỉ lấy các appointment có status = 'confirmed'
+                sql += " AND status = 'confirmed'";
+            } else if ("completed".equals(status)) {
+                // Nếu filter là confirmed, chỉ lấy các appointment có status IN ('waitpay','paid')
+                sql += " AND status IN ('waitpay','paid')";
+            } else if ("absent".equals(status)) {
+                // Nếu filter là absent
+                sql += " AND status = 'absent'";
+            }
+        } else {
+            // Nếu không có filter status, lấy tất cả các appointment nhưng loại trừ cancelled và pending
+            sql += " AND status NOT IN ('cancelled','pending')";
         }
-        if (date != null) {
-            sql += " AND date = ?";
+
+        // Xử lý điều kiện ngày: hỗ trợ nhập 1 trong 2 hoặc cả 2
+        if (fromDate != null && toDate != null) {
+            sql += " AND date BETWEEN ? AND ?";
+        } else if (fromDate != null) {
+            sql += " AND date >= ?";
+        } else if (toDate != null) {
+            sql += " AND date <= ?";
         }
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+        int index = 1;
+        ps.setInt(index++, staffId);
+
+        if (search != null && !search.trim().isEmpty()) {
+            ps.setString(index++, "%" + search + "%");
+        }
+
+        if (fromDate != null && toDate != null) {
+            ps.setDate(index++, fromDate);
+            ps.setDate(index++, toDate);
+        } else if (fromDate != null) {
+            ps.setDate(index++, fromDate);
+        } else if (toDate != null) {
+            ps.setDate(index++, toDate);
+        }
+
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            stats[0] = rs.getInt("total");
+            stats[1] = rs.getInt("completed");
+            stats[2] = rs.getInt("waiting");
+            stats[3] = rs.getInt("absent");
+        }
+        return stats;
+    }
+
+    public int countAppointmentsWithSameCustomer(int appointmentId, int staffId) {
+        String sql = """
+        SELECT COUNT(*) AS numAppointments
+        FROM Appointment
+        WHERE customerId = (
+            SELECT customerId
+            FROM Appointment
+            WHERE appointmentId = ?
+        )
+          AND staffId = ?
+    """;
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            int index = 1;
-            ps.setInt(index++, staffId);
-            if (search != null && !search.trim().isEmpty()) {
-                ps.setString(index++, "%" + search + "%");
-            }
-            if (status != null && !status.trim().isEmpty()) {
-                ps.setString(index++, status);
-            }
-            if (date != null) {
-                ps.setDate(index++, date);
-            }
+            ps.setInt(1, appointmentId);
+            ps.setInt(2, staffId);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                count = rs.getInt(1);
+                return rs.getInt("numAppointments");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return count;
+        return 0;
     }
 
     public boolean updateAppointmentStatus(int appointmentId, String newStatus) {
@@ -776,6 +850,17 @@ public class AppointmentDAO extends DBContext {
             e.printStackTrace();
         }
         return 0; // Trả về 0 nếu có lỗi
+    }
+
+    public void updateInvoiceStatus(int appointmentId, String newStatus) {
+        String sql = "UPDATE Appointment SET status = ? WHERE appointmentId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, newStatus);
+            ps.setInt(2, appointmentId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 //    public static void main(String[] args) throws SQLException {

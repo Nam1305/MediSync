@@ -17,6 +17,7 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
         <style>
             .filter-form .form-control, .filter-form .form-select {
@@ -85,7 +86,7 @@
                                     <div class="col-md-2">
                                         <label for="pageSize" class="form-label">Số bản ghi</label>
                                         <input type="number" class="form-control" id="pageSize" name="pageSize" min="1"
-                                              value="${empty param.pageSize ? 5 : param.pageSize}">
+                                               value="${empty param.pageSize ? 5 : param.pageSize}">
                                     </div>
                                 </div>
 
@@ -132,19 +133,7 @@
                                 </div>
                             </form>
 
-                            <script>
-                                document.getElementById("btnReset").addEventListener("click", function () {
-                                    var form = document.querySelector("form.filter-form");
-                                    // Xóa tất cả các trường input (text, number, date)
-                                    form.querySelectorAll("input[type='text'], input[type='number'], input[type='date']").forEach(function (input) {
-                                        input.value = "";
-                                    });
-                                    // Đưa các select về lựa chọn đầu tiên
-                                    form.querySelectorAll("select").forEach(function (select) {
-                                        select.selectedIndex = 0;
-                                    });
-                                });
-                            </script>
+
 
 
 
@@ -162,7 +151,7 @@
                                                 <th class="text-center border-bottom p-3" style="min-width: 140px;">Ngày tạo</th>
                                                 <th class="text-center border-bottom p-3">Tổng tiền</th>
                                                 <th class="text-center border-bottom p-3">Trạng thái</th>
-                                                <th class="text-center border-bottom p-3">Xem</th>
+                                                <th class="text-center border-bottom p-3">Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -190,7 +179,18 @@
                                                         </div>
                                                     </td>
                                                     <td class="text-center p-3">
-                                                        <a href="invoiceDetail?appointmentId=${o.appointmentId}" class="btn btn-sm btn-primary">Xem</a>
+                                                        <!-- Icon con mắt để xem chi tiết hóa đơn -->
+                                                        <a href="invoiceDetail?appointmentId=${o.appointmentId}" class="btn btn-sm btn-primary">
+                                                            <i class="fas fa-eye"></i> 
+                                                        </a>
+
+                                                        <a href="listinvoice?invoiceId=${o.appointmentId}&name=${param.name}&dateFrom=${param.dateFrom}&dateTo=${param.dateTo}&totalFrom=${param.totalFrom}&totalTo=${param.totalTo}&status=${param.status}&statusUpdate=paid&pageSize=${param.pageSize}&sortDate=${param.sortDate}&sortPrice=${param.sortPrice}&page=${currentPage}" 
+                                                           class="btn btn-sm btn-success" 
+                                                           onclick="return confirm('Bạn có chắc chắn muốn đánh dấu hóa đơn này là đã thanh toán?');">
+                                                            <i class="fas fa-check"></i>
+                                                        </a>
+
+
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -239,22 +239,25 @@
         </div>
         <!-- page-wrapper -->
         <script>
-            <script>
-        document.getElementById("bt nReset").addEventListener("click", function()  {
-                    // Lấy form
-                    var form = document.querySelector("form.filter-form");
-            // Xóa tất cả input (text, number, date)
-            form.querySelectorAll("input[type='text'], input[type='number'], input[type='date']").forEach(function (input) {
-                input.value = "";
-            });
-            // Đưa các select về lựa chọn đầu tiên
-            form.querySelectorAll("select").forEach(function(select) {
-            select.selectedIndex = 0;
-            });
+            document.getElementById("btnReset").addEventListener("click", function () {
+                let form = document.querySelector(".filter-form");
+                let today = new Date().toISOString().split('T')[0]; // Lấy ngày hiện tại (YYYY-MM-DD)
+
+                form.querySelectorAll("input").forEach(input => {
+                    if (input.type === "date") {
+                        input.value = today; // Reset ngày về hôm nay
+                    } else if (input.name === "pageSize") {
+                        input.value = 10; // Đặt số bản ghi về 10
+                    } else {
+                        input.value = ""; // Reset các input khác về rỗng
                     }
-            
-                    );
-                    </script>
+                });
+
+                form.querySelectorAll("select").forEach(select => {
+                    select.selectedIndex = 0; // Reset tất cả select về giá trị đầu tiên
+                });
+            });
+        </script>
 
     </script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>

@@ -62,26 +62,55 @@ public class RegisterShift extends HttpServlet {
                     request.setAttribute("error", "ID đăng ký không hợp lệ!");
                 }
             } else if ("regis".equalsIgnoreCase(action)) {
-                // Xử lý đăng ký ca làm việc
+                // Lấy tham số từ form
                 String[] shifts = request.getParameterValues("shifts");
-                if (shifts == null || shifts.length == 0) {
-                    request.setAttribute("error", "Hãy chọn ít nhất 1 ca làm việc!");
+                String fromDateStr = request.getParameter("fromDate");
+                request.setAttribute("fromDate", fromDateStr);
+                String toDateStr = request.getParameter("toDate");
+                request.setAttribute("toDate", toDateStr);
+
+                // Kiểm tra xem các trường ngày có được nhập không
+                if (fromDateStr == null || fromDateStr.trim().isEmpty()
+                        || toDateStr == null || toDateStr.trim().isEmpty()) {
+                    request.setAttribute("error", "Hãy nhập đầy đủ ngày bắt đầu và ngày kết thúc!");
                 } else {
-                    java.sql.Date workDate = new java.sql.Date(System.currentTimeMillis());
-                    boolean allSuccess = true;
-                    for (String shift : shifts) {
-                        int shiftId = Integer.parseInt(shift);
-                        boolean inserted = scheduleDao.insertShiftRegistration(staff.getStaffId(), shiftId, workDate);
-                        if (!inserted) {
-                            allSuccess = false;
+                    // Chuyển đổi sang java.sql.Date
+                    java.sql.Date fromDate = null;
+                    java.sql.Date toDate = null;
+                    try {
+                        fromDate = java.sql.Date.valueOf(fromDateStr);
+                        toDate = java.sql.Date.valueOf(toDateStr);
+                    } catch (IllegalArgumentException e) {
+                        request.setAttribute("error", "Định dạng ngày không hợp lệ!");
+                    }
+
+                    // Kiểm tra ngày bắt đầu phải <= ngày kết thúc
+                    if (fromDate != null && toDate != null && fromDate.after(toDate)) {
+                        request.setAttribute("error", "Ngày bắt đầu không được lớn hơn ngày kết thúc!");
+                    } else if (shifts == null || shifts.length == 0) {
+                        request.setAttribute("error", "Hãy chọn ít nhất 1 ca làm việc!");
+                    } else {
+                        boolean allSuccess = true;
+                        // Đăng ký ca làm việc cho từng ngày trong khoảng thời gian [fromDate, toDate]
+                        long oneDayMillis = 86400000L;
+                        for (long time = fromDate.getTime(); time <= toDate.getTime(); time += oneDayMillis) {
+                            java.sql.Date workDate = new java.sql.Date(time);
+                            for (String shift : shifts) {
+                                int shiftId = Integer.parseInt(shift);
+                                boolean inserted = scheduleDao.insertShiftRegistration(staff.getStaffId(), shiftId, workDate, fromDate, toDate);
+                                if (!inserted) {
+                                    allSuccess = false;
+                                }
+                            }
+                        }
+                        if (allSuccess) {
+                            request.setAttribute("success", "Đăng ký ca làm việc thành công!");
+                        } else {
+                            request.setAttribute("error", "Đăng ký thất bại! Vui lòng thử lại.");
                         }
                     }
-                    if (allSuccess) {
-                        request.setAttribute("success", "Đăng ký ca làm việc thành công!");
-                    } else {
-                        request.setAttribute("error", "Đăng ký thất bại! Vui lòng thử lại.");
-                    }
                 }
+
             }
         }
 

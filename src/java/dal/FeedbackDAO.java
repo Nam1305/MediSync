@@ -28,6 +28,10 @@ public class FeedbackDAO extends DBContext {
 
         if (starFilter >= 1 && starFilter <= 5) {
             sql += " AND f.ratings = ? ";
+        } else if (starFilter == 6) {
+            sql += " AND (f.ratings = 1 OR f.ratings = 2) ";
+        } else if (starFilter == 7) {
+            sql += " AND (f.ratings = 3 OR f.ratings = 4 OR f.ratings = 5) ";
         }
 
         if (sortOrder.equals("asc")) {

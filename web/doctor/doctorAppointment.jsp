@@ -42,24 +42,9 @@
                 font-size: 12px;
                 padding: 6px 10px;
             }
-            .status-cancelled {
-                background-color: #f4c7c3;
-            } /* Đỏ hồng nhạt */
-            .status-pending {
-                background-color: #fae3b0;
-            }   /* Cam nhạt */
-            .status-confirmed {
-                background-color: #b3e5fc;
-            } /* Xanh dương nhạt */
-            .status-paid {
-                background-color: #c8e6c9;
-            }        /* Xanh lá pastel */
-            .status-waiting_payment {
-                background-color: #ffe0b2;
-            } /* Vàng nhạt */
-            .status-absent {
-                background-color: #d1c4e9;
-            }        /* Tím nhạt */
+            .filter-btn {
+                min-height: 38px; /* Fix chiều cao button bằng input */
+            }
         </style>
     </head>
     <body>
@@ -85,39 +70,92 @@
                     <div class="layout-specing">
                         <div class="table-container">
                             <h4 class="mb-3 text-center">Danh sách lịch hẹn</h4>
-                            <div class="mb-4">
-                                <!-- Form tìm kiếm, lọc dữ liệu -->
-                                <form action="doctorappointment" method="get" class="d-flex justify-content-between">
-                                    <!-- Ô tìm kiếm bệnh nhân -->
-                                    <input type="text" name="search" class="form-control" placeholder="Tìm kiếm bệnh nhân" value="${param.search}" style="width: 200px;">
+                            <div class="card shadow-sm p-3">
+                                <form action="doctorappointment" method="get" class="row row-cols-lg-auto g-2 align-items-end">
+                                    <!-- Tìm kiếm bệnh nhân -->
+                                    <div class="col">
+                                        <label class="form-label fw-bold">Tìm bệnh nhân</label>
+                                        <input type="text" name="search" class="form-control" placeholder="Nhập tên" value="${search}">
+                                    </div>
 
                                     <!-- Bộ lọc trạng thái -->
-                                    <select name="status" class="form-control" style="width: 150px;">
-                                        <option value="">Tất cả trạng thái</option>
-                                        <option value="pending" ${param.status == 'pending' ? 'selected' : ''}>Chờ xác nhận</option>
-                                        <option value="confirmed" ${param.status == 'confirmed' ? 'selected' : ''}>Đã xác nhận</option>
-                                        <option value="paid" ${param.status == 'paid' ? 'selected' : ''}>Đã thanh toán</option>
-                                        <option value="cancelled" ${param.status == 'cancelled' ? 'selected' : ''}>Đã hủy</option>
-                                        <option value="waitpay" ${param.status == 'waitpay' ? 'selected' : ''}>Chờ thanh toán</option>
-                                        <option value="absent" ${param.status == 'absent' ? 'selected' : ''}>Vắng mặt</option>
-                                    </select>
+                                    <div class="col">
+                                        <label class="form-label fw-bold">Trạng thái</label>
+                                        <select name="status" class="form-select">
+                                            <option value="">Tất cả</option>
+                                            <option value="pending" ${status == 'confirmed' ? 'selected' : ''}>Chờ khám</option>
+                                            <option value="completed" ${status == 'waitpay' || status == 'paid' ? 'selected' : ''}>Đã khám</option>
+                                            <option value="absent" ${status == 'absent' ? 'selected' : ''}>Vắng mặt</option>
+                                        </select>
+                                    </div>
 
-                                    <!-- Bộ lọc theo ngày -->
-                                    <input type="date" name="date" class="form-control" value="${param.date}" style="width: 150px;">
+                                    <!-- Bộ lọc từ ngày -->
+                                    <div class="col">
+                                        <label class="form-label fw-bold">Từ ngày</label>
+                                        <input type="date" name="fromDate" class="form-control" value="${fromDate}">
+                                    </div>
 
-                                    <!-- Bộ lọc số lượng hiển thị trên trang -->
-                                    <input type="number" name="pageSize" class="form-control" value="${empty param.pageSize ? 10 : param.pageSize}" min="1" max="100" step="1" style="width: 100px;">
+                                    <!-- Bộ lọc đến ngày -->
+                                    <div class="col">
+                                        <label class="form-label fw-bold">Đến ngày</label>
+                                        <input type="date" name="toDate" class="form-control" value="${toDate}">
+                                    </div>
 
-                                    <!-- Bộ lọc sắp xếp theo giờ hẹn -->
-                                    <select name="sort" class="form-control" style="width: 170px;">
-                                        <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Sắp xếp: Cũ → Mới</option>
-                                        <option value="desc" ${param.sort == 'desc' ? 'selected' : ''}>Sắp xếp: Mới → Cũ</option>
-                                    </select>
+                                    <!-- Bộ lọc số lượng hiển thị -->
+                                    <div class="col">
+                                        <label class="form-label fw-bold">Số dòng/trang</label>
+                                        <input type="number" name="pageSize" class="form-control" value="${empty pageSize ? 10 : pageSize}" min="1" max="100">
+                                    </div>
 
-                                    <button type="submit" class="btn btn-primary">Lọc</button>
+                                    <!-- Bộ lọc sắp xếp -->
+                                    <div class="col">
+                                        <label class="form-label fw-bold">Sắp xếp</label>
+                                        <select name="sort" class="form-select">
+                                            <option value="asc" ${sort == 'asc' ? 'selected' : ''}>Cũ → Mới</option>
+                                            <option value="desc" ${sort == 'desc' ? 'selected' : ''}>Mới → Cũ</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Nút lọc & làm mới -->
+                                    <div class="col d-flex gap-2 align-items-end">
+                                        <button type="submit" class="btn btn-primary filter-btn"><i class="fas fa-search"></i> Lọc</button>
+                                        <button type="button" class="btn btn-secondary filter-btn" id="resetFilters"><i class="fas fa-sync-alt"></i> Làm mới</button>
+                                    </div>
                                 </form>
 
+                                <!-- Thống kê ngay bên dưới -->
+                                <div class="row mt-3 text-center">
+                                    <div class="col-md-3">
+                                        <div class="p-2 border rounded bg-light">
+                                            <p class="mb-1 text-muted">Tổng số</p>
+                                            <span class="badge bg-primary fs-6">${statis[0]}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="p-2 border rounded bg-light">
+                                            <p class="mb-1 text-muted">Đã khám</p>
+                                            <span class="badge bg-success fs-6">${statis[1]}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="p-2 border rounded bg-light">
+                                            <p class="mb-1 text-muted">Chờ khám</p>
+                                            <span class="badge bg-warning fs-6">${statis[2]}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="p-2 border rounded bg-light">
+                                            <p class="mb-1 text-muted">Vắng mặt</p>
+                                            <span class="badge bg-danger fs-6">${statis[3]}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
+
+
+
+
                             <!-- Bảng hiển thị danh sách appointment -->
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
@@ -134,7 +172,7 @@
                                     </thead>
                                     <tbody>
                                         <c:forEach items="${listA}" var="appointment">
-                                            <tr class="status-${appointment.status}">
+                                            <tr>
                                                 <th class="p-3">${appointment.appointmentId}</th>
                                                 <td class="p-3">
                                                     <a href="#" class="text-dark">
@@ -159,41 +197,44 @@
                                                 </td>
                                                 <td class="p-3">
                                                     <c:choose>
-                                                        <c:when test="${appointment.status == 'pending'}">Chờ xác nhận</c:when>
-                                                        <c:when test="${appointment.status == 'confirmed'}">Đã xác nhận</c:when>
-                                                        <c:when test="${appointment.status == 'paid'}">Đã thanh toán</c:when>
-                                                        <c:when test="${appointment.status == 'cancelled'}">Đã hủy</c:when>
-                                                        <c:when test="${appointment.status == 'waitpay'}">Chờ thanh toán</c:when>
-                                                        <c:when test="${appointment.status == 'absent'}">Vắng mặt</c:when>
+                                                        <c:when test="${appointment.status == 'pending' or appointment.status == 'confirmed' or appointment.status == 'cancelled'}">
+                                                            <span class="badge bg-warning">Chờ khám</span>
+                                                        </c:when>
+                                                        <c:when test="${appointment.status == 'waitpay' or appointment.status == 'paid'}">
+                                                            <span class="badge bg-success">Đã khám</span>
+                                                        </c:when>
+                                                        <c:when test="${appointment.status == 'absent'}">
+                                                            <span class="badge bg-danger">Vắng mặt</span>
+                                                        </c:when>
                                                     </c:choose>
                                                 </td>
                                                 <td class="text-end p-3">
                                                     <a href="makeorder?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-primary">
                                                         <i class="uil uil-shopping-cart"></i>
                                                     </a>
-
-
                                                     <a href="doctorappdetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
                                                         <i class="uil uil-eye"></i>
                                                     </a>
-                                                    <!-- Link chuyển trạng thái: Vắng mặt -->
-                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=absent&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}"
-                                                       class="btn btn-icon btn-pills btn-soft-danger"
-                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Vắng mặt?');">
+                                                    <!-- Link chuyển trạng thái: Chờ thanh toán -->
+                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=waitpay&page=${currentPage}&search=${search}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&pageSize=${pageSize}&sort=${sort}"
+                                                       class="btn btn-icon btn-pills btn-soft-success"
+                                                       onclick="return confirm('Bạn có chắc xác nhận hoàn thành lịch hẹn ${appointment.appointmentId} ?');">
                                                         <i class="uil uil-check-circle"></i>
                                                     </a>
-                                                    <!-- Link chuyển trạng thái: Chờ thanh toán -->
-                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=waitpay&page=${currentPage}&search=${param.search}&filterStatus=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}"
-                                                       class="btn btn-icon btn-pills btn-soft-success"
-                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Chờ thanh toán?');">
+                                                    <!-- Link chuyển trạng thái: Vắng mặt -->
+                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=absent&page=${currentPage}&search=${search}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&pageSize=${pageSize}&sort=${sort}"
+                                                       class="btn btn-icon btn-pills btn-soft-danger"
+                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Vắng mặt?');">
                                                         <i class="uil uil-times-circle"></i>
                                                     </a>
+
                                                 </td>
 
                                             </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                         <!-- Phân trang -->
@@ -202,22 +243,23 @@
                                 <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                     <c:if test="${currentPage > 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="?page=${currentPage - 1}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}">Trước</a>
+                                            <a class="page-link" href="?page=${currentPage - 1}&search=${search}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&pageSize=${pageSize}&sort=${sort}">Trước</a>
                                         </li>
                                     </c:if>
                                     <c:forEach begin="1" end="${totalPages}" var="p">
                                         <li class="page-item ${p == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="?page=${p}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}">${p}</a>
+                                            <a class="page-link" href="?page=${p}&search=${search}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&pageSize=${pageSize}&sort=${sort}">${p}</a>
                                         </li>
                                     </c:forEach>
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
-                                            <a class="page-link" href="?page=${currentPage + 1}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}">Sau</a>
+                                            <a class="page-link" href="?page=${currentPage + 1}&search=${search}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&pageSize=${pageSize}&sort=${sort}">Sau</a>
                                         </li>
                                     </c:if>
                                 </ul>
                             </div>
                         </div>
+
 
 
                     </div>
@@ -230,7 +272,27 @@
         </div>
         <!-- page-wrapper -->
 
+        <script>
+            document.getElementById("resetFilters").addEventListener("click", function () {
+                document.querySelector("[name='search']").value = "";
+                document.querySelector("[name='status']").value = "";
+                document.querySelector("[name='fromDate']").value = "<%= java.time.LocalDate.now().toString() %>";
+                document.querySelector("[name='toDate']").value = "<%= java.time.LocalDate.now().toString() %>";
+                document.querySelector("[name='pageSize']").value = "10";
+                document.querySelector("[name='sort']").value = "asc";
+            });
+            // Khi form được submit, kiểm tra giá trị của từ ngày và đến ngày
+            document.querySelector("form").addEventListener("submit", function (e) {
+                var fromDateVal = document.querySelector("input[name='fromDate']").value;
+                var toDateVal = document.querySelector("input[name='toDate']").value;
+                // Nếu cả hai đều có giá trị và fromDate lớn hơn toDate
+                if (fromDateVal && toDateVal && fromDateVal > toDateVal) {
+                    alert("Giá trị \"Từ ngày\" phải nhỏ hơn hoặc bằng \"Đến ngày\".");
+                    e.preventDefault(); // Ngăn không cho form submit
+                }
+            });
 
+        </script>
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>

@@ -103,7 +103,7 @@
                                         </span>
                                     </li>
                                 </ul>
-                                <c:if test="${invoices[0].appointment.status != 'paid'}">
+                                <c:if test="${customer != null and invoices[0].appointment.status != 'paid'}">
                                     <div class="text-end mt-4 pt-2">
                                         <form action="vnpay_payment" method="post">
                                             <input type="hidden" name="amount" value="${totalPrice}">
@@ -112,6 +112,7 @@
                                         </form>
                                     </div>
                                 </c:if>
+
 
                             </div>
                         </div>

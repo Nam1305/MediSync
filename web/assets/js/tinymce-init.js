@@ -1,4 +1,6 @@
-ocument.addEventListener("DOMContentLoaded", function () {
+
+
+document.addEventListener("DOMContentLoaded", function () {
     tinymce.init({
         selector: '#testResults',
         plugins: 'image code fullscreen',

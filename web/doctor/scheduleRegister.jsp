@@ -53,6 +53,7 @@
                 background-color: #d4edda;
                 color: #155724;
             }
+
         </style>
     </head>
     <body>
@@ -81,21 +82,40 @@
                             <h4 class="mb-3 text-center">Đăng ký ca làm việc</h4>
                             <form id="registerShiftForm" action="registershift?action=regis" method="GET">
                                 <input type="hidden" name="action" value="regis">
-                                <div class="mb-3">
-                                    <div class="shift-container">
-                                        <label class="shift-box">
-                                            <input type="checkbox" name="shifts" value="1"> Ca 1 <br> (08:00 - 12:00)
-                                        </label>
-                                        <label class="shift-box">
-                                            <input type="checkbox" name="shifts" value="2"> Ca 2 <br> (13:00 - 17:00)
-                                        </label>
-                                        <label class="shift-box">
-                                            <input type="checkbox" name="shifts" value="3"> Ca 3 <br> (18:00 - 22:00)
-                                        </label>
+
+                                <!-- Row: Chọn ngày và ca làm việc -->
+                                <div class="row g-3 mb-4">
+                                    <!-- Cột: Chọn khoảng thời gian -->
+                                    <div class="col-md-6">
+                                        <div class="row g-2">
+                                            <div class="col-6">
+                                                <label for="fromDate" class="form-label">Từ ngày</label>
+                                                <input type="date" id="fromDate" name="fromDate" class="form-control" required>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="toDate" class="form-label">Đến ngày</label>
+                                                <input type="date" id="toDate" name="toDate" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Cột: Chọn ca làm việc -->
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold d-block text-center">Chọn ca làm việc</label>
+                                        <div class="shift-container">
+                                            <label class="shift-box">
+                                                <input type="checkbox" name="shifts" value="1"> Ca 1 <br> (08:00 - 12:00)
+                                            </label>
+                                            <label class="shift-box">
+                                                <input type="checkbox" name="shifts" value="2"> Ca 2 <br> (13:00 - 17:00)
+                                            </label>
+                                            <label class="shift-box">
+                                                <input type="checkbox" name="shifts" value="3"> Ca 3 <br> (18:00 - 22:00)
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- Hiển thị thông báo ngay trên nút đăng ký -->
+                                <!-- Thông báo nếu có -->
                                 <c:if test="${not empty error}">
                                     <div class="alert alert-danger text-center">${error}</div>
                                 </c:if>
@@ -103,12 +123,12 @@
                                     <div class="alert alert-success text-center">${success}</div>
                                 </c:if>
 
+                                <!-- Nút đăng ký -->
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success px-4">Đăng ký</button>
-                                </div>                           
+                                </div>
                             </form>
                         </div>
-
                         <!-- Danh sách đăng ký ca làm việc -->
                         <div class="card shadow p-4">
                             <h4 class="mb-3 text-center">Danh sách đăng ký ca làm việc</h4>
@@ -129,15 +149,16 @@
                                 <thead class="table-success">
                                     <tr>
                                         <th>ID</th>
-                                        <th>Thời gian đăng kí</th>
+                                        <th>Thời điểm đăng kí</th>
                                         <th>Ca</th>
                                         <th>Thời gian</th>
+                                        <th>Khoảng thời gian</th>
                                         <th>Trạng thái</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach var="schedule" items="${lists}">
+                                    <c:forEach items="${lists}" var="schedule">
                                         <tr>
                                             <td>${schedule.registrationId}</td>
                                             <td><fmt:formatDate value="${schedule.regisDate}" pattern="dd/MM/yyyy" /></td>
@@ -148,12 +169,17 @@
                                                     <c:otherwise>Ca 3</c:otherwise>
                                                 </c:choose>
                                             </td>
+
                                             <td>
                                                 <c:choose>
                                                     <c:when test="${schedule.shift == 1}">08:00 - 12:00</c:when>
                                                     <c:when test="${schedule.shift == 2}">13:00 - 17:00</c:when>
                                                     <c:otherwise>18:00 - 22:00</c:otherwise>
                                                 </c:choose>
+                                            </td>
+                                            <td>
+                                                <fmt:formatDate value="${schedule.startDate}" pattern="dd/MM/yyyy" /> - 
+                                                <fmt:formatDate value="${schedule.endDate}" pattern="dd/MM/yyyy" />
                                             </td>
                                             <td>
                                                 <c:choose>
@@ -181,6 +207,7 @@
                                     </c:forEach>
                                 </tbody>
                             </table>
+
                             <div class="col-12" style="margin-top: 1%;">
                                 <div class="d-md-flex align-items-center justify-content-end">
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
