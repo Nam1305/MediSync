@@ -32,6 +32,12 @@ public class ScheduleManagementServlet extends HttpServlet {
         
         String action = request.getParameter("action");
         
+        // Handle AJAX request for getting registration dates
+        if ("getRegistrationDates".equals(action)) {
+            handleGetRegistrationDates(request, response, scheduleDAO);
+            return; // Return early to avoid forwarding to JSP
+        }
+        
         // Xử lý hành động tạo lịch làm việc nếu có
         if ("createSchedule".equals(action)) {
             handleCreateScheduleAction(request, scheduleDAO, staffDAO);
@@ -46,6 +52,41 @@ public class ScheduleManagementServlet extends HttpServlet {
         
         // Forward đến trang JSP
         request.getRequestDispatcher("AdministrativeStaff/scheduleManagement.jsp").forward(request, response);
+    }
+    
+    /**
+     * Handle AJAX request to get registration dates
+     */
+    private void handleGetRegistrationDates(HttpServletRequest request, HttpServletResponse response, ScheduleDAO scheduleDAO) 
+            throws IOException {
+        response.setContentType("application/json");
+        String registrationIdParam = request.getParameter("registrationId");
+        
+        if (registrationIdParam != null && !registrationIdParam.isEmpty()) {
+            try {
+                int registrationId = Integer.parseInt(registrationIdParam);
+                ShiftRegistration registration = scheduleDAO.getShiftRegistrationById(registrationId);
+                
+                if (registration != null) {
+                    // Format dates as yyyy-MM-dd for HTML date input
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String startDate = registration.getStartDate() != null ? 
+                                      dateFormat.format(registration.getStartDate()) : "";
+                    String endDate = registration.getEndDate() != null ? 
+                                    dateFormat.format(registration.getEndDate()) : "";
+                    
+                    // Create JSON response
+                    String jsonResponse = "{\"startDate\":\"" + startDate + "\",\"endDate\":\"" + endDate + "\"}";
+                    response.getWriter().write(jsonResponse);
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                // Error parsing registration ID
+            }
+        }
+        
+        // If we get here, something went wrong
+        response.getWriter().write("{}");
     }
     
     /**
@@ -177,7 +218,6 @@ public class ScheduleManagementServlet extends HttpServlet {
             }
         }
         
-
         request.setAttribute("message", "Đã tạo " + createdSchedules.size() + " lịch làm việc mới");
     }
     
@@ -192,6 +232,20 @@ public class ScheduleManagementServlet extends HttpServlet {
                 List<ShiftRegistration> pendingRegistrations = getPendingRegistrations(scheduleDAO, selectedStaffId);
                 request.setAttribute("pendingRegistrations", pendingRegistrations);
                 request.setAttribute("selectedStaffId", selectedStaffId);
+                
+                // Handle selected shift registration
+                String selectedRegistrationIdParam = request.getParameter("shiftRegistrationId");
+                if (selectedRegistrationIdParam != null && !selectedRegistrationIdParam.isEmpty()) {
+                    try {
+                        int selectedRegistrationId = Integer.parseInt(selectedRegistrationIdParam);
+                        ShiftRegistration selectedRegistration = scheduleDAO.getShiftRegistrationById(selectedRegistrationId);
+                        if (selectedRegistration != null) {
+                            request.setAttribute("selectedRegistration", selectedRegistration);
+                        }
+                    } catch (NumberFormatException e) {
+                        // Ignore parsing errors
+                    }
+                }
             } catch (NumberFormatException e) {
                 // Không cần xử lý, nếu không parse được thì không hiển thị danh sách
             }

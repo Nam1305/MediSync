@@ -129,6 +129,16 @@ public class ShiftApprovalServlet extends HttpServlet {
                 // Lưu tên nhân viên vào attribute của registration để hiển thị trên JSP
                 request.setAttribute("staffName_" + registration.getRegistrationId(), staff.getName());
             }
+            
+            // Đảm bảo startDate và endDate có sẵn để hiển thị
+            Date startDate = registration.getStartDate();
+            Date endDate = registration.getEndDate();
+            
+            // Nếu startDate hoặc endDate là null, đặt chuỗi rỗng để hiển thị trên JSP
+            request.setAttribute("startDate_" + registration.getRegistrationId(), 
+                startDate != null ? sdf.format(startDate) : "N/A");
+            request.setAttribute("endDate_" + registration.getRegistrationId(), 
+                endDate != null ? sdf.format(endDate) : "N/A");
         }
         
         // Tính toán thông tin phân trang

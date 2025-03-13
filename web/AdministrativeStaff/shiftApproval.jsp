@@ -154,6 +154,8 @@
                                             <th>ID</th>
                                             <th>Nhân viên</th>
                                             <th>Ngày đăng ký</th>
+                                            <th>Ngày bắt đầu</th>
+                                            <th>Ngày kết thúc</th>
                                             <th>Ca làm việc</th>
                                             <th>Thời gian ca</th>
                                             <th>Trạng thái</th>
@@ -166,6 +168,8 @@
                                                 <td>${registration.registrationId}</td>
                                                 <td>${requestScope['staffName_'.concat(registration.registrationId)]}</td>
                                                 <td><fmt:formatDate value="${registration.regisDate}" pattern="dd/MM/yyyy" /></td>
+                                                <td><fmt:formatDate value="${registration.startDate}" pattern="dd/MM/yyyy" /></td>
+                                                <td><fmt:formatDate value="${registration.endDate}" pattern="dd/MM/yyyy" /></td>
                                                 <td>
                                                     <c:choose>
                                                         <c:when test="${registration.shift == 1}">Ca 1</c:when>

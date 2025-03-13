@@ -535,7 +535,7 @@ public class DoctorDAO extends DBContext {
         WHERE s.roleId = 2
         GROUP BY s.staffId, s.name, s.email, s.avatar, s.phone, 
                  s.password, s.dateOfBirth, s.position, s.gender, 
-                 s.status, s.description, s.roleId, s.departmentId
+                 s.status, s.description, s.roleId, s.departmentId, s.certificate
         ORDER BY AVG(f.ratings) DESC
     """;
 
