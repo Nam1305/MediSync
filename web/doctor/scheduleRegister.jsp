@@ -125,8 +125,9 @@
 
                                 <!-- Nút đăng ký -->
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success px-4">Đăng ký</button>
+                                    <button type="submit" class="btn btn-success px-4" onclick="return confirmRegistration()">Đăng ký</button>
                                 </div>
+
                             </form>
                         </div>
                         <!-- Danh sách đăng ký ca làm việc -->
@@ -264,6 +265,9 @@
                     this.classList.toggle("active", checkbox.checked);
                 });
             });
+            function confirmRegistration() {
+                return confirm("Bạn có chắc chắn muốn đăng ký ca làm việc không?");
+            }
         </script>
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>
