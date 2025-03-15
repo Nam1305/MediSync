@@ -136,9 +136,21 @@
         </style>
     </head>
     <body>
+
         <jsp:include page="../layout/header.jsp" />
         <div class="card mt-4 p-4">
             <h4 class="text-primary">Thông tin bác sĩ phụ trách</h4>
+            <c:if test="${param.message == 'success'}">
+                <div id="success-alert" class="alert alert-success text-center fw-bold p-4" role="alert" style="font-size: 24px; position: relative; top: 10px;">
+                    🎉 Đặt lịch hẹn thành công!
+                </div>
+            </c:if>
+
+            <c:if test="${param.message == 'error'}">
+                <div id="error-alert" class="alert alert-danger text-center fw-bold p-4" role="alert" style="font-size: 24px; position: relative; top: 10px;">
+                    ❌ Đặt lịch hẹn thất bại! Vui lòng thử lại.
+                </div>
+            </c:if>
             <div class="doctor-info mb-3">
                 <img src="${doctor.avatar}" alt="Avatar của bác sĩ" class="rounded-circle shadow-md avatar avatar-md-md">
                 <h5>${doctor.name}</h5>
@@ -169,6 +181,15 @@
                 <h5 class="text-primary">Giới thiệu bác sĩ ${doctor.name}:</h5>
                 <p class="border p-3 bg-light">${doctor.description}</p>
             </div>
+
+            <div class="mt-3">
+                <h5 class="text-primary">Bằng cấp của bác sĩ ${doctor.name}:</h5>
+                <ul class="list-group border p-3 bg-light">
+                    <c:forEach var="degree" items="${doctor.certificate}">
+                        <li class="list-group-item">${degree}</li>
+                        </c:forEach>
+                </ul>
+            </div>
         </div>
 
         <c:if test="${not hasSchedule}">
@@ -196,17 +217,6 @@
                 </div>
             </div>        
             <div class="card mt-4 p-4">
-                <c:if test="${param.message == 'success'}">
-                    <div class="alert alert-success" role="alert">
-                        🎉 Đặt lịch hẹn thành công!
-                    </div>
-                </c:if>
-
-                <c:if test="${param.message == 'error'}">
-                    <div class="alert alert-danger" role="alert">
-                        ❌ Đặt lịch hẹn thất bại! Vui lòng thử lại.
-                    </div>
-                </c:if>
                 <h4 class="text-primary">Lịch khám trống</h4>
                 <table class="table table-bordered prescription-table">
                     <thead>
@@ -245,5 +255,15 @@
         </div>
         <!-- Scripts -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script>
+            setTimeout(function () {
+                var successAlert = document.getElementById('success-alert');
+                var errorAlert = document.getElementById('error-alert');
+                if (successAlert)
+                    successAlert.style.display = 'none';
+                if (errorAlert)
+                    errorAlert.style.display = 'none';
+            }, 5000);
+        </script>
     </body>
 </html>
