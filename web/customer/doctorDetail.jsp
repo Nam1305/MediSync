@@ -116,6 +116,23 @@
                 background-color: #f9f9f9;
                 border-radius: 5px;
             }
+
+            .d-flex.overflow-auto.border.rounded.p-2.bg-light {
+                white-space: nowrap;
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                gap: 5px;
+            }
+
+            .d-inline {
+                display: inline-block;
+            }
+
+            .btn {
+                white-space: nowrap;
+            }
+
         </style>
     </head>
     <body>

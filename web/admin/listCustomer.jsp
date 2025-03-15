@@ -30,7 +30,7 @@
     </head>
 
     <body>
-          <div class="page-wrapper doctris-theme toggled">
+        <div class="page-wrapper doctris-theme toggled">
             <jsp:include page="../layout/navbar.jsp" />
 
 
@@ -66,7 +66,7 @@
                                 </c:if>
                             </div>
                         </div>
-                        
+
                         <form action="listCustomer" method="get">
                             <input type="hidden" name="page" value="${requestScope.currentPage != null ? requestScope.currentPage : 1}" />
                             <div class="d-flex justify-content-end mb-3">
@@ -91,6 +91,8 @@
 
                                     <!-- Nút gửi form -->
                                     <button type="submit" class="btn btn-primary">Lọc</button>
+                                    <!-- Nút Reset -->
+                                    <a href="listCustomer" class="btn btn-primary ms-2">Reset</a>
                                 </div>    
                             </div>
                         </form>

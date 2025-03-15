@@ -47,6 +47,10 @@
                         <p><strong>Phân loại:</strong> <span id="profileDoctor" class="text-muted">${customer.isVipCustomer()}</span></p>
                     </div>
                 </div>
+                <!-- Nút Quay về danh sách bệnh nhân -->
+                <div class="text-center mt-4">
+                    <a href="listCustomer" class="btn btn-primary">Quay về danh sách bệnh nhân</a>
+                </div>
             </div>
         </div>
 

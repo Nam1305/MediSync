@@ -48,24 +48,9 @@
                 font-size: 12px;
                 padding: 6px 10px;
             }
-            .status-cancelled {
-                background-color: #f4c7c3;
-            } /* Đỏ hồng nhạt */
-            .status-pending {
-                background-color: #fae3b0;
-            }   /* Cam nhạt */
-            .status-confirmed {
-                background-color: #b3e5fc;
-            } /* Xanh dương nhạt */
-            .status-paid {
-                background-color: #c8e6c9;
-            }        /* Xanh lá pastel */
-            .status-waiting_payment {
-                background-color: #ffe0b2;
-            } /* Vàng nhạt */
-            .status-absent {
-                background-color: #d1c4e9;
-            }        /* Tím nhạt */
+            .filter-btn {
+                min-height: 38px; /* Fix chiều cao button bằng input */
+            }
         </style>
     </head>
     <body>
@@ -122,7 +107,7 @@
                                         <option value="asc" ${param.sort == 'asc' ? 'selected' : ''}>Tăng dần theo ngày</option>
                                     </select>
 
-                                    
+
                                     <div class="col-md-2 d-flex gap-2">
                                         <button type="submit" class="btn btn-primary">Lọc</button>
                                         <button type="button" class="btn btn-primary w-100" onclick="resetForm()">Reset</button>
@@ -171,14 +156,27 @@
                                                 </td>
                                                 <td class="p-3">
                                                     <c:choose>
-                                                        <c:when test="${appointment.status == 'pending'}">Chờ xác nhận</c:when>
-                                                        <c:when test="${appointment.status == 'confirmed'}">Đã xác nhận</c:when>
-                                                        <c:when test="${appointment.status == 'paid'}">Đã thanh toán</c:when>
-                                                        <c:when test="${appointment.status == 'cancelled'}">Đã hủy</c:when>
-                                                        <c:when test="${appointment.status == 'waitpay'}">Chờ thanh toán</c:when>
-                                                        <c:when test="${appointment.status == 'absent'}">Vắng mặt</c:when>
+                                                        <c:when test="${appointment.status == 'pending'}">
+                                                            <span class="badge bg-warning">Chờ xác nhận</span>
+                                                        </c:when>
+                                                        <c:when test="${appointment.status == 'confirmed'}">
+                                                            <span class="badge bg-primary">Đã xác nhận</span>
+                                                        </c:when>
+                                                        <c:when test="${appointment.status == 'paid'}">
+                                                            <span class="badge bg-success">Đã thanh toán</span>
+                                                        </c:when>
+                                                        <c:when test="${appointment.status == 'cancelled'}">
+                                                            <span class="badge bg-danger">Đã hủy</span>
+                                                        </c:when>
+                                                        <c:when test="${appointment.status == 'waitpay'}">
+                                                            <span class="badge bg-info">Chờ thanh toán</span>
+                                                        </c:when>
+                                                        <c:when test="${appointment.status == 'absent'}">
+                                                            <span class="badge bg-secondary">Vắng mặt</span>
+                                                        </c:when>
                                                     </c:choose>
                                                 </td>
+
                                                 <td class="text-end p-3">
                                                     <!-- Link chuyển trạng thái: Hủy lịch -->
                                                     <a href="confirmappointment?appointmentId=${appointment.appointmentId}&newStatus=cancelled&page=${currentPage}&search=${param.search}&status=${param.status}&date=${param.date}&pageSize=${param.pageSize}&sort=${param.sort}"
@@ -240,12 +238,12 @@
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/app.js"></script>
-        
+
         <script>
-        function resetForm() {
-            window.location.href = './confirmappointment?search=&status=&pageSize=10&sort=desc';
-        }
-    </script>
+                                                           function resetForm() {
+                                                               window.location.href = './confirmappointment?search=&status=&pageSize=10&sort=desc';
+                                                           }
+        </script>
     </body>
 </html>
 

@@ -77,7 +77,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <input type="submit" id="submit" name="send" class="btn btn-primary" value="Lưu thay đổi">
-                        <a href="listCustomer" class="btn btn-secondary ms-2">Quay về danh sách khách hàng</a>
+                        <a href="listCustomer" class="btn btn-primary ms-2">Quay về danh sách khách hàng</a>
                     </div>
                 </div>
                 <c:if test="${not empty errors}">

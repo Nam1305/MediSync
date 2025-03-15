@@ -44,52 +44,50 @@
             <!-- Start Hero -->
             <section class="bg-half-150 bg-light d-table w-100">
                 <div class="container">
-                    <!-- Form tìm kiếm & lọc -->
-                    <form action="allDoctors" method="GET" class="mb-4">
-                        <div class="row g-3">
-                            <!-- Tìm kiếm theo tên -->
-                            <div class="col-md-4">
-                                <input type="text" name="name" class="form-control" placeholder="Tìm kiếm theo tên" value="${name}">
-                            </div>
-
-                            <!-- Lọc theo khoa -->
-                            <div class="col-md-3">
-                                <select name="departmentId" class="form-control">
-                                    <option value="">-- Chọn khoa --</option>
-                                    <c:forEach var="dept" items="${departments}">
-                                        <option value="${dept.departmentId}" ${departmentId == dept.departmentId ? 'selected' : ''}>${dept.departmentName}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
-                            <!-- Lọc theo giới tính -->
-                            <div class="col-md-3">
-                                <select name="gender" class="form-control">
-                                    <option value="">-- Chọn giới tính --</option>
-                                    <option value="M" ${gender == 'M' ? 'selected' : ''}>Nam</option>
-                                    <option value="F" ${gender == 'F' ? 'selected' : ''}>Nữ</option>
-                                </select>
-                            </div>
-
-                            <!-- Lọc theo số lượng bác sĩ -->
-                            <div class="col-md-2">
-                                <input type="number" name="pageSize" class="form-control" placeholder="Số lượng bác sĩ" value="${pageSize}">
-                            </div>
-
-                            <!-- Nút lọc & reset -->
-                            <div class="col-12 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary me-2">Lọc</button>
-                                <a href="allDoctors" class="btn btn-primary me-2">Reset</a>
-                            </div>
-                        </div>
-                    </form>
-
-
                     <div class="row mt-5 justify-content-center">
                         <div class="col-12">
                             <div class="section-title text-center">
                                 <h3 class="sub-title mb-4">Đội ngũ bác sĩ</h3>
                                 <p class="para-desc mx-auto text-muted">Đội ngũ bác sĩ của chúng tôi với những bác sĩ chuyên môn cao, tận tâm luôn sẵn sàng hỗ trợ bạn trong mọi tình huống!</p>
+                                <!-- Form tìm kiếm & lọc -->
+                                <form action="allDoctors" method="GET" class="mb-4">
+                                    <div class="row g-3">
+                                        <!-- Tìm kiếm theo tên -->
+                                        <div class="col-md-4">
+                                            <input type="text" name="name" class="form-control" placeholder="Tìm kiếm theo tên" value="${name}">
+                                        </div>
+
+                                        <!-- Lọc theo khoa -->
+                                        <div class="col-md-3">
+                                            <select name="departmentId" class="form-control">
+                                                <option value="">-- Chọn khoa --</option>
+                                                <c:forEach var="dept" items="${departments}">
+                                                    <option value="${dept.departmentId}" ${departmentId == dept.departmentId ? 'selected' : ''}>${dept.departmentName}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+
+                                        <!-- Lọc theo giới tính -->
+                                        <div class="col-md-3">
+                                            <select name="gender" class="form-control">
+                                                <option value="">-- Chọn giới tính --</option>
+                                                <option value="M" ${gender == 'M' ? 'selected' : ''}>Nam</option>
+                                                <option value="F" ${gender == 'F' ? 'selected' : ''}>Nữ</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Lọc theo số lượng bác sĩ -->
+                                        <div class="col-md-2">
+                                            <input type="number" name="pageSize" class="form-control" placeholder="Số lượng bác sĩ" value="${pageSize}">
+                                        </div>
+
+                                        <!-- Nút lọc & reset -->
+                                        <div class="col-12 d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary me-2">Lọc</button>
+                                            <a href="allDoctors" class="btn btn-primary me-2">Reset</a>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div><!--end col-->
                     </div><!--end row-->
