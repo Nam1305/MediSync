@@ -110,7 +110,7 @@
 
                                     <div class="col-md-2 d-flex gap-2">
                                         <button type="submit" class="btn btn-primary">Lọc</button>
-                                        <button type="button" class="btn btn-primary w-100" onclick="resetForm()">Reset</button>
+                                        <button type="button" class="btn btn-primary text-nowrap" onclick="resetForm()">Bỏ lọc</button>
                                     </div>
                                 </form>
 

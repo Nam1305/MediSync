@@ -321,8 +321,8 @@
 
                                         <!-- Nút submit -->
                                         <div class="col-md-2 d-flex gap-2">
-                                            <button type="submit" class="btn btn-primary w-100">Lọc</button>
-                                            <button type="button" class="btn btn-primary w-100" onclick="resetForm()">Reset</button>
+                                            <button type="submit" class="btn btn-primary w-100 text-nowrap">Lọc</button>
+                                            <button type="button" class="btn btn-primary w-100 text-nowrap" onclick="resetForm()">Bỏ lọc</button>
                                         </div>
                                     </div>
                                 </form>
@@ -415,7 +415,7 @@
                                                     <c:if test="${currentPage > 1}">
                                                         <li class="page-item">
                                                             <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'desc'}&page=${currentPage - 1}&pageSize=${requestScope.pageSize}" aria-label="Previous">
-                                                                Prev
+                                                                Trước
                                                             </a>
                                                         </li>
                                                     </c:if>
@@ -427,7 +427,7 @@
                                                     <c:if test="${currentPage < totalPages}">
                                                         <li class="page-item">
                                                             <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'desc'}&page=${currentPage + 1}&pageSize=${requestScope.pageSize}" aria-label="Next">
-                                                                Next
+                                                                Sau
                                                             </a>
                                                         </li>
                                                     </c:if>

@@ -84,7 +84,7 @@
                                         <!-- Nút lọc & reset -->
                                         <div class="col-12 d-flex justify-content-end">
                                             <button type="submit" class="btn btn-primary me-2">Lọc</button>
-                                            <a href="allDoctors" class="btn btn-primary me-2">Reset</a>
+                                            <a href="allDoctors" class="btn btn-primary me-2">Bỏ lọc</a>
                                         </div>
                                     </div>
                                 </form>
@@ -140,7 +140,7 @@
                         <c:if test="${currentPage > 1}">
                             <li class="page-item">
                                 <a class="page-link" href="allDoctors?name=${name}&departmentId=${departmentId}&gender=${gender}&pageSize=${pageSize}&page=${currentPage - 1}" aria-label="Previous">
-                                    Prev
+                                    Trước
                                 </a>
                             </li>
                         </c:if>
@@ -154,7 +154,7 @@
                         <c:if test="${currentPage < totalPages}">
                             <li class="page-item">
                                 <a class="page-link" href="allDoctors?name=${name}&departmentId=${departmentId}&gender=${gender}&pageSize=${pageSize}&page=${currentPage + 1}" aria-label="Next">
-                                    Next
+                                    Sau
                                 </a>
                             </li>
                         </c:if>
