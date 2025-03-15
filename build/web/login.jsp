@@ -93,7 +93,7 @@
 
                                     <div class="col-12 mt-3">
                                         <div class="d-grid">
-                                            <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9999/MediSyncSys/logingg&response_type=code&client_id=185858868190-ph9uql7ag8caujm9vkspa2qs8j46dgkc.apps.googleusercontent.com&approval_prompt=force" class="btn" style="color: #2CA052;"><i class="uil uil-google"></i> Google</a>
+                                            <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9999/MediSyncSys/logingg&response_type=code&client_id=601423559182-f3tnmnao7jrh0lap2se016tup5ldbcbi.apps.googleusercontent.com&approval_prompt=force" class="btn" style="color: #2CA052;"><i class="uil uil-google"></i> Google</a>
                                         </div>
                                     </div>
 
