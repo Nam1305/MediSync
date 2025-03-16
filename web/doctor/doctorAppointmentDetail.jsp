@@ -19,6 +19,7 @@
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.tiny.cloud/1/vnufc6yakojjcovpkijlauot8hfpbxd3uscxatfq2m4yijay/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
         <script src="assets/js/tinymce-init.js"></script>
+        <link rel="shortcut icon" href="assets/images/logo-icon.png"><!-- comment -->       
 
         
 
