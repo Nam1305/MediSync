@@ -214,11 +214,15 @@
                     <li class="parent-menu-item">
                         <a href="home">Trang chủ</a><span class="menu-arrow"></span>
                     </li>
+                    
                     <li class="parent-parent-menu-item">
                         <a href="allDoctors">Bác Sĩ</a><span class="menu-arrow"></span>
                     </li>
                     <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
                     <li><a href="services" class="sub-menu-item">Dịch vụ</a></li>
+                    <li class="parent-menu-item">
+                        <a href="ChatBot">Chat Bot</a><span class="menu-arrow"></span>
+                    </li>
                 </ul>
             </div>
         </div>

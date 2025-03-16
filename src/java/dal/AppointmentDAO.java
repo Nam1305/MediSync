@@ -851,7 +851,7 @@ public class AppointmentDAO extends DBContext {
         }
         return 0; // Trả về 0 nếu có lỗi
     }
-
+    
     public void updateInvoiceStatus(int appointmentId, String newStatus) {
         String sql = "UPDATE Appointment SET status = ? WHERE appointmentId = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -872,9 +872,9 @@ public class AppointmentDAO extends DBContext {
 //        int x = a.countAllAppointmentsByFilterForPatient(1, null, "M", "all");
 //        System.out.println(x);
 //    }
-//      public static void main(String[] args) {
-//        AppointmentDAO appointmentDAO = new AppointmentDAO();
-//        List<Appointment> listappoinment = appointmentDAO.getListAppointmentsByCustomerId(9);
-//          System.out.println(listappoinment);
-//    }
+      public static void main(String[] args) {
+        AppointmentDAO appointmentDAO = new AppointmentDAO();
+        
+          System.out.println(appointmentDAO.getTotalAppointments());
+    }
 }

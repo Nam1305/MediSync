@@ -127,8 +127,8 @@
                                                     <div class="mb-3">
                                                         <label class="form-label">Giới Tính</label>
                                                         <select name="gender" class="form-control gender-name select2input" required>
-                                                            <option value="M">Male</option>
-                                                            <option value="F">Female</option>
+                                                            <option value="M">Nam</option>
+                                                            <option value="F">Nữ</option>
                                                         </select>
                                                     </div>
                                                 </div><!--end col-->

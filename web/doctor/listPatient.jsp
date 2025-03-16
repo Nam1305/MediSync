@@ -94,7 +94,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12 mt-4 pt-2 mt-sm-0 pt-sm-0"> <!-- Thay col-xl-9 col-lg-8 col-md-7 thành col-12 -->
-                                <h5 class="mb-0">Patients List</h5>
+                                <h5 class="mb-0">Danh SácH Bệnh Nhân</h5>
                                 <div class="row">
                                     <div class="d-flex justify-content-end">
                                         <form action="ListPatient" method="get" class="row gx-2 gy-2 align-items-center">
@@ -124,11 +124,11 @@
                                             </div>
 
                                             <div class="col-auto">
-                                                <button type="submit" class="btn btn-success">Lọc</button>
+                                                <button type="submit" class="btn btn-success form-control">Lọc</button>
                                             </div>
 
                                             <div class="col-auto">
-                                                <button type="button" class="btn btn-secondary" onclick="resetFilters()">Reset</button>
+                                                <button type="button" class="btn btn-secondary form-control" onclick="resetFilters()">Làm mới</button>
                                             </div>
                                         </form>
                                     </div>
@@ -181,7 +181,7 @@
                                             <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                                 <c:if test="${currentPage > 1}">
                                                     <li class="page-item">
-                                                        <a class="page-link" href="ListPatient?page=${currentPage - 1}&pageSize=${pageSize}&sort=${sort}&search=${search}&bloodType=${bloodType}">Previous</a>
+                                                        <a class="page-link" href="ListPatient?page=${currentPage - 1}&pageSize=${pageSize}&sort=${sort}&search=${search}&bloodType=${bloodType}">Trang trước</a>
                                                     </li>
                                                 </c:if>
 
@@ -193,7 +193,7 @@
 
                                                 <c:if test="${currentPage < totalPages}">
                                                     <li class="page-item">
-                                                        <a class="page-link" href="ListPatient?page=${currentPage + 1}&pageSize=${pageSize}&sort=${sort}&search=${search}&bloodType=${bloodType}">Next</a>
+                                                        <a class="page-link" href="ListPatient?page=${currentPage + 1}&pageSize=${pageSize}&sort=${sort}&search=${search}&bloodType=${bloodType}">Trang sau</a>
                                                     </li>
                                                 </c:if>
                                             </ul>

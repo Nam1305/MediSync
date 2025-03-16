@@ -33,6 +33,93 @@
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <style>
+            /* Cải thiện giao diện tổng thể */
+            body {
+                font-family: 'Poppins', sans-serif;
+                background-color: #f4f7fe;
+                color: #333;
+            }
+
+            h5, h6 {
+                font-weight: 600;
+                color: #2c3e50;
+            }
+
+            .card {
+                border-radius: 12px;
+                transition: all 0.3s ease;
+                border: none;
+            }
+
+            .card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .icon {
+                width: 50px;
+                height: 50px;
+                background: #f0f4ff;
+                color: #5b73e8;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                font-size: 24px;
+            }
+
+            /* Cải thiện layout các thẻ thống kê */
+            .features-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+            }
+
+            .features {
+                background: #fff;
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-radius: 12px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+
+            .features h5 {
+                font-size: 22px;
+                color: #1e3050;
+            }
+
+            .features p {
+                font-size: 14px;
+                color: #6c757d;
+            }
+
+            /* Form chọn ngày tháng năm */
+            form {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                align-items: center;
+                background: #fff;
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+
+
+
+            /* Biểu đồ */
+            canvas {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                padding: 15px;
+            }
+
+        </style>
     </head>
 
     <body>
@@ -47,53 +134,73 @@
 
                 <div class="container-fluid">
                     <div class="layout-specing">
-                        <h5 class="mb-0">Dashboard</h5>
+                        <h2 class="mb-0">Dashboard</h2>
 
-                        <!-- Khách Hàng -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="card features feature-primary rounded border-0 shadow p-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon text-center rounded-md">
-                                            <i class="uil uil-bed h3 mb-0"></i>
-                                        </div>
-                                        <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">${customerCount}</h5>
-                                            <p class="text-muted mb-0">Khách Hàng</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!--end row-->
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
 
-                        <!-- Tổng Doanh Thu -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card features feature-primary rounded border-0 shadow p-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon text-center rounded-md">
-                                            <i class="uil uil-file-medical-alt h3 mb-0"></i>
+                                        <div class="d-flex align-items-center bg-light rounded p-3 flex-fill">
+                                            <div class="icon text-center rounded-md me-2">
+                                                <i class="uil uil-bed h3 mb-0"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-0">${customerCount}</h5>
+                                                <p class="text-muted mb-0">Khách Hàng</p>
+                                            </div>
                                         </div>
-                                        <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">
-                                                <c:choose>
-                                                    <c:when test="${totalRevenue >= 1000000000}">
-                                                        <fmt:formatNumber value="${totalRevenue / 1000000000}" type="number" groupingUsed="true"/> tỷ
-                                                    </c:when>
-                                                    <c:when test="${totalRevenue >= 1000000}">
-                                                        <fmt:formatNumber value="${totalRevenue / 1000000}" type="number" groupingUsed="true"/> triệu
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <fmt:formatNumber value="${totalRevenue}" type="number" groupingUsed="true"/>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </h5>
-                                            <p class="text-muted mb-0">Tổng Doanh Thu</p>
+
+                                        <div class="d-flex align-items-center bg-light rounded p-3 flex-fill">
+                                            <div class="icon text-center rounded-md me-2">
+                                                <i class="uil uil-file-medical-alt h3 mb-0"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-0">
+                                                    <c:choose>
+                                                        <c:when test="${totalRevenue >= 1000000000}">
+                                                            <fmt:formatNumber value="${totalRevenue / 1000000000}" type="number" groupingUsed="true"/> tỷ
+                                                        </c:when>
+                                                        <c:when test="${totalRevenue >= 1000000}">
+                                                            <fmt:formatNumber value="${totalRevenue / 1000000}" type="number" groupingUsed="true"/> triệu
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <fmt:formatNumber value="${totalRevenue}" type="number" groupingUsed="true"/>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </h5>
+                                                <p class="text-muted mb-0">Tổng Doanh Thu</p>
+                                            </div>
                                         </div>
+
+                                        <div class="d-flex align-items-center bg-light rounded p-3 flex-fill">
+                                            <div class="icon text-center rounded-md me-2">
+                                                <i class="uil uil-social-distancing h3 mb-0"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-0">${totalAppointments}</h5>
+                                                <p class="text-muted mb-0">Appointment</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex align-items-center bg-light rounded p-3 flex-fill">
+                                            <div class="icon text-center rounded-md me-2">
+                                                <i class="uil uil-ambulance h3 mb-0"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-0">${totalService}</h5>
+                                                <p class="text-muted mb-0">Service</p>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-                        </div><!--end row-->
+                        </div>
+
+
+
+
 
                         <!-- Nhân viên theo từng vai trò -->
 
@@ -117,41 +224,49 @@
                             </div>
                         </div> <!-- end row -->
 
+
                         <div class="row">
-                            <div class="col-12">
-                                <div class="card features feature-primary rounded border-0 shadow p-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon text-center rounded-md">
-                                            <i class="uil uil-medkit h3 mb-0"></i>
-                                        </div>
-                                        <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">${totalAppintment}</h5>
-                                            <p class="text-muted mb-0">Appointment</p>
-                                        </div>
-                                    </div>
+                            <h3>Thống kê khách hàng và doanh thu</h3>
+                            <form action="AdminDashBoard" method="post">
+                                <div class="form-group">
+                                    <label>Chọn năm:</label>
+                                    <input type="number" name="year" class="form-control" placeholder="Nhập năm">
                                 </div>
-                            </div><!--end row-->
-                        </div><!--end col-->
+
+                                <div class="form-group">
+                                    <label>Chọn tháng:</label>
+                                    <input type="number" name="month" class="form-control"  placeholder="Nhập tháng (1-12)">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Chọn ngày:</label>
+                                    <input type="number" name="day" class="form-control"  placeholder="Nhập ngày (1-31)">
+                                </div>
+
+                                <hr>
+
+                                <div class="form-group">
+                                    <label>Từ ngày:</label>
+                                    <input type="date" class="form-control" name="startDate">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Đến ngày:</label>
+                                    <input type="date" class="form-control" name="endDate">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="form-control" >Thống kê</button>
+                                </div>
+                                
+                            </form>
+
+                            <canvas id="statsChart"></canvas>
+                        </div>
 
                         <div class="row">
                             <div class="col-12">
                                 <div class="card features feature-primary rounded border-0 shadow p-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon text-center rounded-md">
-                                            <i class="uil uil-medical-drip h3 mb-0"></i>
-                                        </div>
-                                        <div class="flex-1 ms-2">
-                                            <h5 class="mb-0">${totalService}</h5>
-                                            <p class="text-muted mb-0">Service</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!--end row--> 
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card features feature-primary rounded border-0 shadow p-4">
-                                    <h5 class="mb-3">Top 4 Dịch Vụ Được Sử Dụng Nhiều Nhất</h5>
+                                    <h3 class="mb-3">Top 4 Dịch Vụ Được Sử Dụng Nhiều Nhất</h3>
                                     <c:forEach var="service" items="${topServices}">
                                         <div class="d-flex align-items-center bg-light rounded p-2 mb-2">
                                             <div class="icon text-center rounded-md me-2">
@@ -206,23 +321,7 @@
                             </c:forEach>
                         </div>
 
-                        <div class="row">
-                            <h2>Thống kê khách hàng và doanh thu</h2>
-                            <form action="AdminDashBoard" method="post">
-                                <label>Chọn năm:</label>
-                                <input type="number" name="year">
 
-                                <label>Chọn tháng:</label>
-                                <input type="number" name="month">
-
-                                <label>Chọn ngày:</label>
-                                <input type="number" name="day">
-
-                                <button type="submit">Thống kê</button>
-                            </form>
-
-                            <canvas id="statsChart"></canvas>
-                        </div>
                     </div>
                 </div><!--end container-->
 
@@ -232,50 +331,7 @@
         </div>
         <!-- page-wrapper -->
 
-        <!-- Offcanvas Start -->
-        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-            <div class="offcanvas-header p-4 border-bottom">
-                <h5 id="offcanvasRightLabel" class="mb-0">
-                    <img src="assets/images/logo-dark.png" height="24" class="light-version" alt="">
-                    <img src="assets/images/logo-light.png" height="24" class="dark-version" alt="">
-                </h5>
-                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
-            </div>
-            <div class="offcanvas-body p-4 px-md-5">
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Style switcher -->
-                        <div id="style-switcher">
-                            <div>
-                                <ul class="text-center list-unstyled mb-0">
-                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
-                                    <li class="d-grid"><a href="landing/index.html" target="_blank" class="mt-4"><img src="assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end Style switcher -->
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div>
 
-            <div class="offcanvas-footer p-4 border-top text-center">
-                <ul class="list-unstyled social-icon mb-0">
-                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
-                </ul><!--end icon-->
-            </div>
-        </div>
-        <!-- Offcanvas End -->
 
         <!-- javascript -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
@@ -288,49 +344,105 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
-         <script>
-        var labels = [];
-        var customerCounts = [];
-        var revenueCounts = [];
+        <script>
+            var labels = [];
+            var customerCounts = [];
+            var revenueCounts = [];
 
-        <c:forEach var="label" items="${labels}">
+            <c:forEach var="label" items="${labels}">
             labels.push("${label}");
-        </c:forEach>
+            </c:forEach>
 
-        <c:forEach var="count" items="${customerCounts}">
+            <c:forEach var="count" items="${customerCounts}">
             customerCounts.push(${count});
-        </c:forEach>
+            </c:forEach>
 
-        <c:forEach var="revenue" items="${revenueCounts}">
+            <c:forEach var="revenue" items="${revenueCounts}">
             revenueCounts.push(${revenue});
-        </c:forEach>
+            </c:forEach>
 
-        var ctx = document.getElementById('statsChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Số lượng khách',
-                        data: customerCounts,
-                        backgroundColor: 'rgba(54, 162, 235, 0.6)'
-                    },
-                    {
-                        label: 'Doanh thu (VND)',
-                        data: revenueCounts,
-                        backgroundColor: 'rgba(255, 99, 132, 0.6)'
+            var ctx = document.getElementById('statsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Số lượng khách',
+                            data: customerCounts,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                        },
+                        {
+                            label: 'Doanh thu (VND)',
+                            data: revenueCounts,
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {beginAtZero: true}
                     }
-                ]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: { beginAtZero: true }
                 }
-            }
-        });
-    </script>
+            });
+        </script>
+        <script>
+            document.querySelector("form").addEventListener("submit", function (event) {
+                let year = document.querySelector("[name='year']").value.trim();
+                let month = document.querySelector("[name='month']").value.trim();
+                let day = document.querySelector("[name='day']").value.trim();
+                let startDate = document.querySelector("[name='startDate']").value;
+                let endDate = document.querySelector("[name='endDate']").value;
+
+                let errors = [];
+
+                // Ép kiểu về số nguyên (nếu có giá trị)
+                year = year ? parseInt(year) : null;
+                month = month ? parseInt(month) : null;
+                day = day ? parseInt(day) : null;
+
+                // Kiểm tra năm hợp lệ
+                if (year !== null && (isNaN(year) || year <= 0)) {
+                    errors.push("❌ Năm phải là số nguyên dương.");
+                }
+
+                // Kiểm tra tháng hợp lệ
+                if (month !== null && (isNaN(month) || month < 1 || month > 12)) {
+                    errors.push("❌ Tháng phải từ 1 đến 12.");
+                }
+
+                // Kiểm tra ngày hợp lệ (thủ công theo từng tháng)
+                if (year !== null && month !== null && day !== null) {
+                    let maxDays = 31; // Mặc định tháng có 31 ngày
+
+                    // Xác định số ngày tối đa theo từng tháng
+                    if ([4, 6, 9, 11].includes(month)) {
+                        maxDays = 30; // Tháng 4, 6, 9, 11 có 30 ngày
+                    } else if (month === 2) {
+                        // Kiểm tra năm nhuận
+                        let isLeapYear = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+                        maxDays = isLeapYear ? 29 : 28;
+                    }
+
+                    // Kiểm tra ngày có hợp lệ không
+                    if (isNaN(day) || day < 1 || day > maxDays) {
+                        errors.push(`ngày không hợp lệ`);
+                    }
+                }
+
+                // Kiểm tra startDate <= endDate
+                if (startDate && endDate && startDate > endDate) {
+                    errors.push("❌ Ngày bắt đầu không được lớn hơn ngày kết thúc.");
+                }
+
+                // Nếu có lỗi, hiển thị thông báo và ngăn form submit
+                if (errors.length > 0) {
+                    alert(errors.join("\n"));
+                    event.preventDefault();
+                }
+            });
+        </script>
     </body>
 
 </html>
