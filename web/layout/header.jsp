@@ -214,11 +214,15 @@
                     <li class="parent-menu-item">
                         <a href="home">Trang chủ</a><span class="menu-arrow"></span>
                     </li>
+                    <c:if test="${staff == null}">
                     <li class="parent-parent-menu-item">
                         <a href="allDoctors">Bác Sĩ</a><span class="menu-arrow"></span>
                     </li>
+                    </c:if>
                     <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
+                    <c:if test="${staff == null}">
                     <li><a href="services" class="sub-menu-item">Dịch vụ</a></li>
+                    </c:if>
                 </ul>
             </div>
         </div>

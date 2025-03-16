@@ -531,9 +531,26 @@
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Ngày sinh</label>
-                                                <input name="dateOfBirth" type="text" class="form-control" 
-                                                       value="<fmt:formatDate value='${customer.dateOfBirth}' pattern='dd-MM-yyyy'/>">
+                                                <input name="dateOfBirth" type="date" class="form-control" 
+                                                       value="<fmt:formatDate value='${customer.dateOfBirth}' pattern='yyyy-MM-dd'/>">
                                             </div>                                                                               
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Nhóm máu</label>
+                                                <select name="bloodType" class="form-control">
+                                                    <option value="" ${empty customer.bloodType ? 'selected' : ''}>Chọn nhóm máu</option>
+                                                    <option value="A+" ${customer.bloodType == 'A+' ? 'selected' : ''}>A+</option>
+                                                    <option value="A-" ${customer.bloodType == 'A-' ? 'selected' : ''}>A-</option>
+                                                    <option value="B+" ${customer.bloodType == 'B+' ? 'selected' : ''}>B+</option>
+                                                    <option value="B-" ${customer.bloodType == 'B-' ? 'selected' : ''}>B-</option>
+                                                    <option value="AB+" ${customer.bloodType == 'AB+' ? 'selected' : ''}>AB+</option>
+                                                    <option value="AB-" ${customer.bloodType == 'AB-' ? 'selected' : ''}>AB-</option>
+                                                    <option value="O+" ${customer.bloodType == 'O+' ? 'selected' : ''}>O+</option>
+                                                    <option value="O-" ${customer.bloodType == 'O-' ? 'selected' : ''}>O-</option>
+                                                </select>
+                                            </div>
                                         </div>
 
                                         <!-- Rest of the form remains the same -->

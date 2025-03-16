@@ -143,6 +143,7 @@ public class CustomerProfileServlet extends HttpServlet {
             String dateOfBirthStr = request.getParameter("dateOfBirth");
             String gender = request.getParameter("gender");
             String phone = request.getParameter("phone");
+            String bloodType = request.getParameter("bloodType"); // Add this line to get bloodType
 
             // Validate required fields
             if (name == null || name.trim().isEmpty()
@@ -211,6 +212,7 @@ public class CustomerProfileServlet extends HttpServlet {
             }
             customer.setGender(gender);
             customer.setPhone(phone);
+            customer.setBloodType(bloodType);
 
             // Update customer in database
             boolean updated = customerDAO.updateCustomer(customer);
