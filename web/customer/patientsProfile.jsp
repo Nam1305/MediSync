@@ -321,8 +321,8 @@
 
                                         <!-- Nút submit -->
                                         <div class="col-md-2 d-flex gap-2">
-                                            <button type="submit" class="btn btn-primary w-100">Lọc</button>
-                                            <button type="button" class="btn btn-primary w-100" onclick="resetForm()">Reset</button>
+                                            <button type="submit" class="btn btn-primary w-100 text-nowrap">Lọc</button>
+                                            <button type="button" class="btn btn-primary w-100 text-nowrap" onclick="resetForm()">Bỏ lọc</button>
                                         </div>
                                     </div>
                                 </form>
@@ -415,7 +415,7 @@
                                                     <c:if test="${currentPage > 1}">
                                                         <li class="page-item">
                                                             <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'desc'}&page=${currentPage - 1}&pageSize=${requestScope.pageSize}" aria-label="Previous">
-                                                                Prev
+                                                                Trước
                                                             </a>
                                                         </li>
                                                     </c:if>
@@ -427,7 +427,7 @@
                                                     <c:if test="${currentPage < totalPages}">
                                                         <li class="page-item">
                                                             <a class="page-link" href="listAppointments?search=${requestScope.search}&gender=${requestScope.gender}&status=${not empty requestScope.status ? requestScope.status : 'all'}&sort=${not empty requestScope.sort ? requestScope.sort : 'desc'}&page=${currentPage + 1}&pageSize=${requestScope.pageSize}" aria-label="Next">
-                                                                Next
+                                                                Sau
                                                             </a>
                                                         </li>
                                                     </c:if>
@@ -531,9 +531,26 @@
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Ngày sinh</label>
-                                                <input name="dateOfBirth" type="text" class="form-control" 
-                                                       value="<fmt:formatDate value='${customer.dateOfBirth}' pattern='dd-MM-yyyy'/>">
+                                                <input name="dateOfBirth" type="date" class="form-control" 
+                                                       value="<fmt:formatDate value='${customer.dateOfBirth}' pattern='yyyy-MM-dd'/>">
                                             </div>                                                                               
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Nhóm máu</label>
+                                                <select name="bloodType" class="form-control">
+                                                    <option value="" ${empty customer.bloodType ? 'selected' : ''}>Chọn nhóm máu</option>
+                                                    <option value="A+" ${customer.bloodType == 'A+' ? 'selected' : ''}>A+</option>
+                                                    <option value="A-" ${customer.bloodType == 'A-' ? 'selected' : ''}>A-</option>
+                                                    <option value="B+" ${customer.bloodType == 'B+' ? 'selected' : ''}>B+</option>
+                                                    <option value="B-" ${customer.bloodType == 'B-' ? 'selected' : ''}>B-</option>
+                                                    <option value="AB+" ${customer.bloodType == 'AB+' ? 'selected' : ''}>AB+</option>
+                                                    <option value="AB-" ${customer.bloodType == 'AB-' ? 'selected' : ''}>AB-</option>
+                                                    <option value="O+" ${customer.bloodType == 'O+' ? 'selected' : ''}>O+</option>
+                                                    <option value="O-" ${customer.bloodType == 'O-' ? 'selected' : ''}>O-</option>
+                                                </select>
+                                            </div>
                                         </div>
 
                                         <!-- Rest of the form remains the same -->

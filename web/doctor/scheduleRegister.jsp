@@ -18,6 +18,7 @@
         <link href="assets/css/fullcalendar.min.css" rel="stylesheet" type="text/css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <link rel="shortcut icon" href="assets/images/logo-icon.png"><!-- comment -->       
 
         <style>
             .shift-container {
@@ -125,8 +126,9 @@
 
                                 <!-- Nút đăng ký -->
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-success px-4">Đăng ký</button>
+                                    <button type="submit" class="btn btn-success px-4" onclick="return confirmRegistration()">Đăng ký</button>
                                 </div>
+
                             </form>
                         </div>
                         <!-- Danh sách đăng ký ca làm việc -->
@@ -264,6 +266,9 @@
                     this.classList.toggle("active", checkbox.checked);
                 });
             });
+            function confirmRegistration() {
+                return confirm("Bạn có chắc chắn muốn đăng ký ca làm việc không?");
+            }
         </script>
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>

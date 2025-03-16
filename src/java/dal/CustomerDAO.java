@@ -17,7 +17,7 @@ public class CustomerDAO extends DBContext {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     Customer customer = new Customer();
-                    customer.setCustomerId(customerId); 
+                    customer.setCustomerId(customerId);
                     customer.setName(rs.getString("name"));
                     customer.setGender(rs.getString("gender") != null ? rs.getString("gender").trim() : null);
                     customer.setEmail(rs.getString("email"));
@@ -281,7 +281,7 @@ public class CustomerDAO extends DBContext {
     public boolean updateCustomer(Customer customer) {
         boolean isUpdated = false;
         // Câu lệnh SQL cập nhật thông tin khách hàng
-        String sql = "UPDATE customer SET name=?, email=?, address=?, dateOfBirth=?, gender=?, phone=?, avatar=? WHERE customerId=?";
+        String sql = "UPDATE customer SET name=?, email=?, address=?, dateOfBirth=?, gender=?, phone=?, avatar=?, bloodType=? WHERE customerId=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             // Thiết lập các tham số cho câu lệnh SQL
@@ -291,8 +291,9 @@ public class CustomerDAO extends DBContext {
             ps.setDate(4, customer.getDateOfBirth());     // dateOfBirth
             ps.setString(5, customer.getGender());        // gender
             ps.setString(6, customer.getPhone());         // phone
-            ps.setString(7, customer.getAvatar());
-            ps.setInt(8, customer.getCustomerId());
+            ps.setString(7, customer.getAvatar());        // avatar
+            ps.setString(8, customer.getBloodType());     // bloodType
+            ps.setInt(9, customer.getCustomerId());       // customerId
 
             // Thực thi câu lệnh SQL và kiểm tra số hàng bị ảnh hưởng
             int rowsAffected = ps.executeUpdate();
@@ -556,16 +557,15 @@ public class CustomerDAO extends DBContext {
 
     public static void main(String[] args) {
         CustomerDAO d = new CustomerDAO();
-        
-      
+
+
     }
-    
+
     //Phần của Sơn 
-     public int countCustomers() {
+    public int countCustomers() {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM Customer";
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 count = rs.getInt(1);
             }
@@ -574,8 +574,9 @@ public class CustomerDAO extends DBContext {
         }
         return count;
     }
+
      
-  public Map<String, Integer> getCustomerStats(int year, int month, int day, String startDate, String endDate) {
+ public Map<String, Integer> getCustomerStats(int year, int month, int day, String startDate, String endDate) {
     Map<String, Integer> stats = new LinkedHashMap<>();
     String sql = "SELECT FORMAT(date, 'dd-MM-yyyy') AS day, COUNT(DISTINCT customerId) AS totalCustomers FROM Appointment WHERE 1=1";
 
@@ -635,7 +636,4 @@ public class CustomerDAO extends DBContext {
     return stats;
 }
 
-
-
-   
 }

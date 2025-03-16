@@ -90,24 +90,24 @@ public class RegisterShift extends HttpServlet {
                     } else if (shifts == null || shifts.length == 0) {
                         request.setAttribute("error", "Hãy chọn ít nhất 1 ca làm việc!");
                     } else {
-                        boolean allSuccess = true;
-                        // Đăng ký ca làm việc cho từng ngày trong khoảng thời gian [fromDate, toDate]
-                        long oneDayMillis = 86400000L;
-                        for (long time = fromDate.getTime(); time <= toDate.getTime(); time += oneDayMillis) {
-                            java.sql.Date workDate = new java.sql.Date(time);
-                            for (String shift : shifts) {
-                                int shiftId = Integer.parseInt(shift);
-                                boolean inserted = scheduleDao.insertShiftRegistration(staff.getStaffId(), shiftId, workDate, fromDate, toDate);
+                        for (String shift : shifts) {
+                            int shiftId = Integer.parseInt(shift);
+
+                            // Kiểm tra xung đột: nếu có lỗi, set thông báo lỗi và return
+                            if (scheduleDao.checkShiftConflict(staff.getStaffId(), shiftId, fromDate, toDate)) {
+                                request.setAttribute("error", "Đăng ký thất bại: Ca " + shiftId + " bị trùng với lịch đã đăng ký.");
+                            } else {
+                                boolean inserted = scheduleDao.insertShiftRegistration(staff.getStaffId(), shiftId, fromDate, toDate);
                                 if (!inserted) {
-                                    allSuccess = false;
+                                    request.setAttribute("error", "Đăng ký thất bại: Lỗi hệ thống khi đăng ký ca " + shiftId + ".");
+                                } else {
+                                    request.setAttribute("success", "Đăng ký ca làm việc thành công!");
+
                                 }
                             }
+
                         }
-                        if (allSuccess) {
-                            request.setAttribute("success", "Đăng ký ca làm việc thành công!");
-                        } else {
-                            request.setAttribute("error", "Đăng ký thất bại! Vui lòng thử lại.");
-                        }
+
                     }
                 }
 

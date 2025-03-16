@@ -4,6 +4,7 @@ import dal.DoctorDAO;
 import dal.ScheduleDAO;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -52,36 +53,73 @@ public class ViewDoctorDetailServlet extends HttpServlet {
             return;
         }
 
-        // Lấy danh sách lịch làm việc của bác sĩ
-        List<Schedule> schedule = scheduleDao.getScheduleByStaffId(doctorId);
-        boolean hasSchedule = !schedule.isEmpty(); // Kiểm tra có lịch hay không
+        // Lấy danh sách ngày làm việc
+        List<Schedule> fullSchedule = scheduleDao.getScheduleByStaffId(doctorId);
 
-        Date selectedDate = null;
-        List<TimeSlot> availableSlots = null;
+        // Kiểm tra bác sĩ có lịch làm việc hay không
+        boolean hasSchedule = !fullSchedule.isEmpty();
+        request.setAttribute("hasSchedule", hasSchedule);
 
-        if (hasSchedule) {
-            // Lấy ngày được chọn từ request hoặc mặc định là ngày đầu tiên có lịch
-            String dateStr = request.getParameter("date");
-            try {
-                if (dateStr != null) {
-                    selectedDate = Date.valueOf(dateStr);
-                } else {
-                    selectedDate = schedule.get(0).getDate();
+        if (!hasSchedule) {
+            request.getRequestDispatcher("customer/doctorDetail.jsp").forward(request, response);
+            return;
+        }
+        
+        //khởi tạo danh sách những ngày làm việc
+        List<Date> workDays = new ArrayList<>();
+        
+        //thêm vào danh sách những ngày bác sĩ làm việc
+        for (Schedule s : fullSchedule) {
+            workDays.add(s.getDate());
+        }
+
+        // Chia danh sách ngày thành từng cụm 7 ngày
+        List<List<Date>> groupedWeeks = new ArrayList<>();
+        for (int i = 0; i < workDays.size(); i += 7) {
+            List<Date> week = new ArrayList<>();
+            for (int j = i; j < i + 7 && j < workDays.size(); j++) {
+                week.add(workDays.get(j));
+            }
+            groupedWeeks.add(week);
+        }
+
+        // Xác định nhóm 7 ngày được chọn
+        String weekStr = request.getParameter("week");
+        List<Date> selectedWeek = groupedWeeks.get(0); // Mặc định là nhóm đầu tiên
+
+        if (weekStr != null) {
+            for (List<Date> week : groupedWeeks) {
+                if (week.get(0).toString().equals(weekStr)) {
+                    selectedWeek = week;
+                    break;
                 }
-
-                // Lấy danh sách slot khám trống của ngày đó
-                availableSlots = scheduleDao.getAvailableTimeSlots(doctorId, selectedDate);
-            } catch (IllegalArgumentException e) {
-                hasSchedule = false; // Nếu ngày không hợp lệ, ẩn lịch khám
             }
         }
 
-        // Gửi dữ liệu đến JSP
+        // Xác định ngày được chọn
+        String dateStr = request.getParameter("date");
+        Date selectedDate = selectedWeek.get(0); // Mặc định là ngày đầu tiên
+
+        if (dateStr != null) {
+            try {
+                Date requestedDate = Date.valueOf(dateStr);
+                if (selectedWeek.contains(requestedDate)) {
+                    selectedDate = requestedDate; // Chỉ đổi nếu ngày hợp lệ trong tuần
+                }
+            } catch (IllegalArgumentException e) {
+                // Nếu date không hợp lệ, giữ nguyên ngày đầu tiên của tuần
+            }
+        }
+
+        // Lấy danh sách slot trống của ngày đã chọn
+        List<TimeSlot> availableSlots = scheduleDao.getAvailableTimeSlots(doctorId, selectedDate);
+
         request.setAttribute("availableSlot", availableSlots);
         request.setAttribute("selectedDate", selectedDate);
-        request.setAttribute("schedule", schedule);
+        request.setAttribute("schedule", selectedWeek);
         request.setAttribute("doctor", doctor);
-        request.setAttribute("hasSchedule", hasSchedule); // Gửi trạng thái lịch làm việc
+        request.setAttribute("groupedWeeks", groupedWeeks);
+        request.setAttribute("selectedWeek", selectedWeek);
 
         // Nếu có message (ví dụ: đặt lịch thành công), gửi đến JSP
         String message = request.getParameter("message");
@@ -101,7 +139,7 @@ public class ViewDoctorDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Hiện tại không xử lý POST, có thể mở rộng sau này
+        handleViewDoctorDetail(request, response);
     }
 
     @Override

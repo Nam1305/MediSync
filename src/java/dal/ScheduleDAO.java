@@ -94,6 +94,38 @@ public class ScheduleDAO extends DBContext {
         return 0;
     }
 
+    public boolean checkShiftConflict(int staffId, int shiftId, Date fromDate, Date toDate) {
+        String sql = "SELECT COUNT(*) FROM DoctorShiftRegistration "
+                + "WHERE staffId = ? AND shift = ? "
+                + "AND ("
+                + "    (? BETWEEN startDate AND endDate) OR " 
+                + "    (? BETWEEN startDate AND endDate) OR "
+                + "    (startDate BETWEEN ? AND ?) OR " 
+                + "    (endDate BETWEEN ? AND ?) " 
+                + ")";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, staffId);
+            ps.setInt(2, shiftId);
+            ps.setDate(3, fromDate);
+            ps.setDate(4, toDate);
+            ps.setDate(5, fromDate);
+            ps.setDate(6, toDate);
+            ps.setDate(7, fromDate);
+            ps.setDate(8, toDate);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     public boolean insertShiftRegistration(int staffId, int shift, Date fromDate, Date toDate) {
         String sql = "INSERT INTO DoctorShiftRegistration (staffId, shift, status, registrationDate, startDate, endDate) VALUES (?, ?, 'Pending', ?, ?, ?)";
         try {
@@ -109,24 +141,6 @@ public class ScheduleDAO extends DBContext {
             e.printStackTrace();
             return false;
         }
-    }
-
-    //Method moi
-    public boolean insertShiftRegistration(int staffId, int shift, Date registrationDate, Date startDate, Date endDate) {
-        String sql = "insert into DoctorShiftRegistration (staffId, shift, status, registrationDate, startDate, endDate) values(?,?,'Pending',?,?,?)";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, staffId);
-            ps.setInt(2, shift);
-            ps.setDate(3, registrationDate);
-            ps.setDate(4, startDate);
-            ps.setDate(5, endDate);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
     }
 
     public List<Schedule> getSchedulesByDoctor(int staffId, Date date) {

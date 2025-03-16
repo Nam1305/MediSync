@@ -30,7 +30,7 @@
     </head>
 
     <body>
-          <div class="page-wrapper doctris-theme toggled">
+        <div class="page-wrapper doctris-theme toggled">
             <jsp:include page="../layout/navbar.jsp" />
 
 
@@ -66,7 +66,7 @@
                                 </c:if>
                             </div>
                         </div>
-                        
+
                         <form action="listCustomer" method="get">
                             <input type="hidden" name="page" value="${requestScope.currentPage != null ? requestScope.currentPage : 1}" />
                             <div class="d-flex justify-content-end mb-3">
@@ -90,7 +90,10 @@
                                            value="${not empty pageSize ? pageSize : 10}" placeholder="Số lượng/trang" style="width: 150px;">
 
                                     <!-- Nút gửi form -->
-                                    <button type="submit" class="btn btn-primary">Lọc</button>
+                                    <button type="submit" class="btn btn-primary me-2 text-nowrap">Lọc</button>
+                                    <!-- Nút Reset -->
+                                    <a href="listCustomer" class="btn btn-primary me-2 text-nowrap">Bỏ lọc</a>
+                                    <a href="addCustomer" class="btn btn-primary text-nowrap">Thêm bệnh nhân</a>
                                 </div>    
                             </div>
                         </form>
@@ -125,7 +128,6 @@
                                                             </div>
                                                         </a>
                                                     </td>
-<!--                                                    <td class="p-3">${customers.gender}</td>-->
                                                     <td class="p-3">
                                                         <c:choose>
                                                             <c:when test="${customers.gender.trim() == 'M'}">Nam</c:when>
@@ -164,25 +166,20 @@
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
                                     <span class="text-muted me-3">Showing 1 - 10 out of ${requestScope.totalCustomers}</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                        <!--                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>-->
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage - 1}&pageSize=${requestScope.pageSize}" aria-label="Previous">Prev</a>
+                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage - 1}&pageSize=${requestScope.pageSize}" aria-label="Previous">Trước</a>
                                             </li>
                                         </c:if>
-                                        <!--                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                                                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>-->
 
                                         <c:forEach var="i" begin="1" end="${totalPages}" step="1">
                                             <li class="page-item ${i == currentPage ? 'active' : ''}">
                                                 <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${i}&pageSize=${requestScope.pageSize}">${i}</a>
                                             </li>
                                         </c:forEach>
-                                        <!--                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>-->
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage + 1}&pageSize=${requestScope.pageSize}" aria-label="Next">Next</a>
+                                                <a class="page-link" href="listCustomer?status=${requestScope.status}&gender=${requestScope.gender}&page=${currentPage + 1}&pageSize=${requestScope.pageSize}" aria-label="Next">Sau</a>
                                             </li>
                                         </c:if>
                                     </ul>

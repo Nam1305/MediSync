@@ -535,7 +535,7 @@ public class DoctorDAO extends DBContext {
         WHERE s.roleId = 2
         GROUP BY s.staffId, s.name, s.email, s.avatar, s.phone, 
                  s.password, s.dateOfBirth, s.position, s.gender, 
-                 s.status, s.description, s.roleId, s.departmentId
+                 s.status, s.description, s.roleId, s.departmentId, s.certificate
         ORDER BY AVG(f.ratings) DESC
     """;
 
@@ -584,6 +584,7 @@ public class DoctorDAO extends DBContext {
                 + "s.description, \n"
                 + "s.roleId, \n"
                 + "s.departmentId\n"
+                + "s.certificate\n"
                 + "from Staff as s\n"
                 + "where roleId = 2 or roleId = 3";
 
@@ -606,7 +607,7 @@ public class DoctorDAO extends DBContext {
                 doctor.setDescription(rs.getString(11));
                 doctor.setRole(roleDao.getRoleById(rs.getInt(12)));
                 doctor.setDepartment(departDao.getDepartmentById(rs.getInt(13)));
-
+                doctor.setCertificate(rs.getString(14));
                 allDoctors.add(doctor);
             }
         } catch (SQLException ex) {

@@ -15,6 +15,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
         <link href="assets/css/style.min.css" rel="stylesheet" />
+                 <link rel="shortcut icon" href="assets/images/logo-icon.png">
 
     </head>
 
@@ -39,6 +40,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-8">
+                         <img src="assets/images/logo-light.png" height="24" class="mx-auto d-block" alt="">
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Đăng nhập</h4>
@@ -93,7 +95,7 @@
 
                                     <div class="col-12 mt-3">
                                         <div class="d-grid">
-                                            <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9999/MediSyncSys/logingg&response_type=code&client_id=185858868190-ph9uql7ag8caujm9vkspa2qs8j46dgkc.apps.googleusercontent.com&approval_prompt=force" class="btn" style="color: #2CA052;"><i class="uil uil-google"></i> Google</a>
+                                            <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9999/MediSyncSys/logingg&response_type=code&client_id=601423559182-f3tnmnao7jrh0lap2se016tup5ldbcbi.apps.googleusercontent.com&approval_prompt=force" class="btn" style="color: #2CA052;"><i class="uil uil-google"></i> Google</a>
                                         </div>
                                     </div>
 
