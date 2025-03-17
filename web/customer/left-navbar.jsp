@@ -17,6 +17,11 @@
 
         <ul class="sidebar-menu pt-3">
             <li>
+                <a href="home">
+                    <i class="uil uil-calendar-alt me-2"></i> Trang chủ
+                </a>
+            </li>
+            <li>
                 <a href="customer-profile">
                     <i class="uil uil-calendar-alt me-2"></i> Hồ sơ của tôi
                 </a>
