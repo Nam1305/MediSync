@@ -151,7 +151,7 @@ public class CustomerProfileServlet extends HttpServlet {
                     || phone == null || phone.trim().isEmpty()) {
                 request.setAttribute("errorMessage", "Name, email and phone are required fields");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("profile").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
             }
 
