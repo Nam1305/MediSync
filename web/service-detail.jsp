@@ -8,7 +8,7 @@
         <title>${service.name} - Chi tiết dịch vụ</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <link rel="shortcut icon" href="assets/images/logo-icon.png"><!-- comment --> 
         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->
@@ -161,7 +161,7 @@
                                         <c:choose>
                                             <c:when test="${customer != null}">
                                                 <!-- Logged in as customer, show book button -->
-                                                <a href="appointment?serviceId=${service.serviceId}" class="btn btn-primary w-100 mb-3">
+                                                <a href="allDoctors" class="btn btn-primary w-100 mb-3">
                                                     <i class="uil uil-calendar-alt me-1"></i> Đặt lịch
                                                 </a>
                                             </c:when>
