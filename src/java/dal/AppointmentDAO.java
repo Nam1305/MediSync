@@ -292,9 +292,9 @@ public class AppointmentDAO extends DBContext {
 
         if (status != null && !status.trim().isEmpty()) {
             // Nếu status được truyền, áp dụng mapping đã định:
-            if ("pending".equals(status)) {
+            if ("confirmed".equals(status)) {
                 sql += " AND status = 'confirmed'";
-            } else if ("confirmed".equals(status)) {
+            } else if ("waitpay".equals(status)) {
                 sql += " AND status IN ('waitpay','paid')";
             } else if ("absent".equals(status)) {
                 sql += " AND status = 'absent'";
@@ -360,10 +360,10 @@ public class AppointmentDAO extends DBContext {
 
         // Filter theo status:
         if (status != null && !status.trim().isEmpty()) {
-            if ("pending".equals(status)) {
+            if ("confirmed".equals(status)) {
                 // Nếu filter là pending, thì chỉ lấy các appointment có status = 'confirmed'
                 sql += " AND status = 'confirmed'";
-            } else if ("completed".equals(status)) {
+            } else if ("waitpay".equals(status)) {
                 // Nếu filter là confirmed, chỉ lấy các appointment có status IN ('waitpay','paid')
                 sql += " AND status IN ('waitpay','paid')";
             } else if ("absent".equals(status)) {
