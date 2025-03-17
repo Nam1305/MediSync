@@ -46,6 +46,9 @@
                                 <small class="text-muted">${staff.department.departmentName}</small>
                             </div>
                         </a>
+                        <a class="dropdown-item text-dark" href="change-password">
+                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
+                        </a>
                         <a class="dropdown-item text-dark" href="doctorappointment"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span>Bảng điều khiển</a>
                         <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-user-circle align-middle h6"></i></span>Tài khoản của tôi</a>
                         <div class="dropdown-divider border-top"></div>
