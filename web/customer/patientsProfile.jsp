@@ -314,33 +314,35 @@
                                             </div>
 
                                             <!-- Input số lượng/trang -->
+                                            <!-- Ô nhập số lượng/trang, sẽ bị vô hiệu hóa nếu không có kết quả -->
                                             <div class="col-md-2">
                                                 <input type="number" class="form-control" name="pageSize" min="1" max="${totalAppointment}" 
-                                                   value="${not empty pageSize ? pageSize : 2}" placeholder="Số lượng/trang">
-                                        </div>
+                                                   value="${not empty pageSize ? pageSize : 2}" placeholder="Số lượng/trang"
+                                                   <c:if test="${totalAppointment == 0}">disabled</c:if>>
+                                            </div>
 
-                                        <!-- Nút submit -->
-                                        <div class="col-md-2 d-flex gap-2">
-                                            <button type="submit" class="btn btn-primary w-100 text-nowrap">Lọc</button>
-                                            <button type="button" class="btn btn-primary w-100 text-nowrap" onclick="resetForm()">Bỏ lọc</button>
+                                            <!-- Nút submit -->
+                                            <div class="col-md-2 d-flex gap-2">
+                                                <button type="submit" class="btn btn-primary w-100 text-nowrap">Lọc</button>
+                                                <button type="button" class="btn btn-primary w-100 text-nowrap" onclick="resetForm()">Bỏ lọc</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
-                                <div class="row">
-                                    <div class="table-container col-lg-6 col-12 mt-4">
-                                        <table class="table table-bordered table-hover table-appointments" >
-                                            <thead class="table-success">
-                                                <tr>
-                                                    <th>Tên bác sĩ</th>
-                                                    <th>Giới tính</th>
-                                                    <th>Ngày hẹn</th>
-                                                    <th>Thời gian</th>
-                                                    <th>Trạng thái</th>
-                                                    <th class="text-center">Hành động</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Dữ liệu sẽ được xử lý và thêm vào đây -->
+                                    </form>
+                                    <div class="row">
+                                        <div class="table-container col-lg-6 col-12 mt-4">
+                                            <table class="table table-bordered table-hover table-appointments" >
+                                                <thead class="table-success">
+                                                    <tr>
+                                                        <th>Tên bác sĩ</th>
+                                                        <th>Giới tính</th>
+                                                        <th>Ngày hẹn</th>
+                                                        <th>Thời gian</th>
+                                                        <th>Trạng thái</th>
+                                                        <th class="text-center">Hành động</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Dữ liệu sẽ được xử lý và thêm vào đây -->
                                                 <c:forEach var="appointment" items="${appointments}">
                                                     <tr>
                                                         <td>${appointment.staff.name}</td>
