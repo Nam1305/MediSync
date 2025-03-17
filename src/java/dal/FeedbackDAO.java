@@ -81,6 +81,10 @@ public class FeedbackDAO extends DBContext {
 
         if (starFilter >= 1 && starFilter <= 5) {
             sql += " AND ratings = ?";
+        } else if (starFilter == 6) {
+            sql += " AND (ratings = 1 OR ratings = 2)";
+        } else if (starFilter == 7) {
+            sql += " AND (ratings = 3 OR ratings = 4 OR ratings = 5)";
         }
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -90,6 +94,7 @@ public class FeedbackDAO extends DBContext {
             if (starFilter >= 1 && starFilter <= 5) {
                 ps.setInt(paramIndex++, starFilter);
             }
+            // Với starFilter 6 hoặc 7, không cần set parameter vì đã cố định điều kiện
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {

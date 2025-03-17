@@ -271,6 +271,7 @@
             }
 
         </style>
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
     </head>
     <body>
         <jsp:include page="../layout/header.jsp" />

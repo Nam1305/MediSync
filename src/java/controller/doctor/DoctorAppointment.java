@@ -52,7 +52,7 @@ public class DoctorAppointment extends HttpServlet {
         if (search != null) {
             search = search.trim().replaceAll("\\s+", " ");
         }
-        String status = request.getParameter("status"); // filter status: "pending", "confirmed", "absent"
+        String status = request.getParameter("status"); // filter status: "confirmed", "waitpay", "absent"
 
         // Lấy giá trị từDate và toDate từ request
         String fromDateStr = request.getParameter("fromDate");
