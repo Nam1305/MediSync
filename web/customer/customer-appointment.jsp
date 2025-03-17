@@ -394,3 +394,6 @@
                                                                window.location.href = './listAppointments?search=&gender=&status=all&sort=asc&pageSize=2';
                                                            }
         </script>
+        
+        </body>
+</html>
