@@ -91,7 +91,7 @@ public class ListAppointmentServlet extends HttpServlet {
         request.setAttribute("gender", gender);
         request.setAttribute("status", status);
 
-        request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("customer/customer-appointment.jsp").forward(request, response);
     }
 
     @Override

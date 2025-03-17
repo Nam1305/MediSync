@@ -100,7 +100,7 @@ public class CustomerProfileServlet extends HttpServlet {
         request.setAttribute("customer", currentCustomer);
 
         // Forward to profile JSP
-        request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class CustomerProfileServlet extends HttpServlet {
                     || phone == null || phone.trim().isEmpty()) {
                 request.setAttribute("errorMessage", "Name, email and phone are required fields");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("profile").forward(request, response);
                 return;
             }
 
@@ -159,7 +159,7 @@ public class CustomerProfileServlet extends HttpServlet {
             if (!isValidEmail(email)) {
                 request.setAttribute("errorMessage", "Invalid email format");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
             }
 
@@ -167,7 +167,7 @@ public class CustomerProfileServlet extends HttpServlet {
             if (!isValidPhoneNumber(phone)) {
                 request.setAttribute("errorMessage", "Phone number must be 10 digits");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
             }
 
@@ -175,7 +175,7 @@ public class CustomerProfileServlet extends HttpServlet {
             if (!email.equals(customer.getEmail()) && customerDAO.isEmailExists(email)) {
                 request.setAttribute("errorMessage", "Email address is already used by another account");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
             }
 
@@ -183,7 +183,7 @@ public class CustomerProfileServlet extends HttpServlet {
             if (!phone.equals(customer.getPhone()) && customerDAO.isPhoneExists(phone)) {
                 request.setAttribute("errorMessage", "Phone number is already used by another account");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
             }
 
@@ -198,7 +198,7 @@ public class CustomerProfileServlet extends HttpServlet {
                 } catch (ParseException e) {
                     request.setAttribute("errorMessage", "Invalid date format. Please use yyyy-MM-dd");
                     request.setAttribute("customer", customer);
-                    request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                    request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                     return;
                 }
             }
@@ -227,13 +227,13 @@ public class CustomerProfileServlet extends HttpServlet {
 
             // Set updated customer data and forward back to profile page
             request.setAttribute("customer", customer);
-            request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
 
         } catch (Exception e) {
             // Handle any unexpected errors
             request.setAttribute("errorMessage", "An error occurred: " + e.getMessage());
             request.setAttribute("customer", customer);
-            request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
         }
     }
 
@@ -244,7 +244,7 @@ public class CustomerProfileServlet extends HttpServlet {
             if (avatarPart == null || avatarPart.getSize() <= 0) {
                 request.setAttribute("errorMessage", "No image file selected");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
             }
 
@@ -286,12 +286,12 @@ public class CustomerProfileServlet extends HttpServlet {
 
             // Set updated customer data and forward back to profile page
             request.setAttribute("customer", customer);
-            request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
 
         } catch (Exception e) {
             request.setAttribute("errorMessage", "Error uploading profile picture: " + e.getMessage());
             request.setAttribute("customer", customer);
-            request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
         }
     }
 }
