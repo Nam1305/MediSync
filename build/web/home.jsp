@@ -17,7 +17,7 @@
         <title>Trang chủ</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets/images/logo-icon.png"><!-- comment -->       
+        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->
@@ -233,7 +233,7 @@
                                     <img src="${doctor.avatar}" class="img-fluid w-100" alt="${doctor.name}" style="height: 250px; object-fit: cover;">
                                 </div>
                                 <div class="card-body content text-center">
-                                    <a href="doctor-team-one.html" class="title text-dark h5 d-block mb-0">${doctor.name}</a>
+                                    <a href="doctorDetail?doctorId=${doctor.staffId}" class="title text-dark h5 d-block mb-0">${doctor.name}</a>
                                     <small class="text-muted speciality">${doctor.department.departmentName}</small>
                                 </div>
                             </div>
@@ -242,12 +242,12 @@
                 </div><!--end row-->
 
                 <div class="col-12 mt-4 pt-2 text-center">
-                    <a href="doctor-team-one.html" class="btn btn-primary">Xem thêm</a>
+                    <a href="allDoctors" class="btn btn-primary">Xem thêm</a>
                 </div><!--end col-->
 
             </div><!--end row-->
     </div><!--end container-->
-</section><!--end section-->
+<!--end section-->
 <!-- End -->
 
 

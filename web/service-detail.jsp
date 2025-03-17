@@ -161,7 +161,7 @@
                                         <c:choose>
                                             <c:when test="${customer != null}">
                                                 <!-- Logged in as customer, show book button -->
-                                                <a href="appointment?serviceId=${service.serviceId}" class="btn btn-primary w-100 mb-3">
+                                                <a href="allDoctors" class="btn btn-primary w-100 mb-3">
                                                     <i class="uil uil-calendar-alt me-1"></i> Đặt lịch
                                                 </a>
                                             </c:when>
