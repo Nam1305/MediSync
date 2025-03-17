@@ -248,28 +248,38 @@ public class CustomerProfileServlet extends HttpServlet {
                 return;
             }
 
-            // Remove old avatar if exists
-            if (customer.getAvatar() != null && !customer.getAvatar().isEmpty()) {
-                String fullPath = getServletContext().getRealPath("") + customer.getAvatar();
-                File oldAvatar = new File(fullPath);
-                if (oldAvatar.exists()) {
-                    oldAvatar.delete();
-                }
-            }
-
             // Generate unique filename based on content type
             String contentType = avatarPart.getContentType();
             String extension = contentType.contains("png") ? ".png" : ".jpg";
             String fileName = "avatar_" + customer.getCustomerId() + "_" + UUID.randomUUID().toString() + extension;
+
+            // Get the real path for the upload directory
             String uploadPath = getServletContext().getRealPath("") + AVATAR_UPLOAD_DIR;
 
-            // Create directory if it doesn't exist
-            Files.createDirectories(Paths.get(uploadPath));
+            // Create directory structure if it doesn't exist
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                boolean created = uploadDir.mkdirs();
+                if (!created) {
+                    throw new IOException("Failed to create directory: " + uploadPath);
+                }
+            }
 
-            // Save the file
+            // Store the path of the old avatar to delete it later if update succeeds
+            String oldAvatarPath = null;
+            if (customer.getAvatar() != null && !customer.getAvatar().isEmpty()) {
+                oldAvatarPath = getServletContext().getRealPath("") + customer.getAvatar();
+            }
+
+            // Ensure the file path ends with a separator if needed
+            if (!uploadPath.endsWith(File.separator)) {
+                uploadPath = uploadPath + File.separator;
+            }
+
+            // Save the new file
             avatarPart.write(uploadPath + fileName);
 
-            // Update customer avatar path
+            // Update customer avatar path in object
             String avatarPath = AVATAR_UPLOAD_DIR + fileName;
             customer.setAvatar(avatarPath);
 
@@ -277,10 +287,27 @@ public class CustomerProfileServlet extends HttpServlet {
             boolean updated = customerDAO.updateCustomer(customer);
 
             if (updated) {
+                // Update succeeded, now safe to delete the old avatar
+                if (oldAvatarPath != null) {
+                    File oldAvatar = new File(oldAvatarPath);
+                    if (oldAvatar.exists()) {
+                        oldAvatar.delete();
+                    }
+                }
+
                 // Update session
                 request.getSession().setAttribute("customer", customer);
                 request.setAttribute("successMessage", "Profile picture updated successfully");
             } else {
+                // Update failed, delete the newly uploaded file and revert avatar path
+                File newAvatar = new File(uploadPath + fileName);
+                if (newAvatar.exists()) {
+                    newAvatar.delete();
+                }
+
+                // Restore old avatar path in customer object
+                customer = customerDAO.getCustomerByEmail(customer.getEmail()); // Reload from DB to get original avatar
+
                 request.setAttribute("errorMessage", "Failed to update profile picture");
             }
 
@@ -289,9 +316,13 @@ public class CustomerProfileServlet extends HttpServlet {
             request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
 
         } catch (Exception e) {
+            // In case of error, reload customer from DB to ensure avatar path is still original
+            customer = customerDAO.getCustomerByEmail(customer.getEmail());
+
             request.setAttribute("errorMessage", "Error uploading profile picture: " + e.getMessage());
             request.setAttribute("customer", customer);
             request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
         }
+        //System.out.println("Full avatar path: " + getServletContext().getRealPath("") + AVATAR_UPLOAD_DIR);
     }
 }

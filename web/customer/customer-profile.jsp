@@ -55,7 +55,7 @@
                                     <div class="card-body">
                                         <h5 class="mb-0">Ảnh đại diện</h5>
                                         <div class="row align-items-center mt-4">
-                                            <!-- Avatar Preview Column - Increased width and added proper spacing -->
+                                            <!-- Avatar Preview Column -->
                                             <div class="col-lg-3 col-md-4 text-center mb-4 mb-md-0">
                                                 <div class="position-relative">
                                                     <c:choose>
@@ -64,27 +64,27 @@
                                                                  alt="Profile Picture" style="width: 120px; height: 120px; object-fit: cover;">
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <img id="avatarPreview" src="${customer.avatar}" class="avatar avatar-large rounded-circle shadow mx-auto" 
+                                                            <img id="avatarPreview" src="assets/images/default-avatar.jpg" class="avatar avatar-large rounded-circle shadow mx-auto" 
                                                                  alt="Default Profile" style="width: 120px; height: 120px; object-fit: cover;">
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </div>
                                             </div>
 
-                                            <!-- Text Column - Added proper spacing -->
+                                            <!-- Text Column -->
                                             <div class="col-lg-4 col-md-8 text-center text-md-start">
                                                 <h6 class="mb-2">Upload ảnh đại diện</h6>
                                                 <p class="text-muted mb-0">Để có kết quả ưng ý nhất, sử dụng ảnh có độ phân giải 256px đổ lên với format .jpg hoặc .jpeg</p>
                                             </div>
 
-                                            <!-- Buttons Column - Modified spacing and alignment -->
+                                            <!-- Buttons Column -->
                                             <div class="col-lg-5 col-md-12 text-lg-end text-center mt-4 mt-lg-0">
                                                 <form id="avatarUploadForm" action="customer-profile" method="post" enctype="multipart/form-data">
                                                     <input type="hidden" name="action" value="uploadAvatar">
                                                     <input type="file" name="profileImage" id="profileImage" style="display: none;" accept="image/jpeg, image/png">
                                                     <button type="button" id="uploadButton" class="btn btn-primary" onclick="document.getElementById('profileImage').click();">Upload</button>
                                                     <a href="customer-profile?action=removeAvatar" class="btn btn-soft-primary ms-2" 
-                                                       onclick="return confirm('Are you sure you want to remove your profile picture?')" 
+                                                       onclick="return confirm('Bạn có chắc chắn muốn xóa ảnh đại diện không?')" 
                                                        ${empty customer.avatar ? 'disabled' : ''}>Xóa</a>
                                                 </form>
                                                 <div id="uploadError" class="text-danger mt-2 text-start" style="display: none;"></div>
@@ -178,123 +178,115 @@
         </div>
         <!-- page-wrapper -->
 
+        <!-- Scripts at the end of the body -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/app.js"></script>
 
         <script>
-                                    document.getElementById('profileImage').addEventListener('change', function () {
-                                        if (this.files && this.files[0]) {
-                                            // Show loading indicator or preview if needed
-                                            document.getElementById('avatarUploadForm').submit();
-                                        }
-                                    });
-        </script>
+                                            // Handle image upload and validation
+                                            document.getElementById('profileImage').addEventListener('change', function () {
+                                                const file = this.files[0];
+                                                const errorElement = document.getElementById('uploadError');
+                                                const avatarPreview = document.getElementById('avatarPreview');
+                                                errorElement.style.display = 'none';
 
-        <script>
-            document.getElementById('profileImage').addEventListener('change', function () {
-                const file = this.files[0];
-                const errorElement = document.getElementById('uploadError');
-                const avatarPreview = document.getElementById('avatarPreview');
-                errorElement.style.display = 'none';
+                                                // Reset error message
+                                                errorElement.textContent = '';
 
-                // Reset error message
-                errorElement.textContent = '';
+                                                if (!file) {
+                                                    return;
+                                                }
 
-                if (!file) {
-                    return;
-                }
+                                                // Check file type
+                                                const validTypes = ['image/jpeg', 'image/png'];
+                                                if (!validTypes.includes(file.type)) {
+                                                    errorElement.textContent = 'Chỉ chấp nhận file JPG hoặc PNG';
+                                                    errorElement.style.display = 'block';
+                                                    this.value = '';
+                                                    return;
+                                                }
 
-                // Check file type
-                const validTypes = ['image/jpeg', 'image/png'];
-                if (!validTypes.includes(file.type)) {
-                    errorElement.textContent = 'Chỉ chấp nhận file JPG hoặc PNG';
-                    errorElement.style.display = 'block';
-                    this.value = '';
-                    return;
-                }
+                                                // Check file size (max 5MB)
+                                                const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+                                                if (file.size > maxSize) {
+                                                    errorElement.textContent = 'Kích thước ảnh không được vượt quá 5MB';
+                                                    errorElement.style.display = 'block';
+                                                    this.value = '';
+                                                    return;
+                                                }
 
-                // Check file size (max 5MB)
-                const maxSize = 5 * 1024 * 1024; // 5MB in bytes
-                if (file.size > maxSize) {
-                    errorElement.textContent = 'Kích thước ảnh không được vượt quá 5MB';
-                    errorElement.style.display = 'block';
-                    this.value = '';
-                    return;
-                }
+                                                // Show image preview before upload
+                                                const reader = new FileReader();
+                                                reader.onload = function (e) {
+                                                    avatarPreview.src = e.target.result;
+                                                };
+                                                reader.readAsDataURL(file);
 
-                // Check image dimensions
-                const img = new Image();
-                img.onload = function () {
-                    URL.revokeObjectURL(img.src); // Clean up
+                                                // Check image dimensions
+                                                const img = new Image();
+                                                img.onload = function () {
+                                                    URL.revokeObjectURL(img.src); // Clean up
 
-                    if (img.width < 256 || img.height < 256) {
-                        errorElement.textContent = 'Ảnh phải có kích thước tối thiểu 256px x 256px';
-                        errorElement.style.display = 'block';
-                        document.getElementById('profileImage').value = '';
-                        return;
-                    }
+                                                    if (img.width < 256 || img.height < 256) {
+                                                        errorElement.textContent = 'Ảnh phải có kích thước tối thiểu 256px x 256px';
+                                                        errorElement.style.display = 'block';
+                                                        document.getElementById('profileImage').value = '';
+                                                        return;
+                                                    }
 
-                    // All validations passed, submit the form
-                    document.getElementById('avatarUploadForm').submit();
-                };
+                                                    // All validations passed, submit the form
+                                                    document.getElementById('avatarUploadForm').submit();
+                                                };
 
-                img.onerror = function () {
-                    URL.revokeObjectURL(img.src); // Clean up
-                    errorElement.textContent = 'Không thể đọc file ảnh, vui lòng thử lại';
-                    errorElement.style.display = 'block';
-                    document.getElementById('profileImage').value = '';
-                };
+                                                img.onerror = function () {
+                                                    URL.revokeObjectURL(img.src); // Clean up
+                                                    errorElement.textContent = 'Không thể đọc file ảnh, vui lòng thử lại';
+                                                    errorElement.style.display = 'block';
+                                                    document.getElementById('profileImage').value = '';
+                                                };
 
-                // Show image preview before upload
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    avatarPreview.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
+                                                // Load image to check dimensions
+                                                img.src = URL.createObjectURL(file);
+                                            });
 
-                // Load image to check dimensions
-                img.src = URL.createObjectURL(file);
-            });
-        </script>
+                                            // Form validation
+                                            function validateForm() {
+                                                // Email validation
+                                                const emailInput = document.querySelector('input[name="email"]');
+                                                const emailRegex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
+                                                if (!emailRegex.test(emailInput.value)) {
+                                                    alert('Vui lòng nhập địa chỉ email hợp lệ');
+                                                    emailInput.focus();
+                                                    return false;
+                                                }
 
-        <script>
-            function validateForm() {
-                // Email validation
-                const emailInput = document.querySelector('input[name="email"]');
-                const emailRegex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
-                if (!emailRegex.test(emailInput.value)) {
-                    alert('Please enter a valid email address');
-                    emailInput.focus();
-                    return false;
-                }
+                                                // Phone number validation (10 digits)
+                                                const phoneInput = document.querySelector('input[name="phone"]');
+                                                const phoneRegex = /^[0-9]{10}$/;
+                                                if (!phoneRegex.test(phoneInput.value)) {
+                                                    alert('Số điện thoại phải đúng 10 chữ số');
+                                                    phoneInput.focus();
+                                                    return false;
+                                                }
 
-                // Phone number validation (10 digits)
-                const phoneInput = document.querySelector('input[name="phone"]');
-                const phoneRegex = /^[0-9]{10}$/;
-                if (!phoneRegex.test(phoneInput.value)) {
-                    alert('Phone number must be exactly 10 digits');
-                    phoneInput.focus();
-                    return false;
-                }
+                                                return true;
+                                            }
 
-                return true;
-            }
+                                            // Real-time validation while typing
+                                            document.querySelector('input[name="email"]').addEventListener('input', function () {
+                                                const emailRegex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
+                                                this.setCustomValidity(
+                                                        emailRegex.test(this.value) ? '' : 'Vui lòng nhập địa chỉ email hợp lệ'
+                                                        );
+                                            });
 
-            // Optional: Add real-time validation while typing
-            document.querySelector('input[name="email"]').addEventListener('input', function () {
-                const emailRegex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
-                this.setCustomValidity(
-                        emailRegex.test(this.value) ? '' : 'Please enter a valid email address'
-                        );
-            });
-
-            document.querySelector('input[name="phone"]').addEventListener('input', function () {
-                const phoneRegex = /^[0-9]{10}$/;
-                this.setCustomValidity(
-                        phoneRegex.test(this.value) ? '' : 'Phone number must be exactly 10 digits'
-                        );
-            });
+                                            document.querySelector('input[name="phone"]').addEventListener('input', function () {
+                                                const phoneRegex = /^[0-9]{10}$/;
+                                                this.setCustomValidity(
+                                                        phoneRegex.test(this.value) ? '' : 'Số điện thoại phải đúng 10 chữ số'
+                                                        );
+                                            });
         </script>
     </body>
 </html>
