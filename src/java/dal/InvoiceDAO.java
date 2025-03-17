@@ -139,21 +139,57 @@ public class InvoiceDAO extends DBContext {
         }
         return totalRevenue;
     }
-    public Map<String, Double> getRevenueStats(int year, int month, int day) {
+ public Map<String, Double> getRevenueStats(int year, int month, int day, String startDate, String endDate) {
     Map<String, Double> stats = new LinkedHashMap<>();
-    String sql = "SELECT FORMAT(a.date, 'yyyy-MM-dd') AS day, SUM(i.price) AS totalRevenue " +
-                 "FROM Appointment a JOIN Invoice i ON a.appointmentId = i.appointmentId " +
-                 "WHERE (YEAR(a.date) = ? OR ? = 0) " +
-                 "AND (MONTH(a.date) = ? OR ? = 0) " +
-                 "AND (DAY(a.date) = ? OR ? = 0) " +
-                 "GROUP BY FORMAT(a.date, 'yyyy-MM-dd') ORDER BY MIN(a.date)";
+    String sql = "SELECT FORMAT(a.date, 'dd-MM-yyyy') AS day, SUM(i.price) AS totalRevenue " +
+                 "FROM Appointment a JOIN Invoice i ON a.appointmentId = i.appointmentId WHERE 1=1";
+
+    if (startDate != null && !startDate.isEmpty()) {
+        sql += " AND a.date >= ?";
+        
+        // Nếu không có endDate, mặc định lấy đến ngày hiện tại
+        if (endDate == null || endDate.isEmpty()) {
+            sql += " AND a.date <= CURRENT_DATE";
+        }
+    }
+
+    if (endDate != null && !endDate.isEmpty()) {
+        sql += " AND a.date <= ?";
+    }
+
+    if (year > 0) {
+        sql += " AND YEAR(a.date) = ?";
+    }
+    if (month > 0) {
+        sql += " AND MONTH(a.date) = ?";
+    }
+    if (day > 0) {
+        sql += " AND DAY(a.date) = ?";
+    }
+
+    sql += " GROUP BY FORMAT(a.date, 'dd-MM-yyyy') ORDER BY MIN(a.date)";
+
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, year);
-        ps.setInt(2, year);
-        ps.setInt(3, month);
-        ps.setInt(4, month);
-        ps.setInt(5, day);
-        ps.setInt(6, day);
+        int index = 1;
+        
+        if (startDate != null && !startDate.isEmpty()) {
+            ps.setString(index++, startDate);
+        }
+
+        if (endDate != null && !endDate.isEmpty()) {
+            ps.setString(index++, endDate);
+        }
+
+        if (year > 0) {
+            ps.setInt(index++, year);
+        }
+        if (month > 0) {
+            ps.setInt(index++, month);
+        }
+        if (day > 0) {
+            ps.setInt(index++, day);
+        }
+
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             stats.put(rs.getString("day"), rs.getDouble("totalRevenue"));
@@ -164,8 +200,10 @@ public class InvoiceDAO extends DBContext {
     return stats;
 }
 
+
+
     public static void main(String[] args) {
         InvoiceDAO i = new InvoiceDAO();
-        System.out.println(i.getRevenueStats(2025, 1, 25));
+       
     }
 }

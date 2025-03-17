@@ -27,10 +27,10 @@
         <div class="header-bar d-flex justify-content-between border-bottom">
             <div class="d-flex align-items-center">
                 <a href="#" class="logo-icon">
-                    <img src="assets/images/logo-icon.png" height="30" class="small" alt="">
+                    <img src="../assets/images/logo-icon.png" height="30" class="small" alt="">
                     <span class="big">
-                        <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                        <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
+                        <img src="../assets/images/logo-light.png" height="24" class="logo-light-mode" alt="">
+                        <img src="../assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
                     </span>
                 </a>
                 <a id="close-sidebar" class="btn btn-icon btn-pills btn-soft-primary ms-2">
@@ -214,11 +214,24 @@
                     <li class="parent-menu-item">
                         <a href="home">Trang chủ</a><span class="menu-arrow"></span>
                     </li>
+
+                    
+
+                    <c:if test="${staff == null}">
+
                     <li class="parent-parent-menu-item">
                         <a href="allDoctors">Bác Sĩ</a><span class="menu-arrow"></span>
                     </li>
+                    </c:if>
                     <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
+                    <c:if test="${staff == null}">
                     <li><a href="services" class="sub-menu-item">Dịch vụ</a></li>
+
+                    <li class="parent-menu-item">
+                        <a href="ChatBot">Chat Bot</a><span class="menu-arrow"></span>
+                    </li>
+
+                    </c:if>
                 </ul>
             </div>
         </div>

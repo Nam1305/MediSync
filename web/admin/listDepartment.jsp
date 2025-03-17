@@ -66,23 +66,22 @@
 
                                     <input type="number" name="pageSize" value="${pageSize}" class="form-control" placeholder="Số dòng">
 
-                                <button type="submit" class="btn btn-primary form-control">Phân trang</button>
-
                                 <select name="status" id="statusFilter" class="form-select">
                                     <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả trạng thái</option>
                                     <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
                                     <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
                                     </select>
 
-                                    <button type="submit" class="btn btn-primary">Lọc</button>
-                                    <button type="button" class="btn btn-secondary" onclick="resetFilters()">Reset</button>
+                                    <button type="submit" class="btn btn-primary form-control">Lọc</button>
+                                    <button type="button" class="btn  btn-primary form-control text-nowrap" onclick="resetFilters()">Làm mới</button>
+                                    
                                 </form>
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary mt-4 mt-sm-0" onclick="window.location.href = 'AddDepartment'">
-                                    Thêm Phòng Ban
-                                </button>
+                                  <button class="btn btn-primary text-nowrap" onclick="window.location.href = 'AddDepartment'" style="margin: 10px;">
+                                        Thêm Phòng Ban
+                                    </button>
                             </div>
                             <div class="row">
                                 <div class="col-12 mt-4">
@@ -142,7 +141,7 @@
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDepartment?page=${currentPage - 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Previous</a>
+                                                <a class="page-link" href="ListDepartment?page=${currentPage - 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Trang trước</a>
                                             </li>
                                         </c:if>
 
@@ -154,87 +153,87 @@
 
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDepartment?page=${currentPage + 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Next</a>
-                                            </li>
-                                        </c:if>
-                                    </ul>
-                                </div>
-                            </div>
+                                                <a class="page-link" href="ListDepartment?page=${currentPage + 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Trang sau<a>
+                                                        </li>
+                                                    </c:if>
+                                                    </ul>
+                                                    </div>
+                                                    </div>
 
-                            <!--PAGINATION END -->
-                        </div>
-                    </div>
-                </div>
-                <!--end container-->
+                                                    <!--PAGINATION END -->
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                                    <!--end container-->
 
-                <jsp:include page="../layout/footer.jsp" />
-            </main>
-            <!--End page-content" -->
-        </div>
-        <!-- page-wrapper -->
+                                                    <jsp:include page="../layout/footer.jsp" />
+                                                    </main>
+                                                    <!--End page-content" -->
+                                                    </div>
+                                                    <!-- page-wrapper -->
 
-        <!-- Offcanvas Start -->
-        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-            <div class="offcanvas-header p-4 border-bottom">
-                <h5 id="offcanvasRightLabel" class="mb-0">
-                    <img src="assets/images/logo-dark.png" height="24" class="light-version" alt="">
-                    <img src="assets/images/logo-light.png" height="24" class="dark-version" alt="">
-                </h5>
-                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
-            </div>
-            <div class="offcanvas-body p-4 px-md-5">
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Style switcher -->
-                        <div id="style-switcher">
-                            <div>
-                                <ul class="text-center list-unstyled mb-0">
-                                    <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
-                                    <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
-                                    <li class="d-grid"><a href="landing/index.html" target="_blank" class="mt-4"><img src="assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- end Style switcher -->
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div>
+                                                    <!-- Offcanvas Start -->
+                                                    <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                                                        <div class="offcanvas-header p-4 border-bottom">
+                                                            <h5 id="offcanvasRightLabel" class="mb-0">
+                                                                <img src="assets/images/logo-dark.png" height="24" class="light-version" alt="">
+                                                                <img src="assets/images/logo-light.png" height="24" class="dark-version" alt="">
+                                                            </h5>
+                                                            <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
+                                                        </div>
+                                                        <div class="offcanvas-body p-4 px-md-5">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <!-- Style switcher -->
+                                                                    <div id="style-switcher">
+                                                                        <div>
+                                                                            <ul class="text-center list-unstyled mb-0">
+                                                                                <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                                                                <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                                                                <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
+                                                                                <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
+                                                                                <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
+                                                                                <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
+                                                                                <li class="d-grid"><a href="landing/index.html" target="_blank" class="mt-4"><img src="assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- end Style switcher -->
+                                                                </div><!--end col-->
+                                                            </div><!--end row-->
+                                                        </div>
 
-            <div class="offcanvas-footer p-4 border-top text-center">
-                <ul class="list-unstyled social-icon mb-0">
-                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
-                    <li class="list-inline-item mb-0"><a href="index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
-                </ul><!--end icon-->
-            </div>
-        </div>
-        <!-- Offcanvas End -->
+                                                        <div class="offcanvas-footer p-4 border-top text-center">
+                                                            <ul class="list-unstyled social-icon mb-0">
+                                                                <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
+                                                                <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
+                                                                <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
+                                                                <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
+                                                                <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
+                                                                <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
+                                                                <li class="list-inline-item mb-0"><a href="index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
+                                                            </ul><!--end icon-->
+                                                        </div>
+                                                    </div>
+                                                    <!-- Offcanvas End -->
 
-        <!-- Modal end -->
+                                                    <!-- Modal end -->
 
-        <!-- javascript -->
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <!-- simplebar -->
-        <script src="assets/js/simplebar.min.js"></script>
-        <!-- Icons -->
-        <script src="assets/js/feather.min.js"></script>
-        <!-- Main Js -->
-        <script src="assets/js/app.js"></script>
-        <script>
-                                        function resetFilters() {
-                                            window.location.href = './ListDepartment?search=&status=&pageSize=3';
-                                        }
-        </script>
+                                                    <!-- javascript -->
+                                                    <script src="assets/js/bootstrap.bundle.min.js"></script>
+                                                    <!-- simplebar -->
+                                                    <script src="assets/js/simplebar.min.js"></script>
+                                                    <!-- Icons -->
+                                                    <script src="assets/js/feather.min.js"></script>
+                                                    <!-- Main Js -->
+                                                    <script src="assets/js/app.js"></script>
+                                                    <script>
+                                                                                    function resetFilters() {
+                                                                                        window.location.href = './ListDepartment?search=&status=&pageSize=3';
+                                                                                    }
+                                                    </script>
 
 
-    </body>
+                                                    </body>
 
-</html>
+                                                    </html>

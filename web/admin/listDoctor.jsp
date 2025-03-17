@@ -85,17 +85,17 @@
                                 </div>
 
                                 <div class="col-auto">
-                                    <button type="submit" class="btn btn-success">Lọc</button>
+                                    <button type="submit" class="btn btn-primary form-control">Lọc</button>
                                 </div>
 
                                 <div class="col-auto">
-                                    <button type="button" class="btn btn-secondary" onclick="resetFilters()">Reset</button>
+                                    <button type="button" class="btn btn-primary form-control text-nowrap" onclick="resetFilters()">Làm mới</button>
                                 </div>
                             </form>
                         </div>
 
                         <div class="d-flex justify-content-end">
-                            <button class="btn btn-primary" onclick="window.location.href = 'AddStaffServlet'">
+                            <button class="btn btn-primary" onclick="window.location.href = 'AddStaffServlet'" style="margin: 10px;">
                                 Thêm Nhân Viên
                             </button>
                         </div>
@@ -182,7 +182,7 @@
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDoctor?page=${currentPage - 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}&s=${s}">Previous</a>
+                                                <a class="page-link" href="ListDoctor?page=${currentPage - 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}&s=${s}">Trang trước</a>
                                             </li>
                                         </c:if>
 
@@ -194,7 +194,7 @@
 
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDoctor?page=${currentPage + 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}&s=${s}">Next</a>
+                                                <a class="page-link" href="ListDoctor?page=${currentPage + 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}&s=${s}">Trang sau</a>
                                             </li>
                                         </c:if>
                                     </ul>

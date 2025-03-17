@@ -15,6 +15,7 @@
         <link href="assets/css/style.min.css" rel="stylesheet" id="theme-opt" />
         <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
         <link href="assets/css/fullcalendar.min.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="assets/images/logo-icon.png"><!-- comment -->       
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>

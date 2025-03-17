@@ -8,7 +8,7 @@
         <title>Danh sách hóa đơn</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <link rel="shortcut icon" href="assets/images/logo-icon.png"><!-- comment -->       
         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->

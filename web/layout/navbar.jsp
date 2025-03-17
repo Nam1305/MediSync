@@ -40,6 +40,7 @@
                 <div class="sidebar-submenu">
                     <ul>
                         <li><a href="listCustomer">Danh sách bệnh nhân</a></li>
+
                     </ul>
                 </div>
             </li>

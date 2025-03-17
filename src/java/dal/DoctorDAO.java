@@ -584,6 +584,7 @@ public class DoctorDAO extends DBContext {
                 + "s.description, \n"
                 + "s.roleId, \n"
                 + "s.departmentId\n"
+                + "s.certificate\n"
                 + "from Staff as s\n"
                 + "where roleId = 2 or roleId = 3";
 
@@ -606,7 +607,7 @@ public class DoctorDAO extends DBContext {
                 doctor.setDescription(rs.getString(11));
                 doctor.setRole(roleDao.getRoleById(rs.getInt(12)));
                 doctor.setDepartment(departDao.getDepartmentById(rs.getInt(13)));
-
+                doctor.setCertificate(rs.getString(14));
                 allDoctors.add(doctor);
             }
         } catch (SQLException ex) {

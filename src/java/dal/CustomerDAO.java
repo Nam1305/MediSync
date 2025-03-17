@@ -17,7 +17,7 @@ public class CustomerDAO extends DBContext {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     Customer customer = new Customer();
-                    customer.setCustomerId(customerId); 
+                    customer.setCustomerId(customerId);
                     customer.setName(rs.getString("name"));
                     customer.setGender(rs.getString("gender") != null ? rs.getString("gender").trim() : null);
                     customer.setEmail(rs.getString("email"));
@@ -281,7 +281,7 @@ public class CustomerDAO extends DBContext {
     public boolean updateCustomer(Customer customer) {
         boolean isUpdated = false;
         // Câu lệnh SQL cập nhật thông tin khách hàng
-        String sql = "UPDATE customer SET name=?, email=?, address=?, dateOfBirth=?, gender=?, phone=?, avatar=? WHERE customerId=?";
+        String sql = "UPDATE customer SET name=?, email=?, address=?, dateOfBirth=?, gender=?, phone=?, avatar=?, bloodType=? WHERE customerId=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             // Thiết lập các tham số cho câu lệnh SQL
@@ -291,8 +291,9 @@ public class CustomerDAO extends DBContext {
             ps.setDate(4, customer.getDateOfBirth());     // dateOfBirth
             ps.setString(5, customer.getGender());        // gender
             ps.setString(6, customer.getPhone());         // phone
-            ps.setString(7, customer.getAvatar());
-            ps.setInt(8, customer.getCustomerId());
+            ps.setString(7, customer.getAvatar());        // avatar
+            ps.setString(8, customer.getBloodType());     // bloodType
+            ps.setInt(9, customer.getCustomerId());       // customerId
 
             // Thực thi câu lệnh SQL và kiểm tra số hàng bị ảnh hưởng
             int rowsAffected = ps.executeUpdate();
@@ -556,16 +557,15 @@ public class CustomerDAO extends DBContext {
 
     public static void main(String[] args) {
         CustomerDAO d = new CustomerDAO();
-        
-        System.out.println(d.getCustomerStats(2025, 1, 25));
+
+
     }
-    
+
     //Phần của Sơn 
-     public int countCustomers() {
+    public int countCustomers() {
         int count = 0;
         String sql = "SELECT COUNT(*) FROM Customer";
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 count = rs.getInt(1);
             }
@@ -574,21 +574,58 @@ public class CustomerDAO extends DBContext {
         }
         return count;
     }
+
      
-   public Map<String, Integer> getCustomerStats(int year, int month, int day) {
+ public Map<String, Integer> getCustomerStats(int year, int month, int day, String startDate, String endDate) {
     Map<String, Integer> stats = new LinkedHashMap<>();
-    String sql = "SELECT FORMAT(date, 'yyyy-MM-dd') AS day, COUNT(DISTINCT customerId) AS totalCustomers " +
-                 "FROM Appointment WHERE (YEAR(date) = ? OR ? = 0) " +
-                 "AND (MONTH(date) = ? OR ? = 0) " +
-                 "AND (DAY(date) = ? OR ? = 0) " +
-                 "GROUP BY FORMAT(date, 'yyyy-MM-dd') ORDER BY MIN(date)";
+    String sql = "SELECT FORMAT(date, 'dd-MM-yyyy') AS day, COUNT(DISTINCT customerId) AS totalCustomers FROM Appointment WHERE 1=1";
+
+    if (startDate != null && !startDate.isEmpty()) {
+        sql += " AND date >= ?";
+        
+        // Nếu không có endDate, mặc định lấy đến ngày hiện tại
+        if (endDate == null || endDate.isEmpty()) {
+            sql += " AND date <= CURRENT_DATE";
+        }
+    }
+
+    if (endDate != null && !endDate.isEmpty()) {
+        sql += " AND date <= ?";
+    }
+
+    if (year > 0) {
+        sql += " AND YEAR(date) = ?";
+    }
+    if (month > 0) {
+        sql += " AND MONTH(date) = ?";
+    }
+    if (day > 0) {
+        sql += " AND DAY(date) = ?";
+    }
+
+    sql += " GROUP BY FORMAT(date, 'dd-MM-yyyy') ORDER BY MIN(date)";
+
     try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, year);
-        ps.setInt(2, year);
-        ps.setInt(3, month);
-        ps.setInt(4, month);
-        ps.setInt(5, day);
-        ps.setInt(6, day);
+        int index = 1;
+        
+        if (startDate != null && !startDate.isEmpty()) {
+            ps.setString(index++, startDate);
+        }
+
+        if (endDate != null && !endDate.isEmpty()) {
+            ps.setString(index++, endDate);
+        }
+
+        if (year > 0) {
+            ps.setInt(index++, year);
+        }
+        if (month > 0) {
+            ps.setInt(index++, month);
+        }
+        if (day > 0) {
+            ps.setInt(index++, day);
+        }
+
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             stats.put(rs.getString("day"), rs.getInt("totalCustomers"));
@@ -598,5 +635,5 @@ public class CustomerDAO extends DBContext {
     }
     return stats;
 }
-   
+
 }

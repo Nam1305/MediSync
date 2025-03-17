@@ -151,10 +151,10 @@
                             </table>
                         </div>
 
-<!--                        <div class="container mt-5">
+                        <div class="container mt-5">
                             <h2 class="text-center">Chi tiết Bệnh Án</h2>
 
-                             Bệnh án 
+<!--                             Bệnh án -->
                             <c:if test="${not empty patientDetail}">
                                 <div class="card mt-4 p-4">
                                     <h4 class="text-center">Bệnh án</h4>
@@ -168,11 +168,11 @@
                                 </div>
                             </c:if>
 
-                             Nút quay lại 
+<!--                             Nút quay lại -->
                             <div class="text-center mt-3">
                                 <a href="${pageContext.request.contextPath}/ListPatient" class="btn btn-primary">Quay lại danh sách Bệnh nhân</a>
                             </div>
-                        </div>  -->
+                        </div>  
 
 
 
