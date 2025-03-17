@@ -259,7 +259,16 @@
                                 </div>
                                 
                             </form>
-
+                            <div>
+                                <c:if test="${not empty error}">
+                                <ul style="color: red">
+                                    <c:forEach var="err" items="${errors}">
+                                        <li>${err}</li>
+                                        </c:forEach>
+                                </ul>
+                            </c:if>
+                            </div>
+                            
                             <canvas id="statsChart"></canvas>
                         </div>
 

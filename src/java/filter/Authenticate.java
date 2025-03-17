@@ -31,7 +31,7 @@ public class Authenticate implements Filter {
             "/listBlog.jsp", "/listDoctor.jsp", "/new-password.jsp", "/register.jsp", "/reset-verify.jsp", "/verify.jsp",
             "/blog-detail", "/listBlog", "/register", "/logingg", "/reset-password", "/home",
             "/assets/", "/allDoctors","/allDoctor.jsp", "/service-detail" , "/service-detail.jsp", "/services", "/services.jsp", "/doctorDetail",
-            "doctorDetail.jsp", "/layout/", "/blogDetail"
+            "doctorDetail.jsp", "/layout/", "/blogDetail","ChatBot", "Chatbot.jsp"
     );
     
     private static final boolean debug = true;
