@@ -1,7 +1,10 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<c:set var="shift1Checked" value="${fn:contains(selectedShifts, '1')}" />
+<c:set var="shift2Checked" value="${fn:contains(selectedShifts, '2')}" />
+<c:set var="shift3Checked" value="${fn:contains(selectedShifts, '3')}" />
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -91,11 +94,11 @@
                                         <div class="row g-2">
                                             <div class="col-6">
                                                 <label for="fromDate" class="form-label">Từ ngày</label>
-                                                <input type="date" id="fromDate" name="fromDate" class="form-control" required>
+                                                <input type="date" id="fromDate" name="fromDate" class="form-control" value="${fromDate}" required>
                                             </div>
                                             <div class="col-6">
                                                 <label for="toDate" class="form-label">Đến ngày</label>
-                                                <input type="date" id="toDate" name="toDate" class="form-control" required>
+                                                <input type="date" id="toDate" name="toDate" class="form-control" value="${toDate}" required>
                                             </div>
                                         </div>
                                     </div>
@@ -103,17 +106,19 @@
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold d-block text-center">Chọn ca làm việc</label>
                                         <div class="shift-container">
-                                            <label class="shift-box">
-                                                <input type="checkbox" name="shifts" value="1"> Ca 1 <br> (08:00 - 12:00)
+                                            <label class="shift-box ${shift1Checked ? 'active' : ''}">
+                                                <input type="checkbox" name="shifts" value="1" ${shift1Checked ? 'checked' : ''}> Ca 1 <br> (08:00 - 12:00)
                                             </label>
-                                            <label class="shift-box">
-                                                <input type="checkbox" name="shifts" value="2"> Ca 2 <br> (13:00 - 17:00)
+                                            <label class="shift-box ${shift2Checked ? 'active' : ''}">
+                                                <input type="checkbox" name="shifts" value="2" ${shift2Checked ? 'checked' : ''}> Ca 2 <br> (13:00 - 17:00)
                                             </label>
-                                            <label class="shift-box">
-                                                <input type="checkbox" name="shifts" value="3"> Ca 3 <br> (18:00 - 22:00)
+                                            <label class="shift-box ${shift3Checked ? 'active' : ''}">
+                                                <input type="checkbox" name="shifts" value="3" ${shift3Checked ? 'checked' : ''}> Ca 3 <br> (18:00 - 22:00)
                                             </label>
                                         </div>
+
                                     </div>
+
                                 </div>
 
                                 <!-- Thông báo nếu có -->
@@ -269,6 +274,15 @@
             function confirmRegistration() {
                 return confirm("Bạn có chắc chắn muốn đăng ký ca làm việc không?");
             }
+
+            setTimeout(function () {
+                let alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function (alert) {
+                    alert.style.transition = "opacity 0.5s ease"; // Hiệu ứng mượt
+                    alert.style.opacity = "0"; // Làm mờ dần
+                    setTimeout(() => alert.remove(), 500); // Xóa khỏi DOM sau khi mờ hoàn toàn
+                });
+            }, 4000);
         </script>
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>

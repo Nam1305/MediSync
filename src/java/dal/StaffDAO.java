@@ -34,6 +34,7 @@ public class StaffDAO extends DBContext {
         staff.setPosition(posDao.getPositionByStaffId(rs.getInt("staffId")));
         staff.setGender(rs.getString("gender"));
         staff.setStatus(rs.getString("status"));
+        staff.setCertificate(rs.getString("certificate"));
         staff.setDescription(rs.getString("description"));
         staff.setDepartment(departDao.getDepartmentById(rs.getInt("departmentId")));
         staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
@@ -187,7 +188,7 @@ public class StaffDAO extends DBContext {
         }
         return null;
     }
-    
+
     //Them boi Nguyen Dinh Chinh
     public List<Staff> getStaffsByNameAndRoles(String name, int[] roleIds) {
         List<Staff> staffs = new ArrayList<>();
