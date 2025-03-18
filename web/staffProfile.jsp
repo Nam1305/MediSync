@@ -287,6 +287,18 @@
                                                           oninput="countWords()" style="width: 100%;">${staff.description}</textarea>
                                                 <p id="wordCount">${fn:length(staff.description)} / 500 từ</p>
                                             </div>
+                                            <div class="col-md-12 mb-3">
+                                                <label for="certificate" class="form-label">Bằng cấp/Chứng chỉ</label><br>
+                                                <c:choose>
+                                                    <c:when test="${empty staff.certificate}">
+                                                        Chưa cập nhật
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${staff.certificate}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+
 
                                             <div class="col-md-6 mb-3">
                                                 <label for="department" class="form-label">Khoa</label>
