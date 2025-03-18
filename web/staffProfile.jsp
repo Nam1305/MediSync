@@ -279,20 +279,28 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-12 mb-3">
-                                            <label for="description" class="form-label">Mô tả ngắn</label>
-                                            <textarea class="form-control" id="description" name="des" rows="4"  placeholder="Nhập tiểu sử của bạn (tối đa 500 từ)"  oninput="countWords()" style="width: 100%;">${staff.description}</textarea>
-                                            <p id="wordCount"> ${fn:length(staff.description)} / 500 từ</p>
-                                        </div>
+                                        <c:if test="${sessionScope.staff.role.roleId == 2 or sessionScope.staff.role.roleId == 3}">
+                                            <div class="col-md-12 mb-3">
+                                                <label for="description" class="form-label">Mô tả ngắn</label>
+                                                <textarea class="form-control" id="description" name="des" rows="4"
+                                                          placeholder="Nhập tiểu sử của bạn (tối đa 500 từ)"
+                                                          oninput="countWords()" style="width: 100%;">${staff.description}</textarea>
+                                                <p id="wordCount">${fn:length(staff.description)} / 500 từ</p>
+                                            </div>
 
-                                        <div class="col-md-6 mb-3">
-                                            <label for="department" class="form-label">Khoa</label>
-                                            <select class="form-control" id="department" name="depart">
-                                                <c:forEach var="dept" items="${listd}">
-                                                    <option value="${dept.departmentId}" ${dept.departmentId == staff.department.departmentId ? 'selected' : ''}>${dept.departmentName}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="department" class="form-label">Khoa</label>
+                                                <select class="form-control" id="department" name="depart">
+                                                    <c:forEach var="dept" items="${listd}">
+                                                        <option value="${dept.departmentId}" 
+                                                                ${dept.departmentId == staff.department.departmentId ? 'selected' : ''}>
+                                                            ${dept.departmentName}
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                        </c:if>
+
 
                                         <!-- Thông báo lỗi sẽ hiển thị ở đây -->
                                         <div id="error-message" class="error-message"></div>
