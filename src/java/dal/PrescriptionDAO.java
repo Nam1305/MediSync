@@ -24,41 +24,28 @@ public class PrescriptionDAO extends DBContext {
         try {
             connection.setAutoCommit(false); // Bắt đầu transaction
 
-            // Xóa đơn thuốc cũ
+            // Xóa đơn thuốc cũ trước
             try (PreparedStatement deletePs = connection.prepareStatement(deleteSql)) {
                 deletePs.setInt(1, appointmentId);
                 deletePs.executeUpdate();
             }
 
-            // Chèn đơn thuốc mới
+            // Nếu danh sách thuốc rỗng, chỉ xóa và commit, không chèn dữ liệu mới
+            if (medicineNames == null || medicineNames.length == 0) {
+                connection.commit();
+                return true;
+            }
+
+            // Chèn đơn thuốc mới nếu có dữ liệu
             try (PreparedStatement ps = connection.prepareStatement(insertSql)) {
                 for (int i = 0; i < medicineNames.length; i++) {
                     ps.setInt(1, appointmentId);
 
-                    // Xử lý null cho từng trường
-                    if (medicineNames[i] == null) {
-                        ps.setNull(2, java.sql.Types.VARCHAR);
-                    } else {
-                        ps.setString(2, medicineNames[i]);
-                    }
-
-                    if (totalQuantities[i] == null) {
-                        ps.setNull(3, java.sql.Types.VARCHAR);
-                    } else {
-                        ps.setString(3, totalQuantities[i]);
-                    }
-
-                    if (dosages[i] == null) {
-                        ps.setNull(4, java.sql.Types.VARCHAR);
-                    } else {
-                        ps.setString(4, dosages[i]);
-                    }
-
-                    if (notes[i] == null) {
-                        ps.setNull(5, java.sql.Types.VARCHAR);
-                    } else {
-                        ps.setString(5, notes[i]);
-                    }
+                    // Xử lý null
+                    ps.setString(2, (medicineNames[i] != null) ? medicineNames[i] : null);
+                    ps.setString(3, (totalQuantities[i] != null) ? totalQuantities[i] : null);
+                    ps.setString(4, (dosages[i] != null) ? dosages[i] : null);
+                    ps.setString(5, (notes[i] != null) ? notes[i] : null);
 
                     ps.addBatch();
                 }
@@ -121,7 +108,7 @@ public class PrescriptionDAO extends DBContext {
 
     public static void main(String[] args) {
         PrescriptionDAO dao = new PrescriptionDAO();
-       
+
     }
 
 }
