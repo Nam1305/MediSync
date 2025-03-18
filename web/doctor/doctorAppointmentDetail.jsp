@@ -128,6 +128,7 @@
                                             <p><span class="info-label">Nhóm máu:</span> ${app.customer.getBloodType()}</p>
                                             <p>
                                                 <span class="info-label">Trạng thái khách:</span>
+                                                
                                                 <c:choose>
                                                     <c:when test="${countAppointment gt 1}">
                                                         Khách quen (đã hẹn ${countAppointment} lần)
