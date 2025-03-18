@@ -2,11 +2,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>Đánh giá bác sĩ</title>
+        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
+        <!-- SLIDER -->
+        <link rel="stylesheet" href="assets/css/tiny-slider.css"/>
+        <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <style>
             body {
@@ -17,46 +26,6 @@
                 background-color: #f9f9f9;
             }
 
-            .container {
-                max-width: 1000px;
-                margin: 0 auto;
-                background-color: #fff;
-                padding: 20px;
-                box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            }
-
-            .doctor-profile {
-                display: flex;
-                align-items: center;
-                margin-bottom: 20px;
-                padding-bottom: 15px;
-                border-bottom: 1px solid #eee;
-            }
-
-            .doctor-avatar {
-                width: 100px;
-                height: 100px;
-                border-radius: 50%;
-                overflow: hidden;
-                margin-right: 20px;
-            }
-
-            .doctor-avatar img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-
-            .doctor-info {
-                flex: 1;
-            }
-
-            .doctor-name {
-                font-size: 24px;
-                font-weight: bold;
-                margin-bottom: 5px;
-                color: #28a745;
-            }
 
             .position {
                 color: #666;
@@ -404,137 +373,158 @@
         </style>
     </head>
     <body>
-            <div class="container">
-                <!-- Doctor Profile Section -->
-                <div class="doctor-profile">
-                    <div class="doctor-avatar">
-                        <img src="${staff.avatar}" alt="Doctor Avatar">
+        <!-- Loader -->
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Loader -->
+
+        <!-- Navbar STart -->
+        <jsp:include page="layout/header.jsp" /><!--end header-->
+        <!-- Navbar End -->
+
+        <div class="container">
+            <div class="review-header">
+                <h4>Đánh giá: </h4>
+                <div class="review-score">
+                    <div class="score-number">
+                        <fmt:formatNumber value="${avgRating}" pattern="#.#" />
                     </div>
-                    <div class="doctor-info">
-                        <div class="doctor-name">${staff.name}</div>
-                        <div>${staff.description}</div>
-                    </div>
+                    <div class="score-text">trên 5</div>
                 </div>
 
-                <div class="review-header">
-                    <h4>Đánh giá: </h4>
-                    <div class="review-score">
-                        <div class="score-number">
-                            <fmt:formatNumber value="${avgRating}" pattern="#.#" />
-                        </div>
-                        <div class="score-text">trên 5</div>
-                    </div>
-
-                    <div class="stars">
-                        <c:forEach begin="1" end="5" var="i">
-                            <c:choose>
-                                <c:when test="${i <= Math.round(avgRating)}">★</c:when>
-                                <c:otherwise>☆</c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </div>
-
-                    <div class="filter-buttons">
-                        <a href="staffFeedback?staffId=${staffId}" class="filter-button ${star == 0 && !hasComment ? 'active' : ''}">Tất Cả (${commentCount})</a>
-                        <a href="staffFeedback?staffId=${staffId}&star=5" class="filter-button ${star == 5 ? 'active' : ''}">5 Sao (${ratingStats[2]})</a>
-                        <a href="staffFeedback?staffId=${staffId}&star=4" class="filter-button ${star == 4 ? 'active' : ''}">4 Sao (${ratingStats[4]})</a>
-                        <a href="staffFeedback?staffId=${staffId}&star=3" class="filter-button ${star == 3 ? 'active' : ''}">3 Sao (${ratingStats[6]})</a>
-                        <a href="staffFeedback?staffId=${staffId}&star=2" class="filter-button ${star == 2 ? 'active' : ''}">2 Sao (${ratingStats[8]})</a>
-                        <a href="staffFeedback?staffId=${staffId}&star=1" class="filter-button ${star == 1 ? 'active' : ''}">1 Sao (${ratingStats[10]})</a>
-                    </div>
-
-                    <div class="sort-options">
-                        <a href="staffFeedback?staffId=${staffId}&star=${star}${hasComment ? '&hasComment=true' : ''}&sort=desc" class="sort-button ${param.sort == 'desc' || param.sort == null ? 'active' : ''}">Mới nhất</a> | 
-                        <a href="staffFeedback?staffId=${staffId}&star=${star}${hasComment ? '&hasComment=true' : ''}&sort=asc" class="sort-button ${param.sort == 'asc' ? 'active' : ''}">Cũ nhất</a>
-                    </div>
+                <div class="stars">
+                    <c:forEach begin="1" end="5" var="i">
+                        <c:choose>
+                            <c:when test="${i <= Math.round(avgRating)}">★</c:when>
+                            <c:otherwise>☆</c:otherwise>
+                        </c:choose>
+                    </c:forEach>
                 </div>
 
-                <c:choose>
-                    <c:when test="${empty feedbacks}">
-                        <div class="empty-message">
-                            <p>Không có đánh giá nào phù hợp với tiêu chí tìm kiếm.</p>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="feedback-list">
-                            <ul class="list-unstyled">
-                                <li class="mt-4">
-                                    <ul>
-                                        <c:forEach items="${feedbacks}" var="feedback" varStatus="status">
-                                            <li class="mt-4">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a class="pe-3" href="#">
-                                                            <img src="${feedback.customer.avatar}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="Avatar">
-                                                        </a>
-                                                        <div class="commentor-detail">
-                                                            <h6 class="mb-0">
-                                                                <a href="javascript:void(0)" class="text-dark media-heading">${feedback.customer.name}</a>
-                                                            </h6>
-                                                            <small class="text-muted">
-                                                                <fmt:formatDate value="${feedback.date}" pattern="dd/MM/yyyy"/>
-                                                            </small>
-                                                            <!-- Display star rating -->
-                                                            <div class="user-stars mt-1">
-                                                                <c:forEach begin="1" end="5" var="i">
-                                                                    <c:choose>
-                                                                        <c:when test="${i <= feedback.ratings}">★</c:when>
-                                                                        <c:otherwise>☆</c:otherwise>
-                                                                    </c:choose>
-                                                                </c:forEach>
-                                                            </div>
+                <div class="filter-buttons">
+                    <a href="staffFeedback?staffId=${staffId}" class="filter-button ${star == 0 && !hasComment ? 'active' : ''}">Tất Cả (${commentCount})</a>
+                    <a href="staffFeedback?staffId=${staffId}&star=5" class="filter-button ${star == 5 ? 'active' : ''}">5 Sao (${ratingStats[2]})</a>
+                    <a href="staffFeedback?staffId=${staffId}&star=4" class="filter-button ${star == 4 ? 'active' : ''}">4 Sao (${ratingStats[4]})</a>
+                    <a href="staffFeedback?staffId=${staffId}&star=3" class="filter-button ${star == 3 ? 'active' : ''}">3 Sao (${ratingStats[6]})</a>
+                    <a href="staffFeedback?staffId=${staffId}&star=2" class="filter-button ${star == 2 ? 'active' : ''}">2 Sao (${ratingStats[8]})</a>
+                    <a href="staffFeedback?staffId=${staffId}&star=1" class="filter-button ${star == 1 ? 'active' : ''}">1 Sao (${ratingStats[10]})</a>
+                </div>
+
+                <div class="sort-options">
+                    <a href="staffFeedback?staffId=${staffId}&star=${star}${hasComment ? '&hasComment=true' : ''}&sort=desc" class="sort-button ${param.sort == 'desc' || param.sort == null ? 'active' : ''}">Mới nhất</a> | 
+                    <a href="staffFeedback?staffId=${staffId}&star=${star}${hasComment ? '&hasComment=true' : ''}&sort=asc" class="sort-button ${param.sort == 'asc' ? 'active' : ''}">Cũ nhất</a>
+                </div>
+            </div>
+
+            <c:choose>
+                <c:when test="${empty feedbacks}">
+                    <div class="empty-message">
+                        <p>Không có đánh giá nào phù hợp với tiêu chí tìm kiếm.</p>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="feedback-list">
+                        <ul class="list-unstyled">
+                            <li class="mt-4">
+                                <ul>
+                                    <c:forEach items="${feedbacks}" var="feedback" varStatus="status">
+                                        <li class="mt-4">
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <a class="pe-3" href="#">
+                                                        <img src="${feedback.customer.avatar}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="Avatar">
+                                                    </a>
+                                                    <div class="commentor-detail">
+                                                        <h6 class="mb-0">
+                                                            <a href="javascript:void(0)" class="text-dark media-heading">${feedback.customer.name}</a>
+                                                        </h6>
+                                                        <small class="text-muted">
+                                                            <fmt:formatDate value="${feedback.date}" pattern="dd/MM/yyyy"/>
+                                                        </small>
+                                                        <!-- Display star rating -->
+                                                        <div class="user-stars mt-1">
+                                                            <c:forEach begin="1" end="5" var="i">
+                                                                <c:choose>
+                                                                    <c:when test="${i <= feedback.ratings}">★</c:when>
+                                                                    <c:otherwise>☆</c:otherwise>
+                                                                </c:choose>
+                                                            </c:forEach>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="mt-3">
-                                                    <c:if test="${not empty feedback.content}">
-                                                        <p class="text-muted font-italic p-3 bg-light rounded">"${feedback.content}"</p>
-                                                    </c:if>
-                                                    <c:if test="${empty feedback.content}">
-                                                        <p class="text-muted font-italic p-3 bg-light rounded fst-italic"><i>Bệnh nhân không để lại bình luận</i></p>
-                                                    </c:if>
-                                                </div>
-                                                <!-- Add a divider between comments except for the last one -->
-                                                <c:if test="${!status.last}">
-                                                    <hr class="my-4">
+                                            </div>
+                                            <div class="mt-3">
+                                                <c:if test="${not empty feedback.content}">
+                                                    <p class="text-muted font-italic p-3 bg-light rounded">"${feedback.content}"</p>
                                                 </c:if>
-                                            </c:forEach>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-
-
-                <!-- Pagination -->
-                <c:if test="${totalPages > 1}">
-                    <div class="pagination">
-                        <c:if test="${currentPage > 1}">
-                            <a href="staffFeedback?staffId=${staffId}&star=${star}${hasComment ? '&hasComment=true' : ''}&sort=${param.sort}&page=${currentPage - 1}">&laquo;</a>
-                        </c:if>
-
-                        <c:forEach begin="1" end="${totalPages}" var="i">
-                            <c:choose>
-                                <c:when test="${i == currentPage}">
-                                    <a class="active" href="#">${i}</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="staffFeedback?staffId=${staffId}&star=${star}${hasComment ? '&hasComment=true' : ''}&sort=${param.sort}&page=${i}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-
-                        <c:if test="${currentPage < totalPages}">
-                            <a href="staffFeedback?staffId=${staffId}&star=${star}${hasComment ? '&hasComment=true' : ''}&sort=${param.sort}&page=${currentPage + 1}">&raquo;</a>
-                        </c:if>
+                                                <c:if test="${empty feedback.content}">
+                                                    <p class="text-muted font-italic p-3 bg-light rounded fst-italic"><i>Bệnh nhân không để lại bình luận</i></p>
+                                                </c:if>
+                                            </div>
+                                            <!-- Add a divider between comments except for the last one -->
+                                            <c:if test="${!status.last}">
+                                                <hr class="my-4">
+                                            </c:if>
+                                        </c:forEach>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-                </c:if>
+                </c:otherwise>
+            </c:choose>
 
-                <div class="text-center mb-3">
-                    <a href="allDoctors" class="btn btn-primary">Quay về danh sách</a>
+
+            <!-- Pagination -->
+            <c:if test="${totalPages > 1}">
+                <div class="pagination">
+                    <c:if test="${currentPage > 1}">
+                        <a href="staffFeedback?staffId=${staffId}&star=${star}${hasComment ? '&hasComment=true' : ''}&sort=${param.sort}&page=${currentPage - 1}">&laquo;</a>
+                    </c:if>
+
+                    <c:forEach begin="1" end="${totalPages}" var="i">
+                        <c:choose>
+                            <c:when test="${i == currentPage}">
+                                <a class="active" href="#">${i}</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="staffFeedback?staffId=${staffId}&star=${star}${hasComment ? '&hasComment=true' : ''}&sort=${param.sort}&page=${i}">${i}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
+                    <c:if test="${currentPage < totalPages}">
+                        <a href="staffFeedback?staffId=${staffId}&star=${star}${hasComment ? '&hasComment=true' : ''}&sort=${param.sort}&page=${currentPage + 1}">&raquo;</a>
+                    </c:if>
                 </div>
+            </c:if>
+
+            <div class="text-center mb-3">
+                <a href="allDoctors" class="btn btn-primary">Quay về danh sách</a>
             </div>
-        </main>
+        </div>
+
+        <!-- Start Footer -->
+        <jsp:include page="layout/customer-side-footer.jsp" />
+        <!-- End Footer -->
+        
+                
+        <!-- javascript -->
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <!-- SLIDER -->
+        <script src="assets/js/tiny-slider.js"></script>
+        <script src="assets/js/tiny-slider-init.js"></script>
+        <!-- Counter -->
+        <script src="assets/js/counter.init.js"></script>
+        <!-- Icons -->
+        <script src="assets/js/feather.min.js"></script>
+        <!-- Main Js -->
+        <script src="assets/js/app.js"></script>
+        
     </body>
 </html>
