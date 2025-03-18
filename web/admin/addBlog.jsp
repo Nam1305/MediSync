@@ -30,6 +30,8 @@
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
 
+        <script src="https://cdn.tiny.cloud/1/vnufc6yakojjcovpkijlauot8hfpbxd3uscxatfq2m4yijay/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>        
+        <script src="assets/js/tinymce-init.js"></script>
     </head>
 
     <body>
@@ -63,7 +65,7 @@
                                             <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <label class="form-label">Nội dung</label>
-                                                    <textarea name="content" id="content" class="form-control" rows="5" placeholder="Nhập nội dung bài viết" required>${content}</textarea>
+                                                    <textarea name="content" id="testResults" class="form-control" rows="5" placeholder="Nhập nội dung bài viết" required>${content}</textarea>
                                                 </div>
                                             </div>
 
