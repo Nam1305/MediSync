@@ -74,14 +74,14 @@
 
                                     <button type="submit" class="btn btn-primary form-control">Lọc</button>
                                     <button type="button" class="btn  btn-primary form-control text-nowrap" onclick="resetFilters()">Làm mới</button>
-                                    
+
                                 </form>
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                  <button class="btn btn-primary text-nowrap" onclick="window.location.href = 'AddDepartment'" style="margin: 10px;">
-                                        Thêm Phòng Ban
-                                    </button>
+                                <button class="btn btn-primary text-nowrap" onclick="window.location.href = 'AddDepartment'" style="margin: 10px;">
+                                    Thêm Phòng Ban
+                                </button>
                             </div>
                             <div class="row">
                                 <div class="col-12 mt-4">
@@ -136,7 +136,7 @@
                         <div class="row text-center">
                             <!--                                                     PAGINATION START -->
                             <div class="col-12 mt-4">
-                                <div class="d-md-flex align-items-center text-center justify-content-between">
+                                <div class="d-md-flex align-items-center text-center justify-content-end">
                                     <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
