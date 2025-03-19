@@ -22,7 +22,7 @@
                 overflow: hidden;
             }
             .chat-header {
-                background: #007bff;
+                background: green;
                 color: white;
                 padding: 15px;
                 text-align: center;
@@ -44,12 +44,12 @@
                 word-wrap: break-word;
             }
             .user-message {
-                background: #007bff;
+                background: green;
                 color: white;
                 align-self: flex-end;
             }
             .bot-message {
-                background: #e9ecef;
+                background: green;
                 color: black;
                 align-self: flex-start;
             }
@@ -69,14 +69,14 @@
                 margin-left: 10px;
                 padding: 10px 15px;
                 border: none;
-                background: #007bff;
+                background: green;
                 color: white;
                 border-radius: 5px;
                 cursor: pointer;
                 font-size: 16px;
             }
             .chat-input button:hover {
-                background: #0056b3;
+                background: green;
             }
         </style>
         <script>
@@ -129,6 +129,7 @@
             <div class="chat-input">
                 <input type="text" id="message" placeholder="Nhập tin nhắn..." />
                 <button onclick="sendMessage()">Gửi</button>
+                <button onclick="window.location.href='home'">Trang chủ</button>
             </div>
         </div>
     </body>

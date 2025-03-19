@@ -100,7 +100,7 @@ public class CustomerProfileServlet extends HttpServlet {
         request.setAttribute("customer", currentCustomer);
 
         // Forward to profile JSP
-        request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class CustomerProfileServlet extends HttpServlet {
                     || phone == null || phone.trim().isEmpty()) {
                 request.setAttribute("errorMessage", "Name, email and phone are required fields");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
             }
 
@@ -159,7 +159,7 @@ public class CustomerProfileServlet extends HttpServlet {
             if (!isValidEmail(email)) {
                 request.setAttribute("errorMessage", "Invalid email format");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
             }
 
@@ -167,7 +167,7 @@ public class CustomerProfileServlet extends HttpServlet {
             if (!isValidPhoneNumber(phone)) {
                 request.setAttribute("errorMessage", "Phone number must be 10 digits");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
             }
 
@@ -175,7 +175,7 @@ public class CustomerProfileServlet extends HttpServlet {
             if (!email.equals(customer.getEmail()) && customerDAO.isEmailExists(email)) {
                 request.setAttribute("errorMessage", "Email address is already used by another account");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
             }
 
@@ -183,7 +183,7 @@ public class CustomerProfileServlet extends HttpServlet {
             if (!phone.equals(customer.getPhone()) && customerDAO.isPhoneExists(phone)) {
                 request.setAttribute("errorMessage", "Phone number is already used by another account");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
             }
 
@@ -198,7 +198,7 @@ public class CustomerProfileServlet extends HttpServlet {
                 } catch (ParseException e) {
                     request.setAttribute("errorMessage", "Invalid date format. Please use yyyy-MM-dd");
                     request.setAttribute("customer", customer);
-                    request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                    request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                     return;
                 }
             }
@@ -227,13 +227,13 @@ public class CustomerProfileServlet extends HttpServlet {
 
             // Set updated customer data and forward back to profile page
             request.setAttribute("customer", customer);
-            request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
 
         } catch (Exception e) {
             // Handle any unexpected errors
             request.setAttribute("errorMessage", "An error occurred: " + e.getMessage());
             request.setAttribute("customer", customer);
-            request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
         }
     }
 
@@ -244,32 +244,42 @@ public class CustomerProfileServlet extends HttpServlet {
             if (avatarPart == null || avatarPart.getSize() <= 0) {
                 request.setAttribute("errorMessage", "No image file selected");
                 request.setAttribute("customer", customer);
-                request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
-            }
-
-            // Remove old avatar if exists
-            if (customer.getAvatar() != null && !customer.getAvatar().isEmpty()) {
-                String fullPath = getServletContext().getRealPath("") + customer.getAvatar();
-                File oldAvatar = new File(fullPath);
-                if (oldAvatar.exists()) {
-                    oldAvatar.delete();
-                }
             }
 
             // Generate unique filename based on content type
             String contentType = avatarPart.getContentType();
             String extension = contentType.contains("png") ? ".png" : ".jpg";
             String fileName = "avatar_" + customer.getCustomerId() + "_" + UUID.randomUUID().toString() + extension;
+
+            // Get the real path for the upload directory
             String uploadPath = getServletContext().getRealPath("") + AVATAR_UPLOAD_DIR;
 
-            // Create directory if it doesn't exist
-            Files.createDirectories(Paths.get(uploadPath));
+            // Create directory structure if it doesn't exist
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                boolean created = uploadDir.mkdirs();
+                if (!created) {
+                    throw new IOException("Failed to create directory: " + uploadPath);
+                }
+            }
 
-            // Save the file
+            // Store the path of the old avatar to delete it later if update succeeds
+            String oldAvatarPath = null;
+            if (customer.getAvatar() != null && !customer.getAvatar().isEmpty()) {
+                oldAvatarPath = getServletContext().getRealPath("") + customer.getAvatar();
+            }
+
+            // Ensure the file path ends with a separator if needed
+            if (!uploadPath.endsWith(File.separator)) {
+                uploadPath = uploadPath + File.separator;
+            }
+
+            // Save the new file
             avatarPart.write(uploadPath + fileName);
 
-            // Update customer avatar path
+            // Update customer avatar path in object
             String avatarPath = AVATAR_UPLOAD_DIR + fileName;
             customer.setAvatar(avatarPath);
 
@@ -277,21 +287,42 @@ public class CustomerProfileServlet extends HttpServlet {
             boolean updated = customerDAO.updateCustomer(customer);
 
             if (updated) {
+                // Update succeeded, now safe to delete the old avatar
+                if (oldAvatarPath != null) {
+                    File oldAvatar = new File(oldAvatarPath);
+                    if (oldAvatar.exists()) {
+                        oldAvatar.delete();
+                    }
+                }
+
                 // Update session
                 request.getSession().setAttribute("customer", customer);
                 request.setAttribute("successMessage", "Profile picture updated successfully");
             } else {
+                // Update failed, delete the newly uploaded file and revert avatar path
+                File newAvatar = new File(uploadPath + fileName);
+                if (newAvatar.exists()) {
+                    newAvatar.delete();
+                }
+
+                // Restore old avatar path in customer object
+                customer = customerDAO.getCustomerByEmail(customer.getEmail()); // Reload from DB to get original avatar
+
                 request.setAttribute("errorMessage", "Failed to update profile picture");
             }
 
             // Set updated customer data and forward back to profile page
             request.setAttribute("customer", customer);
-            request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
 
         } catch (Exception e) {
+            // In case of error, reload customer from DB to ensure avatar path is still original
+            customer = customerDAO.getCustomerByEmail(customer.getEmail());
+
             request.setAttribute("errorMessage", "Error uploading profile picture: " + e.getMessage());
             request.setAttribute("customer", customer);
-            request.getRequestDispatcher("customer/patientsProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
         }
+        //System.out.println("Full avatar path: " + getServletContext().getRealPath("") + AVATAR_UPLOAD_DIR);
     }
 }

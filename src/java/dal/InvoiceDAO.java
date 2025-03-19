@@ -72,32 +72,33 @@ public class InvoiceDAO extends DBContext {
         return invoices;
     }
 
-
     public boolean saveInvoice(int appointmentId, String[] serviceIds, String[] prices) {
         String deleteSql = "DELETE FROM Invoice WHERE appointmentId = ?";
         String insertSql = "INSERT INTO Invoice (appointmentId, serviceId, price) VALUES (?, ?, ?)";
+
         try {
             connection.setAutoCommit(false);
 
-            // Xóa các invoice cũ của appointment
+            // Xóa tất cả invoice cũ của appointment
             try (PreparedStatement deletePs = connection.prepareStatement(deleteSql)) {
                 deletePs.setInt(1, appointmentId);
                 deletePs.executeUpdate();
+            }
+
+            // Nếu không có dịch vụ nào mới thì commit và thoát luôn
+            if (serviceIds == null || serviceIds.length == 0) {
+                connection.commit();
+                return true;
             }
 
             // Chèn các invoice mới
             try (PreparedStatement ps = connection.prepareStatement(insertSql)) {
                 for (int i = 0; i < serviceIds.length; i++) {
                     ps.setInt(1, appointmentId);
-                    if (serviceIds[i] != null && !serviceIds[i].trim().isEmpty()) {
-                        ps.setInt(2, Integer.parseInt(serviceIds[i]));
-                        double price = (prices != null && prices.length > i && prices[i] != null && !prices[i].trim().isEmpty())
-                                ? Double.parseDouble(prices[i]) : 0.0;
-                        ps.setDouble(3, price);
-                    } else {
-                        ps.setNull(2, java.sql.Types.INTEGER);
-                        ps.setNull(3, java.sql.Types.DOUBLE);
-                    }
+                    ps.setInt(2, Integer.parseInt(serviceIds[i]));
+                    double price = (prices != null && prices.length > i && prices[i] != null && !prices[i].trim().isEmpty())
+                            ? Double.parseDouble(prices[i]) : 0.0;
+                    ps.setDouble(3, price);
                     ps.addBatch();
                 }
                 for (int res : ps.executeBatch()) {
@@ -123,14 +124,13 @@ public class InvoiceDAO extends DBContext {
             }
         }
     }
-    
+
     //Phần Của Sơn
     public double calculateTotalRevenue() {
         double totalRevenue = 0;
         String sql = "SELECT SUM(price) FROM Invoice";
-        
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 totalRevenue = rs.getDouble(1);
             }
@@ -139,71 +139,70 @@ public class InvoiceDAO extends DBContext {
         }
         return totalRevenue;
     }
- public Map<String, Double> getRevenueStats(int year, int month, int day, String startDate, String endDate) {
-    Map<String, Double> stats = new LinkedHashMap<>();
-    String sql = "SELECT FORMAT(a.date, 'dd-MM-yyyy') AS day, SUM(i.price) AS totalRevenue " +
-                 "FROM Appointment a JOIN Invoice i ON a.appointmentId = i.appointmentId WHERE 1=1";
 
-    if (startDate != null && !startDate.isEmpty()) {
-        sql += " AND a.date >= ?";
-        
-        // Nếu không có endDate, mặc định lấy đến ngày hiện tại
-        if (endDate == null || endDate.isEmpty()) {
-            sql += " AND a.date <= CURRENT_DATE";
-        }
-    }
+    public Map<String, Double> getRevenueStats(int year, int month, int day, String startDate, String endDate) {
+        Map<String, Double> stats = new LinkedHashMap<>();
+        String sql = "SELECT FORMAT(a.date, 'dd-MM-yyyy') AS day, SUM(i.price) AS totalRevenue "
+                + "FROM Appointment a JOIN Invoice i ON a.appointmentId = i.appointmentId WHERE 1=1";
 
-    if (endDate != null && !endDate.isEmpty()) {
-        sql += " AND a.date <= ?";
-    }
-
-    if (year > 0) {
-        sql += " AND YEAR(a.date) = ?";
-    }
-    if (month > 0) {
-        sql += " AND MONTH(a.date) = ?";
-    }
-    if (day > 0) {
-        sql += " AND DAY(a.date) = ?";
-    }
-
-    sql += " GROUP BY FORMAT(a.date, 'dd-MM-yyyy') ORDER BY MIN(a.date)";
-
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        int index = 1;
-        
         if (startDate != null && !startDate.isEmpty()) {
-            ps.setString(index++, startDate);
+            sql += " AND a.date >= ?";
+
+            // Nếu không có endDate, mặc định lấy đến ngày hiện tại
+            if (endDate == null || endDate.isEmpty()) {
+                sql += " AND a.date <= CURRENT_DATE";
+            }
         }
 
         if (endDate != null && !endDate.isEmpty()) {
-            ps.setString(index++, endDate);
+            sql += " AND a.date <= ?";
         }
 
         if (year > 0) {
-            ps.setInt(index++, year);
+            sql += " AND YEAR(a.date) = ?";
         }
         if (month > 0) {
-            ps.setInt(index++, month);
+            sql += " AND MONTH(a.date) = ?";
         }
         if (day > 0) {
-            ps.setInt(index++, day);
+            sql += " AND DAY(a.date) = ?";
         }
 
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            stats.put(rs.getString("day"), rs.getDouble("totalRevenue"));
+        sql += " GROUP BY FORMAT(a.date, 'dd-MM-yyyy') ORDER BY MIN(a.date)";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+
+            if (startDate != null && !startDate.isEmpty()) {
+                ps.setString(index++, startDate);
+            }
+
+            if (endDate != null && !endDate.isEmpty()) {
+                ps.setString(index++, endDate);
+            }
+
+            if (year > 0) {
+                ps.setInt(index++, year);
+            }
+            if (month > 0) {
+                ps.setInt(index++, month);
+            }
+            if (day > 0) {
+                ps.setInt(index++, day);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                stats.put(rs.getString("day"), rs.getDouble("totalRevenue"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return stats;
     }
-    return stats;
-}
-
-
 
     public static void main(String[] args) {
         InvoiceDAO i = new InvoiceDAO();
-       
+
     }
 }

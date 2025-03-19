@@ -251,46 +251,46 @@
 <!-- End -->
 
 
-//<!-- Sua o doan nay -->
-<div class="container mt-100 mt-60" style="margin-top: -5%;">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <div class="section-title mb-4 pb-2 text-center">
-                <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog nổi bật</span>
-            </div>
-        </div><!--end col-->
-    </div><!--end row-->
-
-    <div class="row">
-        <c:forEach items="${blogs}" var="blog">
-            <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2 d-flex">
-                <div class="card blog blog-primary border-0 shadow rounded overflow-hidden d-flex flex-column w-100">
-                    <!-- Đảm bảo ảnh có kích thước đồng đều -->
-                    <div style="width: 100%; height: 250px; overflow: hidden;">
-                        <img src="${blog.image}" class="img-fluid w-100 h-100" alt="${blog.blogName}" style="object-fit: cover;">
+        <div class="container mt-100 mt-60" style="margin-top: -5%;">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="section-title mb-4 pb-2 text-center">
+                        <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog nổi bật</span>
                     </div>
-                    <div class="card-body p-4 d-flex flex-column flex-grow-1">
-                        <ul class="list-unstyled mb-2">
-                            <li class="list-inline-item text-muted small me-3">
-                                <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
-                                <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
-                            </li>
-                        </ul>
-                        <a href="blogDetail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
-                        <div class="post-meta mt-auto d-flex justify-content-between mt-3">
-                            <a href="blogDetail?blogId=${blog.blogId}" class="link">Chi tiết <i class="mdi mdi-chevron-right align-middle"></i></a>
+                </div><!--end col-->
+            </div><!--end row-->
+
+            <div class="row">
+                <c:forEach items="${blogs}" var="blog">
+                    <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2 d-flex">
+                        <div class="card blog blog-primary border-0 shadow rounded overflow-hidden d-flex flex-column w-100">
+                            <!-- Đảm bảo ảnh có kích thước đồng đều -->
+                            <div style="width: 100%; height: 250px; overflow: hidden;">
+                                <img src="${blog.image}" class="img-fluid w-100 h-100" alt="${blog.blogName}" style="object-fit: cover;">
+                            </div>
+                            <div class="card-body p-4 d-flex flex-column flex-grow-1">
+                                <ul class="list-unstyled mb-2">
+                                    <li class="list-inline-item text-muted small me-3">
+                                        <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
+                                        <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
+                                    </li>
+                                </ul>
+                                <a href="blogDetail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
+                                <div class="post-meta mt-auto d-flex justify-content-between mt-3">
+                                    <a href="blogDetail?blogId=${blog.blogId}" class="link">Chi tiết <i class="mdi mdi-chevron-right align-middle"></i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </c:forEach>
-    </div><!--end row-->
+                </c:forEach>
+            </div><!--end row-->
 
-    <div class="col-12 mt-4 pt-2 text-center">
-        <a href="listBlog" class="btn btn-primary">Xem thêm</a>
-    </div><!--end col-->
+            <div class="col-12 mt-4 pt-2 text-center">
+                <a href="listBlog" class="btn btn-primary">Xem thêm</a>
+            </div><!--end col-->
 
-</div><!--end row-->
+        </div><!--end row-->
+
 </div><!--end container-->
 </section><!--end section-->
 <!-- End -->

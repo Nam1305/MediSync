@@ -4,6 +4,7 @@
  */
 package controller.admin;
 
+import dal.CustomerDAO;
 import dal.DepartmentDAO;
 import dal.DoctorDAO;
 import dal.PositionDAO;
@@ -82,6 +83,7 @@ public class AddStaffServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        CustomerDAO customerDao = new CustomerDAO();
         DepartmentDAO departmentDao = new DepartmentDAO();
         List<Department> listDepartment = departmentDao.getActiveDepartment();
         List<String> error = new ArrayList<>();
@@ -125,7 +127,14 @@ public class AddStaffServlet extends HttpServlet {
         if (staffDao.checkPhoneExists(phone)) {
             error.add("Số điện thoại đã tồn tại!");
         }
+        if (customerDao.isPhoneExists(phone)) {
+            error.add("Số điện thoại đã tồn tại!");
+        }
         if (staffDao.checkEmail(email)) {
+            error.add("Email đã tồn tại!");
+        }
+        
+        if(customerDao.isEmailExists(email)){
             error.add("Email đã tồn tại!");
         }
         if (!checkPhone(phone)) {

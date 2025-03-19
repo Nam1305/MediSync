@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package util;
 
 import java.util.Properties;
@@ -27,6 +23,7 @@ public class SendEmail {
 
     private static final String FROM_EMAIL = "duchvhe181827@gmail.com";
     private static final String PASSWORD = "herd tbfg gejc maau";
+    private static final String ADMIN_EMAIL ="trungnmhe186069@gmail.com";
 
     public String getRandom() {
         Random rnd = new Random();
@@ -73,9 +70,7 @@ public class SendEmail {
 
     public boolean sendMailVerify(String toEmail, String code) {
         String subject = "Xác minh địa chỉ email";
-        String content = "Bạn đã đăng ký thành công. Vui lòng xác minh tài khoản của bạn bằng mã sau: "
-                + code
-                + ".\nLưu ý: Mã này sẽ hết hạn sau 5 phút.";
+        String content = "Bạn đã đăng ký thành công. Vui lòng xác minh tài khoản của bạn bằng mã sau: " + code;
         return sendEmail(toEmail, subject, content);
     }
 
@@ -111,5 +106,21 @@ public class SendEmail {
                 + "Ca " + shiftInfo + " từ ngày " + startDate
                 + " đến ngày " + endDate;
         return sendEmail(toEmail, subject, content);
+    }
+
+    public boolean sendEmailContact(String name, String email, String subject, String message) {
+        String emailSubject = subject.isEmpty() ? "Liên hệ mới từ website" : subject;
+
+        String content = "<html><body>"
+                + "<h2>Thông tin liên hệ mới</h2>"
+                + "<p><strong>Họ tên:</strong> " + name + "</p>"
+                + "<p><strong>Email:</strong> " + email + "</p>"
+                + "<p><strong>Tiêu đề:</strong> " + emailSubject + "</p>"
+                + "<p><strong>Nội dung:</strong></p>"
+                + "<p>" + message.replace("\n", "<br>") + "</p>"
+                + "</body></html>";
+
+
+        return sendEmail(ADMIN_EMAIL, emailSubject, content);
     }
 }

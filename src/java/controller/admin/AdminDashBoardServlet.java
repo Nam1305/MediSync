@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import model.Staff;
@@ -107,22 +108,77 @@ public class AdminDashBoardServlet extends HttpServlet {
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
 
-        // Chuyển đổi dữ liệu
-        int day = 0, month = 0, year = 0;
+        int year = 0, month = 0, day = 0;
+        List<String> errors = new ArrayList<>();
+
+        // Kiểm tra năm hợp lệ
         if (selectedYear != null && !selectedYear.trim().isEmpty()) {
-            year = Integer.parseInt(selectedYear);
+            try {
+                year = Integer.parseInt(selectedYear);
+                if (year <= 0) {
+                    errors.add("❌ Năm phải là số nguyên dương.");
+                }
+            } catch (NumberFormatException e) {
+                errors.add("❌ Năm không hợp lệ.");
+            }
         }
+
+        // Kiểm tra tháng hợp lệ
         if (selectedMonth != null && !selectedMonth.trim().isEmpty()) {
-            month = Integer.parseInt(selectedMonth);
+            try {
+                month = Integer.parseInt(selectedMonth);
+                if (month < 1 || month > 12) {
+                    errors.add("❌ Tháng phải từ 1 đến 12.");
+                }
+            } catch (NumberFormatException e) {
+                errors.add("❌ Tháng không hợp lệ.");
+            }
         }
+
+        // Kiểm tra ngày hợp lệ
         if (selectedDay != null && !selectedDay.trim().isEmpty()) {
-            day = Integer.parseInt(selectedDay);
+            try {
+                day = Integer.parseInt(selectedDay);
+                if (day < 1 || day > 31) {
+                    errors.add("❌ Ngày không hợp lệ.");
+                } else if (year > 0 && month > 0) {
+                    // Kiểm tra số ngày hợp lệ trong tháng
+                    int maxDays = 31;
+                    if (Arrays.asList(4, 6, 9, 11).contains(month)) {
+                        maxDays = 30;
+                    } else if (month == 2) {
+                        boolean isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+                        maxDays = isLeapYear ? 29 : 28;
+                    }
+
+                    if (day > maxDays) {
+                        errors.add("❌ Ngày không hợp lệ cho tháng đã chọn.");
+                    }
+                }
+            } catch (NumberFormatException e) {
+                errors.add("❌ Ngày không hợp lệ.");
+            }
+        }
+
+        // Kiểm tra ngày bắt đầu và ngày kết thúc
+        if (startDate != null && endDate != null && !startDate.isEmpty() && !endDate.isEmpty()) {
+            if (startDate.compareTo(endDate) > 0) {
+                errors.add("❌ Ngày bắt đầu không được lớn hơn ngày kết thúc.");
+            }
+        }
+
+        // Nếu có lỗi, chuyển về trang JSP và hiển thị lỗi
+        if (!errors.isEmpty()) {
+            request.setAttribute("errors", errors);
+             request.getRequestDispatcher("admin/adminDashBoard.jsp").forward(request, response);
+            return;
         }
 
         // Kiểm tra khoảng ngày
         if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
             endDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // Không thêm điều kiện endDate nếu chỉ chọn startDate
         }
+
 
         // Thống kê khách hàng & doanh thu theo khoảng thời gian hoặc theo ngày/tháng/năm
         Map<String, Integer> customerStats = customerDao.getCustomerStats(year, month, day, startDate, endDate);
@@ -148,9 +204,7 @@ public class AdminDashBoardServlet extends HttpServlet {
         request.setAttribute("staffByRole", staffByRole);
         request.setAttribute("totalRevenue", totalRevenue);
         request.setAttribute("customerCount", customerCount);
-        request.setAttribute("year", year);
-        request.setAttribute("month", month);
-        request.setAttribute("day", day);
+
         // Gửi kết quả về view
         request.getRequestDispatcher("admin/adminDashBoard.jsp").forward(request, response);
     }

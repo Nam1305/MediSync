@@ -2,6 +2,7 @@ package controller.admin;
 
 import com.google.gson.JsonObject;
 import dal.CustomerDAO;
+import dal.DoctorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,7 +21,7 @@ import model.Customer;
 public class EditCustomerServlet extends HttpServlet {
 
     CustomerDAO customerDao = new CustomerDAO();
-
+    DoctorDAO doctorDao = new DoctorDAO();
     // Regex kiểm tra email hợp lệ
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
 
@@ -96,7 +97,14 @@ public class EditCustomerServlet extends HttpServlet {
         if (customerDao.checkEmailOtherCustomer(email, customerId)) {
             errors.add("Email đã tồn tại!");
         }
+        if(doctorDao.checkEmail(email)){
+            errors.add("Email đã tồn tại!");
+        }
+                
         if (customerDao.checkPhoneOtherCustomer(phone, customerId)) {
+            errors.add("Số điện thoại đã tồn tại!");
+        }
+        if(doctorDao.checkPhoneExists(phone)){
             errors.add("Số điện thoại đã tồn tại!");
         }
         Date dob = null;

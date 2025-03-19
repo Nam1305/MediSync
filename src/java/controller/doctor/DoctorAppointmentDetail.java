@@ -12,9 +12,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Appointment;
 import model.Prescription;
+import model.Staff;
 import model.TreatmentPlan;
 
 /**
@@ -41,6 +43,12 @@ public class DoctorAppointmentDetail extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+        Staff st = (Staff) session.getAttribute("staff");
+
+        // Đặt charset cho request và response
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String appId = request.getParameter("appointmentId");
         int appointmentId = 0;
         try {
@@ -48,11 +56,13 @@ public class DoctorAppointmentDetail extends HttpServlet {
         } catch (NumberFormatException e) {
         }
         Appointment app = ad.getAppointmentsById(appointmentId);
+        int countAppointment = ad.countAppointmentsWithSameCustomer(appointmentId, st.getStaffId());
         List<Prescription> listPre = pd.getPrescriptionByAppointmentId(appointmentId);
         TreatmentPlan treatment = td.getTreatmentPlanByAppointmentId(appointmentId);
         request.setAttribute("app", app);
         request.setAttribute("listPre", listPre);
         request.setAttribute("treatment", treatment);
+        request.setAttribute("countAppointment", countAppointment);
         request.getRequestDispatcher("doctor/doctorAppointmentDetail.jsp").forward(request, response);
 
     }
@@ -87,7 +97,7 @@ public class DoctorAppointmentDetail extends HttpServlet {
                 String testResults = request.getParameter("testResult");
                 String plan = request.getParameter("plan");
                 String followUp = request.getParameter("followUp");
-                TreatmentPlan tm = new TreatmentPlan(appointmentId, appointmentId, symptoms, diagnosis, testResults,plan, followUp);
+                TreatmentPlan tm = new TreatmentPlan(appointmentId, appointmentId, symptoms, diagnosis, testResults, plan, followUp);
                 td.saveTreatmentPlan(tm);
                 break;
             default:

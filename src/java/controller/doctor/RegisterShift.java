@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import model.ShiftRegistration;
 import model.Staff;
@@ -64,6 +65,14 @@ public class RegisterShift extends HttpServlet {
             } else if ("regis".equalsIgnoreCase(action)) {
                 // Lấy tham số từ form
                 String[] shifts = request.getParameterValues("shifts");
+                List<Integer> selectedShifts = new ArrayList<>();
+                if ( shifts  != null) {
+                    for (String shift : request.getParameterValues("shifts")) {
+                        selectedShifts.add(Integer.parseInt(shift));
+                    }
+                }
+                request.setAttribute("selectedShifts", selectedShifts);
+
                 String fromDateStr = request.getParameter("fromDate");
                 request.setAttribute("fromDate", fromDateStr);
                 String toDateStr = request.getParameter("toDate");
@@ -101,7 +110,7 @@ public class RegisterShift extends HttpServlet {
                                 if (!inserted) {
                                     request.setAttribute("error", "Đăng ký thất bại: Lỗi hệ thống khi đăng ký ca " + shiftId + ".");
                                 } else {
-                                    request.setAttribute("success", "Đăng ký ca làm việc thành công!");
+                                    request.setAttribute("success", "Đăng ký ca "+shiftId+" thành công!");
 
                                 }
                             }

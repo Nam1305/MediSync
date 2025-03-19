@@ -276,7 +276,6 @@
     <body>
         <jsp:include page="../layout/header.jsp" />
         <div class="card mt-4 p-4">
-            <h4 class="text-primary">Thông tin bác sĩ phụ trách</h4>
             <c:if test="${param.message == 'success'}">
                 <div id="success-alert" class="alert alert-success text-center fw-bold p-4" role="alert" style="font-size: 24px; position: relative; top: 10px;">
                     🎉 Đặt lịch hẹn thành công!
@@ -375,7 +374,9 @@
                                     <input type="hidden" name="doctorId" value="${doctor.staffId}">
                                     <input type="hidden" name="week" value="<fmt:formatDate value='${selectedWeek[0]}' pattern='MM-dd-yyyy'/>">
                                     <input type="hidden" name="date" value="<fmt:formatDate value='${day}' pattern='yyy-MM-dd'/>">
-                                    <button type="submit" class="btn btn-outline-success ${day == selectedDate ? 'active' : ''}">
+                                    <button type="submit" class="btn btn-outline-success ${day == selectedDate ? 'active' : ''}"  
+                                            ${day < today ? 'disabled' : ''}>
+                                        
                                         <fmt:formatDate value="${day}" pattern="dd-MM-yyyy"/>
                                     </button>
                                 </form>
@@ -396,6 +397,7 @@
                         </tr>
                     </thead>
                     <tbody id="appointmentTable">
+                        <c:set var="isPastDate" value="${selectedDate < today}" />
                         <c:forEach var="appointment" items="${availableSlot}">
                             <tr>
                                 <td>${appointment.startTime} - ${appointment.endTime}</td>
@@ -405,7 +407,7 @@
                                         <input type="hidden" name="startTime" value="${appointment.startTime}">
                                         <input type="hidden" name="endTime" value="${appointment.endTime}">
                                         <input type="hidden" name="date" value="${selectedDate}">
-                                        <button type="submit" class="btn btn-primary" ${appointment.isIsBooked() ? 'disabled' : ''}>
+                                        <button type="submit" class="btn btn-primary"  ${isPastDate || appointment.isIsBooked() ? 'disabled' : ''}>
                                             Đặt lịch
                                         </button>
                                     </form>

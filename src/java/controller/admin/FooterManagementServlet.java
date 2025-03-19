@@ -1,6 +1,8 @@
 package controller.admin;
 
 import dal.BlogDAO;
+import dal.CustomerDAO;
+import dal.DoctorDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,9 +17,13 @@ import java.io.IOException;
 public class FooterManagementServlet extends HttpServlet {
 
     private final BlogDAO blogDAO;
+    private final CustomerDAO customerDAO;
+    private final DoctorDAO doctorDAO;
 
     public FooterManagementServlet() {
         this.blogDAO = new BlogDAO();
+        this.customerDAO = new CustomerDAO();
+        this.doctorDAO = new DoctorDAO();
     }
 
     private boolean validateSession(HttpServletRequest request, HttpServletResponse response)
@@ -85,25 +91,36 @@ public class FooterManagementServlet extends HttpServlet {
             StringBuilder errorMessage = new StringBuilder("Validation errors: ");
 
             if (addressContent == null || addressContent.trim().isEmpty()) {
-                errorMessage.append("Address cannot be empty. ");
+                errorMessage.append("Địa chỉ không được để trống. ");
                 isValid = false;
             }
 
             // Email validation
             if (emailContent == null || emailContent.trim().isEmpty()) {
-                errorMessage.append("Email cannot be empty. ");
+                errorMessage.append("Email không được để trống. ");
                 isValid = false;
             } else if (!emailContent.matches(".*[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}.*")) {
-                errorMessage.append("Invalid email format. ");
+                errorMessage.append("Lỗi format email. ");
                 isValid = false;
             }
 
             // Phone validation
             if (phoneContent == null || phoneContent.trim().isEmpty()) {
-                errorMessage.append("Phone number cannot be empty. ");
+                errorMessage.append("Số điện thoại không được để trống. ");
                 isValid = false;
             } else if (!phoneContent.matches(".*\\b\\d{10}\\b.*")) {
-                errorMessage.append("Phone number must contain exactly 10 digits. ");
+                errorMessage.append("Số điện thoại phải có 10 số. ");
+                isValid = false;
+            }
+            
+            //check trung email/sdt
+            if(customerDAO.isEmailExists(emailContent) || doctorDAO.checkEmail(emailContent))
+            {
+                errorMessage.append("Email đã tồn tại. ");
+                isValid = false;
+            } else if (customerDAO.isPhoneExists(phoneContent) || doctorDAO.checkPhoneExists(phoneContent))
+            {
+                errorMessage.append("Số điện thoại đã tồn tại. ");
                 isValid = false;
             }
 

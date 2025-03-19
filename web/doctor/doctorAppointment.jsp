@@ -83,8 +83,8 @@
                                         <label class="form-label fw-bold">Trạng thái</label>
                                         <select name="status" class="form-select">
                                             <option value="">Tất cả</option>
-                                            <option value="pending" ${status == 'confirmed' ? 'selected' : ''}>Chờ khám</option>
-                                            <option value="completed" ${status == 'waitpay' || status == 'paid' ? 'selected' : ''}>Đã khám</option>
+                                            <option value="confirmed" ${status == 'confirmed' ? 'selected' : ''}>Chờ khám</option>
+                                            <option value="waitpay" ${status == 'waitpay' || status == 'paid' ? 'selected' : ''}>Đã khám</option>
                                             <option value="absent" ${status == 'absent' ? 'selected' : ''}>Vắng mặt</option>
                                         </select>
                                     </div>

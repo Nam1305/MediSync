@@ -63,12 +63,12 @@ public class MakeServiceOrder extends HttpServlet {
             appointmentId = 0;
         }
 
-        if (request.getParameterValues("serviceId[]") != null || request.getParameterValues("price[]") != null) {
-            String[] serviceIds = request.getParameterValues("serviceId[]");
-            String[] prices = request.getParameterValues("price[]");
-            boolean success = invoiceDao.saveInvoice(appointmentId, serviceIds, prices);
+        // Lấy danh sách dịch vụ và giá
+        String[] serviceIds = request.getParameterValues("serviceId[]");
+        String[] prices = request.getParameterValues("price[]");
 
-        }
+        // Luôn gọi saveInvoice, kể cả khi serviceIds == null (tức là xóa hết)
+        boolean success = invoiceDao.saveInvoice(appointmentId, serviceIds, prices);
 
         response.sendRedirect("makeorder?appointmentId=" + appointmentId);
     }

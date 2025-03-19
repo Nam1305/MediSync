@@ -4,6 +4,7 @@
  */
 package controller.admin;
 
+import dal.CustomerDAO;
 import dal.DepartmentDAO;
 import dal.DoctorDAO;
 import dal.PositionDAO;
@@ -94,7 +95,8 @@ public class UpdateStaffServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       DepartmentDAO departmentDao = new DepartmentDAO();
+        CustomerDAO customerDao = new CustomerDAO();
+        DepartmentDAO departmentDao = new DepartmentDAO();
         DoctorDAO staffDao = new DoctorDAO();
         PositionDAO positionDao = new PositionDAO();
         List<String> errors = new ArrayList<>();
@@ -105,7 +107,7 @@ public class UpdateStaffServlet extends HttpServlet {
             errors.add("Không có ID nhân viên.");
         }
         int staffId = Integer.parseInt(staffIdStr);
-        
+
         Staff currentStaff = staffDao.getStaffById(staffId);
         if (currentStaff == null) {
             errors.add("Nhân viên không tồn tại.");
@@ -121,16 +123,32 @@ public class UpdateStaffServlet extends HttpServlet {
         String description = request.getParameter("description");
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         int roleId = Integer.parseInt(request.getParameter("roleId"));
-        
+
         // Kiểm tra điều kiện dữ liệu đầu vào
-        if (isEmpty(name)) errors.add("Tên không thể rỗng!");
-        if (isEmpty(email)) errors.add("Email không thể rỗng!");
-        if (isEmpty(phone)) errors.add("Số điện thoại không thể rỗng!");
-        if (isEmpty(gender)) errors.add("Giới tính không thể rỗng!");
-        if (isEmpty(dateOfBirthStr)) errors.add("Ngày sinh không thể rỗng!");
-        if (isEmpty(position)) errors.add("Vị trí làm việc không thể rỗng!");
-        if (isEmpty(status)) errors.add("Trạng thái hoạt động không thể rỗng!");
-        if (isEmpty(description)) errors.add("Mô tả không thể rỗng!");
+        if (isEmpty(name)) {
+            errors.add("Tên không thể rỗng!");
+        }
+        if (isEmpty(email)) {
+            errors.add("Email không thể rỗng!");
+        }
+        if (isEmpty(phone)) {
+            errors.add("Số điện thoại không thể rỗng!");
+        }
+        if (isEmpty(gender)) {
+            errors.add("Giới tính không thể rỗng!");
+        }
+        if (isEmpty(dateOfBirthStr)) {
+            errors.add("Ngày sinh không thể rỗng!");
+        }
+        if (isEmpty(position)) {
+            errors.add("Vị trí làm việc không thể rỗng!");
+        }
+        if (isEmpty(status)) {
+            errors.add("Trạng thái hoạt động không thể rỗng!");
+        }
+        if (isEmpty(description)) {
+            errors.add("Mô tả không thể rỗng!");
+        }
 
         if (!checkPhone(phone)) {
             errors.add("Số điện thoại phải bắt đầu từ 08, 09 hoặc 03 và đủ 10 chữ số.");
@@ -149,10 +167,16 @@ public class UpdateStaffServlet extends HttpServlet {
         if (staffDao.checkPhoneExistsCurrentStaff(phone, staffId)) {
             errors.add("Số điện thoại đã tồn tại!");
         }
+        if (customerDao.isPhoneExists(phone)) {
+            errors.add("Số điện thoại đã tồn tại!");
+        }
         if (staffDao.checkEmailExistsCurrentStaff(email, staffId)) {
             errors.add("Email đã tồn tại!");
         }
-        
+        if(customerDao.isEmailExists(email)){
+            errors.add("Email đã tồn tại!");
+        }
+
         if (!errors.isEmpty()) {
             request.setAttribute("staff", currentStaff);
             request.setAttribute("listDepartment", departmentDao.getActiveDepartment());
@@ -160,21 +184,21 @@ public class UpdateStaffServlet extends HttpServlet {
             request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);
             return;
         }
-        
+
         Department department = new Department();
         department.setDepartmentId(departmentId);
         Role role = new Role();
         role.setRoleId(roleId);
-        
+
         String hashedPassword = currentStaff.getPassword();
-        Staff updatedStaff = new Staff(staffId, name, email, "", phone, hashedPassword, dateOfBirth, position, gender, status, description, department, role,certificate);
+        Staff updatedStaff = new Staff(staffId, name, email, "", phone, hashedPassword, dateOfBirth, position, gender, status, description, department, role, certificate);
         boolean isUpdated = staffDao.updateStaff(updatedStaff);
-        
+
         String currentPosition = positionDao.getPositionByStaffId(staffId);
         if (isUpdated && !updatedStaff.getPosition().equals(currentPosition)) {
             positionDao.insertPositionHistory(staffId, position);
         }
-        
+
         if (isUpdated) {
             request.setAttribute("success", "cập nhật thành công");
             request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);

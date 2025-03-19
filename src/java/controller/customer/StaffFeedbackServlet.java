@@ -82,7 +82,7 @@ public class StaffFeedbackServlet extends HttpServlet {
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
 
-        request.getRequestDispatcher("customer/staffFeedback.jsp").forward(request, response);
+        request.getRequestDispatcher("staffFeedback.jsp").forward(request, response);
     }
 
     @Override

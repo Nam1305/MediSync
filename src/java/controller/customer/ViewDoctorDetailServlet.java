@@ -11,6 +11,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import model.Schedule;
 import model.Staff;
 import model.TimeSlot;
@@ -64,14 +66,18 @@ public class ViewDoctorDetailServlet extends HttpServlet {
             request.getRequestDispatcher("customer/doctorDetail.jsp").forward(request, response);
             return;
         }
-        
+
         //khởi tạo danh sách những ngày làm việc
         List<Date> workDays = new ArrayList<>();
-        
+
         //thêm vào danh sách những ngày bác sĩ làm việc
         for (Schedule s : fullSchedule) {
             workDays.add(s.getDate());
         }
+
+        // Lấy ngày hiện tại và định dạng theo yyyy-MM-dd
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String today = sdf.format(Calendar.getInstance().getTime());
 
         // Chia danh sách ngày thành từng cụm 7 ngày
         List<List<Date>> groupedWeeks = new ArrayList<>();
@@ -120,6 +126,7 @@ public class ViewDoctorDetailServlet extends HttpServlet {
         request.setAttribute("doctor", doctor);
         request.setAttribute("groupedWeeks", groupedWeeks);
         request.setAttribute("selectedWeek", selectedWeek);
+        request.setAttribute("today", today); // Truyền ngày hiện tại sang JSP
 
         // Nếu có message (ví dụ: đặt lịch thành công), gửi đến JSP
         String message = request.getParameter("message");

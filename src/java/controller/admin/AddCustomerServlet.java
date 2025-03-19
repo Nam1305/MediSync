@@ -1,6 +1,7 @@
 package controller.admin;
 
 import dal.CustomerDAO;
+import dal.DoctorDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -35,6 +36,7 @@ public class AddCustomerServlet extends HttpServlet {
     long maxFileSize = 1024 * 1024 * 3;
 
     CustomerDAO customerDao = new CustomerDAO();
+    DoctorDAO doctorDao = new DoctorDAO();
     GeneratePassword generatePassword = new GeneratePassword();
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
     private static final String PHONE_REGEX = "^(09|03)\\d{8}$";
@@ -74,6 +76,9 @@ public class AddCustomerServlet extends HttpServlet {
         } else if (customerDao.isPhoneExists(phoneNumber)) {
             errors.add("Số điện thoại đã tồn tại!");
         }
+        if(doctorDao.checkPhoneExists(phoneNumber)){
+            errors.add("Số điện thoại đã tồn tại!");
+        }
 
         Date dateOfBirth = null;
         if (dateOfBirthString == null || dateOfBirthString.trim().isEmpty()) {
@@ -104,6 +109,8 @@ public class AddCustomerServlet extends HttpServlet {
         } else if (!Pattern.matches(EMAIL_REGEX, email)) {
             errors.add("Email không hợp lệ!");
         } else if (customerDao.isEmailExists(email)) {
+            errors.add("Email đã tồn tại!");
+        }else if (doctorDao.checkEmail(email)) {
             errors.add("Email đã tồn tại!");
         }
 

@@ -108,11 +108,14 @@
                                 <small class="text-muted">Admin</small>
                             </div>
                         </a>
-                        <a class="dropdown-item text-dark" href="adminDashBoard.jsp">
+                        <a class="dropdown-item text-dark" href="change-password">
+                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
+                        </a>
+                        <a class="dropdown-item text-dark" href="AdminDashBoard">
                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard
                         </a>
                         <a class="dropdown-item text-dark" href="doctorprofile">
-                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Thông tin cá nhân
+                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Tài khoản của tôi
                         </a>
                         <div class="dropdown-divider border-top"></div>
                         <a class="dropdown-item text-dark" href="logout">
@@ -181,6 +184,7 @@
                                         </a>
                                     </c:if>
                                     <c:if test="${staff != null}">
+
                                         <c:if test="${staff.role.roleId  == 2 or staff.role.roleId  == 3}">
                                             <a class="dropdown-item text-dark" href="doctorappointment">
                                                 <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> 
@@ -193,6 +197,8 @@
                                                 Bảng điều khiển
                                             </a>
                                         </c:if>
+                                        <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-user-circle align-middle h6"></i></span>Tài khoản của tôi</a>
+
                                     </c:if>
                                     <div class="dropdown-divider border-top"></div>
                                     <a class="dropdown-item text-dark" href="logout">
@@ -215,21 +221,22 @@
                         <a href="home">Trang chủ</a><span class="menu-arrow"></span>
                     </li>
 
-                    
+
 
                     <c:if test="${staff == null}">
 
-                    <li class="parent-parent-menu-item">
-                        <a href="allDoctors">Bác Sĩ</a><span class="menu-arrow"></span>
-                    </li>
+                        <li class="parent-parent-menu-item">
+                            <a href="allDoctors">Bác Sĩ</a><span class="menu-arrow"></span>
+                        </li>
                     </c:if>
                     <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
-                    <c:if test="${staff == null}">
-                    <li><a href="services" class="sub-menu-item">Dịch vụ</a></li>
+                        <c:if test="${staff == null}">
+                        <li><a href="services" class="sub-menu-item">Dịch vụ</a></li>
 
-                    <li class="parent-menu-item">
-                        <a href="ChatBot">Chat Bot</a><span class="menu-arrow"></span>
-                    </li>
+                        <li class="parent-menu-item">
+                            <a href="ChatBot">Chat Bot</a><span class="menu-arrow"></span>
+                        </li>
+                        <li><a href="contact" class="parent-menu-item">Liên hệ</a></li>
 
                     </c:if>
                 </ul>
