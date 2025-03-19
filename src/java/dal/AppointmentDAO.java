@@ -27,7 +27,10 @@ public class AppointmentDAO extends DBContext {
         appointment.setStart(rs.getTime("startTime"));
         appointment.setEnd(rs.getTime("endTime"));
         appointment.setStatus(rs.getString("status"));
-        Staff staff = staffDao.getStaffById(rs.getInt("staffId"));
+        Staff staff = new Staff();
+        staff.setStaffId(rs.getInt("staffId"));
+        staff.setName(rs.getString("doctorName"));
+        staff.setGender(rs.getString("gender"));
         appointment.setStaff(staff);
         Customer customer = customerDao.getCustomerById(rs.getInt("customerId"));
         appointment.setCustomer(customer);
@@ -58,7 +61,7 @@ public class AppointmentDAO extends DBContext {
     public List<Appointment> getFilteredAppointments(int customerId, String search, String sort, String gender, String status, int pageNumber, int pageSize) {
         List<Appointment> appointments = new ArrayList<>();
         String sql = "SELECT a.appointmentId, a.date, a.startTime, "
-                + "a.endTime, a.status, a.staffId, a.customerId, s.name as doctorName "
+                + "a.endTime, a.status, a.staffId, a.customerId, s.name as doctorName, s.gender "
                 + "FROM Appointment a "
                 + "JOIN Staff s ON a.staffId = s.staffId "
                 + "WHERE a.customerId = ?";
