@@ -20,8 +20,7 @@
         <link rel="stylesheet" href="assets/css/tiny-slider.css"/>
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        <script src="https://cdn.tiny.cloud/1/vnufc6yakojjcovpkijlauot8hfpbxd3uscxatfq2m4yijay/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>        
-        <script src="assets/js/tinymce-init.js"></script>
+
     </head>
 
     <body>
@@ -98,7 +97,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Nội dung <span class="text-danger">*</span></label>
-                                        <textarea name="message" id="testResults" rows="4" class="form-control border rounded" placeholder="Nội dung :" required></textarea>
+                                        <textarea name="message" id="message" rows="4" class="form-control border rounded" placeholder="Nội dung :" required></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -113,7 +112,6 @@
             </div><!--end row-->
         </div><!--end container-->
 
-    </section><!--end section-->
     <!-- End -->
 
     <!-- Start Footer -->

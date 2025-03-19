@@ -23,6 +23,7 @@ public class SendEmail {
 
     private static final String FROM_EMAIL = "duchvhe181827@gmail.com";
     private static final String PASSWORD = "herd tbfg gejc maau";
+    private static final String ADMIN_EMAIL ="trungnmhe186069@gmail.com";
 
     public String getRandom() {
         Random rnd = new Random();
@@ -115,12 +116,11 @@ public class SendEmail {
                 + "<p><strong>Họ tên:</strong> " + name + "</p>"
                 + "<p><strong>Email:</strong> " + email + "</p>"
                 + "<p><strong>Tiêu đề:</strong> " + emailSubject + "</p>"
-                + "<h3>Nội dung tin nhắn:</h3>"
+                + "<p><strong>Nội dung:</strong></p>"
                 + "<p>" + message.replace("\n", "<br>") + "</p>"
                 + "</body></html>";
 
-        String adminEmail = "trungnmhe186069@fpt.edu.vn"; // Email admin
 
-        return sendEmail(adminEmail, emailSubject, content);
+        return sendEmail(ADMIN_EMAIL, emailSubject, content);
     }
 }

@@ -236,6 +236,7 @@
                         <li class="parent-menu-item">
                             <a href="ChatBot">Chat Bot</a><span class="menu-arrow"></span>
                         </li>
+                        <li><a href="contact" class="parent-menu-item">Liên hệ</a></li>
 
                     </c:if>
                 </ul>

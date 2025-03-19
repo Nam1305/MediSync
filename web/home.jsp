@@ -290,23 +290,7 @@
             </div><!--end col-->
 
         </div><!--end row-->
-        <!-- Contact Button Section -->
-        <section class="section bg-light" id="contact-section">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 text-center">
-                        <div class="section-title mb-4 pb-2">
-                            <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Liên hệ với chúng tôi</span>
-                            <p class="text-muted para-desc mx-auto mb-0">Bạn có câu hỏi hoặc cần hỗ trợ? Chúng tôi luôn sẵn sàng lắng nghe và giúp đỡ.</p>
-                        </div>
-                        <div class="mt-4">
-                            <a href="contact" class="btn btn-primary">Liên hệ ngay</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Contact Button Section -->
+
 </div><!--end container-->
 </section><!--end section-->
 <!-- End -->
