@@ -234,7 +234,9 @@
                         <li><a href="services" class="sub-menu-item">Dịch vụ</a></li>
 
                         <li class="parent-menu-item">
-                            <a href="ChatBot">Chat Bot</a><span class="menu-arrow"></span>
+                            <button id="openChatbot" style="position: fixed; bottom: 20px; right: 20px; background: green; color: white; padding: 10px 15px; border-radius: 50%; border: none; cursor: pointer;">
+                                💬
+                            </button>
                         </li>
                         <li><a href="contact" class="parent-menu-item">Liên hệ</a></li>
 

@@ -78,7 +78,7 @@ public class VnpayServlet extends HttpServlet {
             throws ServletException, IOException {
         long amount = Long.parseLong(request.getParameter("amount")) * 100; // VNPAY tính theo đơn vị VND x100
         String appointmentId = request.getParameter("appointmentId");  // Lấy ID từ form
-        String transactionId = appointmentId + "_" + System.currentTimeMillis(); // Tạo ID mới
+        //String transactionId = appointmentId + System.currentTimeMillis(); // Tạo ID mới
         System.out.println(appointmentId);
          // Tạo request params
         Map<String, String> vnp_Params = new HashMap<>();
@@ -87,7 +87,7 @@ public class VnpayServlet extends HttpServlet {
         vnp_Params.put("vnp_TmnCode", VNP_TMN_CODE);
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
-        vnp_Params.put("vnp_TxnRef", transactionId);
+        vnp_Params.put("vnp_TxnRef", appointmentId);
         vnp_Params.put("vnp_OrderInfo", "Nap tien vao tai khoan");
         vnp_Params.put("vnp_OrderType", "topup");
         vnp_Params.put("vnp_Locale", "vn");

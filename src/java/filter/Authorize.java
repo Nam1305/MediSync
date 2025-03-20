@@ -70,7 +70,7 @@ public class Authorize implements Filter {
         // Check if user is authenticated with a specific role
         Object admin = session.getAttribute("admin");
         Object doctor = session.getAttribute("doctor");
-        Object administrativeStaff = session.getAttribute("administrativeStaff");
+        Object staff = session.getAttribute("administrativeStaff");
         Object customer = session.getAttribute("customer");
 
         // Check role-specific authorization
@@ -80,7 +80,7 @@ public class Authorize implements Filter {
         } else if (doctor != null && isURLAllowed(requestURI, DOCTOR_ALLOW)) {
             chain.doFilter(request, response);
             return;
-        } else if (administrativeStaff != null && isURLAllowed(requestURI, ADMINISTRATIVE_ALLOW)) {
+        } else if (staff != null && isURLAllowed(requestURI, ADMINISTRATIVE_ALLOW)) {
             chain.doFilter(request, response);
             return;
         } else if (customer != null && isURLAllowed(requestURI, CUSTOMER_ALLOW)) {
@@ -91,10 +91,11 @@ public class Authorize implements Filter {
         // If we're here, let's see if the user is trying to access a protected area they shouldn't
         if ((admin == null && isURLAllowed(requestURI, ADMIN_ALLOW))
                 || (doctor == null && isURLAllowed(requestURI, DOCTOR_ALLOW))
-                || (administrativeStaff == null && isURLAllowed(requestURI, ADMINISTRATIVE_ALLOW))
+                || (staff == null && isURLAllowed(requestURI, ADMINISTRATIVE_ALLOW))
                 || (customer == null && isURLAllowed(requestURI, CUSTOMER_ALLOW))) {
             // User is trying to access a protected area without proper role
-            res.sendError(HttpServletResponse.SC_FORBIDDEN, "You are not authorized to access this resource");
+            req.setAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
+            req.getRequestDispatcher("/unauthorized.jsp").forward(request, response);
             return;
         }
 

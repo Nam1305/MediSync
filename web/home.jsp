@@ -28,8 +28,99 @@
         <link rel="stylesheet" href="assets/css/tiny-slider.css"/>
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <style>
+            .chat-popup {
+                display: none;
+                position: fixed;
+                bottom: 80px;
+                right: 20px;
+                width: 400px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                font-family: Arial, sans-serif;
+            }
 
+            .chat-container {
+                display: flex;
+                flex-direction: column;
+                height: 400px;
+            }
 
+            .chat-header {
+                background: green;
+                color: white;
+                padding: 15px;
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                position: relative;
+            }
+
+            .chat-header span {
+                float: right;
+                cursor: pointer;
+            }
+
+            .chat-box {
+                flex-grow: 1;
+                overflow-y: auto;
+                padding: 15px;
+                border-bottom: 1px solid #ccc;
+                background: #fafafa;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .chat-message {
+                max-width: 75%;
+                padding: 10px;
+                border-radius: 10px;
+                margin-bottom: 10px;
+                word-wrap: break-word;
+            }
+
+            .user-message {
+                align-self: flex-end;
+                background: #4CAF50;
+                color: white;
+                border-radius: 10px 10px 0 10px;
+            }
+
+            .bot-message {
+                align-self: flex-start;
+                background: #e0e0e0;
+                color: black;
+                border-radius: 10px 10px 10px 0;
+            }
+
+            .chat-input {
+                display: flex;
+                padding: 10px;
+                background: white;
+            }
+
+            .chat-input input {
+                flex: 1;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+
+            .chat-input button {
+                margin-left: 10px;
+                padding: 10px 15px;
+                border: none;
+                background: green;
+                color: white;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+
+        </style>
         <style>
             .banner-section {
                 position: relative;
@@ -247,49 +338,63 @@
 
             </div><!--end row-->
     </div><!--end container-->
-<!--end section-->
-<!-- End -->
+    <!--end section-->
+    <!-- End -->
 
 
-        <div class="container mt-100 mt-60" style="margin-top: -5%;">
-            <div class="row justify-content-center">
-                <div class="col-12">
-                    <div class="section-title mb-4 pb-2 text-center">
-                        <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog nổi bật</span>
-                    </div>
-                </div><!--end col-->
-            </div><!--end row-->
+    <div class="container mt-100 mt-60" style="margin-top: -5%;">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="section-title mb-4 pb-2 text-center">
+                    <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog nổi bật</span>
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
 
-            <div class="row">
-                <c:forEach items="${blogs}" var="blog">
-                    <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2 d-flex">
-                        <div class="card blog blog-primary border-0 shadow rounded overflow-hidden d-flex flex-column w-100">
-                            <!-- Đảm bảo ảnh có kích thước đồng đều -->
-                            <div style="width: 100%; height: 250px; overflow: hidden;">
-                                <img src="${blog.image}" class="img-fluid w-100 h-100" alt="${blog.blogName}" style="object-fit: cover;">
-                            </div>
-                            <div class="card-body p-4 d-flex flex-column flex-grow-1">
-                                <ul class="list-unstyled mb-2">
-                                    <li class="list-inline-item text-muted small me-3">
-                                        <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
-                                        <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
-                                    </li>
-                                </ul>
-                                <a href="blogDetail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
-                                <div class="post-meta mt-auto d-flex justify-content-between mt-3">
-                                    <a href="blogDetail?blogId=${blog.blogId}" class="link">Chi tiết <i class="mdi mdi-chevron-right align-middle"></i></a>
-                                </div>
+        <div class="row">
+            <c:forEach items="${blogs}" var="blog">
+                <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2 d-flex">
+                    <div class="card blog blog-primary border-0 shadow rounded overflow-hidden d-flex flex-column w-100">
+                        <!-- Đảm bảo ảnh có kích thước đồng đều -->
+                        <div style="width: 100%; height: 250px; overflow: hidden;">
+                            <img src="${blog.image}" class="img-fluid w-100 h-100" alt="${blog.blogName}" style="object-fit: cover;">
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column flex-grow-1">
+                            <ul class="list-unstyled mb-2">
+                                <li class="list-inline-item text-muted small me-3">
+                                    <i class="uil uil-calendar-alt text-dark h6 me-1"></i>
+                                    <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
+                                </li>
+                            </ul>
+                            <a href="blogDetail?blogId=${blog.blogId}" class="text-dark title h5">${blog.blogName}</a>
+                            <div class="post-meta mt-auto d-flex justify-content-between mt-3">
+                                <a href="blogDetail?blogId=${blog.blogId}" class="link">Chi tiết <i class="mdi mdi-chevron-right align-middle"></i></a>
                             </div>
                         </div>
                     </div>
-                </c:forEach>
-            </div><!--end row-->
-
-            <div class="col-12 mt-4 pt-2 text-center">
-                <a href="listBlog" class="btn btn-primary">Xem thêm</a>
-            </div><!--end col-->
-
+                </div>
+            </c:forEach>
         </div><!--end row-->
+
+        <div class="col-12 mt-4 pt-2 text-center">
+            <a href="listBlog" class="btn btn-primary">Xem thêm</a>
+        </div><!--end col-->
+
+    </div><!--end row-->
+    <!-- Chatbot Popup -->
+    <div id="chatbotPopup" class="chat-popup">
+        <div class="chat-container">
+            <div class="chat-header">
+                Chatbot Gemini
+                <span id="closeChatbot" style="float: right; cursor: pointer;">✖</span>
+            </div>
+            <div id="chatBox" class="chat-box"></div>
+            <div class="chat-input">
+                <input type="text" id="message" placeholder="Nhập tin nhắn..." />
+                <button onclick="sendMessage()">Gửi</button>
+            </div>
+        </div>
+    </div>
 
 </div><!--end container-->
 </section><!--end section-->
@@ -310,40 +415,104 @@
 <script src="assets/js/app.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Initialize the carousel with specific options
-        const bannerCarousel = new bootstrap.Carousel(document.getElementById('bannerCarousel'), {
-            interval: 5000, // Time between slides in milliseconds
-            pause: 'hover', // Pause on mouse hover
-            ride: 'carousel', // Start cycling automatically
-            wrap: true // Continuous loop
-        });
+                    document.addEventListener('DOMContentLoaded', function () {
+                        // Initialize the carousel with specific options
+                        const bannerCarousel = new bootstrap.Carousel(document.getElementById('bannerCarousel'), {
+                            interval: 5000, // Time between slides in milliseconds
+                            pause: 'hover', // Pause on mouse hover
+                            ride: 'carousel', // Start cycling automatically
+                            wrap: true // Continuous loop
+                        });
 
-        // Preload all banner images
-        const preloadImages = () => {
-            const bannerItems = document.querySelectorAll('.banner-image');
-            bannerItems.forEach(item => {
-                const bgUrl = item.style.background.match(/url\(['"]?([^'")]+)['"]?\)/)[1];
-                const img = new Image();
-                img.src = bgUrl;
-            });
-        };
+                        // Preload all banner images
+                        const preloadImages = () => {
+                            const bannerItems = document.querySelectorAll('.banner-image');
+                            bannerItems.forEach(item => {
+                                const bgUrl = item.style.background.match(/url\(['"]?([^'")]+)['"]?\)/)[1];
+                                const img = new Image();
+                                img.src = bgUrl;
+                            });
+                        };
 
-        // Call preload function
-        preloadImages();
+                        // Call preload function
+                        preloadImages();
 
-        // Add smooth transition when changing slides
-        const carousel = document.getElementById('bannerCarousel');
-        carousel.addEventListener('slide.bs.carousel', function (e) {
-            const activeItem = e.relatedTarget;
-            const bannerImage = activeItem.querySelector('.banner-image');
+                        // Add smooth transition when changing slides
+                        const carousel = document.getElementById('bannerCarousel');
+                        carousel.addEventListener('slide.bs.carousel', function (e) {
+                            const activeItem = e.relatedTarget;
+                            const bannerImage = activeItem.querySelector('.banner-image');
 
-            // Ensure opacity transition works smoothly
-            setTimeout(() => {
-                bannerImage.style.opacity = '1';
-            }, 50);
-        });
+                            // Ensure opacity transition works smoothly
+                            setTimeout(() => {
+                                bannerImage.style.opacity = '1';
+                            }, 50);
+                        });
+                    });
+</script>
+<script>
+    document.getElementById("openChatbot").addEventListener("click", function () {
+        document.getElementById("chatbotPopup").style.display = "block";
+
+        // Khi mở chatbot, hiển thị tin nhắn chào hỏi
+        var chatBox = document.getElementById("chatBox");
+
+        // Kiểm tra xem tin nhắn chào hỏi đã hiển thị chưa
+        if (!document.getElementById("welcomeMessage")) {
+            var botMessage = document.createElement("div");
+            botMessage.className = "message bot-message";
+            botMessage.id = "welcomeMessage";  // Đặt ID để tránh chào nhiều lần
+            botMessage.textContent = "Bot: Tôi có thể giúp gì cho bạn không?";
+            chatBox.appendChild(botMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
     });
+
+    document.getElementById("closeChatbot").addEventListener("click", function () {
+        document.getElementById("chatbotPopup").style.display = "none";
+    });
+
+    function sendMessage() {
+        var message = document.getElementById("message").value;
+        if (message.trim() === "")
+            return;
+
+        var chatBox = document.getElementById("chatBox");
+        var userMessage = document.createElement("div");
+        userMessage.className = "message user-message";
+        userMessage.textContent = "Bạn: " + message;
+        chatBox.appendChild(userMessage);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        fetch("ChatBot", {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            body: "message=" + encodeURIComponent(message)
+        })
+                .then(response => response.json())
+                .then(data => {
+                    var botMessage = document.createElement("div");
+                    botMessage.className = "message bot-message";
+                    if (data.error) {
+                        botMessage.textContent = "Bot: Lỗi: " + data.error;
+                    } else if (data && data.candidates && data.candidates.length > 0) {
+                        botMessage.textContent = "Bot: " + data.candidates[0].content.parts[0].text;
+                    } else {
+                        botMessage.textContent = "Bot: Không có phản hồi từ AI!";
+                    }
+                    chatBox.appendChild(botMessage);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                })
+                .catch(error => {
+                    var errorMessage = document.createElement("div");
+                    errorMessage.className = "message bot-message";
+                    errorMessage.textContent = "Bot: Lỗi kết nối!";
+                    chatBox.appendChild(errorMessage);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                });
+
+        document.getElementById("message").value = "";
+    }
 </script>
 </body>
 </html>

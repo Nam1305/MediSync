@@ -65,9 +65,9 @@
                             <label class="form-label">Vị trí làm việc</label>
 
                             <select name="position" id="position" class="form-control">
-                                <option value="Doctor">Bác sĩ</option>
-                                <option value="Expert">Chuyên gia</option>
-                                <option value="Receptionist">Nhân viên hành chính</option>
+                                <option value="Bác sĩ">Bác sĩ</option>
+                                <option value="Chuyên gia">Chuyên gia</option>
+                                <option value="Nhân viên hành chính">Nhân viên hành chính</option>
                             </select>
                         </div>
                     </div><!--end col-->
@@ -107,9 +107,9 @@
                         <div class="mb-3">
                             <label class="form-label">Role</label>
                             <select name="roleId" id="roleId" class="form-control">
-                                <option value="2">Doctor</option>
-                                <option value="3">Expert</option>
-                                <option value="4">Receptionist</option>
+                                <option value="2">Bác sĩ</option>
+                                <option value="3">Chuyên gia</option>
+                                <option value="4">Nhân viên hành chính</option>
                             </select>
                         </div>
                     </div><!--end col-->

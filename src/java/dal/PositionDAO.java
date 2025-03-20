@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class PositionDAO extends DBContext {
      public String getPositionByStaffId(int staffId) {
-        String sql = "SELECT top 1 position FROM HistoryPosition WHERE staffId = ? ORDER BY date DESC "; 
+        String sql = "SELECT top 1 position FROM HistoryPosition WHERE staffId = ? ORDER BY date DESC, positionId Desc "; 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, staffId);
