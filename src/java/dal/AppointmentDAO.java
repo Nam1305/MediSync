@@ -27,6 +27,20 @@ public class AppointmentDAO extends DBContext {
         appointment.setStart(rs.getTime("startTime"));
         appointment.setEnd(rs.getTime("endTime"));
         appointment.setStatus(rs.getString("status"));
+        Staff staff = staffDao.getStaffById(rs.getInt("staffId"));
+        appointment.setStaff(staff);
+        Customer customer = customerDao.getCustomerById(rs.getInt("customerId"));
+        appointment.setCustomer(customer);
+        return appointment;
+    }
+    
+    private Appointment mapResultSetToAppointmentCuaNam(ResultSet rs) throws SQLException {
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId(rs.getInt("appointmentId"));
+        appointment.setDate(rs.getDate("date"));
+        appointment.setStart(rs.getTime("startTime"));
+        appointment.setEnd(rs.getTime("endTime"));
+        appointment.setStatus(rs.getString("status"));
         Staff staff = new Staff();
         staff.setStaffId(rs.getInt("staffId"));
         staff.setName(rs.getString("doctorName"));
@@ -116,7 +130,7 @@ public class AppointmentDAO extends DBContext {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                appointments.add(mapResultSetToAppointment(rs));
+                appointments.add(mapResultSetToAppointmentCuaNam(rs));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
