@@ -54,6 +54,7 @@
                                             <c:when test="${invoices[0].appointment.status == 'paid'}">Đã thanh toán</c:when>
                                             <c:when test="${invoices[0].appointment.status == 'waitpay'}">Chưa thanh toán</c:when>
                                             <c:when test="${invoices[0].appointment.status == 'confirmed'}">Chưa thanh toán</c:when>
+                                             <c:when test="${invoices[0].appointment.status == 'pending'}">Chờ xác nhận</c:when>
                                             <c:otherwise>Không xác định</c:otherwise>
                                         </c:choose>
                                     </small>
