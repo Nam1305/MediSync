@@ -83,7 +83,7 @@ public class StaffDAO extends DBContext {
                      Select staffid, name, email, avatar, 
                      phone, password, dateofBirth, position,
                      gender, status, description, roleId, 
-                     departmentId from Staff 
+                     departmentId,certificate from Staff 
                      WHERE staffId = ?""";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {

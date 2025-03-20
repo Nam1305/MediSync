@@ -33,7 +33,7 @@ public class AppointmentDAO extends DBContext {
         appointment.setCustomer(customer);
         return appointment;
     }
-    
+
     private Appointment mapResultSetToAppointmentCuaNam(ResultSet rs) throws SQLException {
         Appointment appointment = new Appointment();
         appointment.setAppointmentId(rs.getInt("appointmentId"));
@@ -565,9 +565,12 @@ public class AppointmentDAO extends DBContext {
             if ("paid".equalsIgnoreCase(status)) {
                 sql += " AND a.status = 'paid' ";
             } else if ("unpaid".equalsIgnoreCase(status)) {
-                sql += " AND a.status != 'paid' ";
+                sql += " AND a.status = 'waitpay' ";
             }
+        } else {
+            sql += " AND (a.status = 'paid' OR a.status = 'waitpay') ";
         }
+
         // Sử dụng khoảng ngày (từ dateFrom đến dateTo)
         if (dateFrom != null) {
             sql += " AND a.date >= ? ";
@@ -651,8 +654,10 @@ public class AppointmentDAO extends DBContext {
             if ("paid".equalsIgnoreCase(status)) {
                 sql += " AND a.status = 'paid' ";
             } else if ("unpaid".equalsIgnoreCase(status)) {
-                sql += " AND a.status != 'paid' ";
+                sql += " AND a.status = 'waitpay' ";
             }
+        } else {
+            sql += " AND (a.status = 'paid' OR a.status = 'waitpay') ";
         }
         if (dateFrom != null) {
             sql += " AND a.date >= ? ";
@@ -868,7 +873,7 @@ public class AppointmentDAO extends DBContext {
         }
         return 0; // Trả về 0 nếu có lỗi
     }
-    
+
     public void updateInvoiceStatus(int appointmentId, String newStatus) {
         String sql = "UPDATE Appointment SET status = ? WHERE appointmentId = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -889,9 +894,9 @@ public class AppointmentDAO extends DBContext {
 //        int x = a.countAllAppointmentsByFilterForPatient(1, null, "M", "all");
 //        System.out.println(x);
 //    }
-      public static void main(String[] args) {
+    public static void main(String[] args) {
         AppointmentDAO appointmentDAO = new AppointmentDAO();
-        
-          System.out.println(appointmentDAO.getTotalAppointments());
+
+        System.out.println(appointmentDAO.getTotalAppointments());
     }
 }

@@ -8,7 +8,7 @@
         <meta charset="utf-8" />
         <title>Chi tiết hóa đơn - Doctris</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <link rel="shortcut icon" href="assets/images/logo-icon.png"><!-- comment -->       
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" />
     </head>
@@ -20,7 +20,7 @@
             <div class="card mt-4 p-4">
                 <div class="modal-header border-bottom p-3">
                     <div class="col-lg-8 col-md-6">
-                        <img src="assets/images/logo-dark.png" height="22" alt="">
+                        <img src="assets/images/logo-light.png" height="22" alt="">
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="goBack()"></button>
                 </div>
@@ -129,11 +129,11 @@
                             </div>
                             <li class="d-flex mt-2">
                                 <small class="mb-0 text-muted">Email:</small>
-                                <small class="mb-0">&nbsp;&nbsp;<a href="mailto:contact@example.com" class="text-dark">info@doctris.com</a></small>
+                                <small class="mb-0">&nbsp;&nbsp;<a href="mailto:contact@example.com" class="text-dark">info@medisync.com</a></small>
                             </li>
                             <li class="d-flex mt-2">
                                 <small class="mb-0 text-muted">Website:</small>
-                                <small class="mb-0">&nbsp;&nbsp;<a href="#" class="text-dark">www.doctris.com</a></small>
+                                <small class="mb-0">&nbsp;&nbsp;<a href="#" class="text-dark">www.medisync.com</a></small>
                             </li>
                         </div>
                     </div>
