@@ -2,9 +2,11 @@ package util;
 
 import java.util.Properties;
 import java.util.Random;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.mail.Authenticator;
+import javax.mail.BodyPart;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -14,6 +16,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
+import javax.mail.util.ByteArrayDataSource;
 
 /**
  *
@@ -23,7 +26,7 @@ public class SendEmail {
 
     private static final String FROM_EMAIL = "duchvhe181827@gmail.com";
     private static final String PASSWORD = "herd tbfg gejc maau";
-    private static final String ADMIN_EMAIL ="trungnmhe186069@gmail.com";
+    private static final String ADMIN_EMAIL = "trungnmhe186069@gmail.com";
 
     public String getRandom() {
         Random rnd = new Random();
@@ -120,7 +123,54 @@ public class SendEmail {
                 + "<p>" + message.replace("\n", "<br>") + "</p>"
                 + "</body></html>";
 
-
         return sendEmail(ADMIN_EMAIL, emailSubject, content);
+    }
+
+    public boolean sendEmailWithAttachment(String toEmail, String subject, String htmlContent, byte[] pdfData, String fileName) {
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(FROM_EMAIL, PASSWORD);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(FROM_EMAIL, "Hệ thống quản lý đặt lịch hẹn bác sĩ!", "UTF-8"));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            message.setSubject(subject, "UTF-8");
+
+            Multipart multipart = new MimeMultipart();
+
+            // Nội dung email (HTML)
+            BodyPart htmlBodyPart = new MimeBodyPart();
+            htmlBodyPart.setContent(htmlContent, "text/html; charset=UTF-8");
+            multipart.addBodyPart(htmlBodyPart);
+
+            // Đính kèm file PDF
+            if (pdfData != null && pdfData.length > 0) {
+                BodyPart attachmentBodyPart = new MimeBodyPart();
+                DataSource source = new ByteArrayDataSource(pdfData, "application/pdf");
+                attachmentBodyPart.setDataHandler(new DataHandler(source));
+                attachmentBodyPart.setFileName(MimeUtility.encodeText(fileName, "UTF-8", "B"));
+                multipart.addBodyPart(attachmentBodyPart);
+            }
+
+            message.setContent(multipart);
+            Transport.send(message);
+
+            System.out.println("Email đã gửi thành công đến: " + toEmail);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Gửi email thất bại: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -92,6 +92,10 @@
         <servlet-name>MakeServiceOrder</servlet-name>
         <servlet-class>controller.doctor.MakeServiceOrder</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SendInvoiceServlet</servlet-name>
+        <servlet-class>controller.SendInvoiceServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -167,5 +171,9 @@
     <servlet-mapping>
         <servlet-name>MakeServiceOrder</servlet-name>
         <url-pattern>/makeorder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendInvoiceServlet</servlet-name>
+        <url-pattern>/sendinvoice</url-pattern>
     </servlet-mapping>
 </web-app>
