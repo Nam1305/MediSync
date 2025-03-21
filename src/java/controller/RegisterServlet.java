@@ -27,22 +27,16 @@ public class RegisterServlet extends HttpServlet {
     CustomerDAO customerDao = new CustomerDAO();
     Validation valid = new Validation();
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         HttpSession session = request.getSession();
-        VerifyCode verifyCode = (VerifyCode) session.getAttribute("verifyCode");
+
+        String action = request.getParameter("action");
+
+        // Lấy các tham số từ form và lưu vào request để không mất dữ liệu
         String name = request.getParameter("name");
         request.setAttribute("name", name);
         String phone = request.getParameter("phone");
@@ -53,7 +47,32 @@ public class RegisterServlet extends HttpServlet {
         request.setAttribute("email", email);
         String password = request.getParameter("password");
         request.setAttribute("password", password);
+
+        // Xử lý gửi lại mã OTP
+        if ("resend".equals(action)) {
+            if (email == null || email.isEmpty()) {
+                request.setAttribute("error", "Không tìm thấy email để gửi lại mã!");
+                request.getRequestDispatcher("verify.jsp").forward(request, response);
+                return;
+            }
+
+            // Tạo và gửi mã OTP mới
+            SendEmail sendEmail = new SendEmail();
+            String code = sendEmail.getRandom();
+            VerifyCode verifyCode = new VerifyCode(code);
+            sendEmail.sendMailVerify(email, code);
+            session.setAttribute("verifyCode", verifyCode);
+
+            // Chuyển lại trang verify.jsp với thông báo thành công
+            request.setAttribute("error", "Mã mới đã được gửi tới email của bạn!");
+            request.getRequestDispatcher("verify.jsp").forward(request, response);
+            return;
+        }
+
+        // Logic xác minh mã hiện tại
+        VerifyCode verifyCode = (VerifyCode) session.getAttribute("verifyCode");
         String code = request.getParameter("code");
+
         if (verifyCode == null || verifyCode.isExpired() || !verifyCode.getAuthCode().equals(code)) {
             request.setAttribute("error", "Mã xác thực không đúng hoặc đã hết hạn!");
             request.getRequestDispatcher("verify.jsp").forward(request, response);
@@ -71,9 +90,7 @@ public class RegisterServlet extends HttpServlet {
             System.out.println(customer.toString());
             session.removeAttribute("verifyCode");
             response.sendRedirect("login.jsp");
-
         }
-
     }
 
     /**
@@ -116,7 +133,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        if (customerDao.getCustomerByPhone(phone) != null || staffDao.getStaffByPhone(phone) !=null) {
+        if (customerDao.getCustomerByPhone(phone) != null || staffDao.getStaffByPhone(phone) != null) {
             request.setAttribute("error", "Số điện thoại đã được sử dụng ở 1 tài khoản khác!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;

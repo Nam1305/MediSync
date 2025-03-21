@@ -16,19 +16,21 @@
         </div>
 
         <ul class="sidebar-menu pt-3">
+
+
             <li>
-                <a href="home">
-                    <i class="uil uil-calendar-alt me-2"></i> Trang chủ
+                <a href="listAppointments">
+                    <i class="uil uil-calendar-alt me-2"></i> Cuộc hẹn của tôi
                 </a>
             </li>
             <li>
                 <a href="customer-profile">
-                    <i class="uil uil-calendar-alt me-2"></i> Hồ sơ của tôi
+                    <i class="uil uil-calendar-alt me-2"></i> Tài khoản của tôi
                 </a>
             </li>
             <li>
-                <a href="listAppointments">
-                    <i class="uil uil-calendar-alt me-2"></i> Cuộc hẹn của tôi
+                <a href="home">
+                    <i class="uil uil-calendar-alt me-2"></i> Trang chủ
                 </a>
             </li>
         </ul>
