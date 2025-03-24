@@ -23,9 +23,11 @@
             </div>
         </div>
     </div>
+    <jsp:include page="layout/header.jsp" />
 
     <section class="bg-home d-flex bg-light align-items-center" style="background: url('assets/images/bg/bg-lines-one.png') center;">
         <div class="container">
+            
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-8">
                     <div class="card login-page bg-white shadow mt-4 rounded border-0">
