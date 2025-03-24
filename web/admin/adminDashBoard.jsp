@@ -260,7 +260,7 @@
                                 
                             </form>
                             <div>
-                                <c:if test="${not empty error}">
+                                <c:if test="${not empty errors}">
                                 <ul style="color: red">
                                     <c:forEach var="err" items="${errors}">
                                         <li>${err}</li>

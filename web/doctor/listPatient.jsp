@@ -94,7 +94,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12 mt-4 pt-2 mt-sm-0 pt-sm-0"> <!-- Thay col-xl-9 col-lg-8 col-md-7 thành col-12 -->
-                                <h5 class="mb-0">Danh SácH Bệnh Nhân</h5>
+                                <h5 class="mb-0">Danh Sách Bệnh Nhân</h5>
                                 <div class="row">
                                     <div class="d-flex justify-content-end">
                                         <form action="ListPatient" method="get" class="row gx-2 gy-2 align-items-center">

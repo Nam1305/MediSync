@@ -105,7 +105,7 @@
                                                 </c:choose>
                                             </span>
                                         </p>
-                                        <p><strong>Chuyên khoa:</strong> <span id="profileDepartment" class="text-muted">${customer.getDepartment()}</span></p>
+                                       
                                     </div>
                                     <div class="col-md-6">
                                         <p><strong>Nhóm máu :</strong> <span id="profileDate" class="text-muted">${customer.bloodType}</span></p>
@@ -124,7 +124,7 @@
                                         <th class="border-bottom p-3" style="min-width: 180px;">Ngày</th>
                                         <th class="border-bottom p-3">Giờ Bắt Đầu </th>
                                         <th class="border-bottom p-3">Giờ kết thúc </th>                                   
-                                        <th class="border-bottom p-3">Trang thái</th>
+                                        
                                         <th class="border-bottom p-3">Bác Sĩ</th>
                                     </tr>
                                 </thead>
@@ -137,7 +137,7 @@
                                                 <td class="p-3"><fmt:formatDate value="${appointment.date}" pattern="dd/MM/yyyy"/></td>
                                                 <td class="p-3">${appointment.start}</td>
                                                 <td class="p-3">${appointment.end}</td>
-                                                <td class="p-3">${appointment.status}</td>                                       
+                                                                                     
                                                 <td class="p-3">${appointment.staff.name}</td>
                                             </tr>
                                         </c:forEach>
