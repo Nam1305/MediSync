@@ -61,7 +61,9 @@ public class VnPayReturnServlet extends HttpServlet {
             if ("00".equals(vnp_ResponseCode)) {
                 // Thanh toán thành công
                 //cập nhật vào appointment status thành paid
-                int appointmentId = Integer.parseInt(params.get("vnp_TxnRef"));
+                String vnpTxnRef = params.get("vnp_TxnRef");
+                String[] arrSplited = vnpTxnRef.split("_");
+                int appointmentId = Integer.parseInt(arrSplited[0]);
                 appointmentDAO.updateStatusForPayInvoice(appointmentId);
                 // Lấy amount và chia cho 100
                 long amount = Long.parseLong(params.get("vnp_Amount")) / 100;
