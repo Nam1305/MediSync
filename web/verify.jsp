@@ -43,7 +43,7 @@
                         <input type="hidden" name="address" value="${address}">
                         <input type="hidden" name="name" value="${name}">
                     </div>
-                    <div class="error-message text-center" id="error-message">${error}Hello</div>
+                    <div class="error-message text-center" id="error-message">${error}</div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success" style="width: 100%;">Xác nhận</button>
                     </div>

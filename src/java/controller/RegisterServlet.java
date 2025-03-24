@@ -115,9 +115,9 @@ public class RegisterServlet extends HttpServlet {
         request.setAttribute("address", address);
         String email = request.getParameter("email").trim();
         request.setAttribute("email", email);
-        String password = request.getParameter("password").trim();
+        String password = request.getParameter("password");
         request.setAttribute("password", password);
-        String confirm = request.getParameter("confirm").trim();
+        String confirm = request.getParameter("confirm");
         request.setAttribute("confirm", confirm);
         Staff staff = staffDao.getStaffByEmail(email);
         Customer customer = customerDao.getCustomerByEmail(email);

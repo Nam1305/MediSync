@@ -1,12 +1,14 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * Click nbfs://SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package controller;
 
 import dal.CustomerDAO;
 import dal.StaffDAO;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -39,7 +41,6 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("login.jsp").forward(request, response);
-
     }
 
     /**
@@ -56,27 +57,36 @@ public class LoginServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         HttpSession session = request.getSession();
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String remember = request.getParameter("remember");
-        Cookie cEmail = new Cookie("cEmail", email);
-        Cookie cPassword = new Cookie("cPassword", password);
-        Cookie cRemember = new Cookie("cRemember", remember);
 
-        if (remember != null) {
-            cEmail.setMaxAge(60 * 60 * 24);
+        String email = request.getParameter("email") != null ? request.getParameter("email") : "";
+        String password = request.getParameter("password") != null ? request.getParameter("password") : "";
+        String remember = request.getParameter("remember") != null ? request.getParameter("remember") : "";
+
+        String encodedEmail = URLEncoder.encode(email, StandardCharsets.UTF_8.toString());
+        String encodedPassword = URLEncoder.encode(password, StandardCharsets.UTF_8.toString());
+        String encodedRemember = URLEncoder.encode(remember, StandardCharsets.UTF_8.toString());
+
+        Cookie cEmail = new Cookie("cEmail", encodedEmail);
+        Cookie cPassword = new Cookie("cPassword", encodedPassword);
+        Cookie cRemember = new Cookie("cRemember", encodedRemember);
+
+        if (remember != null && !remember.isEmpty()) {
+            cEmail.setMaxAge(60 * 60 * 24); // 1 ngày
             cPassword.setMaxAge(60 * 60 * 24);
             cRemember.setMaxAge(60 * 60 * 24);
         } else {
-            cEmail.setMaxAge(0);
+            cEmail.setMaxAge(0); // Xóa cookie
             cPassword.setMaxAge(0);
             cRemember.setMaxAge(0);
         }
+
         response.addCookie(cEmail);
         response.addCookie(cPassword);
         response.addCookie(cRemember);
+
         Customer customer = customerDao.getCustomerByEmail(email);
         Staff staff = staffDao.getStaffByEmail(email);
+
         if (customer != null) {
             if (BCrypt.checkpw(password, customer.getPassword())) {
                 if (!customer.getStatus().equals("Active")) {
@@ -86,11 +96,9 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("customer", customer);
                     request.getRequestDispatcher("home").forward(request, response);
                 }
-
             } else {
                 request.setAttribute("error", "Mật khẩu không đúng!");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
-
             }
         } else if (staff != null) {
             if (BCrypt.checkpw(password, staff.getPassword())) {
@@ -101,17 +109,13 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("staff", staff);
                     if (staff.getRole().getRoleId() == 1) {
                         request.getRequestDispatcher("AdminDashBoard").forward(request, response);
-
                     } else {
                         request.getRequestDispatcher("home").forward(request, response);
-
                     }
                 }
-
             } else {
                 request.setAttribute("error", "Mật khẩu không đúng!");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
-
             }
         } else {
             request.setAttribute("error", "Tài khoản không tồn tại!");
@@ -128,5 +132,4 @@ public class LoginServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
