@@ -372,8 +372,8 @@
                             <td>
                                 <form action="doctorDetail" method="get">
                                     <input type="hidden" name="doctorId" value="${doctor.staffId}">
-                                    <input type="hidden" name="week" value="<fmt:formatDate value='${selectedWeek[0]}' pattern='MM-dd-yyyy'/>">
-                                    <input type="hidden" name="date" value="<fmt:formatDate value='${day}' pattern='yyy-MM-dd'/>">
+                                    <input type="hidden" name="week" value="<fmt:formatDate value='${selectedWeek[0]}' pattern='yyyy-MM-dd'/>">
+                                    <input type="hidden" name="date" value="<fmt:formatDate value='${day}' pattern='yyyy-MM-dd'/>">
                                     <button type="submit" class="btn btn-outline-success ${day == selectedDate ? 'active' : ''}"  
                                             ${day < today ? 'disabled' : ''}>
                                         
