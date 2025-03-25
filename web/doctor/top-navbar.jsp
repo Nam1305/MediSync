@@ -43,7 +43,15 @@
                             <img src="${staff.avatar}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                             <div class="flex-1 ms-2">
                                 <span class="d-block mb-1">${staff.name}</span>
-                                <small class="text-muted">${staff.department.departmentName}</small>
+                                <c:choose>
+                                    <c:when test="${sessionScope.staff.role.roleId == 1}">
+                                        <small class="text-muted">Quản trị viên</small>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <small class="text-muted">${staff.department.departmentName}</small>
+                                    </c:otherwise>
+                                </c:choose>
+
                             </div>
                         </a>
                         <a class="dropdown-item text-dark" href="change-password">
