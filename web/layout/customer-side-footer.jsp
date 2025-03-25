@@ -41,14 +41,14 @@
                     </li>
                     <li class="d-flex align-items-center mb-3">
                         <i data-feather="mail" class="fea icon-sm text-foot align-middle"></i>
-                        <a href="mailto:${not empty emailInfo ? emailInfo.content : 'bruh@fpt.edu.vn'}" class="text-foot ms-2">
-                            ${not empty emailInfo ? emailInfo.content : 'bruh@fpt.edu.vn'}
+                        <a href="mailto:${not empty emailInfo ? emailInfo.content : 'medisync@fpt.edu.vn'}" class="text-foot ms-2">
+                            ${not empty emailInfo ? emailInfo.content : 'medisync@fpt.edu.vn'}
                         </a>
                     </li>
                     <li class="d-flex align-items-center">
                         <i data-feather="phone" class="fea icon-sm text-foot align-middle"></i>
-                        <a href="tel:${not empty phoneInfo ? phoneInfo.content : '+114'}" class="text-foot ms-2">
-                            ${not empty phoneInfo ? phoneInfo.content : '+114'}
+                        <a href="tel:${not empty phoneInfo ? phoneInfo.content : '+0867285981'}" class="text-foot ms-2">
+                            ${not empty phoneInfo ? phoneInfo.content : '+0867285981'}
                         </a>
                     </li>
                 </ul>
@@ -58,7 +58,7 @@
     <div class="container mt-5">
         <div class="pt-4 footer-bar">
             <div class="text-center">
-                <p class="mb-0">2025 © MediSync. Code backend by Group 3 - SE1885</p>
+                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © MediSynC. Nhóm 3 <i class="mdi mdi-heart text-danger"></i>  <a href="index.html" target="_blank" class="text-reset">SE1885-NET</a>.</p>
             </div>
         </div>
     </div><!--end container-->

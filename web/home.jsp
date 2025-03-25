@@ -349,13 +349,13 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="section-title mb-4 pb-2 text-center">
-                    <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Blog nổi bật</span>
+                    <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Tin tức nổi bật</span>
                 </div>
             </div><!--end col-->
         </div><!--end row-->
 
         <div class="row">
-            <c:forEach items="${blogs}" var="blog">
+        <c:forEach items="${blogs}" var="blog">
                 <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2 d-flex">
                     <div class="card blog blog-primary border-0 shadow rounded overflow-hidden d-flex flex-column w-100">
                         <!-- Đảm bảo ảnh có kích thước đồng đều -->

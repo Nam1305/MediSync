@@ -30,11 +30,13 @@
                             <img src="${customer.avatar}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                             <div class="flex-1 ms-2">
                                 <span class="d-block mb-1">${customer.name}</span>
-                                
+
                             </div>
                         </a>
                         <a class="dropdown-item text-dark" href="change-password"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span>Đổi mật khẩu</a>
-
+                        <a class="dropdown-item text-dark" href="listAppointments">
+                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Danh sách cuộc hẹn
+                        </a>
                         <div class="dropdown-divider border-top"></div>
                         <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span>Đăng xuất</a>
                     </div>

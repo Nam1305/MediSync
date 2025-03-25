@@ -42,7 +42,7 @@
                     <div class="search-bar p-0 d-none d-lg-block ms-2">
                         <div id="search" class="menu-search mb-0">
                             <form action="ListDoctor" method="get" class="searchform">
-                                <input type="text" class="form-control border rounded-pill" name="s" value="${s}" placeholder="Search by name or phone...">
+                                <input type="text" class="form-control border rounded-pill" name="s" value="${s}" placeholder="Tìm kiếm theo tên hoặc số điện thoại...">
                                 <input type="submit" value="Search">
                             </form>
                         </div>
@@ -53,7 +53,7 @@
                     <div class="search-bar p-0 d-none d-lg-block ms-2">
                         <div id="search" class="menu-search mb-0">
                             <form action="ListDepartment" method="get" class="searchform">
-                                <input type="text" class="form-control border rounded-pill" name="search" value= "${search}"placeholder="Search by name ">
+                                <input type="text" class="form-control border rounded-pill" name="search" value= "${search}"placeholder="Tìm kiếm theo tên ">
                                 <input type="submit" value="Search">
                             </form>
                         </div>
@@ -64,7 +64,7 @@
                     <div class="search-bar p-0 d-none d-lg-block ms-2">
                         <div id="search" class="menu-search mb-0">
                             <form action="ListService" method="get" class="searchform">
-                                <input type="text" class="form-control border rounded-pill" name="search" value = "${search}" placeholder="Search by name ">
+                                <input type="text" class="form-control border rounded-pill" name="search" value = "${search}" placeholder="Tìm kiếm theo tên ">
                                 <input type="submit" value="Search">
                             </form>
                         </div>
@@ -87,7 +87,7 @@
                     <div class="search-bar p-0 d-none d-lg-block ms-2">
                         <div id="search" class="menu-search mb-0">
                             <form action="blogs" method="get" class="searchform">
-                                <input type="text" class="form-control border rounded-pill" name="search" placeholder="Tìm kiếm blogs...">
+                                <input type="text" class="form-control border rounded-pill" name="search" placeholder="Tìm kiếm tin tức...">
                                 <input type="submit" value="Search">
                             </form>
                         </div>
@@ -105,18 +105,16 @@
                             <img src="assets/images/doctors/01.jpg" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                             <div class="flex-1 ms-2">
                                 <span class="d-block mb-1">${staff.name}</span>
-                                <small class="text-muted">Admin</small>
+                                <small class="text-muted">Quản trị viên</small>
                             </div>
                         </a>
                         <a class="dropdown-item text-dark" href="change-password">
                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-key-skeleton align-middle h6"></i></span> Đổi mật khẩu
                         </a>
                         <a class="dropdown-item text-dark" href="AdminDashBoard">
-                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard
+                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Bảng điều khiển
                         </a>
-                        <a class="dropdown-item text-dark" href="doctorprofile">
-                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span>Tài khoản của tôi
-                        </a>
+                  
                         <div class="dropdown-divider border-top"></div>
                         <a class="dropdown-item text-dark" href="logout">
                             <span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất
@@ -169,7 +167,7 @@
                                                         ${staff.department.departmentName}
                                                     </c:when>
                                                     <c:otherwise>
-                                                        Customer
+                                                        Khách hàng
                                                     </c:otherwise>
                                                 </c:choose>
                                             </small>
@@ -180,7 +178,7 @@
                                     </a>
                                     <c:if test="${customer != null}">
                                         <a class="dropdown-item text-dark" href="listAppointments">
-                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Thông tin chi tiết
+                                            <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Danh sách cuộc hẹn
                                         </a>
                                     </c:if>
                                     <c:if test="${staff != null}">
@@ -197,7 +195,6 @@
                                                 Bảng điều khiển
                                             </a>
                                         </c:if>
-                                        <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-user-circle align-middle h6"></i></span>Tài khoản của tôi</a>
 
                                     </c:if>
                                     <div class="dropdown-divider border-top"></div>
@@ -229,7 +226,7 @@
                             <a href="allDoctors">Bác Sĩ</a><span class="menu-arrow"></span>
                         </li>
                     </c:if>
-                    <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
+                    <li><a href="listBlog" class="sub-menu-item">Tin tức</a></li>
                     <li class="parent-menu-item">
                         <button id="openChatbot" style="position: fixed; bottom: 20px; right: 20px; background: green; color: white; padding: 10px 15px; border-radius: 50%; border: none; cursor: pointer;">
                             💬

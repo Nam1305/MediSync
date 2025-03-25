@@ -43,7 +43,7 @@
                                                     ${staff.department.departmentName}
                                                 </c:when>
                                                 <c:otherwise>
-                                                    Customer
+                                                    Khách hàng
                                                 </c:otherwise>
                                             </c:choose>
                                         </small>
@@ -55,7 +55,7 @@
                                 </a>
                                 <c:if test="${customer != null}">
                                     <a class="dropdown-item text-dark" href="listAppointments">
-                                        <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Thông tin chi tiết
+                                        <span class="mb-0 d-inline-block me-1"><i class="uil uil-calendar-alt align-middle h6"></i></span> Danh sách cuộc hẹn
                                     </a>
                                 </c:if>
 
@@ -94,7 +94,7 @@
                     <a href="listDoctor.jsp">Bác Sĩ</a><span class="menu-arrow"></span>
                 </li>
 
-                <li><a href="listBlog" class="sub-menu-item">Blogs</a></li>
+                <li><a href="listBlog" class="sub-menu-item">Tin tức</a></li>
                 
                 <li><a href="services" class="sub-menu-item">Dịch vụ</a></li>
             </ul><!--end navigation menu-->

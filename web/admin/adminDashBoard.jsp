@@ -8,7 +8,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Doctris - Doctor Appointment Booking System</title>
+        <title>Thống kê số liệu</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -17,8 +17,7 @@
         <meta name="website" content="index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
-        <!-- Bootstrap -->
+        <link rel="shortcut icon" href="assets/images/logo-icon.png"><!-- comment -->         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
         <link href="assets/css/simplebar.css" rel="stylesheet" type="text/css" />
@@ -134,7 +133,6 @@
 
                 <div class="container-fluid">
                     <div class="layout-specing">
-                        <h2 class="mb-0">Dashboard</h2>
 
                         <div class="row">
                             <div class="col-12">
@@ -257,18 +255,18 @@
                                 <div class="form-group">
                                     <button type="submit" class="form-control" >Thống kê</button>
                                 </div>
-                                
+
                             </form>
                             <div>
                                 <c:if test="${not empty errors}">
-                                <ul style="color: red">
-                                    <c:forEach var="err" items="${errors}">
-                                        <li>${err}</li>
-                                        </c:forEach>
-                                </ul>
-                            </c:if>
+                                    <ul style="color: red">
+                                        <c:forEach var="err" items="${errors}">
+                                            <li>${err}</li>
+                                            </c:forEach>
+                                    </ul>
+                                </c:if>
                             </div>
-                            
+
                             <canvas id="statsChart"></canvas>
                         </div>
 

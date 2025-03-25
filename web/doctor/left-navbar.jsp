@@ -10,7 +10,7 @@
     <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
         <div class="sidebar-brand">
             <a href="home">
-                   <img src="assets/images/logo-light.png" height="24" class="logo-light-mode" alt="">
+                <img src="assets/images/logo-light.png" height="24" class="logo-light-mode" alt="">
                 <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
             </a>
         </div>
@@ -20,7 +20,7 @@
                 <c:choose>
                     <c:when test="${sessionScope.staff.role.roleId == 1}">
                         <ul class="sidebar-menu pt-3">
-                            <li><a href="AdminDashBoard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Dashboard</a></li>
+                            <li><a href="AdminDashBoard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Thống kê</a></li>
 
 
                             <li class="sidebar-dropdown">
@@ -63,11 +63,11 @@
                             </li>
 
                             <li class="sidebar-dropdown">
-                                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Blogs</a>
+                                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Tin tức</a>
                                 <div class="sidebar-submenu">
                                     <ul>
-                                        <li><a href="blogs">Danh sách blog</a></li>
-                                        <li><a href="addBlog">Thêm blog</a></li>
+                                        <li><a href="blogs">Danh sách tin tức</a></li>
+                                        <li><a href="addBlog">Thêm tin tức</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -75,22 +75,25 @@
                                 <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Banner</a>
                                 <div class="sidebar-submenu">
                                     <ul>
-                                        <li><a href="manage-banners">Banner Management</a></li>
+                                        <li><a href="manage-banners">Quản lý banner</a></li>
                                     </ul>
                                 </div>
                             </li>
                             <li class="sidebar-dropdown">
-                                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Footer</a>
+                                <a href="javascript:void(0)"><i class="uil uil-flip-h me-2 d-inline-block"></i>Chân trang</a>
                                 <div class="sidebar-submenu">
                                     <ul>
-                                        <li><a href="manage-footer">Footer Management</a></li>
+                                        <li><a href="manage-footer">Quản lý chân trang</a></li>
                                     </ul>
                                 </div>
                             </li>
 
+                           
+                            
+                            
                             <li>
                                 <a href="doctorprofile">
-                                    <i class="uil uil-user-circle me-2"></i> Tài khoản của tôi
+                                    <i class="uil uil-user-circle me-2 d-inline-block"></i> Tài khoản của tôi
                                 </a>
                             </li>
 

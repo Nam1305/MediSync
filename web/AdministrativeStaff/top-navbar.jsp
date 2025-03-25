@@ -39,7 +39,6 @@
                         </a>
 
                         <a class="dropdown-item text-dark" href="doctorappointment"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span>Bảng điều khiển</a>
-                        <a class="dropdown-item text-dark" href="doctorprofile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-user-circle align-middle h6"></i></span>Tài khoản của tôi</a>
 
                         <div class="dropdown-divider border-top"></div>
                         <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span>Đăng xuất</a>
