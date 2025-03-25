@@ -8,6 +8,7 @@ import dal.CustomerDAO;
 import dal.DepartmentDAO;
 import dal.DoctorDAO;
 import dal.PositionDAO;
+import dal.RoleDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -53,6 +54,8 @@ public class UpdateStaffServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        RoleDAO roleDao = new RoleDAO();
+        List<Role> listRoles = roleDao.getAllRoles();
         String staffIdStr = request.getParameter("id");
         try {
             DepartmentDAO department = new DepartmentDAO();
@@ -62,6 +65,7 @@ public class UpdateStaffServlet extends HttpServlet {
             DoctorDAO staff = new DoctorDAO();
             Staff currentstaff = staff.getStaffById(staffId);
             if (currentstaff != null) {
+                request.setAttribute("listRoles", listRoles);
                 request.setAttribute("listDepartment", listDepartment);
                 // Nếu tìm thấy nhân viên, gửi thông tin đến trang update.jsp
                 request.setAttribute("staff", currentstaff); // Đặt đối tượng Staff vào attribute
@@ -97,16 +101,20 @@ public class UpdateStaffServlet extends HttpServlet {
             throws ServletException, IOException {
         CustomerDAO customerDao = new CustomerDAO();
         DepartmentDAO departmentDao = new DepartmentDAO();
+        List<Department> listDepartment = departmentDao.getActiveDepartment();
         DoctorDAO staffDao = new DoctorDAO();
         PositionDAO positionDao = new PositionDAO();
+        RoleDAO roleDao = new RoleDAO();
         List<String> errors = new ArrayList<>();
-
+        List<Role> listRoles = roleDao.getAllRoles(); // Lấy danh sách Role
         // Lấy thông tin từ request
         String staffIdStr = request.getParameter("staffId");
-        if (staffIdStr == null || staffIdStr.trim().isEmpty()) {
+        int staffId = 0;
+        if (staffIdStr != null && !staffIdStr.trim().isEmpty()) {
+            staffId = Integer.parseInt(staffIdStr);
+        } else {
             errors.add("Không có ID nhân viên.");
         }
-        int staffId = Integer.parseInt(staffIdStr);
 
         Staff currentStaff = staffDao.getStaffById(staffId);
         if (currentStaff == null) {
@@ -122,8 +130,17 @@ public class UpdateStaffServlet extends HttpServlet {
         String status = request.getParameter("status");
         String description = request.getParameter("description");
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
-        int roleId = Integer.parseInt(request.getParameter("roleId"));
+        String roleIdStr = request.getParameter("roleId");
 
+        int roleId = 0;
+        if (roleIdStr != null && !roleIdStr.trim().isEmpty()) {
+            roleId = Integer.parseInt(roleIdStr);
+        } else {
+            errors.add("Role không thể để trống!");
+        }
+        if (position == null || position.trim().isEmpty()) {
+            errors.add("Vị trí làm việc không thể để trống!");
+        }
         // Kiểm tra điều kiện dữ liệu đầu vào
         if (isEmpty(name)) {
             errors.add("Tên không thể rỗng!");
@@ -173,13 +190,13 @@ public class UpdateStaffServlet extends HttpServlet {
         if (staffDao.checkEmailExistsCurrentStaff(email, staffId)) {
             errors.add("Email đã tồn tại!");
         }
-        if(customerDao.isEmailExists(email)){
+        if (customerDao.isEmailExists(email)) {
             errors.add("Email đã tồn tại!");
         }
 
         if (!errors.isEmpty()) {
             request.setAttribute("staff", currentStaff);
-            request.setAttribute("listDepartment", departmentDao.getActiveDepartment());
+            request.setAttribute("listDepartment", listDepartment);
             request.setAttribute("errors", errors);
             request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);
             return;
@@ -200,12 +217,16 @@ public class UpdateStaffServlet extends HttpServlet {
         }
 
         if (isUpdated) {
+            request.setAttribute("staff", updatedStaff);
+            request.setAttribute("listDepartment", listDepartment);
+            request.setAttribute("listRoles", listRoles);
             request.setAttribute("success", "cập nhật thành công");
             request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);
         } else {
             errors.add("Cập nhật thất bại.");
+            request.setAttribute("listRoles", listRoles);
             request.setAttribute("staff", currentStaff);
-            request.setAttribute("listDepartment", departmentDao.getActiveDepartment());
+            request.setAttribute("listDepartment", listDepartment);
             request.setAttribute("errors", errors);
             request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);
         }

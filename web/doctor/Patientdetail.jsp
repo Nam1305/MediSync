@@ -116,7 +116,7 @@
                         </div>
 
                         <div class="container mt-5">
-
+                            <h3 class="text-center">Danh sách lịch hẹn của bệnh nhân</h3>
                             <table class="table table-center bg-white mb-0">
                                 <thead>
                                     <tr>

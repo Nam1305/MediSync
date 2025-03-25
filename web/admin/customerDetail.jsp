@@ -38,14 +38,10 @@
                                 </c:choose>
                             </span>
                         </p>
-                        <p><strong>Chuyên khoa:</strong> <span id="profileDepartment" class="text-muted">${customer.getDepartment()}</span></p>
-                    </div>
-                    <div class="col-md-6">
-                        <p><strong>Ngày khám bệnh:</strong> <span id="profileDate" class="text-muted">${customer.getAppointmentDate()}</span></p>
-                        <p><strong>Thời gian khám:</strong> <span id="profileTime" class="text-muted">${customer.getAppointmentTime()}</span></p>
-                        <p><strong>Bác sĩ phụ trách:</strong> <span id="profileDoctor" class="text-muted">${customer.getDoctor()}</span></p>
+                        
                         <p><strong>Phân loại:</strong> <span id="profileDoctor" class="text-muted">${customer.isVipCustomer()}</span></p>
                     </div>
+                   
                 </div>
                 <!-- Nút Quay về danh sách bệnh nhân -->
                 <div class="text-center mt-4">

@@ -65,9 +65,9 @@
                             <label class="form-label">Vị trí làm việc</label>
 
                             <select name="position" id="position" class="form-control">
-                                <option value="Bác sĩ">Bác sĩ</option>
-                                <option value="Chuyên gia">Chuyên gia</option>
-                                <option value="Nhân viên hành chính">Nhân viên hành chính</option>
+                                <option value="Bác sĩ" ${staff.position == 'Bác sĩ' ? 'selected' : ''}>Bác sĩ</option>
+                                <option value="Chuyên gia" ${staff.position == 'Chuyên gia' ? 'selected' : ''}>Chuyên gia</option>
+                                <option value="Nhân viên hành chính" ${staff.position == 'Nhân viên hành chính' ? 'selected' : ''}>Nhân viên hành chính</option>
                             </select>
                         </div>
                     </div><!--end col-->
@@ -97,7 +97,9 @@
                             <label class="form-label">Phòng Ban</label>
                             <select name="departmentId" id="departmentId" class="form-control department-name select2input">
                                 <c:forEach var="department" items="${requestScope.listDepartment}">
-                                    <option value="${department.departmentId}">${department.departmentName}</option>
+                                    <option value="${department.departmentId}" ${staff.department.departmentId == department.departmentId ? 'selected' : ''}>
+                                        ${department.departmentName}
+                                    </option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -107,9 +109,9 @@
                         <div class="mb-3">
                             <label class="form-label">Role</label>
                             <select name="roleId" id="roleId" class="form-control">
-                                <option value="2">Bác sĩ</option>
-                                <option value="3">Chuyên gia</option>
-                                <option value="4">Nhân viên hành chính</option>
+                                <c:forEach var="role" items="${listRoles}">
+                                    <option value="${role.roleId}" ${staff.role.roleId == role.roleId ? 'selected' : ''}>${role.role}</option>
+                                </c:forEach>
                             </select>
                         </div>
                     </div><!--end col-->

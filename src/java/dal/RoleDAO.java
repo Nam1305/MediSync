@@ -4,6 +4,8 @@
  */
 package dal;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import model.Role;
 /**
  *
@@ -25,5 +27,28 @@ public class RoleDAO extends DBContext{
             
         }
         return null;
+    }
+    public List<Role> getAllRoles() {
+        List<Role> roleList = new ArrayList<>();
+        String query = "SELECT roleId, role FROM Role WHERE roleId != 1";
+        
+        try (
+             PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+             
+            while (rs.next()) {
+                Role role = new Role();
+                role.setRoleId(rs.getInt("roleId"));
+                role.setRole(rs.getString("role"));
+                roleList.add(role);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return roleList;
+    }
+    public static void main(String[] args) {
+        RoleDAO role = new RoleDAO();
+        System.out.println(role.getAllRoles());
     }
 }

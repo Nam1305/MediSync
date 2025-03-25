@@ -201,10 +201,10 @@ FOREIGN KEY (typeId) REFERENCES BlogType(typeId);
 --INSERT DATA
 --Role
 INSERT INTO Role (role) VALUES
-('Admin'),
-('Bác sĩ'),
-('Chuyên Gia'),
-('Nhân viên hành chính');
+(N'Quản Trị Viên'),
+(N'Bác sĩ'),
+(N'Chuyên Gia'),
+(N'Nhân viên hành chính');
 
 --Department
 INSERT INTO Department (departmentName,status) VALUES
@@ -226,7 +226,7 @@ N'Bác sĩ Trần Thị B là chuyên gia trong lĩnh vực Sản phụ khoa, t�
 (N'Lê Hoàng C', 'lehoangc@example.com', 'assets/images/doctors/03.jpg', '0901234567', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1990-07-20', N'Chuyên Gia', 'F', 'Active', 
 N'Chuyên gia Lê Hoàng C, tốt nghiệp trường Đại học Y khoa Phạm Ngọc Thạch năm 2013, là một trong những chuyên gia hàng đầu trong lĩnh vực Y học cổ truyền. Cô đã có hơn 10 năm kinh nghiệm trong việc điều trị các bệnh lý mãn tính và phục hồi sức khỏe. Cô từng tham gia nghiên cứu các bài thuốc cổ truyền và đã được công nhận với nhiều giải thưởng quốc tế. Chuyên gia C hiện là giảng viên tại Đại học Y học cổ truyền Hà Nội và là một trong những tên tuổi nổi bật trong cộng đồng y học cổ truyền.' , 3, 3),
 
-(N'Phạm Văn D', 'phamvand@example.com', 'assets/images/doctors/04.jpg', '0912345678', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1982-08-25', 'Admin', 'M', 'Active', 
+(N'Phạm Văn D', 'phamvand@example.com', 'assets/images/doctors/04.jpg', '0912345678', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1982-08-25', 'Quản Trị Viên', 'M', 'Active', 
 N'Phạm Văn D là một chuyên gia quản lý bệnh viện, với kinh nghiệm 10 năm trong công tác tổ chức và điều hành các hoạt động y tế. Ông đã tham gia vào việc tối ưu hóa quy trình làm việc và cải thiện chất lượng dịch vụ tại nhiều bệnh viện lớn.' , 1, 5),
 
 (N'Nguyễn Thị E', 'nguyenthie@example.com', 'assets/images/doctors/05.jpg', '0923456789', '$2a$10$Ou63MfhOpEFa.1c8sh9VGuOCtcYFH/kmv5sNi0rHxWh2pJpYPAkI.', '1995-09-30', N'Bác Sĩ', 'F', 'Active', 
@@ -252,56 +252,48 @@ NULL, 3, 1);
 
 INSERT INTO HistoryPosition (position, [date], staffId) VALUES
 -- Nguyễn Văn A (StaffId = 1)
-(N'Thực Tập Sinh', '2010-06-01', 1),
-(N'Bác Sĩ Mới', '2013-07-01', 1),
+
 (N'Bác Sĩ', '2017-09-01', 1),
 (N'Chuyên Gia', '2023-01-01', 1),
 
 -- Trần Thị B (StaffId = 2)
-(N'Thực Tập Sinh', '2012-05-01', 2),
-(N'Bác Sĩ Mới', '2015-08-01', 2),
+
 (N'Bác Sĩ', '2019-11-01', 2),
 (N'Chuyên Gia', '2023-06-01', 2),
 
 -- Lê Hoàng C (StaffId = 3)
-(N'Thực Tập Sinh', '2014-03-01', 3),
-(N'Nhân Viên', '2016-06-01', 3),
+
 (N'Chuyên Gia', '2021-09-01', 3),
 
 -- Phạm Văn D (Admin - StaffId = 4)
 (N'Nhân Viên Hành Chính', '2008-02-01', 4),
-(N'Trưởng Bộ Phận', '2015-05-01', 4),
-(N'Admin', '2019-12-01', 4),
+
+(N'Quản Trị Viên', '2019-12-01', 4),
 
 -- Nguyễn Thị E (StaffId = 5)
-(N'Thực Tập Sinh', '2016-04-01', 5),
-(N'Bác Sĩ Mới', '2018-07-01', 5),
+
 (N'Bác Sĩ', '2023-03-01', 5),
 
 -- Đặng Văn F (StaffId = 6)
-(N'Nhân Viên Hỗ Trợ', '2014-08-01', 6),
+
 (N'Nhân Viên Hành Chính', '2018-11-01', 6),
 
 -- Vũ Thị G (StaffId = 7)
-(N'Thực Tập Sinh', '2013-09-01', 7),
-(N'Bác Sĩ Mới', '2016-10-01', 7),
+
 (N'Bác Sĩ', '2022-02-01', 7),
 (N'Chuyên Gia', '2023-02-01', 7),
 
 -- Lý Minh H (StaffId = 8)
-(N'Thực Tập Sinh', '2015-01-01', 8),
-(N'Bác Sĩ Mới', '2018-05-01', 8),
+
 (N'Bác Sĩ', '2023-01-01', 8),
 
 -- Hoàng Thị I (StaffId = 9)
-(N'Thực Tập Sinh', '2010-12-01', 9),
-(N'Bác Sĩ Mới', '2014-06-01', 9),
+
 (N'Bác Sĩ', '2020-04-01', 9),
 (N'Chuyên Gia', '2023-04-01', 9),
 
 -- Bùi Văn K (StaffId = 10)
-(N'Thực Tập Sinh', '2012-02-01', 10),
-(N'Bác Sĩ Mới', '2016-08-01', 10),
+
 (N'Chuyên Gia', '2022-09-01', 10);
 
 
