@@ -20,8 +20,8 @@
         <script src="https://cdn.tiny.cloud/1/vnufc6yakojjcovpkijlauot8hfpbxd3uscxatfq2m4yijay/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
         <script src="assets/js/tinymce-init.js"></script>
         <link rel="shortcut icon" href="assets/images/logo-icon.png"><!-- comment -->       
+        <script src="https://cdn.tiny.cloud/1/vnufc6yakojjcovpkijlauot8hfpbxd3uscxatfq2m4yijay/tinymce/6/langs/vi.js" referrerpolicy="origin"></script>
 
-        
 
         <style>
             body {
@@ -128,7 +128,7 @@
                                             <p><span class="info-label">Nhóm máu:</span> ${app.customer.getBloodType()}</p>
                                             <p>
                                                 <span class="info-label">Trạng thái khách:</span>
-                                                
+
                                                 <c:choose>
                                                     <c:when test="${countAppointment gt 1}">
                                                         Khách quen (đã hẹn ${countAppointment} lần)
@@ -223,9 +223,9 @@
         <!-- page-wrapper -->
 
         <script>
-                    $(document).ready(function () {
-            $("#addMedicine").click(function () {
-            $("#prescriptionTable").append(`
+            $(document).ready(function () {
+                $("#addMedicine").click(function () {
+                    $("#prescriptionTable").append(`
                        <tr>
                          <td><input type="text" name="medicineName[]" class="form-control" required></td>
                          <td><input type="text" name="totalQuantity[]" class="form-control" required></td>
@@ -234,18 +234,18 @@
                          <td><button type="button" class="btn btn-danger remove-medicine">Xóa</button></td>
                        </tr>
                      `);
-            });
-                    $(document).on("click", ".remove-medicine", function () {
-            $(this).closest("tr").remove();
-            });
-                    $("#addMedicine").hover(
-                    function () {
-                    $(this).addClass("btn-light");
-                    },
-                    function () {
-                    $(this).removeClass("btn-light");
-                    }
-            );
+                });
+                $(document).on("click", ".remove-medicine", function () {
+                    $(this).closest("tr").remove();
+                });
+                $("#addMedicine").hover(
+                        function () {
+                            $(this).addClass("btn-light");
+                        },
+                        function () {
+                            $(this).removeClass("btn-light");
+                        }
+                );
             });
         </script>
 

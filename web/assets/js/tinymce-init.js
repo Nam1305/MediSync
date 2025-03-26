@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
         automatic_uploads: true,
         images_upload_url: 'uploadimage',
         file_picker_types: 'image',
+        language: 'vi',
+        language_url: 'https://cdn.tiny.cloud/1/vnufc6yakojjcovpkijlauot8hfpbxd3uscxatfq2m4yijay/tinymce/6/langs/vi.js',
         setup: function (editor) {
             editor.on('input', function () {
                 document.getElementById("submitBtn").disabled = false; // Bật nút submit khi có nhập nội dung
