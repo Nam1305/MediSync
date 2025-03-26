@@ -70,7 +70,6 @@ public class ShiftApprovalServlet extends HttpServlet {
         
         if (request.getParameter("staffName") != null && !request.getParameter("staffName").trim().isEmpty()) {
             staffName = request.getParameter("staffName").trim();
-            // Không cần set staffId ở đây vì sẽ tìm theo tên
         }
         
         // Xử lý lọc theo ngày
@@ -82,6 +81,7 @@ public class ShiftApprovalServlet extends HttpServlet {
                 fromDate = new Date(parsedDate.getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
+                request.setAttribute("error", "Định dạng ngày 'Từ ngày' không hợp lệ.");
             }
         }
         
@@ -91,6 +91,7 @@ public class ShiftApprovalServlet extends HttpServlet {
                 toDate = new Date(parsedDate.getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
+                request.setAttribute("error", "Định dạng ngày 'Đến ngày' không hợp lệ.");
             }
         }
         
@@ -102,15 +103,14 @@ public class ShiftApprovalServlet extends HttpServlet {
             // Tìm kiếm staffId từ tên
             List<Staff> staffs = getDoctorsByName(staffDAO, staffName);
             
-            // Lưu danh sách bác sĩ/y tá để hiển thị trên dropdown
+            // Lưu danh sách bác sĩ/y tá để hiển thị trên dropdown (nếu cần)
             request.setAttribute("staffs", staffs);
             
             if (!staffs.isEmpty()) {
-                // Gán registrations vào list rỗng trước
                 registrations = scheduleDAO.getShiftRegistrations(null, fromDate, toDate, page, pageSize);
                 totalRegistrations = scheduleDAO.countShiftRegistrations(null, fromDate, toDate);
                 
-                // Filter lại theo tên nhân viên (vì không có method search trực tiếp bằng tên)
+                // Lọc lại theo danh sách nhân viên
                 registrations = filterRegistrationsByStaffs(registrations, staffs);
                 totalRegistrations = registrations.size(); // Đếm lại sau khi lọc
             } else {
@@ -126,19 +126,8 @@ public class ShiftApprovalServlet extends HttpServlet {
         for (ShiftRegistration registration : registrations) {
             Staff staff = staffDAO.getStaffById(registration.getStaffId());
             if (staff != null) {
-                // Lưu tên nhân viên vào attribute của registration để hiển thị trên JSP
                 request.setAttribute("staffName_" + registration.getRegistrationId(), staff.getName());
             }
-            
-            // Đảm bảo startDate và endDate có sẵn để hiển thị
-            Date startDate = registration.getStartDate();
-            Date endDate = registration.getEndDate();
-            
-            // Nếu startDate hoặc endDate là null, đặt chuỗi rỗng để hiển thị trên JSP
-            request.setAttribute("startDate_" + registration.getRegistrationId(), 
-                startDate != null ? sdf.format(startDate) : "N/A");
-            request.setAttribute("endDate_" + registration.getRegistrationId(), 
-                endDate != null ? sdf.format(endDate) : "N/A");
         }
         
         // Tính toán thông tin phân trang
@@ -151,8 +140,11 @@ public class ShiftApprovalServlet extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("totalRegistrations", totalRegistrations);
         request.setAttribute("staffName", staffName);
-        request.setAttribute("fromDate", fromDate != null ? sdf.format(fromDate) : "");
-        request.setAttribute("toDate", toDate != null ? sdf.format(toDate) : "");
+        
+        // Chuyển đổi định dạng ngày để hiển thị trên JSP
+        SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy");
+        request.setAttribute("fromDate", fromDate != null ? displayFormat.format(fromDate) : "");
+        request.setAttribute("toDate", toDate != null ? displayFormat.format(toDate) : "");
         
         // Forward đến trang JSP
         request.getRequestDispatcher("AdministrativeStaff/shiftApproval.jsp").forward(request, response);

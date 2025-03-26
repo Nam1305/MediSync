@@ -8,6 +8,7 @@
         <meta charset="utf-8" />
         <title>Duyệt đăng ký ca làm việc</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <link href="assets/css/style.min.css" rel="stylesheet" />
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
@@ -86,7 +87,7 @@
                             <h5 class="mb-0">Duyệt đăng ký ca làm việc</h5>
                             <nav aria-label="breadcrumb" class="d-inline-block mt-2 mt-sm-0">
                                 <ul class="breadcrumb bg-transparent rounded mb-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                                    <li class="breadcrumb-item"><a href="home">Trang chủ</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Duyệt đăng ký ca làm</li>
                                 </ul>
                             </nav>
@@ -117,12 +118,14 @@
                                                value="${staffName}" placeholder="Nhập tên bác sĩ hoặc y tá">
                                     </div>
                                     <div class="filter-item">
-                                        <label for="fromDate">Từ ngày:</label>
-                                        <input type="date" id="fromDate" name="fromDate" class="form-control" value="${fromDate}">
+                                        <label for="fromDate">Từ ngày (dd/MM/yyyy):</label>
+                                        <input type="text" id="fromDate" name="fromDate" class="form-control" 
+                                               value="${fromDate}" placeholder="dd/MM/yyyy">
                                     </div>
                                     <div class="filter-item">
-                                        <label for="toDate">Đến ngày:</label>
-                                        <input type="date" id="toDate" name="toDate" class="form-control" value="${toDate}">
+                                        <label for="toDate">Đến ngày (dd/MM/yyyy):</label>
+                                        <input type="text" id="toDate" name="toDate" class="form-control" 
+                                               value="${toDate}" placeholder="dd/MM/yyyy">
                                     </div>
                                     <div class="filter-item">
                                         <label for="pageSize">Số bản ghi:</label>
@@ -283,15 +286,32 @@
         <script src="assets/js/app.js"></script>
         
         <script>
-            // Validate date inputs
+            function convertDateFormat(dateStr) {
+                if (!dateStr) return '';
+                var parts = dateStr.split('/');
+                if (parts.length === 3) {
+                    return parts[2] + '-' + parts[1] + '-' + parts[0];
+                }
+                return dateStr; // Trả về nguyên gốc nếu định dạng không đúng
+            }
+
+            document.querySelector('form').addEventListener('submit', function(e) {
+                var fromDateInput = document.getElementById('fromDate');
+                var toDateInput = document.getElementById('toDate');
+                
+                fromDateInput.value = convertDateFormat(fromDateInput.value);
+                toDateInput.value = convertDateFormat(toDateInput.value);
+            });
+
+            // Validate date inputs (optional)
             document.getElementById('fromDate').addEventListener('change', function() {
                 var toDateInput = document.getElementById('toDate');
-                if (toDateInput.value && this.value > toDateInput.value) {
+                var fromDateValue = convertDateFormat(this.value);
+                if (toDateInput.value && fromDateValue > convertDateFormat(toDateInput.value)) {
                     toDateInput.value = this.value;
                 }
-                toDateInput.min = this.value;
             });
-            
+
             // Auto-close alerts after 5 seconds
             setTimeout(function() {
                 $('.alert').alert('close');
