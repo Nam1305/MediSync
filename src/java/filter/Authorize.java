@@ -78,16 +78,12 @@ public class Authorize implements Filter {
         Object customer = session.getAttribute("customer");
         
         
-        // Kiểm tra quyền dựa trên roleId hoặc roleName
-        boolean isAdmin = (roleId != null && roleId == 1) 
-                            || (roleName != null && roleName.equalsIgnoreCase("Quản Trị Viên"));
+        // Kiểm tra quyền dựa trên roleId
+        boolean isAdmin = (roleId != null && roleId == 1);
                             
-        boolean isDoctor = (roleId != null && roleId == 2 ||roleId !=null && roleId ==3) 
-                            || (roleName != null && (roleName.equalsIgnoreCase("Bác sĩ") 
-                                                    || roleName.equalsIgnoreCase("Chuyên Gia")));
+        boolean isDoctor = (roleId != null && roleId == 2 ||roleId !=null && roleId ==3);
                             
-        boolean isAdministrativeStaff = (roleId != null && roleId == 4) 
-                            || (roleName != null && roleName.equalsIgnoreCase("Nhân viên hành chính"));
+        boolean isAdministrativeStaff = (roleId != null && roleId == 4);
                             
         boolean isCustomer = (customer != null);
 

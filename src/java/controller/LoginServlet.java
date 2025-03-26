@@ -88,7 +88,6 @@ public class LoginServlet extends HttpServlet {
                     Role role = staff.getRole();
                     if (role != null) {
                         session.setAttribute("roleId", role.getRoleId());
-                        session.setAttribute("roleName", role.getRole());
                     }
                     
                     // Điều hướng theo vai trò
