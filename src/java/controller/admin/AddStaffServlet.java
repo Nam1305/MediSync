@@ -212,7 +212,7 @@ public class AddStaffServlet extends HttpServlet {
     }
 
     private boolean checkPhone(String phone) {
-        return phone.matches("^(09|08|03)\\d{8}$");
+        return phone.matches("^(0)\\d{9}$");
     }
 
     /**

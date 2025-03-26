@@ -71,6 +71,8 @@ public class UpdateStaffServlet extends HttpServlet {
                 request.setAttribute("staff", currentstaff); // Đặt đối tượng Staff vào attribute
                 request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);
             } else {
+                request.setAttribute("listRoles", listRoles);
+                request.setAttribute("listDepartment", listDepartment);
                 // Nếu không tìm thấy nhân viên , thông báo lỗi
                 request.setAttribute("error", "Staff with ID " + staffId + " not found.");
                 request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response); // Quay lại danh sách
@@ -168,7 +170,7 @@ public class UpdateStaffServlet extends HttpServlet {
         }
 
         if (!checkPhone(phone)) {
-            errors.add("Số điện thoại phải bắt đầu từ 08, 09 hoặc 03 và đủ 10 chữ số.");
+            errors.add("Số điện thoại phải bắt đầu từ 0 và đủ 10 chữ số.");
         }
 
         java.sql.Date dateOfBirth = null;
@@ -195,6 +197,7 @@ public class UpdateStaffServlet extends HttpServlet {
         }
 
         if (!errors.isEmpty()) {
+            request.setAttribute("listRoles", listRoles);
             request.setAttribute("staff", currentStaff);
             request.setAttribute("listDepartment", listDepartment);
             request.setAttribute("errors", errors);
@@ -223,9 +226,10 @@ public class UpdateStaffServlet extends HttpServlet {
             request.setAttribute("success", "cập nhật thành công");
             request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);
         } else {
+            request.setAttribute("staff", updatedStaff);
             errors.add("Cập nhật thất bại.");
             request.setAttribute("listRoles", listRoles);
-            request.setAttribute("staff", currentStaff);
+
             request.setAttribute("listDepartment", listDepartment);
             request.setAttribute("errors", errors);
             request.getRequestDispatcher("admin/updateStaff.jsp").forward(request, response);
@@ -233,7 +237,11 @@ public class UpdateStaffServlet extends HttpServlet {
     }
 
     private boolean checkPhone(String phone) {
-        return phone.matches("^(09|08|03)\\d{8}$");
+        if (phone == null) {
+            return false; // Kiểm tra null trước
+        }
+        phone = phone.trim(); // Loại bỏ khoảng trắng đầu/cuối chuỗi
+        return phone.matches("^0\\d{9}$"); // Kiểm tra định dạng
     }
 
     private boolean isEmpty(String value) {
