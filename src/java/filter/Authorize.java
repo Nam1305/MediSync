@@ -22,28 +22,33 @@ import java.util.List;
 public class Authorize implements Filter {
 
     private static final List<String> ADMIN_ALLOW = Arrays.asList(
-            "/admin/", "/addBlog.jsp", "/addCustomer.jsp", "/addDepartment.jsp",
-            "/addService.jsp", "/addStaff.jsp", "/adminDashboard.jsp", "/blogs-detail.jsp",
-            "/blogs.jsp", "/customerDetail.jsp", "/departmentDetail.jsp", "/editCustomer.jsp",
-            "/listCustomer.jsp", "/listDepartment.jsp", "/listService.jsp",
-            "/manage-banners.jsp", "/manage-footer.jsp", "/serviceDetail.jsp", "/staffDetail.jsp",
-            "/updateBlog.jsp", "/updateDepartment.jsp", "/updateService.jsp", "/updateStaff.jsp"
+            "/admin/","/addBlog","/addBlog.jsp", "/addCustomer","/addCustomer.jsp", "/AddDepartment","/addDepartment.jsp",
+            "/AddService","/addService.jsp", "/AddStaffServlet","/addStaff.jsp", "/AdminDashBoard","/adminDashboard.jsp", "/blogs-detail.jsp",
+            "/blogs-detail","/blogs","/blogs.jsp", "/viewCustomerDetail","/customerDetail.jsp", "/ViewDepartmentDetail","/departmentDetail.jsp",
+            "/editCustomer.jsp","/editCustomer","/listCustomer","/listCustomer.jsp", "/ListDepartment","/listDepartment.jsp", "/ListService","/listService.jsp",
+            "/manage-banners","/manage-banners.jsp", "/manage-footer","/manage-footer.jsp", "/ViewServiceDetail","/serviceDetail.jsp", "/staffDetail.jsp",
+            "/ViewStaffDetail","/updateBlog","/updateBlog.jsp", "/UpdateDepartment","/updateDepartment.jsp", "/UpdateService","/updateService.jsp",
+            "/UpdateStaffServlet","/updateStaff.jsp","/ListDoctor","/ListDoctor.jsp","/doctorprofile","/staffProfile.jsp"
     );
 
     private static final List<String> DOCTOR_ALLOW = Arrays.asList(
-            "/doctor/", "/Patientdetail.jsp", "/customerFeedback.jsp", "/doctorAppointment.jsp",
-            "/doctorAppointmentDetail.jsp", "/footer.jsp", "/left-navbar.jsp", "/listPatient.jsp",
-            "/makeServiceOrder.jsp", "/schedule.jsp", "/scheduleRegister.jsp", "/top-navbar.jsp"
+            "/doctor/", "/PatientDetail","/Patientdetail.jsp", "/mfeedback","/customerFeedback.jsp", "/doctorAppointment.jsp",
+            "/doctorappointment","/doctorappdetail","/doctorAppointmentDetail.jsp", "/footer.jsp", "/left-navbar.jsp", "/listPatient.jsp",
+            "/ListPatient","/makeorder","/makeServiceOrder.jsp", "/schedule","/schedule.jsp", "/registershift","/scheduleRegister.jsp", "/top-navbar.jsp",
+            "/doctorprofile","/staffProfile.jsp"
     );
 
     private static final List<String> ADMINISTRATIVE_ALLOW = Arrays.asList(
-            "/AdministrativeStaff/", "/footer.jsp", "/left-navbar.jsp", "/listInvoice.jsp",
-            "/scheduleManagement.jsp", "/shiftApproval.jsp", "/top-navbar.jsp", "/viewListAppointment.jsp"
+            "/AdministrativeStaff/", "/footer.jsp", "/left-navbar.jsp", "/listInvoice.jsp","/listinvoice","/invoiceDetail",
+            "/scheduleManagement.jsp", "/shiftApproval.jsp", "/top-navbar.jsp", "/viewListAppointment.jsp","/shift-approval",
+            "/schedule-management","/confirmappointment","/doctorprofile","/staffProfile.jsp"
     );
 
     private static final List<String> CUSTOMER_ALLOW = Arrays.asList(
-            "/customer/", "/allDoctor.jsp", "/customerAppointmentDetail.jsp", "/doctorDetail.jsp",
-            "/invoiceDetail.jsp", "/patientsProfile.jsp", "/return.jsp", "/staffFeedback.jsp"
+            "/customer/", "/allDoctor.jsp", "/customerAppointmentDetail.jsp","/bookAppointment","/cancelAppointment","/customer-profile",
+            "/listAppointments","/invoiceDetail.jsp", "/patientsProfile.jsp", "/return.jsp",
+            "/appointmentDetail","/invoiceDetail","/vnpay_return","/vnpay_payment","/customer-appointment.jsp",
+            "/customer-profile.jsp"
     );
 
     private static final boolean debug = true;
@@ -61,45 +66,57 @@ public class Authorize implements Filter {
         String requestURI = req.getRequestURI();
         HttpSession session = req.getSession(false);
 
-        // If session doesn't exist, let Authenticate filter handle it
+        // Nếu session không tồn tại, để Authenticate filter khác xử lý
         if (session == null) {
             chain.doFilter(request, response);
             return;
         }
 
-        // Check if user is authenticated with a specific role
-        Object admin = session.getAttribute("admin");
-        Object doctor = session.getAttribute("doctor");
-        Object staff = session.getAttribute("administrativeStaff");
+        // Lấy thông tin role từ session (login đã lưu "roleId" và "roleName")
+        Integer roleId = (Integer) session.getAttribute("roleId");
+        String roleName = (String) session.getAttribute("roleName");
         Object customer = session.getAttribute("customer");
+        
+        
+        // Kiểm tra quyền dựa trên roleId hoặc roleName
+        boolean isAdmin = (roleId != null && roleId == 1) 
+                            || (roleName != null && roleName.equalsIgnoreCase("Quản Trị Viên"));
+                            
+        boolean isDoctor = (roleId != null && roleId == 2 ||roleId !=null && roleId ==3) 
+                            || (roleName != null && (roleName.equalsIgnoreCase("Bác sĩ") 
+                                                    || roleName.equalsIgnoreCase("Chuyên Gia")));
+                            
+        boolean isAdministrativeStaff = (roleId != null && roleId == 4) 
+                            || (roleName != null && roleName.equalsIgnoreCase("Nhân viên hành chính"));
+                            
+        boolean isCustomer = (customer != null);
 
-        // Check role-specific authorization
-        if (admin != null && isURLAllowed(requestURI, ADMIN_ALLOW)) {
+        // Kiểm tra phân quyền theo URL
+        if (isAdmin && isURLAllowed(requestURI, ADMIN_ALLOW)) {
             chain.doFilter(request, response);
             return;
-        } else if (doctor != null && isURLAllowed(requestURI, DOCTOR_ALLOW)) {
+        } else if (isDoctor && isURLAllowed(requestURI, DOCTOR_ALLOW)) {
             chain.doFilter(request, response);
             return;
-        } else if (staff != null && isURLAllowed(requestURI, ADMINISTRATIVE_ALLOW)) {
+        } else if (isAdministrativeStaff && isURLAllowed(requestURI, ADMINISTRATIVE_ALLOW)) {
             chain.doFilter(request, response);
             return;
-        } else if (customer != null && isURLAllowed(requestURI, CUSTOMER_ALLOW)) {
+        } else if (isCustomer && isURLAllowed(requestURI, CUSTOMER_ALLOW)) {
             chain.doFilter(request, response);
             return;
         }
 
-        // If we're here, let's see if the user is trying to access a protected area they shouldn't
-        if ((admin == null && isURLAllowed(requestURI, ADMIN_ALLOW))
-                || (doctor == null && isURLAllowed(requestURI, DOCTOR_ALLOW))
-                || (staff == null && isURLAllowed(requestURI, ADMINISTRATIVE_ALLOW))
-                || (customer == null && isURLAllowed(requestURI, CUSTOMER_ALLOW))) {
-            // User is trying to access a protected area without proper role
+        // Nếu user cố truy cập vào vùng không thuộc quyền của họ
+        if ((!isAdmin && isURLAllowed(requestURI, ADMIN_ALLOW))
+                || (!isDoctor && isURLAllowed(requestURI, DOCTOR_ALLOW))
+                || (!isAdministrativeStaff && isURLAllowed(requestURI, ADMINISTRATIVE_ALLOW))
+                || (!isCustomer && isURLAllowed(requestURI, CUSTOMER_ALLOW))) {
             req.setAttribute("errorMessage", "Bạn không có quyền truy cập trang này.");
             req.getRequestDispatcher("/unauthorized.jsp").forward(request, response);
             return;
         }
 
-        // If not matching any specific role-based URL, let request pass through
+        // Nếu không khớp bất kỳ quyền nào, cho phép request đi tiếp
         chain.doFilter(request, response);
     }
 
@@ -115,10 +132,8 @@ public class Authorize implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
-        if (filterConfig != null) {
-            if (debug) {
-                log("Authorize:Initializing filter");
-            }
+        if (filterConfig != null && debug) {
+            log("Authorize: Initializing filter");
         }
     }
 
@@ -130,18 +145,15 @@ public class Authorize implements Filter {
         filterConfig.getServletContext().log(msg);
     }
 
-    /**
-     * Return a String representation of this object.
-     */
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("Authorize()");
+            return "Authorize()";
         }
         StringBuffer sb = new StringBuffer("Authorize(");
         sb.append(filterConfig);
         sb.append(")");
-        return (sb.toString());
+        return sb.toString();
     }
 
     private static String getStackTrace(Throwable t) {
@@ -154,13 +166,13 @@ public class Authorize implements Filter {
             sw.close();
             stackTrace = sw.getBuffer().toString();
         } catch (Exception ex) {
+            // Không xử lý
         }
         return stackTrace;
     }
 
     private void sendProcessingError(Throwable t, ServletResponse response) {
         String stackTrace = getStackTrace(t);
-
         if (stackTrace != null && !stackTrace.equals("")) {
             try {
                 response.setContentType("text/html");
@@ -174,6 +186,7 @@ public class Authorize implements Filter {
                 ps.close();
                 response.getOutputStream().close();
             } catch (Exception ex) {
+                // Không xử lý
             }
         } else {
             try {
@@ -182,6 +195,7 @@ public class Authorize implements Filter {
                 ps.close();
                 response.getOutputStream().close();
             } catch (Exception ex) {
+                // Không xử lý
             }
         }
     }

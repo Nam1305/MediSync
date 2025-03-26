@@ -15,10 +15,10 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Home Page</title>
+        <title>Danh sách tin tức</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->
@@ -98,7 +98,7 @@
             <div class="row justify-content-center">
                 <div class="col-12 text-center">
                     <div class="section-title mb-4 pb-2">
-                        <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Danh sách blog</span>
+                        <span class="badge badge-pill badge-soft-primary mb-3" style="font-size: 2rem; padding: 10px 20px;">Danh sách tin tức</span>
                     </div>
                 </div>
             </div><!--end row-->
