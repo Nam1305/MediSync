@@ -298,7 +298,12 @@
                                                 );
                                     });
 
-                                    document.querySelector('input[name="dateOfBirth"]').addEventListener('input', function () {
+                                    document.querySelector('input[name="dateOfBirth"]').addEventListener('input', function (event) {
+                                        // Bỏ qua xử lý nếu đang trong quá trình soạn thảo IME
+                                        if (event.isComposing) {
+                                            return;
+                                        }
+
                                         // Auto-format date as user types
                                         let value = this.value.replace(/[^0-9]/g, '');
                                         if (value.length > 8)
