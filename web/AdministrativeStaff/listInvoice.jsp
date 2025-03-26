@@ -229,7 +229,6 @@
                         </div>
 
 
-
                     </div><!--end container-->
                     <!-- Footer Start -->
                     <jsp:include page="footer.jsp" />
@@ -241,20 +240,19 @@
         <script>
             document.getElementById("btnReset").addEventListener("click", function () {
                 let form = document.querySelector(".filter-form");
-                let today = new Date().toISOString().split('T')[0]; // Lấy ngày hiện tại (YYYY-MM-DD)
 
                 form.querySelectorAll("input").forEach(input => {
                     if (input.type === "date") {
-                        input.value = today; // Reset ngày về hôm nay
+                        input.value = "";
                     } else if (input.name === "pageSize") {
-                        input.value = 10; // Đặt số bản ghi về 10
+                        input.value = 10;
                     } else {
-                        input.value = ""; // Reset các input khác về rỗng
+                        input.value = ""; //
                     }
                 });
 
                 form.querySelectorAll("select").forEach(select => {
-                    select.selectedIndex = 0; // Reset tất cả select về giá trị đầu tiên
+                    select.selectedIndex = 0;
                 });
             });
         </script>

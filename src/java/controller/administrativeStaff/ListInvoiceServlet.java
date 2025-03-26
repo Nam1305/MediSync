@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.util.List;
+import java.util.function.IntPredicate;
 import model.Appointment;
 
 public class ListInvoiceServlet extends HttpServlet {
@@ -21,11 +22,9 @@ public class ListInvoiceServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        // Lấy tham số cập nhật trạng thái từ request
         String appointmentIdStr = request.getParameter("invoiceId");
         String statusUpdate = request.getParameter("statusUpdate");
 
-        // Nếu có statusUpdate, tiến hành cập nhật trạng thái
         if (appointmentIdStr != null && !appointmentIdStr.isEmpty()
                 && statusUpdate != null && !statusUpdate.isEmpty()) {
             try {
@@ -62,17 +61,18 @@ public class ListInvoiceServlet extends HttpServlet {
         // Chuyển đổi dữ liệu
         Integer appointmentIdFilter = null;
         Double totalFrom = null, totalTo = null;
-        LocalDate today = LocalDate.now();
-        Date dateFrom = Date.valueOf(today);
-        Date dateTo = Date.valueOf(today);
-
+        Date dateFrom = null;
+        Date dateTo = null;
+        
         try {
             if (appointmentIdStr != null && !appointmentIdStr.isEmpty()) {
                 appointmentIdFilter = Integer.valueOf(appointmentIdStr);
             }
+            // Chỉ ép sang Date nếu dateFromStr không null và không rỗng
             if (dateFromStr != null && !dateFromStr.isEmpty()) {
                 dateFrom = Date.valueOf(dateFromStr);
             }
+            // Chỉ ép sang Date nếu dateToStr không null và không rỗng
             if (dateToStr != null && !dateToStr.isEmpty()) {
                 dateTo = Date.valueOf(dateToStr);
             }
@@ -82,7 +82,7 @@ public class ListInvoiceServlet extends HttpServlet {
             if (totalToStr != null && !totalToStr.isEmpty()) {
                 totalTo = Double.valueOf(totalToStr);
             }
-        } catch (NumberFormatException ignored) {
+        } catch (Exception e) {
         }
 
         // Lấy danh sách hóa đơn
@@ -97,7 +97,7 @@ public class ListInvoiceServlet extends HttpServlet {
         );
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 
-        // Gửi dữ liệu sang JSP
+        // Gửi dữ liệu sang JSP - Kiểm tra null trước khi gọi toString()
         request.setAttribute("listInvoice", listInvoice);
         request.setAttribute("currentPage", page);
         request.setAttribute("pageSize", pageSize);
@@ -105,8 +105,8 @@ public class ListInvoiceServlet extends HttpServlet {
         request.setAttribute("invoiceIdFilter", appointmentIdFilter);
         request.setAttribute("name", name);
         request.setAttribute("status", status);
-        request.setAttribute("dateFrom", dateFrom.toString());
-        request.setAttribute("dateTo", dateTo.toString());
+        request.setAttribute("dateFrom", dateFrom != null ? dateFrom.toString() : "");
+        request.setAttribute("dateTo", dateTo != null ? dateTo.toString() : "");
         request.setAttribute("totalFrom", totalFromStr);
         request.setAttribute("totalTo", totalToStr);
         request.setAttribute("sortDate", sortDate);
