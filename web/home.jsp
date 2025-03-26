@@ -297,7 +297,7 @@
                             <i class="ri-hospital-fill h3 mb-2"></i> 
                         </div>
                         <div class="card-body p-0 mt-2">
-                            <a href="departments.html" class="title text-dark h5 d-block">${dept.departmentName}</a>
+                            <a href="allDoctors?departmentId=${dept.departmentId}&pageSize=4" class="title text-dark h5 d-block">${dept.departmentName}</a>
                         </div>
                     </div>
                 </div>

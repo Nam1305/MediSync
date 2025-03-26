@@ -89,9 +89,9 @@ public class CustomerProfileServlet extends HttpServlet {
 
                     // Update session
                     session.setAttribute("customer", currentCustomer);
-                    request.setAttribute("successMessage", "Profile picture removed successfully");
+                    request.setAttribute("successMessage", "Đã xóa ảnh đại diện");
                 } catch (Exception e) {
-                    request.setAttribute("errorMessage", "Failed to remove profile picture: " + e.getMessage());
+                    request.setAttribute("errorMessage", "Xóa ảnh đại diện thất bại: " + e.getMessage());
                 }
             }
         }
@@ -149,7 +149,7 @@ public class CustomerProfileServlet extends HttpServlet {
             if (name == null || name.trim().isEmpty()
                     || email == null || email.trim().isEmpty()
                     || phone == null || phone.trim().isEmpty()) {
-                request.setAttribute("errorMessage", "Name, email and phone are required fields");
+                request.setAttribute("errorMessage", "Hãy điền các trường tên, email và số điện thoại");
                 request.setAttribute("customer", customer);
                 request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
@@ -157,7 +157,7 @@ public class CustomerProfileServlet extends HttpServlet {
 
             // Validate email format
             if (!isValidEmail(email)) {
-                request.setAttribute("errorMessage", "Invalid email format");
+                request.setAttribute("errorMessage", "Lỗi format email");
                 request.setAttribute("customer", customer);
                 request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
@@ -165,7 +165,7 @@ public class CustomerProfileServlet extends HttpServlet {
 
             // Validate phone number (10 digits)
             if (!isValidPhoneNumber(phone)) {
-                request.setAttribute("errorMessage", "Phone number must be 10 digits");
+                request.setAttribute("errorMessage", "Số điện thoại phải có 10 chữ số");
                 request.setAttribute("customer", customer);
                 request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
@@ -173,7 +173,7 @@ public class CustomerProfileServlet extends HttpServlet {
 
             // Check if email is changed and already exists
             if (!email.equals(customer.getEmail()) && customerDAO.isEmailExists(email)) {
-                request.setAttribute("errorMessage", "Email address is already used by another account");
+                request.setAttribute("errorMessage", "Email đã được sử dụng bởi 1 tài khoản khác");
                 request.setAttribute("customer", customer);
                 request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
@@ -181,7 +181,7 @@ public class CustomerProfileServlet extends HttpServlet {
 
             // Check if phone is changed and already exists
             if (!phone.equals(customer.getPhone()) && customerDAO.isPhoneExists(phone)) {
-                request.setAttribute("errorMessage", "Phone number is already used by another account");
+                request.setAttribute("errorMessage", "Số điện thoại đã được sử dụng bởi 1 tài khoản khác");
                 request.setAttribute("customer", customer);
                 request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
@@ -191,15 +191,22 @@ public class CustomerProfileServlet extends HttpServlet {
             Date dateOfBirth = null;
             if (dateOfBirthStr != null && !dateOfBirthStr.trim().isEmpty()) {
                 try {
-                    // Parse from yyyy-MM-dd to java.sql.Date
-                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    // Parse from dd/MM/yyyy to java.sql.Date (stored as yyyy-MM-dd)
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
                     java.util.Date parsed = inputFormat.parse(dateOfBirthStr);
                     dateOfBirth = new Date(parsed.getTime());
                 } catch (ParseException e) {
-                    request.setAttribute("errorMessage", "Invalid date format. Please use yyyy-MM-dd");
-                    request.setAttribute("customer", customer);
-                    request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
-                    return;
+                    try {
+                        // Fallback for yyyy-MM-dd format (for existing data)
+                        SimpleDateFormat fallbackFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        java.util.Date parsed = fallbackFormat.parse(dateOfBirthStr);
+                        dateOfBirth = new Date(parsed.getTime());
+                    } catch (ParseException ex) {
+                        request.setAttribute("errorMessage", "Format ngày không hợp lệ. Xin hãy dùng dd/MM/yyyy");
+                        request.setAttribute("customer", customer);
+                        request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
+                        return;
+                    }
                 }
             }
 
@@ -220,9 +227,9 @@ public class CustomerProfileServlet extends HttpServlet {
             if (updated) {
                 // Update session with new data
                 session.setAttribute("customer", customer);
-                request.setAttribute("successMessage", "Profile updated successfully");
+                request.setAttribute("successMessage", "Cập nhật hồ sơ thành công");
             } else {
-                request.setAttribute("errorMessage", "Failed to update profile");
+                request.setAttribute("errorMessage", "Cập nhật hồ sơ thất bại");
             }
 
             // Set updated customer data and forward back to profile page
@@ -231,7 +238,7 @@ public class CustomerProfileServlet extends HttpServlet {
 
         } catch (Exception e) {
             // Handle any unexpected errors
-            request.setAttribute("errorMessage", "An error occurred: " + e.getMessage());
+            request.setAttribute("errorMessage", "Lỗi: " + e.getMessage());
             request.setAttribute("customer", customer);
             request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
         }
@@ -242,7 +249,7 @@ public class CustomerProfileServlet extends HttpServlet {
         try {
             Part avatarPart = request.getPart("profileImage");
             if (avatarPart == null || avatarPart.getSize() <= 0) {
-                request.setAttribute("errorMessage", "No image file selected");
+                request.setAttribute("errorMessage", "Không có file ảnh nào được chọn");
                 request.setAttribute("customer", customer);
                 request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
                 return;
@@ -297,7 +304,7 @@ public class CustomerProfileServlet extends HttpServlet {
 
                 // Update session
                 request.getSession().setAttribute("customer", customer);
-                request.setAttribute("successMessage", "Profile picture updated successfully");
+                request.setAttribute("successMessage", "Cập nhật ảnh đại diện thành công");
             } else {
                 // Update failed, delete the newly uploaded file and revert avatar path
                 File newAvatar = new File(uploadPath + fileName);
@@ -308,7 +315,7 @@ public class CustomerProfileServlet extends HttpServlet {
                 // Restore old avatar path in customer object
                 customer = customerDAO.getCustomerByEmail(customer.getEmail()); // Reload from DB to get original avatar
 
-                request.setAttribute("errorMessage", "Failed to update profile picture");
+                request.setAttribute("errorMessage", "Cập nhật ảnh đại diện thất bại");
             }
 
             // Set updated customer data and forward back to profile page
@@ -319,7 +326,7 @@ public class CustomerProfileServlet extends HttpServlet {
             // In case of error, reload customer from DB to ensure avatar path is still original
             customer = customerDAO.getCustomerByEmail(customer.getEmail());
 
-            request.setAttribute("errorMessage", "Error uploading profile picture: " + e.getMessage());
+            request.setAttribute("errorMessage", "Lỗi tải ảnh đại diện: " + e.getMessage());
             request.setAttribute("customer", customer);
             request.getRequestDispatcher("customer/customer-profile.jsp").forward(request, response);
         }
