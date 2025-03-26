@@ -120,11 +120,15 @@
                 <div class="error-code"><%= response.getStatus() %></div>
                 <div class="error-message">
                     <% 
-                        if (response.getStatus() == 404) {
-                            out.print("Không tìm thấy trang bạn yêu cầu!");
-                        } else if (response.getStatus() == 500) {
-                            out.print("Máy chủ gặp lỗi, chúng tôi rất tiếc về sự cố này!");
-                        }
+        if (response.getStatus() == 404) {
+            out.print("Không tìm thấy trang bạn yêu cầu!");
+        } else if (response.getStatus() == 500) {
+            out.print("Máy chủ gặp lỗi, chúng tôi rất tiếc về sự cố này!");
+        } else if (response.getStatus() == 503) {
+            out.print("Máy chủ hiện không khả dụng, vui lòng thử lại sau!");
+        } else {
+            out.print("Đã xảy ra lỗi không xác định!");
+        }
                     %>
                 </div>
                 <p class="description">Medisync - Hệ thống đặt lịch khám bác sĩ trực tuyến</p>
