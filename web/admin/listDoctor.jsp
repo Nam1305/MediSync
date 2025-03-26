@@ -6,7 +6,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Doctris - Doctor Appointment Booking System</title>
+        <title>Danh Sách Nhân Viên</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -15,7 +15,7 @@
         <meta name="website" content="index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -81,7 +81,7 @@
                                     </div>
 
                                     <div class="col-auto">
-                                        <input type="number" name="pageSize" value="${pageSize}" class="form-control" placeholder="Số dòng">
+                                        <input type="number" id="pageSizeInput" name="pageSize" value="${pageSize}" class="form-control" placeholder="Số dòng" min="1" max="15">
                                 </div>
 
                                 <div class="col-auto">
@@ -116,9 +116,9 @@
                                                 <th class="border-bottom p-3">số điện thoại</th>
                                                 <th class="border-bottom p-3" style="min-width: 150px;">Ngày sinh</th>
                                                 <th class="border-bottom p-3">Email</th>
-                                                <th class="border-bottom p-3">Status</th>
+                                                <th class="border-bottom p-3">Trạng thái</th>
 
-                                                <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
+                                                <th class="border-bottom p-3" style="min-width: 100px;">Hành động</th>
                                             </tr>
                                         </thead>
                                         <!--tbody-start-->
@@ -182,7 +182,7 @@
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDoctor?page=${currentPage - 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}&s=${s}">Trang trước</a>
+                                                <a class="page-link" href="ListDoctor?page=${currentPage - 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}&s=${s}">Trước</a>
                                             </li>
                                         </c:if>
 
@@ -194,7 +194,7 @@
 
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDoctor?page=${currentPage + 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}&s=${s}">Trang sau</a>
+                                                <a class="page-link" href="ListDoctor?page=${currentPage + 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}&s=${s}">Sau</a>
                                             </li>
                                         </c:if>
                                     </ul>
@@ -275,7 +275,17 @@
                                         }
 
         </script>
+        <script>
+            function validatePageSize() {
+                let input = document.getElementById("pageSizeInput");
+                let value = parseInt(input.value);
 
+                if (value < 1 || value > 15) {
+                    alert("Giá trị phải từ 1 đến 15!");
+                    input.value = ""; // Xóa giá trị không hợp lệ
+                }
+            }
+        </script>
 
     </body>
 

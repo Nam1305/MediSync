@@ -93,7 +93,7 @@ public class ViewStaffDetailServlet extends HttpServlet {
             // Get total feedbacks for pagination
             int totalFeedbacks = feedbackDAO.getTotalFeedbackCountByStaffId(staffId, star);
             int totalPages = (int) Math.ceil((double) totalFeedbacks / pageSize);
-
+            double ratting = doctorDAO.getAverageRating(staffId);
             // Get rating statistics
             double[] ratingStats = feedbackDAO.getRatingStatistics(staffId);
             int commentCount = feedbackDAO.countFeedbacksWithComment(staffId);
@@ -101,7 +101,7 @@ public class ViewStaffDetailServlet extends HttpServlet {
 
             if (currentstaff != null) {
                 request.setAttribute("staff", currentstaff);
-
+                request.setAttribute("rating", ratting);
                 // Set feedback attributes
                 request.setAttribute("feedbacks", feedbacks);
                 request.setAttribute("ratingStats", ratingStats);

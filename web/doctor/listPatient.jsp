@@ -15,7 +15,7 @@
         <meta charset="utf-8" />
         <title>Lịch hẹn</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
@@ -120,7 +120,7 @@
                                                 </div>
 
                                                 <div class="col-auto">
-                                                    <input type="number" name="pageSize" value="${pageSize}" class="form-control" placeholder="Số dòng">
+                                                    <input type="number" id="pageSizeInput" name="pageSize" value="${pageSize}" class="form-control" placeholder="Số dòng" min="1" max="15">
                                             </div>
 
                                             <div class="col-auto">
@@ -181,7 +181,7 @@
                                             <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                                 <c:if test="${currentPage > 1}">
                                                     <li class="page-item">
-                                                        <a class="page-link" href="ListPatient?page=${currentPage - 1}&pageSize=${pageSize}&sort=${sort}&search=${search}&bloodType=${bloodType}">Trang trước</a>
+                                                        <a class="page-link" href="ListPatient?page=${currentPage - 1}&pageSize=${pageSize}&sort=${sort}&search=${search}&bloodType=${bloodType}">Trước</a>
                                                     </li>
                                                 </c:if>
 
@@ -193,7 +193,7 @@
 
                                                 <c:if test="${currentPage < totalPages}">
                                                     <li class="page-item">
-                                                        <a class="page-link" href="ListPatient?page=${currentPage + 1}&pageSize=${pageSize}&sort=${sort}&search=${search}&bloodType=${bloodType}">Trang sau</a>
+                                                        <a class="page-link" href="ListPatient?page=${currentPage + 1}&pageSize=${pageSize}&sort=${sort}&search=${search}&bloodType=${bloodType}">Sau</a>
                                                     </li>
                                                 </c:if>
                                             </ul>
@@ -214,13 +214,23 @@
             <!--End page-content" -->
         </div>
         <!-- page-wrapper -->
-         <script>
+        <script>
             function resetFilters() {
                 window.location.href = './ListPatient?search=&status=&bloodType=&pageSize=6';
             }
 
         </script>
+        <script>
+            function validatePageSize() {
+                let input = document.getElementById("pageSizeInput");
+                let value = parseInt(input.value);
 
+                if (value < 1 || value > 15) {
+                    alert("Giá trị phải từ 1 đến 15!");
+                    input.value = ""; // Xóa giá trị không hợp lệ
+                }
+            }
+        </script>
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>

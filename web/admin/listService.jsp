@@ -21,7 +21,7 @@
         <meta name="website" content="index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -72,7 +72,7 @@
                                     <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
                                     <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
                                     </select>                                        
-                                    <input type="number" name="pageSize" value="${pageSize}" class="form-control" style="width: 100px;" placeholder="Kích thước">
+                                    <input type="number" id="pageSizeInput" name="pageSize" value="${pageSize}" class="form-control" style="width: 100px;" placeholder="Kích thước" min="1" max="15">
                                 <button type="submit" class="btn btn-primary form-control text-nowrap">Lọc</button>
 
                                 <button type="button" class="btn  btn-primary form-control text-nowrap" onclick="resetFilters()">Làm Mới</button>
@@ -143,11 +143,11 @@
                             <!--                                                     PAGINATION START -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing 1 - 10 out of 50</span>
+
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListService?page=${currentPage - 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Trang trước</a>
+                                                <a class="page-link" href="ListService?page=${currentPage - 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Trước</a>
                                             </li>
                                         </c:if>
 
@@ -159,7 +159,7 @@
 
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListService?page=${currentPage + 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Trang sau</a>
+                                                <a class="page-link" href="ListService?page=${currentPage + 1}&pageSize=${pageSize}&status=${status}&sort=${sort}&search=${search}">Sau</a>
                                             </li>
                                         </c:if>
                                     </ul>
@@ -239,7 +239,17 @@
                                         }
 
         </script>
+        <script>
+            function validatePageSize() {
+                let input = document.getElementById("pageSizeInput");
+                let value = parseInt(input.value);
 
+                if (value < 1 || value > 15) {
+                    alert("Giá trị phải từ 1 đến 15!");
+                    input.value = ""; // Xóa giá trị không hợp lệ
+                }
+            }
+        </script>
 
     </body>
 

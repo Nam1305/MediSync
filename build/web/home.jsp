@@ -476,46 +476,73 @@
     });
 
     function sendMessage() {
-        var message = document.getElementById("message").value;
-        if (message.trim() === "")
-            return;
+        var message = document.getElementById("message").value.trim();
+        if (message === "") return;
 
         var chatBox = document.getElementById("chatBox");
+        
+        // Hiển thị tin nhắn của người dùng
         var userMessage = document.createElement("div");
         userMessage.className = "message user-message";
         userMessage.textContent = "Bạn: " + message;
         chatBox.appendChild(userMessage);
         chatBox.scrollTop = chatBox.scrollHeight;
 
-        fetch("ChatBot", {
-            method: "POST",
-            headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
-            body: "message=" + encodeURIComponent(message)
-        })
-                .then(response => response.json())
-                .then(data => {
-                    var botMessage = document.createElement("div");
-                    botMessage.className = "message bot-message";
-                    if (data.error) {
-                        botMessage.textContent = "Bot: Lỗi: " + data.error;
-                    } else if (data && data.candidates && data.candidates.length > 0) {
-                        botMessage.textContent = "Bot: " + data.candidates[0].content.parts[0].text;
-                    } else {
-                        botMessage.textContent = "Bot: Không có phản hồi từ AI!";
-                    }
-                    chatBox.appendChild(botMessage);
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                })
-                .catch(error => {
-                    var errorMessage = document.createElement("div");
-                    errorMessage.className = "message bot-message";
-                    errorMessage.textContent = "Bot: Lỗi kết nối!";
-                    chatBox.appendChild(errorMessage);
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                });
+        // Kiểm tra các câu hỏi phổ biến để tự động phản hồi
+        var responses = {
+            "web của bạn để làm gì": "Web chúng tôi dùng để đặt lịch khám.",
+            "cách đặt lịch hẹn": "Bạn có thể đặt lịch hẹn bằng cách chọn bác sĩ và thời gian phù hợp trên trang web.",
+            "giờ làm việc": "Chúng tôi làm việc từ 8h00 đến 18h00 từ thứ Hai đến thứ Bảy.",
+            "địa chỉ bệnh viện": "Bệnh viện của chúng tôi nằm tại 123 Đường ABC, TP XYZ.",
+            "số điện thoại liên hệ": "Bạn có thể liên hệ với chúng tôi qua số 0123-456-789."
+        };
+
+        var lowerMessage = message.toLowerCase();
+        if (responses[lowerMessage]) {
+            autoReply(responses[lowerMessage]);
+        } else {
+            fetchBotResponse(message);
+        }
 
         document.getElementById("message").value = "";
     }
+
+    function autoReply(responseText) {
+        var chatBox = document.getElementById("chatBox");
+        var botMessage = document.createElement("div");
+        botMessage.className = "message bot-message";
+        botMessage.textContent = "Bot: " + responseText;
+        chatBox.appendChild(botMessage);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function fetchBotResponse(message) {
+        var chatBox = document.getElementById("chatBox");
+
+        fetch("ChatBot", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+            body: "message=" + encodeURIComponent(message)
+        })
+        .then(response => response.json())
+        .then(data => {
+            var botMessage = document.createElement("div");
+            botMessage.className = "message bot-message";
+            if (data.error) {
+                botMessage.textContent = "Bot: Lỗi: " + data.error;
+            } else if (data && data.candidates && data.candidates.length > 0) {
+                botMessage.textContent = "Bot: " + data.candidates[0].content.parts[0].text;
+            } else {
+                botMessage.textContent = "Bot: Không có phản hồi từ AI!";
+            }
+            chatBox.appendChild(botMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        })
+        .catch(error => {
+            autoReply("Lỗi kết nối! Vui lòng thử lại sau.");
+        });
+    }
 </script>
+
 </body>
 </html>
