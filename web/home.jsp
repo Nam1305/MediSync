@@ -476,36 +476,43 @@
     });
 
     function sendMessage() {
-        var message = document.getElementById("message").value.trim();
-        if (message === "") return;
+    var message = document.getElementById("message").value.trim();
+    if (message === "") return;
 
-        var chatBox = document.getElementById("chatBox");
-        
-        // Hiển thị tin nhắn của người dùng
-        var userMessage = document.createElement("div");
-        userMessage.className = "message user-message";
-        userMessage.textContent = "Bạn: " + message;
-        chatBox.appendChild(userMessage);
-        chatBox.scrollTop = chatBox.scrollHeight;
+    var chatBox = document.getElementById("chatBox");
 
-        // Kiểm tra các câu hỏi phổ biến để tự động phản hồi
-        var responses = {
-            "web của bạn để làm gì": "Web chúng tôi dùng để đặt lịch khám.",
-            "cách đặt lịch hẹn": "Bạn có thể đặt lịch hẹn bằng cách chọn bác sĩ và thời gian phù hợp trên trang web.",
-            "giờ làm việc": "Chúng tôi làm việc từ 8h00 đến 18h00 từ thứ Hai đến thứ Bảy.",
-            "địa chỉ bệnh viện": "Bệnh viện của chúng tôi nằm tại 123 Đường ABC, TP XYZ.",
-            "số điện thoại liên hệ": "Bạn có thể liên hệ với chúng tôi qua số 0123-456-789."
-        };
+    // Hiển thị tin nhắn của người dùng
+    var userMessage = document.createElement("div");
+    userMessage.className = "message user-message";
+    userMessage.textContent = "Bạn: " + message;
+    chatBox.appendChild(userMessage);
+    chatBox.scrollTop = chatBox.scrollHeight;
 
-        var lowerMessage = message.toLowerCase();
-        if (responses[lowerMessage]) {
-            autoReply(responses[lowerMessage]);
-        } else {
-            fetchBotResponse(message);
-        }
+    // Chuyển tin nhắn thành chữ thường để so sánh
+    var lowerMessage = message.toLowerCase();
 
-        document.getElementById("message").value = "";
+    // Danh sách từ khóa và phản hồi
+    var responses = [
+        { keywords: ["web", "làm gì"], response: "Web chúng tôi dùng để đặt lịch khám." },
+        { keywords: ["đặt lịch", "hẹn bác sĩ"], response: "Bạn có thể đặt lịch hẹn bằng cách chọn bác sĩ và thời gian phù hợp trên trang web." },
+        { keywords: ["giờ làm việc", "mở cửa"], response: "Chúng tôi làm việc từ 8h00 đến 22h00 từ thứ Hai đến thứ Bảy." },
+        { keywords: ["địa chỉ", "ở đâu"], response: "Bệnh viện của chúng tôi nằm tại 123 Đường ABC, TP XYZ." },
+        { keywords: ["số điện thoại", "liên hệ"], response: "Bạn có thể liên hệ với chúng tôi qua số 0123-456-789." }
+    ];
+
+    // Kiểm tra tin nhắn có chứa từ khóa nào không
+    var foundResponse = responses.find(item => 
+        item.keywords.some(keyword => lowerMessage.includes(keyword))
+    );
+
+    if (foundResponse) {
+        autoReply(foundResponse.response);
+    } else {
+        fetchBotResponse(message);
     }
+
+    document.getElementById("message").value = "";
+}
 
     function autoReply(responseText) {
         var chatBox = document.getElementById("chatBox");
