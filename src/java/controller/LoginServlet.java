@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import dal.CustomerDAO;
@@ -17,40 +13,20 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Customer;
 import model.Staff;
+import model.Role;
 import util.BCrypt;
 
-/**
- *
- * @author DIEN MAY XANH
- */
 public class LoginServlet extends HttpServlet {
 
     StaffDAO staffDao = new StaffDAO();
     CustomerDAO customerDao = new CustomerDAO();
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -107,7 +83,16 @@ public class LoginServlet extends HttpServlet {
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 } else {
                     session.setAttribute("staff", staff);
-                    if (staff.getRole().getRoleId() == 1) {
+                    
+                    // Lưu thông tin role vào session từ đối tượng Staff
+                    Role role = staff.getRole();
+                    if (role != null) {
+                        session.setAttribute("roleId", role.getRoleId());
+                        session.setAttribute("roleName", role.getRole());
+                    }
+                    
+                    // Điều hướng theo vai trò
+                    if (role != null && role.getRoleId() == 1) {
                         request.getRequestDispatcher("AdminDashBoard").forward(request, response);
                     } else {
                         request.getRequestDispatcher("home").forward(request, response);
@@ -132,4 +117,5 @@ public class LoginServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
 }

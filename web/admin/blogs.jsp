@@ -1,12 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
         <meta charset="utf-8" />
-        <title>Doctris - Doctor Appointment Booking System</title>
+        <title>Danh sách tin tức</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -15,7 +17,7 @@
         <meta name="website" content="index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -54,7 +56,7 @@
                     <div class="layout-specing">
                         <!-- Tiêu đề trang -->
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Danh sách blog</h5>
+                            <h5 class="mb-0">Danh sách tin tức</h5>
                         </div>
 
                         <div class="row">
@@ -62,16 +64,16 @@
                                 <c:if test="${not empty noti}">
                                     <c:choose>
                                         <c:when test="${noti == 'success'}">
-                                            <div class="alert alert-success" id="statusMess">Blog edited successfully!</div>
+                                            <div class="alert alert-success" id="statusMess">Tin đã được thêm.</div>
                                         </c:when>
                                         <c:when test="${noti == 'fail'}">
-                                            <div class="alert alert-danger" id="statusMess">Failed to edit blog. Please try again.</div>
+                                            <div class="alert alert-danger" id="statusMess">Gặp lỗi khi thêm tin. Vui lòng thử lại</div>
                                         </c:when>
                                         <c:when test="${noti == 'failDelete'}">
-                                            <div class="alert alert-danger" id="statusMess">Failed to delete blog. Please try again.</div>
+                                            <div class="alert alert-danger" id="statusMess">Gặp lỗi khi xoá tin. Vui lòng thử lại</div>
                                         </c:when>
                                         <c:when test="${noti == 'successDelete'}">
-                                            <div class="alert alert-success" id="statusMess">Blog deleted successfully.</div>
+                                            <div class="alert alert-success" id="statusMess">Tin đã được xoá.</div>
                                         </c:when>
                                     </c:choose>
                                 </c:if>
@@ -90,11 +92,17 @@
                                     </select>
 
                                     <!-- Input số lượng blog/trang -->
+                                    <label class="me-2 align-self-center fw-bold">Số lượng:</label>
                                     <input type="number" class="form-control me-2" name="itemsPerPage" min="1" max="${requestScope.totalBlogs}" 
                                            value="${not empty itemsPerPage ? itemsPerPage : 6}" placeholder="Số lượng/trang" style="width: 100px;">
 
                                     <!-- Nút gửi form -->
                                     <button type="submit" class="btn btn-primary">Lọc</button>
+                                    <div class="d-flex justify-content-end ms-3">
+                                        <a href="addBlog" class="btn btn-primary text-nowrap">Thêm tin tức</a>
+                                    </div>
+
+
                                 </div>
                             </div>
                         </form>
@@ -126,7 +134,9 @@
                                                         <img src="${blog.image}" alt="${blog.blogName}" class="img-fluid" style="max-width:80px;">
                                                     </td>
                                                     <td class="p-3">${blog.author}</td>
-                                                    <td class="p-3">${blog.date}</td>
+                                                    <td class="p-3">
+                                                        <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
+                                                    </td>
                                                     <td class="text-end p-3">
                                                         <a href="blogs-detail?blogId=${blog.blogId}" class="btn btn-icon btn-pills btn-soft-primary">
                                                             <i class="uil uil-eye"></i>

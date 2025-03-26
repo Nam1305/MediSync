@@ -14,7 +14,7 @@
         <meta name="website" content="index.html" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="assets/images/logo-icon.png">
+        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- simplebar -->
@@ -65,7 +65,7 @@
                                             <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <label class="form-label">Nội dung</label>
-                                                    <textarea name="content" id="testResults" class="form-control" rows="5" placeholder="Nhập nội dung bài viết" required>${content}</textarea>
+                                                    <textarea name="content" id="content" class="form-control" rows="5" placeholder="Nhập nội dung bài viết" required>${content}</textarea>
                                                 </div>
                                             </div>
 
