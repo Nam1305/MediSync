@@ -15,6 +15,7 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet" />
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <style>
             /* Appointment Table Styles */
             .container {
