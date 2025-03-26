@@ -8,6 +8,7 @@
         <meta charset="utf-8" />
         <title>Thông tin cá nhân</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <link href="assets/css/style.min.css" rel="stylesheet" />
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
@@ -137,8 +138,9 @@
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Ngày sinh</label>
-                                                <input name="dateOfBirth" type="date" class="form-control" 
-                                                       value="<fmt:formatDate value='${customer.dateOfBirth}' pattern='yyyy-MM-dd'/>">
+                                                <input name="dateOfBirth" type="text" class="form-control" placeholder="dd/mm/yyyy" 
+                                                       value="<fmt:formatDate value='${customer.dateOfBirth}' pattern='dd/MM/yyyy'/>" 
+                                                       pattern="\d{2}/\d{2}/\d{4}">
                                             </div>                                                                               
                                         </div>
 
@@ -162,7 +164,7 @@
 
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <input type="submit" id="submit" name="send" class="btn btn-primary" value="Update Profile">
+                                            <input type="submit" id="submit" name="send" class="btn btn-primary" value="Cập nhật">
                                         </div>
                                     </div>
                                 </form>
@@ -184,109 +186,139 @@
         <script src="assets/js/app.js"></script>
 
         <script>
-                                            // Handle image upload and validation
-                                            document.getElementById('profileImage').addEventListener('change', function () {
-                                                const file = this.files[0];
-                                                const errorElement = document.getElementById('uploadError');
-                                                const avatarPreview = document.getElementById('avatarPreview');
-                                                errorElement.style.display = 'none';
+                                    // Handle image upload and validation
+                                    document.getElementById('profileImage').addEventListener('change', function () {
+                                        const file = this.files[0];
+                                        const errorElement = document.getElementById('uploadError');
+                                        const avatarPreview = document.getElementById('avatarPreview');
+                                        errorElement.style.display = 'none';
 
-                                                // Reset error message
-                                                errorElement.textContent = '';
+                                        // Reset error message
+                                        errorElement.textContent = '';
 
-                                                if (!file) {
-                                                    return;
-                                                }
+                                        if (!file) {
+                                            return;
+                                        }
 
-                                                // Check file type
-                                                const validTypes = ['image/jpeg', 'image/png'];
-                                                if (!validTypes.includes(file.type)) {
-                                                    errorElement.textContent = 'Chỉ chấp nhận file JPG hoặc PNG';
-                                                    errorElement.style.display = 'block';
-                                                    this.value = '';
-                                                    return;
-                                                }
+                                        // Check file type
+                                        const validTypes = ['image/jpeg', 'image/png'];
+                                        if (!validTypes.includes(file.type)) {
+                                            errorElement.textContent = 'Chỉ chấp nhận file JPG hoặc PNG';
+                                            errorElement.style.display = 'block';
+                                            this.value = '';
+                                            return;
+                                        }
 
-                                                // Check file size (max 5MB)
-                                                const maxSize = 5 * 1024 * 1024; // 5MB in bytes
-                                                if (file.size > maxSize) {
-                                                    errorElement.textContent = 'Kích thước ảnh không được vượt quá 5MB';
-                                                    errorElement.style.display = 'block';
-                                                    this.value = '';
-                                                    return;
-                                                }
+                                        // Check file size (max 5MB)
+                                        const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+                                        if (file.size > maxSize) {
+                                            errorElement.textContent = 'Kích thước ảnh không được vượt quá 5MB';
+                                            errorElement.style.display = 'block';
+                                            this.value = '';
+                                            return;
+                                        }
 
-                                                // Show image preview before upload
-                                                const reader = new FileReader();
-                                                reader.onload = function (e) {
-                                                    avatarPreview.src = e.target.result;
-                                                };
-                                                reader.readAsDataURL(file);
+                                        // Show image preview before upload
+                                        const reader = new FileReader();
+                                        reader.onload = function (e) {
+                                            avatarPreview.src = e.target.result;
+                                        };
+                                        reader.readAsDataURL(file);
 
-                                                // Check image dimensions
-                                                const img = new Image();
-                                                img.onload = function () {
-                                                    URL.revokeObjectURL(img.src); // Clean up
+                                        // Check image dimensions
+                                        const img = new Image();
+                                        img.onload = function () {
+                                            URL.revokeObjectURL(img.src); // Clean up
 
-                                                    if (img.width < 256 || img.height < 256) {
-                                                        errorElement.textContent = 'Ảnh phải có kích thước tối thiểu 256px x 256px';
-                                                        errorElement.style.display = 'block';
-                                                        document.getElementById('profileImage').value = '';
-                                                        return;
-                                                    }
-
-                                                    // All validations passed, submit the form
-                                                    document.getElementById('avatarUploadForm').submit();
-                                                };
-
-                                                img.onerror = function () {
-                                                    URL.revokeObjectURL(img.src); // Clean up
-                                                    errorElement.textContent = 'Không thể đọc file ảnh, vui lòng thử lại';
-                                                    errorElement.style.display = 'block';
-                                                    document.getElementById('profileImage').value = '';
-                                                };
-
-                                                // Load image to check dimensions
-                                                img.src = URL.createObjectURL(file);
-                                            });
-
-                                            // Form validation
-                                            function validateForm() {
-                                                // Email validation
-                                                const emailInput = document.querySelector('input[name="email"]');
-                                                const emailRegex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
-                                                if (!emailRegex.test(emailInput.value)) {
-                                                    alert('Vui lòng nhập địa chỉ email hợp lệ');
-                                                    emailInput.focus();
-                                                    return false;
-                                                }
-
-                                                // Phone number validation (10 digits)
-                                                const phoneInput = document.querySelector('input[name="phone"]');
-                                                const phoneRegex = /^[0-9]{10}$/;
-                                                if (!phoneRegex.test(phoneInput.value)) {
-                                                    alert('Số điện thoại phải đúng 10 chữ số');
-                                                    phoneInput.focus();
-                                                    return false;
-                                                }
-
-                                                return true;
+                                            if (img.width < 256 || img.height < 256) {
+                                                errorElement.textContent = 'Ảnh phải có kích thước tối thiểu 256px x 256px';
+                                                errorElement.style.display = 'block';
+                                                document.getElementById('profileImage').value = '';
+                                                return;
                                             }
 
-                                            // Real-time validation while typing
-                                            document.querySelector('input[name="email"]').addEventListener('input', function () {
-                                                const emailRegex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
-                                                this.setCustomValidity(
-                                                        emailRegex.test(this.value) ? '' : 'Vui lòng nhập địa chỉ email hợp lệ'
-                                                        );
-                                            });
+                                            // All validations passed, submit the form
+                                            document.getElementById('avatarUploadForm').submit();
+                                        };
 
-                                            document.querySelector('input[name="phone"]').addEventListener('input', function () {
-                                                const phoneRegex = /^[0-9]{10}$/;
-                                                this.setCustomValidity(
-                                                        phoneRegex.test(this.value) ? '' : 'Số điện thoại phải đúng 10 chữ số'
-                                                        );
-                                            });
+                                        img.onerror = function () {
+                                            URL.revokeObjectURL(img.src); // Clean up
+                                            errorElement.textContent = 'Không thể đọc file ảnh, vui lòng thử lại';
+                                            errorElement.style.display = 'block';
+                                            document.getElementById('profileImage').value = '';
+                                        };
+
+                                        // Load image to check dimensions
+                                        img.src = URL.createObjectURL(file);
+                                    });
+
+                                    // Form validation
+                                    function validateForm() {
+                                        // Email validation
+                                        const emailInput = document.querySelector('input[name="email"]');
+                                        const emailRegex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
+                                        if (!emailRegex.test(emailInput.value)) {
+                                            alert('Vui lòng nhập địa chỉ email hợp lệ');
+                                            emailInput.focus();
+                                            return false;
+                                        }
+
+                                        // Phone number validation (10 digits)
+                                        const phoneInput = document.querySelector('input[name="phone"]');
+                                        const phoneRegex = /^[0-9]{10}$/;
+                                        if (!phoneRegex.test(phoneInput.value)) {
+                                            alert('Số điện thoại phải đúng 10 chữ số');
+                                            phoneInput.focus();
+                                            return false;
+                                        }
+
+                                        const dobInput = document.querySelector('input[name="dateOfBirth"]');
+                                        const dobRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+                                        if (dobInput.value && !dobRegex.test(dobInput.value)) {
+                                            alert('Vui lòng nhập ngày sinh đúng định dạng dd/mm/yyyy');
+                                            dobInput.focus();
+                                            return false;
+                                        }
+
+                                        return true;
+                                    }
+
+                                    // Real-time validation while typing
+                                    document.querySelector('input[name="email"]').addEventListener('input', function () {
+                                        const emailRegex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
+                                        this.setCustomValidity(
+                                                emailRegex.test(this.value) ? '' : 'Vui lòng nhập địa chỉ email hợp lệ'
+                                                );
+                                    });
+
+                                    document.querySelector('input[name="phone"]').addEventListener('input', function () {
+                                        const phoneRegex = /^[0-9]{10}$/;
+                                        this.setCustomValidity(
+                                                phoneRegex.test(this.value) ? '' : 'Số điện thoại phải đúng 10 chữ số'
+                                                );
+                                    });
+
+                                    document.querySelector('input[name="dateOfBirth"]').addEventListener('input', function () {
+                                        // Auto-format date as user types
+                                        let value = this.value.replace(/[^0-9]/g, '');
+                                        if (value.length > 8)
+                                            value = value.slice(0, 8);
+
+                                        if (value.length >= 2)
+                                            value = value.slice(0, 2) + '/' + value.slice(2);
+                                        if (value.length >= 5)
+                                            value = value.slice(0, 5) + '/' + value.slice(5);
+
+                                        this.value = value;
+
+                                        // Validate format
+                                        const dobRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+                                        this.setCustomValidity(
+                                                dobRegex.test(value) ? '' : 'Vui lòng nhập ngày sinh đúng định dạng dd/mm/yyyy'
+                                                );
+                                    });
+
+
         </script>
     </body>
 </html>
