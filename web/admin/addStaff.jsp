@@ -6,7 +6,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Doctris - Doctor Appointment Booking System</title>
+        <title>Thêm Nhân Viên</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -59,11 +59,6 @@
                             <div class="col-lg-8 mt-4">
                                 <div class="card border-0 p-4 rounded shadow">
                                     <div class="row align-items-center">
-                                        <div class="col-lg-2 col-md-4">
-                                            <img src="assets/images/doctors/01.jpg" class="avatar avatar-md-md rounded-pill shadow mx-auto d-block" alt="">
-                                        </div><!--end col-->
-
-
 
                                         <form class="mt-4" action="AddStaffServlet" method="POST" enctype="multipart/form-data">
                                             <div class="row">
@@ -82,7 +77,7 @@
                                                 </div><!--end col-->
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Avatar</label>
+                                                        <label class="form-label">Ảnh đại diện</label>
                                                         <input name="avatar" id="avatar" type="file" class="form-control" accept="image/jpeg, image/png, image/gif" placeholder="Ảnh đại diện:" required>
                                                         <small id="avatar-error" class="text-danger"></small>
                                                     </div> 
@@ -114,11 +109,11 @@
                                                 </div><!--end col-->
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Role</label>
+                                                        <label class="form-label">Vai Trò</label>
                                                         <select name="roleId" class="form-control department-name select2input" required>
-                                                            <option value="2">Doctor</option>
-                                                            <option value="3">Expert</option>
-                                                            <option value="4">Receptionist</option>
+                                                            <c:forEach var="role" items="${listRoles}">
+                                                                <option value="${role.roleId}" ${staff.role.roleId == role.roleId ? 'selected' : ''}>${role.role}</option>
+                                                            </c:forEach>
                                                         </select>
                                                     </div>
                                                 </div><!--end col-->
@@ -136,7 +131,7 @@
 
                                                 <div class="col-md-6">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Vị trí Làm việc </label>
+                                                        <label class="form-label">Vị trí làm việc </label>
 
                                                         <select name="position" id="position" class="form-control department-name select2input" required>
                                                             <option value="Bác Sĩ">Bác Sĩ</option>
@@ -147,7 +142,7 @@
                                                 </div><!--end col-->
                                                 <div class="col-md-12">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Giới Thiệu Bản Thân</label>
+                                                        <label class="form-label">Giới thiệu Bản Thân</label>
                                                         <textarea name="description" id="desctiption"  class="form-control" placeholder="Mô tả :" required>${description}</textarea>
                                                     </div> 
                                                 </div><!--end col-->

@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.DoctorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,7 +17,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Scanner;
+import java.util.List;
+import model.Staff;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -124,45 +126,79 @@ public class ChatBotServlet extends HttpServlet {
 //
 //        response.setContentType("application/json");
 //        response.getWriter().write(responseText.toString());
-        String userMessage = request.getParameter("message");
-        if (userMessage == null || userMessage.trim().isEmpty()) {
-            response.getWriter().write("{\"error\": \"Vui lòng nhập tin nhắn!\"}");
-            return;
-        }
-
-        // Tạo JSON request body theo đúng format API của Gemini
-        JSONObject json = new JSONObject();
-        JSONArray contents = new JSONArray();
-        JSONObject part = new JSONObject();
-        part.put("text", userMessage);
-        contents.put(new JSONObject().put("parts", new JSONArray().put(part)));
-        json.put("contents", contents);
-
-        // Gửi request đến Gemini API
-        URL url = new URL(apiUrl);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
-
-        try (OutputStream os = conn.getOutputStream()) {
-            os.write(json.toString().getBytes());
-            os.flush();
-        }
-
-        // Đọc phản hồi từ Gemini AI
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-        StringBuilder responseText = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            responseText.append(line);
-        }
-        br.close();
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json; charset=UTF-8");
-        response.getWriter().write(responseText.toString());
+      String userMessage = request.getParameter("message");
+    if (userMessage == null || userMessage.trim().isEmpty()) {
+        response.getWriter().write("{\"error\": \"Vui lòng nhập tin nhắn!\"}");
+        return;
     }
 
+    String lowerMessage = userMessage.toLowerCase();
+
+    // Kiểm tra nếu người dùng hỏi về "bác sĩ tốt nhất"
+    if (lowerMessage.contains("bác sĩ tốt nhất") || lowerMessage.contains("bác sĩ giỏi")) {
+        fetchTopDoctors(response);
+    } else {
+        fetchAIResponse(userMessage, response);
+    }
+}
+
+
+
+// Hàm gọi API Gemini
+private void fetchAIResponse(String userMessage, HttpServletResponse response) throws IOException {
+    JSONObject json = new JSONObject();
+    JSONArray contents = new JSONArray();
+    JSONObject part = new JSONObject();
+    part.put("text", userMessage);
+    contents.put(new JSONObject().put("parts", new JSONArray().put(part)));
+    json.put("contents", contents);
+
+    URL url = new URL(apiUrl);
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    conn.setRequestMethod("POST");
+    conn.setRequestProperty("Content-Type", "application/json");
+    conn.setDoOutput(true);
+
+    try (OutputStream os = conn.getOutputStream()) {
+        os.write(json.toString().getBytes());
+        os.flush();
+    }
+
+    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+    StringBuilder responseText = new StringBuilder();
+    String line;
+    while ((line = br.readLine()) != null) {
+        responseText.append(line);
+    }
+    br.close();
+
+    response.setCharacterEncoding("UTF-8");
+    response.setContentType("application/json; charset=UTF-8");
+    response.getWriter().write(responseText.toString());
+}
+// Hàm lấy danh sách bác sĩ từ database
+private void fetchTopDoctors(HttpServletResponse response) throws IOException {
+    // Giả sử bạn có StaffDAO với phương thức getTopRatedDoctors()
+    DoctorDAO staffDAO = new DoctorDAO();
+    List<Staff> topDoctors = staffDAO.getTopRatedDoctors();
+    System.out.println("Số lượng bác sĩ trả về: " + topDoctors.size()); // Kiểm tra xem có dữ liệu không
+
+    JSONArray doctorArray = new JSONArray();
+    for (Staff doctor : topDoctors) {
+        JSONObject obj = new JSONObject();
+        obj.put("id", doctor.getStaffId());
+        obj.put("name", doctor.getName());
+        obj.put("email", doctor.getEmail());
+        obj.put("phone", doctor.getPhone());
+        obj.put("position", doctor.getPosition());
+        obj.put("department", doctor.getDepartment().getDepartmentName());
+        doctorArray.put(obj);
+    }
+     System.out.println("JSON phản hồi từ Servlet: " + doctorArray.toString());
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    response.getWriter().write(doctorArray.toString());
+}
     /**
      * Returns a short description of the servlet.
      *

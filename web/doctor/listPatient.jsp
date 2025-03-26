@@ -13,7 +13,7 @@
 <html lang="vi">
     <head>
         <meta charset="utf-8" />
-        <title>Lịch hẹn</title>
+        <title>Danh sách bệnh nhân</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />

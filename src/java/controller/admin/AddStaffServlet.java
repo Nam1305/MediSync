@@ -8,6 +8,7 @@ import dal.CustomerDAO;
 import dal.DepartmentDAO;
 import dal.DoctorDAO;
 import dal.PositionDAO;
+import dal.RoleDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -66,7 +67,10 @@ public class AddStaffServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DepartmentDAO department = new DepartmentDAO();
+        RoleDAO roleDao = new RoleDAO();
+        List<Role> listRoles = roleDao.getAllRoles();
         List<Department> listDepartment = department.getActiveDepartment();
+        request.setAttribute("listRoles", listRoles);
         request.setAttribute("listDepartment", listDepartment);
         request.getRequestDispatcher("admin/addStaff.jsp").forward(request, response);
 
@@ -85,6 +89,8 @@ public class AddStaffServlet extends HttpServlet {
             throws ServletException, IOException {
         CustomerDAO customerDao = new CustomerDAO();
         DepartmentDAO departmentDao = new DepartmentDAO();
+        RoleDAO roleDao = new RoleDAO();
+        List<Role> listRoles = roleDao.getAllRoles();
         List<Department> listDepartment = departmentDao.getActiveDepartment();
         List<String> error = new ArrayList<>();
         GeneratePassword generatePassword = new GeneratePassword();
@@ -166,6 +172,7 @@ public class AddStaffServlet extends HttpServlet {
             request.setAttribute("email", email);
             request.setAttribute("phone", phone);
             request.setAttribute("description", description);
+            request.setAttribute("listRoles", listRoles);
             request.setAttribute("listDepartment", listDepartment);
             request.setAttribute("error", error);
             request.getRequestDispatcher("admin/addStaff.jsp").forward(request, response);
@@ -196,10 +203,13 @@ public class AddStaffServlet extends HttpServlet {
 
         if (staffId > 0) {
             positionDao.insertPositionHistory(staffId, position);
+            request.setAttribute("listRoles", listRoles);
+            request.setAttribute("listDepartment", listDepartment);
             request.setAttribute("success", "Thêm nhân viên thành công");
             request.getRequestDispatcher("admin/addStaff.jsp").forward(request, response);
             new SendEmail().sendPasswordForStaff(email, password);
         } else {
+            request.setAttribute("listRoles", listRoles);
             request.setAttribute("listDepartment", listDepartment);
             error.add("Có lỗi xảy ra, vui lòng thử lại!");
             request.setAttribute("error", error);

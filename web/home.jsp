@@ -355,7 +355,7 @@
         </div><!--end row-->
 
         <div class="row">
-        <c:forEach items="${blogs}" var="blog">
+            <c:forEach items="${blogs}" var="blog">
                 <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2 d-flex">
                     <div class="card blog blog-primary border-0 shadow rounded overflow-hidden d-flex flex-column w-100">
                         <!-- Đảm bảo ảnh có kích thước đồng đều -->
@@ -476,43 +476,44 @@
     });
 
     function sendMessage() {
-    var message = document.getElementById("message").value.trim();
-    if (message === "") return;
+        var message = document.getElementById("message").value.trim();
+        if (message === "")
+            return;
 
-    var chatBox = document.getElementById("chatBox");
+        var chatBox = document.getElementById("chatBox");
 
-    // Hiển thị tin nhắn của người dùng
-    var userMessage = document.createElement("div");
-    userMessage.className = "message user-message";
-    userMessage.textContent = "Bạn: " + message;
-    chatBox.appendChild(userMessage);
-    chatBox.scrollTop = chatBox.scrollHeight;
+        // Hiển thị tin nhắn của người dùng
+        var userMessage = document.createElement("div");
+        userMessage.className = "message user-message";
+        userMessage.textContent = "Bạn: " + message;
+        chatBox.appendChild(userMessage);
+        chatBox.scrollTop = chatBox.scrollHeight;
 
-    // Chuyển tin nhắn thành chữ thường để so sánh
-    var lowerMessage = message.toLowerCase();
+        // Chuyển tin nhắn thành chữ thường để so sánh
+        var lowerMessage = message.toLowerCase();
 
-    // Danh sách từ khóa và phản hồi
-    var responses = [
-        { keywords: ["web", "làm gì"], response: "Web chúng tôi dùng để đặt lịch khám." },
-        { keywords: ["đặt lịch", "hẹn bác sĩ"], response: "Bạn có thể đặt lịch hẹn bằng cách chọn bác sĩ và thời gian phù hợp trên trang web." },
-        { keywords: ["giờ làm việc", "mở cửa"], response: "Chúng tôi làm việc từ 8h00 đến 22h00 từ thứ Hai đến thứ Bảy." },
-        { keywords: ["địa chỉ", "ở đâu"], response: "Bệnh viện của chúng tôi nằm tại 123 Đường ABC, TP XYZ." },
-        { keywords: ["số điện thoại", "liên hệ"], response: "Bạn có thể liên hệ với chúng tôi qua số 0123-456-789." }
-    ];
+        // Danh sách từ khóa và phản hồi
+        var responses = [
+            {keywords: ["web", "làm gì"], response: "Web chúng tôi dùng để đặt lịch khám."},
+            {keywords: ["đặt lịch", "hẹn bác sĩ"], response: "Bạn có thể đặt lịch hẹn bằng cách chọn bác sĩ và thời gian phù hợp trên trang web."},
+            {keywords: ["giờ làm việc", "mở cửa"], response: "Chúng tôi làm việc từ 8h00 đến 22h00 từ thứ Hai đến thứ Bảy."},
+            {keywords: ["địa chỉ", "ở đâu"], response: "Bệnh viện của chúng tôi nằm tại 123 Đường ABC, TP XYZ."},
+            {keywords: ["số điện thoại", "liên hệ"], response: "Bạn có thể liên hệ với chúng tôi qua số 0123-456-789."}
+        ];
 
-    // Kiểm tra tin nhắn có chứa từ khóa nào không
-    var foundResponse = responses.find(item => 
-        item.keywords.some(keyword => lowerMessage.includes(keyword))
-    );
+        // Kiểm tra tin nhắn có chứa từ khóa nào không
+        var foundResponse = responses.find(item =>
+            item.keywords.some(keyword => lowerMessage.includes(keyword))
+        );
 
-    if (foundResponse) {
-        autoReply(foundResponse.response);
-    } else {
-        fetchBotResponse(message);
+        if (foundResponse) {
+            autoReply(foundResponse.response);
+        } else {
+            fetchBotResponse(message);
+        }
+
+        document.getElementById("message").value = "";
     }
-
-    document.getElementById("message").value = "";
-}
 
     function autoReply(responseText) {
         var chatBox = document.getElementById("chatBox");
@@ -524,31 +525,53 @@
     }
 
     function fetchBotResponse(message) {
-        var chatBox = document.getElementById("chatBox");
-
         fetch("ChatBot", {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+            headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
             body: "message=" + encodeURIComponent(message)
         })
-        .then(response => response.json())
-        .then(data => {
-            var botMessage = document.createElement("div");
-            botMessage.className = "message bot-message";
-            if (data.error) {
-                botMessage.textContent = "Bot: Lỗi: " + data.error;
-            } else if (data && data.candidates && data.candidates.length > 0) {
-                botMessage.textContent = "Bot: " + data.candidates[0].content.parts[0].text;
-            } else {
-                botMessage.textContent = "Bot: Không có phản hồi từ AI!";
-            }
-            chatBox.appendChild(botMessage);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        })
-        .catch(error => {
-            autoReply("Lỗi kết nối! Vui lòng thử lại sau.");
-        });
-    }
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Dữ liệu nhận từ server:", data); // Kiểm tra dữ liệu phản hồi
+
+                    var chatBox = document.getElementById("chatBox");
+
+                    if (Array.isArray(data) && data.length > 0) {
+                        var chatBox = document.getElementById("chatBox");
+
+                        var botMessage = document.createElement("div");
+                        botMessage.className = "message bot-message";
+                        botMessage.textContent = "Bot: Danh sách bác sĩ giỏi:";
+                        chatBox.appendChild(botMessage);
+                        data.forEach(doctor => {
+                            console.log("Đang xử lý bác sĩ:", doctor);
+                            console.log("Tên:", doctor.name);
+                            console.log("Chức vụ:", doctor.position);
+                            console.log("Khoa:", doctor.department);
+                        });
+                        data.forEach(doctor => {
+                            console.log("Dữ liệu bác sĩ:", doctor); // Kiểm tra dữ liệu gốc
+
+                            
+                          
+                            let text = doctor.name +' thuộc ' +doctor.department ;
+                                                        console.log("Chuỗi sẽ hiển thị:", text); // Kiểm tra chuỗi đầu ra
+
+                                                        var doctorInfo = document.createElement("div");
+                                                        doctorInfo.className = "message bot-message";
+                                                        doctorInfo.textContent = text;
+                                                        chatBox.appendChild(doctorInfo);
+                                                    });
+                                                } else {
+                                                    console.log("Không nhận được danh sách bác sĩ.");
+                                                    autoReply("Không tìm thấy bác sĩ giỏi.");
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error("Lỗi API:", error);
+                                                autoReply("Lỗi kết nối! Vui lòng thử lại sau.");
+                                            });
+                                }
 </script>
 
 </body>

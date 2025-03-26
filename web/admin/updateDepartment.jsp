@@ -32,7 +32,7 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        <title>Update Department</title>
+        <title>Cập nhật phòng ban</title>
     </head>
     <body>
         <div class="container mt-5">

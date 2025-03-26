@@ -12,7 +12,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Doctris - Doctor Appointment Booking System</title>
+        <title>Danh Sách Dịch Vụ</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -95,9 +95,9 @@
                                                 <th class="border-bottom p-3" style="min-width: 180px;">Tên Dịch Vụ</th>
 
                                                 <th class="border-bottom p-3">Giá</th>
-                                                <th class="border-bottom p-3">Status</th>
+                                                <th class="border-bottom p-3">Trạng thái</th>
 
-                                                <th class="border-bottom p-3" style="min-width: 100px;">Actions</th>
+                                                <th class="border-bottom p-3" style="min-width: 100px;">Hành động</th>
                                             </tr>
                                         </thead>
                                         <!--tbody-start-->

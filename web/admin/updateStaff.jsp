@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Update Staff</title>
+        <title>Cập nhật thông tin nhân viên</title>
         <!-- Bootstrap -->
         <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -108,7 +108,7 @@
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Role</label>
+                            <label class="form-label">Vai trò</label>
                             <select name="roleId" id="roleId" class="form-control">
                                 <c:forEach var="role" items="${listRoles}">
                                     <option value="${role.roleId}" ${staff.role.roleId == role.roleId ? 'selected' : ''}>${role.role}</option>

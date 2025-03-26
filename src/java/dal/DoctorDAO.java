@@ -517,11 +517,43 @@ public class DoctorDAO extends DBContext {
     }
     return patientDetail;
 }
+public Staff getStaffByName(String name) {
+    Staff staff = null;
+    String sql = "SELECT * FROM Staff WHERE name LIKE ?"; // Sử dụng LIKE để tìm gần đúng
+
+    try (
+         PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, "%" + name + "%"); // Tìm kiếm theo tên gần đúng
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                staff = new Staff();
+                int staffId = rs.getInt("staffId");
+                staff.setStaffId(staffId);
+                staff.setName(rs.getString("name"));
+                staff.setEmail(rs.getString("email"));
+                staff.setAvatar(rs.getString("avatar"));
+                staff.setPhone(rs.getString("phone"));
+                staff.setPassword(rs.getString("password"));
+                staff.setDateOfBirth(rs.getDate("dateOfBirth"));
+                staff.setPosition(positionDao.getPositionByStaffId(staffId));
+                staff.setGender(rs.getString("gender"));
+                staff.setStatus(rs.getString("status"));
+                staff.setDescription(rs.getString("description"));
+                staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
+                staff.setDepartment(departDao.getDepartmentById(rs.getInt("departmentId")));
+            }
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return staff;
+}
 
 
     public static void main(String[] args) {
         DoctorDAO doctor = new DoctorDAO();
-        System.out.println(doctor.getStaffById(13).getCertificate());
+        System.out.println(doctor.getTopRatedDoctors());
         
     }
     //Them boi Nguyen Dinh Chinh 1-2-25

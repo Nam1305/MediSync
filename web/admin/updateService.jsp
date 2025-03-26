@@ -30,11 +30,11 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        <title>Update Department</title>
+        <title>Cập nhật dịch vụ</title>
     </head>
     <body>
         <div class="container mt-5">
-            <h3>Chỉnh Sửa Thông Tin Phòng Ban</h3>
+            <h3>Chỉnh Sửa Thông Tin Dịch Vụ</h3>
             <form class="mt-4" method="post" action="UpdateService">
                 <!-- Input Hidden -->
                 <input type="hidden" name="serviceId" id="serviceId" value="${service.serviceId}">
