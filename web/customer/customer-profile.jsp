@@ -160,6 +160,18 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Giới tính</label>
+                                                <select name="gender" class="form-control">
+                                                    <option value="" ${empty customer.bloodType ? 'selected' : ''}>Chọn giới tính</option>
+                                                    <option value="F" ${customer.gender == 'F' ? 'selected' : ''}>Nữ</option>
+                                                    <option value="M" ${customer.gender == 'M' ? 'selected' : ''}>Nam</option>
+                                                    <option value="D" ${customer.gender == 'D' ? 'selected' : ''}>Khác</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row">
