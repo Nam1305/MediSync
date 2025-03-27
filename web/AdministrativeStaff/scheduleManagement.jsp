@@ -44,7 +44,6 @@
                 <jsp:include page="top-navbar.jsp" />
                 <div class="container-fluid">
                     <div class="layout-specing">
-                        <h5 class="mb-0">Thêm lịch làm việc</h5>
 
                         <!-- Thông báo -->
                         <c:if test="${not empty message}">

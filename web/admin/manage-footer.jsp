@@ -7,6 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <title>Banner Management</title>
         <!-- Include your existing CSS files -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -98,7 +99,7 @@
                                 <input type="hidden" name="isUpdate" value="${footerContentExists}">
 
                                 <div class="mb-3">
-                                    <label for="addressContent" class="form-label"><i class="fas fa-map-marker-alt me-2"></i>Address</label>
+                                    <label for="addressContent" class="form-label"><i class="fas fa-map-marker-alt me-2"></i>Địa chỉ</label>
                                     <textarea class="form-control" id="addressContent" name="addressContent" rows="3" required>${addressContent.content}</textarea>
                                     <c:if test="${addressContent != null}">
                                         <input type="hidden" name="addressId" value="${addressContent.blogId}">
@@ -114,7 +115,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="phoneContent" class="form-label"><i class="fas fa-phone me-2"></i>Phone Number</label>
+                                    <label for="phoneContent" class="form-label"><i class="fas fa-phone me-2"></i>Số điện thoại</label>
                                     <textarea class="form-control" id="phoneContent" name="phoneContent" rows="2" required>${phoneContent.content}</textarea>
                                     <c:if test="${phoneContent != null}">
                                         <input type="hidden" name="phoneId" value="${phoneContent.blogId}">
@@ -123,15 +124,15 @@
 
                                 <div class="d-flex justify-content-end">
                                     <button type="reset" class="btn btn-secondary me-2">
-                                        <i class="fas fa-undo me-1"></i> Reset
+                                        <i class="fas fa-undo me-1"></i> Đặt lại
                                     </button>
                                     <button type="submit" class="btn btn-primary">
                                         <c:choose>
                                             <c:when test="${footerContentExists}">
-                                                <i class="fas fa-save me-1"></i> Update
+                                                <i class="fas fa-save me-1"></i> Cập nhật
                                             </c:when>
                                             <c:otherwise>
-                                                <i class="fas fa-save me-1"></i> Save
+                                                <i class="fas fa-save me-1"></i> Lưu
                                             </c:otherwise>
                                         </c:choose>
                                     </button>
@@ -144,17 +145,17 @@
                     <c:if test="${footerContentExists}">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0"><i class="fas fa-eye me-2"></i>Preview Current Footer Content</h5>
+                                <h5 class="mb-0"><i class="fas fa-eye me-2"></i>Xem trước footer</h5>
                                 <span class="text-muted">
                                     <c:choose>
                                         <c:when test="${addressContent != null}">
-                                            Last Updated: ${addressContent.date}
+                                            Cập nhật: ${addressContent.date}
                                         </c:when>
                                         <c:when test="${emailContent != null}">
-                                            Last Updated: ${emailContent.date}
+                                            Cập nhật: ${emailContent.date}
                                         </c:when>
                                         <c:when test="${phoneContent != null}">
-                                            Last Updated: ${phoneContent.date}
+                                            Cập nhật: ${phoneContent.date}
                                         </c:when>
                                     </c:choose>
                                 </span>
@@ -165,7 +166,7 @@
                                         <div class="card footer-card h-100">
                                             <div class="card-body">
                                                 <h5 class="card-title">
-                                                    <i class="fas fa-map-marker-alt me-2"></i>Address
+                                                    <i class="fas fa-map-marker-alt me-2"></i>Địa chỉ
                                                 </h5>
                                                 <p class="card-text" style="height: 100px; overflow: auto;">
                                                     ${addressContent.content}
@@ -209,7 +210,7 @@
                                         <div class="card footer-card h-100">
                                             <div class="card-body">
                                                 <h5 class="card-title">
-                                                    <i class="fas fa-phone me-2"></i>Phone Number
+                                                    <i class="fas fa-phone me-2"></i>Số điện thoại
                                                 </h5>
                                                 <p class="card-text" style="height: 100px; overflow: auto;">
                                                     ${phoneContent.content}

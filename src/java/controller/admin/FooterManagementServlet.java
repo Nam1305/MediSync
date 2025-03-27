@@ -142,18 +142,18 @@ public class FooterManagementServlet extends HttpServlet {
                 result = blogDAO.updateAllContactInfo(addressContent, emailContent, phoneContent, author);
 
                 if (result == 3) {
-                    request.getSession().setAttribute("successMessage", "Footer content updated successfully!");
+                    request.getSession().setAttribute("successMessage", "Cập nhật footer thành công!");
                 } else {
-                    request.getSession().setAttribute("errorMessage", "Error updating footer content. Only " + result + " out of 3 items were updated.");
+                    request.getSession().setAttribute("errorMessage", "Lỗi. Chỉ " + result + " trong 3 trường được cập nhật.");
                 }
             } else {
                 // Process as new content
                 result = blogDAO.addBasicContactInfo(addressContent, emailContent, phoneContent, author);
 
                 if (result == 3) {
-                    request.getSession().setAttribute("successMessage", "Footer content added successfully!");
+                    request.getSession().setAttribute("successMessage", "Thêm nội dung cho footer thành công");
                 } else {
-                    request.getSession().setAttribute("errorMessage", "Error adding footer content. Only " + result + " out of 3 items were added.");
+                    request.getSession().setAttribute("errorMessage", "Lỗi. Chỉ " + result + " trong 3 trường được cập nhật.");
                 }
             }
 
