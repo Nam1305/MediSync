@@ -67,7 +67,6 @@
                                 <div class="sidebar-submenu">
                                     <ul>
                                         <li><a href="blogs">Danh sách tin tức</a></li>
-                                        <li><a href="addBlog">Thêm tin tức</a></li>
                                     </ul>
                                 </div>
                             </li>
