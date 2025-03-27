@@ -88,7 +88,7 @@
                                         <option value="confirmed" ${param.status == 'confirmed' ? 'selected' : ''}>Đã xác nhận</option>
                                         <option value="paid" ${param.status == 'paid' ? 'selected' : ''}>Đã thanh toán</option>
                                         <option value="cancelled" ${param.status == 'cancelled' ? 'selected' : ''}>Đã hủy</option>
-                                        <option value="waitpay" ${param.status == 'waitpay' ? 'selected' : ''}>Chờ thanh toán</option>
+                                        <option value="completed" ${param.status == 'completed' ? 'selected' : ''}>Đã khám</option>
                                         <option value="absent" ${param.status == 'absent' ? 'selected' : ''}>Vắng mặt</option>
                                     </select>
 
@@ -168,8 +168,8 @@
                                                         <c:when test="${appointment.status == 'cancelled'}">
                                                             <span class="badge bg-danger">Đã hủy</span>
                                                         </c:when>
-                                                        <c:when test="${appointment.status == 'waitpay'}">
-                                                            <span class="badge bg-info">Chờ thanh toán</span>
+                                                        <c:when test="${appointment.status == 'completed'}">
+                                                            <span class="badge bg-info">Đã khám</span>
                                                         </c:when>
                                                         <c:when test="${appointment.status == 'absent'}">
                                                             <span class="badge bg-secondary">Vắng mặt</span>

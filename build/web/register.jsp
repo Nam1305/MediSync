@@ -38,7 +38,7 @@
 
     <body>
 
-         <div id="preloader">
+        <div id="preloader">
             <div id="status">
                 <div class="spinner">
                     <div class="double-bounce1"></div>
@@ -160,8 +160,8 @@
 
 
                 // Kiểm tra số điện thoại hợp lệ (10-11 số, bắt đầu bằng 0)
-                if (!/^(0\d{9,10})$/.test(phone)) {
-                    error = "Số điện thoại không hợp lệ! Số điện thoại phải có 10-11 chữ số và bắt đầu bằng 0.";
+                if (!/^(0\d{9})$/.test(phone)) {
+                    error = "Số điện thoại không hợp lệ! Số điện thoại phải có 10 chữ số và bắt đầu bằng 0.";
                 }
 
                 // Kiểm tra email hợp lệ

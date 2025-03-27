@@ -310,9 +310,10 @@ public class AppointmentDAO extends DBContext {
         if (status != null && !status.trim().isEmpty()) {
             // Nếu status được truyền, áp dụng mapping đã định:
             if ("confirmed".equals(status)) {
-                sql += " AND status = 'confirmed'";
+                sql += " AND status IN ('paid', 'confirmed')";
+
             } else if ("waitpay".equals(status)) {
-                sql += " AND status IN ('waitpay','paid')";
+                sql += " AND status = 'completed'";
             } else if ("absent".equals(status)) {
                 sql += " AND status = 'absent'";
             }
@@ -365,8 +366,8 @@ public class AppointmentDAO extends DBContext {
         int[] stats = new int[4];
 
         String sql = "SELECT COUNT(*) as total, "
-                + "SUM(CASE WHEN status IN ('waitpay','paid') THEN 1 ELSE 0 END) as completed, "
-                + "SUM(CASE WHEN status = 'confirmed' THEN 1 ELSE 0 END) as waiting, "
+                + "SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completed, "
+                + "SUM(CASE WHEN status IN ('paid', 'confirmed') THEN 1 ELSE 0 END) as waiting, "
                 + "SUM(CASE WHEN status = 'absent' THEN 1 ELSE 0 END) as absent "
                 + "FROM Appointment WHERE staffId = ?";
 
@@ -375,24 +376,21 @@ public class AppointmentDAO extends DBContext {
             sql += " AND customerId IN (SELECT customerId FROM Customer WHERE name LIKE ?)";
         }
 
-        // Filter theo status:
+        // Filter theo status
         if (status != null && !status.trim().isEmpty()) {
             if ("confirmed".equals(status)) {
-                // Nếu filter là pending, thì chỉ lấy các appointment có status = 'confirmed'
-                sql += " AND status = 'confirmed'";
+                sql += " AND status IN ('paid', 'confirmed')";
             } else if ("waitpay".equals(status)) {
-                // Nếu filter là confirmed, chỉ lấy các appointment có status IN ('waitpay','paid')
-                sql += " AND status IN ('waitpay','paid')";
+                sql += " AND status = 'completed'";
             } else if ("absent".equals(status)) {
-                // Nếu filter là absent
                 sql += " AND status = 'absent'";
             }
         } else {
-            // Nếu không có filter status, lấy tất cả các appointment nhưng loại trừ cancelled và pending
-            sql += " AND status NOT IN ('cancelled','pending')";
+            // Nếu không có status, loại trừ cancelled và pending
+            sql += " AND status NOT IN ('cancelled', 'pending')";
         }
 
-        // Xử lý điều kiện ngày: hỗ trợ nhập 1 trong 2 hoặc cả 2
+        // Filter theo ngày
         if (fromDate != null && toDate != null) {
             sql += " AND date BETWEEN ? AND ?";
         } else if (fromDate != null) {
@@ -401,30 +399,33 @@ public class AppointmentDAO extends DBContext {
             sql += " AND date <= ?";
         }
 
-        PreparedStatement ps = connection.prepareStatement(sql);
-        int index = 1;
-        ps.setInt(index++, staffId);
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+            ps.setInt(index++, staffId);
 
-        if (search != null && !search.trim().isEmpty()) {
-            ps.setString(index++, "%" + search + "%");
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(index++, "%" + search + "%");
+            }
+
+            if (fromDate != null && toDate != null) {
+                ps.setDate(index++, fromDate);
+                ps.setDate(index++, toDate);
+            } else if (fromDate != null) {
+                ps.setDate(index++, fromDate);
+            } else if (toDate != null) {
+                ps.setDate(index++, toDate);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    stats[0] = rs.getInt("total");
+                    stats[1] = rs.getInt("completed");
+                    stats[2] = rs.getInt("waiting");
+                    stats[3] = rs.getInt("absent");
+                }
+            }
         }
 
-        if (fromDate != null && toDate != null) {
-            ps.setDate(index++, fromDate);
-            ps.setDate(index++, toDate);
-        } else if (fromDate != null) {
-            ps.setDate(index++, fromDate);
-        } else if (toDate != null) {
-            ps.setDate(index++, toDate);
-        }
-
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            stats[0] = rs.getInt("total");
-            stats[1] = rs.getInt("completed");
-            stats[2] = rs.getInt("waiting");
-            stats[3] = rs.getInt("absent");
-        }
         return stats;
     }
 
@@ -545,7 +546,6 @@ public class AppointmentDAO extends DBContext {
             int page, int pageSize, String sortDate, String sortPrice) {
         List<Appointment> appointments = new ArrayList<>();
 
-        // Đảm bảo sortPrice có giá trị mặc định nếu NULL
         sortPrice = (sortPrice == null || sortPrice.trim().isEmpty()) ? "ASC" : sortPrice;
 
         String sql = "WITH CTE AS ( "
@@ -563,15 +563,14 @@ public class AppointmentDAO extends DBContext {
         }
         if (status != null && !status.trim().isEmpty()) {
             if ("paid".equalsIgnoreCase(status)) {
-                sql += " AND a.status = 'paid' ";
+                sql += " AND a.status IN ('paid', 'completed') ";
             } else if ("unpaid".equalsIgnoreCase(status)) {
-                sql += " AND a.status = 'waitpay' ";
+                sql += " AND a.status = 'confirmed' ";
             }
         } else {
-            sql += " AND (a.status = 'paid' OR a.status = 'waitpay') ";
+            sql += " AND a.status IN ('paid', 'completed', 'confirmed') ";
         }
 
-        // Sử dụng khoảng ngày (từ dateFrom đến dateTo)
         if (dateFrom != null) {
             sql += " AND a.date >= ? ";
         }
@@ -580,7 +579,8 @@ public class AppointmentDAO extends DBContext {
         }
 
         sql += "    GROUP BY a.appointmentId, a.date, a.startTime, a.endTime, a.status, a.staffId, a.customerId "
-                + ") SELECT * FROM CTE WHERE 1=1 ";
+                + ") SELECT * FROM CTE WHERE 1=1 "
+                + " AND (status != 'confirmed' OR (status = 'confirmed' AND total != 0)) ";
 
         if (totalFrom != null) {
             sql += " AND total >= ? ";
@@ -588,7 +588,6 @@ public class AppointmentDAO extends DBContext {
         if (totalTo != null) {
             sql += " AND total <= ? ";
         }
-        // Xử lý ORDER BY
         if (sortDate != null && !sortDate.trim().isEmpty()) {
             sql += " ORDER BY date " + sortDate + ", ";
         } else {
@@ -623,7 +622,7 @@ public class AppointmentDAO extends DBContext {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Appointment appointment = mapResultSetToAppointment(rs);
-                    appointment.setTotal(rs.getDouble("total")); // Nếu NULL -> 0
+                    appointment.setTotal(rs.getDouble("total"));
                     appointments.add(appointment);
                 }
             }
@@ -652,13 +651,14 @@ public class AppointmentDAO extends DBContext {
         }
         if (status != null && !status.trim().isEmpty()) {
             if ("paid".equalsIgnoreCase(status)) {
-                sql += " AND a.status = 'paid' ";
+                sql += " AND a.status IN ('paid', 'completed') ";
             } else if ("unpaid".equalsIgnoreCase(status)) {
-                sql += " AND a.status = 'waitpay' ";
+                sql += " AND a.status = 'confirmed' ";
             }
         } else {
-            sql += " AND (a.status = 'paid' OR a.status = 'waitpay') ";
+            sql += " AND a.status IN ('paid', 'completed', 'confirmed') ";
         }
+
         if (dateFrom != null) {
             sql += " AND a.date >= ? ";
         }
@@ -667,7 +667,8 @@ public class AppointmentDAO extends DBContext {
         }
 
         sql += "    GROUP BY a.appointmentId, a.date, a.startTime, a.endTime, a.status, a.staffId, a.customerId "
-                + ") SELECT COUNT(*) FROM CTE WHERE 1=1 ";
+                + ") SELECT COUNT(*) FROM CTE WHERE 1=1 "
+                + " AND (status != 'confirmed' OR (status = 'confirmed' AND total != 0)) ";
 
         if (totalFrom != null) {
             sql += " AND total >= ? ";
@@ -704,7 +705,9 @@ public class AppointmentDAO extends DBContext {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return 0; // Trả về 0 nếu có lỗi xảy ra
         }
+
         return count;
     }
 

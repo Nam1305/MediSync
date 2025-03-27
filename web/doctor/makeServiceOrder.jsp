@@ -5,7 +5,7 @@
 <html lang="vi">
     <head>
         <meta charset="utf-8" />
-        <title>Nhập Hóa Đơn</title>
+        <title>Nhập Dịch Vụ</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="shortcut icon" href="assets/images/logo-icon.png"><!-- comment -->       
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -67,7 +67,7 @@
                         <div class="container mt-5">
                             <a href="doctorappointment" class="btn btn-success mb-3">Quay lại</a>
 
-                            <h2 class="text-center mb-4">📋 Nhập Hóa Đơn Khám Bệnh</h2>
+                            <h2 class="text-center mb-4">📋 Nhập Dịch Vụ Khám Bệnh</h2>
 
                             <!-- Thông tin cuộc hẹn -->
                             <div class="card p-3 mb-4">

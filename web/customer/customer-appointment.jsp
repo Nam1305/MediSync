@@ -239,7 +239,7 @@
                                     <option value="confirmed" <c:if test="${status == 'confirmed'}">selected</c:if>>Đã xác nhận</option>
                                     <option value="paid" <c:if test="${status == 'paid'}">selected</c:if>>Đã thanh toán</option>
                                     <option value="cancelled" <c:if test="${status == 'cancelled'}">selected</c:if>>Đã hủy</option>
-                                    <option value="waitpay" <c:if test="${status == 'waitpay'}">selected</c:if>>Chờ thanh toán</option>
+                                    <option value="completed" <c:if test="${status == 'completed'}">selected</c:if>>Đã khám</option>
                                     <option value="absent" <c:if test="${status == 'absent'}">selected</c:if>>Vắng mặt</option>
                                     </select>
                                 </div>
@@ -304,7 +304,7 @@
                                                     <c:when test="${appointment.status == 'confirmed'}">Đã xác nhận</c:when>
                                                     <c:when test="${appointment.status == 'paid'}">Đã thanh toán</c:when>
                                                     <c:when test="${appointment.status == 'cancelled'}">Đã hủy</c:when>
-                                                    <c:when test="${appointment.status == 'waitpay'}">Chờ thanh toán</c:when>
+                                                    <c:when test="${appointment.status == 'completed'}">Đã khám</c:when>
                                                     <c:when test="${appointment.status == 'absent'}">Vắng mặt</c:when>
                                                 </c:choose>
                                             </td>
@@ -395,6 +395,6 @@
                                                                window.location.href = './listAppointments?search=&gender=&status=all&sort=asc&pageSize=2';
                                                            }
         </script>
-        
-        </body>
+
+    </body>
 </html>

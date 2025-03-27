@@ -5,7 +5,7 @@
 <html lang="vi">
     <head>
         <meta charset="utf-8" />
-        <title>Feedback</title>
+        <title>Phản hồi từ bệnh nhân</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <!-- CSS dependencies -->
         <link rel="shortcut icon" href="assets/images/logo-icon.png"><!-- comment -->       
