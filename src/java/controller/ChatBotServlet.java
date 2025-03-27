@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.DoctorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,7 +17,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
+import model.Staff;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -26,7 +29,7 @@ import org.json.JSONObject;
  */
 @WebServlet(name = "ChatBotServlet", urlPatterns = {"/ChatBot"})
 public class ChatBotServlet extends HttpServlet {
-    
+
     private static final String API_KEY = "AIzaSyDtoDrWkmHUZ0PDgnsNqLb7Atatign-XW8"; // Thay bằng API Key của bạn
     String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=" + API_KEY;
 
@@ -129,6 +132,13 @@ public class ChatBotServlet extends HttpServlet {
             response.getWriter().write("{\"error\": \"Vui lòng nhập tin nhắn!\"}");
             return;
         }
+        String lowerMessage = userMessage.toLowerCase();
+
+        // Kiểm tra nếu người dùng hỏi về "bác sĩ tốt nhất"
+        if (lowerMessage.contains("bác sĩ tốt nhất") || lowerMessage.contains("bác sĩ giỏi")) {
+            fetchTopDoctors(response);
+            return;
+        }
 
         // Tạo JSON request body theo đúng format API của Gemini
         JSONObject json = new JSONObject();
@@ -162,6 +172,31 @@ public class ChatBotServlet extends HttpServlet {
         response.setContentType("application/json; charset=UTF-8");
         response.getWriter().write(responseText.toString());
     }
+
+  private void fetchTopDoctors(HttpServletResponse response) throws IOException {
+    DoctorDAO doctorDAO = new DoctorDAO();
+    List<Staff> topDoctors = doctorDAO.getTopRatedDoctors();
+
+    JSONArray doctorArray = new JSONArray();
+    for (Staff doctor : topDoctors) {
+        JSONObject obj = new JSONObject();
+        obj.put("id", doctor.getStaffId());
+        obj.put("name", doctor.getName());
+        obj.put("email", doctor.getEmail());
+        obj.put("phone", doctor.getPhone());
+        obj.put("position", doctor.getPosition());
+        obj.put("department", doctor.getDepartment().getDepartmentName());
+        doctorArray.put(obj);
+    }
+
+    JSONObject responseObj = new JSONObject();
+    responseObj.put("doctors", doctorArray);
+    responseObj.put("message", "Danh sách các bác sĩ giỏi nhất!");
+
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    response.getWriter().write(responseObj.toString());
+}
 
     /**
      * Returns a short description of the servlet.

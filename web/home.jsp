@@ -524,31 +524,46 @@
     }
 
     function fetchBotResponse(message) {
-        var chatBox = document.getElementById("chatBox");
+    var chatBox = document.getElementById("chatBox");
 
-        fetch("ChatBot", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
-            body: "message=" + encodeURIComponent(message)
-        })
-        .then(response => response.json())
-        .then(data => {
-            var botMessage = document.createElement("div");
-            botMessage.className = "message bot-message";
-            if (data.error) {
-                botMessage.textContent = "Bot: Lỗi: " + data.error;
-            } else if (data && data.candidates && data.candidates.length > 0) {
-                botMessage.textContent = "Bot: " + data.candidates[0].content.parts[0].text;
-            } else {
-                botMessage.textContent = "Bot: Không có phản hồi từ AI!";
-            }
+    fetch("ChatBot", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+        body: "message=" + encodeURIComponent(message)
+    })
+    .then(response => response.json())
+    .then(data => {
+        var botMessage = document.createElement("div");
+        botMessage.className = "message bot-message";
+
+        if (data.error) {
+            botMessage.textContent = "Bot: Lỗi: " + data.error;
+        } else if (data.doctors) {
+            botMessage.textContent = "Bot: Danh sách bác sĩ giỏi nhất:";
             chatBox.appendChild(botMessage);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        })
-        .catch(error => {
-            autoReply("Lỗi kết nối! Vui lòng thử lại sau.");
-        });
-    }
+            data.doctors.forEach(doctor => {
+                let text = doctor.name +' thuộc ' +doctor.department ;
+                                                        console.log("Chuỗi sẽ hiển thị:", text); // Kiểm tra chuỗi đầu ra
+
+                                                        var doctorInfo = document.createElement("div");
+                                                        doctorInfo.className = "message bot-message";
+                                                        doctorInfo.textContent = text;
+                chatBox.appendChild(doctorInfo);
+            });
+        } else if (data.candidates && data.candidates.length > 0) {
+            botMessage.textContent = "Bot: " + data.candidates[0].content.parts[0].text;
+            chatBox.appendChild(botMessage);
+        } else {
+            botMessage.textContent = "Bot: Không có phản hồi từ AI!";
+            chatBox.appendChild(botMessage);
+        }
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    })
+    .catch(error => {
+        autoReply("Lỗi kết nối! Vui lòng thử lại sau.");
+    });
+}
 </script>
 </body>
 </html>
