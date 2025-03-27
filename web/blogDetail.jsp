@@ -116,7 +116,9 @@
 
                         <ul class="list-unstyled mt-2 mb-0">
                             <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> ${blog.author}</li>
-                            <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> ${blog.date}</li>
+                            <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> 
+                                <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
+                            </li>
                         </ul>
                     </div>
                 </div>       
@@ -208,7 +210,7 @@
                             <div class="card-body">
                                 <!-- RECENT POST -->
                                 <div class="widget mb-4 pb-2">
-                                    <h5 class="widget-title">Blog gần đây</h5>
+                                    <h5 class="widget-title">Tin tức gần đây</h5>
                                     <c:forEach items="${topBlog}" var="blog">
                                         <div class="mt-4">
                                             <div class="clearfix post-recent">

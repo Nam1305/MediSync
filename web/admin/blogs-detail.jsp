@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +55,9 @@
 
                                 <ul class="list-unstyled mt-2 mb-0">
                                     <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> ${blog.author}</li>
-                                    <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> ${blog.date}</li>
+                                    <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> 
+                                    <fmt:formatDate value="${blog.date}" pattern="dd/MM/yyyy"/>
+                                    </li>
                                 </ul>
                             </div>
                         </div>       

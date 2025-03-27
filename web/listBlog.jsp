@@ -108,7 +108,7 @@
                     <form action="listBlog" method="get" class="d-flex">
                         <input type="hidden" name="page" value="${requestScope.currentPage != null ? requestScope.currentPage : 1}" />
                         <input type="text" name="search" class="form-control me-2" 
-                               placeholder="Tìm kiếm blog..." value="${param.search}" style="max-width: 300px;">
+                               placeholder="Tìm kiếm tin tức..." value="${param.search}" style="max-width: 300px;">
                         <button type="submit" class="btn btn-success">Tìm</button>
                     </form>
                 </div>
@@ -170,7 +170,6 @@
             <div class="row text-center">
                 <div class="col-12 mt-4">
                     <div class="d-md-flex align-items-center text-center justify-content-between">
-                        <span class="text-muted me-3">Showing 1 - ${requestScope.itemsPerPage} out of ${requestScope.totalBlogs}</span>
                         <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                             <c:if test="${currentPage > 1}">
                                 <li class="page-item">
