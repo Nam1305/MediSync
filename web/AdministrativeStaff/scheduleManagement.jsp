@@ -102,6 +102,79 @@
                                 </div>
                             </form>
                         </div>
+
+                        <!-- Phần tìm kiếm -->
+                        <div class="card shadow rounded border-0 p-4 mb-4">
+                            <h5 class="mb-3">Tìm kiếm nhân viên</h5>
+                            <form action="schedule-management" method="get">
+                                <div class="filter-row">
+                                    <div class="filter-item">
+                                        <label for="searchName" class="form-label">Tên nhân viên</label>
+                                        <input type="text" class="form-control" id="searchName" name="searchName" value="${searchName}">
+                                    </div>
+                                    <div class="filter-item">
+                                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Bảng danh sách nhân viên có lịch -->
+                        <div class="card shadow rounded border-0 p-4 mb-4">
+                            <h5 class="mb-3">Danh sách nhân viên có lịch làm việc</h5>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Tên</th>
+                                        <th>Phòng ban</th>
+                                        <th>Ngày bắt đầu</th>
+                                        <th>Ngày kết thúc</th>
+                                        <th>Số ca</th> <!-- Cột mới -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="ss" items="${staffSchedules}">
+                                        <tr>
+                                            <td>${ss.name}</td>
+                                            <td>${ss.departmentName}</td>
+                                            <td><fmt:formatDate value="${ss.startDate}" pattern="dd/MM/yyyy" /></td>
+                                            <td><fmt:formatDate value="${ss.endDate}" pattern="dd/MM/yyyy" /></td>
+                                            <td>${ss.shiftList}</td> <!-- Hiển thị số ca -->
+                                        </tr>
+                                    </c:forEach>
+                                    <c:if test="${empty staffSchedules}">
+                                        <tr>
+                                            <td colspan="5" class="text-center">Không có dữ liệu</td> <!-- Cập nhật colspan thành 5 -->
+                                        </tr>
+                                    </c:if>
+                                </tbody>
+                            </table>
+
+                            <!-- Phân trang -->
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <c:if test="${currentPage > 1}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="schedule-management?page=${currentPage - 1}&searchName=${searchName}" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    </c:if>
+                                    <c:forEach begin="1" end="${totalPages}" var="i">
+                                        <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                            <a class="page-link" href="schedule-management?page=${i}&searchName=${searchName}">${i}</a>
+                                        </li>
+                                    </c:forEach>
+                                    <c:if test="${currentPage < totalPages}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="schedule-management?page=${currentPage + 1}&searchName=${searchName}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </c:if>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 <jsp:include page="footer.jsp" />

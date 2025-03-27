@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.Schedule;
 import model.ShiftRegistration;
 import model.Staff;
+import model.StaffSchedule;
 import util.SendEmail;
 
 @WebServlet(name = "ScheduleManagementServlet", urlPatterns = {"/schedule-management"})
@@ -35,7 +36,7 @@ public class ScheduleManagementServlet extends HttpServlet {
         // Handle AJAX request for getting registration dates
         if ("getRegistrationDates".equals(action)) {
             handleGetRegistrationDates(request, response, scheduleDAO);
-            return; // Return early to avoid forwarding to JSP
+            return;
         }
 
         // Xử lý hành động tạo lịch làm việc nếu có
@@ -49,6 +50,29 @@ public class ScheduleManagementServlet extends HttpServlet {
 
         // Lấy danh sách ca đăng ký của nhân viên được chọn nếu có
         handleSelectedStaff(request, scheduleDAO);
+
+        // Lấy danh sách nhân viên có lịch từ hôm nay trở đi với phân trang và tìm kiếm
+        String pageParam = request.getParameter("page");
+        String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
+        int page = 1;
+        if (pageParam != null) {
+            try {
+                page = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
+        int pageSize = 10;
+        Date today = new Date(System.currentTimeMillis());
+        List<StaffSchedule> staffSchedules = scheduleDAO.getStaffsWithSchedule(today, searchName, page, pageSize);
+        int totalRecords = scheduleDAO.countStaffsWithSchedule(today, searchName);
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+
+        // Chuyển dữ liệu đến JSP
+        request.setAttribute("staffSchedules", staffSchedules);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("searchName", searchName);
 
         // Forward đến trang JSP
         request.getRequestDispatcher("AdministrativeStaff/scheduleManagement.jsp").forward(request, response);
@@ -68,7 +92,6 @@ public class ScheduleManagementServlet extends HttpServlet {
                 ShiftRegistration registration = scheduleDAO.getShiftRegistrationById(registrationId);
 
                 if (registration != null) {
-                    // Sử dụng định dạng dd/MM/yyyy cho giao diện
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                     String startDate = registration.getStartDate() != null
                             ? dateFormat.format(registration.getStartDate()) : "";
@@ -271,11 +294,9 @@ public class ScheduleManagementServlet extends HttpServlet {
 
             // Skip Saturday (7) and Sunday (1)
             if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
-                // Add this date to our work days
                 workDays.add(new Date(calendar.getTimeInMillis()));
             }
 
-            // Move to the next day
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
@@ -394,9 +415,7 @@ public class ScheduleManagementServlet extends HttpServlet {
         return eligibleStaffs;
     }
 
-    /**
-     * Get pending shift registrations for a specific staff
-     */
+
     private List<ShiftRegistration> getPendingRegistrations(ScheduleDAO scheduleDAO, int staffId) {
         List<ShiftRegistration> allRegistrations = scheduleDAO.ShiftRegistrationByStaffId(staffId, 1, 100);
         List<ShiftRegistration> pendingRegistrations = new ArrayList<>();
