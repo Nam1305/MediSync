@@ -6,9 +6,9 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Chỉnh sửa blog</title>
+        <title>Chỉnh sửa tin tức</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         
@@ -29,7 +29,7 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Chỉnh sửa Blog</h5>
+                            <h5 class="mb-0">Chỉnh sửa tin tức</h5>
                         </div>
 
                         <div class="row">
