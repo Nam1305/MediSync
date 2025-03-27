@@ -122,7 +122,7 @@ public class ListDepartmentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            // không sủ dụng 
+            doGet(request, response);
     }
 
     /**

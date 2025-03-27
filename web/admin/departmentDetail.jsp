@@ -18,7 +18,7 @@
                 
                 <h5 class="mt-4">Số lượng nhân viên theo vai trò</h5>
                 <table class="table table-bordered mt-3">
-                    <thead class="table-dark">
+                    <thead class="table-bordered" style="color: green">
                         <tr>
                             <th>Vai trò</th>
                             <th>Số lượng</th>
@@ -41,7 +41,7 @@
                 </table>
             </div>
 
-            <a href="ListDepartment" class="btn btn-secondary mt-3">Quay lại danh sách phòng ban</a>
+                        <a href="ListDepartment" class="btn btn-secondary mt-3" >Quay lại danh sách phòng ban</a>
         </div>
     </body>
 </html>

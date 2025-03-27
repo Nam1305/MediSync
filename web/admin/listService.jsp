@@ -69,8 +69,8 @@
 
                                     <select name="status" id="statusFilter" class="form-select">
                                         <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả</option>
-                                    <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
-                                    <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
+                                    <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Hoạt động</option>
+                                    <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Ngừng hoạt động</option>
                                     </select>                                        
                                     <input type="number" id="pageSizeInput" name="pageSize" value="${pageSize}" class="form-control" style="width: 100px;" placeholder="Kích thước" min="1" max="15">
                                 <button type="submit" class="btn btn-primary form-control text-nowrap">Lọc</button>
@@ -108,7 +108,7 @@
                                                     <td class="p-3">${service.name}</td>
 
                                                     <td class="p-3"><fmt:formatNumber value="${service.price}" type="number" groupingUsed="true"/></td>
-                                                    <td class="p-3">${service.status}</td>
+                                                    <td class="p-3">${service.status == "Active" ? "Hoạt động" : "Ngưng hoạt động"}</td>
                                                     <td class=" p-3">
                                                         <!-- Action Buttons -->
                                                         <a href="ViewServiceDetail?id=${service.serviceId}" class="btn btn-icon btn-pills btn-soft-primary" >

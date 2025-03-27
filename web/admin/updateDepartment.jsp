@@ -50,18 +50,18 @@
                     </div><!--end col-->
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Status</label>
+                            <label class="form-label">Trạng thái</label>
                             <select name="status" id="status" class="form-control">
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
+                                <option value="Active">Hoạt động</option>
+                                <option value="Inactive">Ngừng hoạt động</option>
                             </select>
                         </div>
                     </div><!--end col-->
 
                     <div class="col-sm-12">
                         <div class="mb-3">
-                            <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
-                            <a href="ListDepartment" class="btn btn-secondary">Back to List</a>
+                            <input type="submit" id="submit" name="update" class="btn btn-primary" value="Lưu thay đổi">
+                            <a href="ListDepartment" class="btn btn-secondary">Trở lại danh sách</a>
                         </div>
 
                     </div>

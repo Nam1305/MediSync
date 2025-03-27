@@ -85,10 +85,10 @@
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Status</label>
+                            <label class="form-label">Trạng thái</label>
                             <select name="status" id="status" class="form-control">
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
+                                <option value="Active">Hoạt động</option>
+                                <option value="Inactive">Ngừng hoạt động</option>
                             </select>
                         </div>
                     </div><!--end col-->
@@ -120,7 +120,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label">Mô tả</label>
-                            <input name="description" id="description" type="text" class="form-control" placeholder="Mô tả" value ="${param.description != null ? param.description : staff.description}">
+                            <textarea name="description" id="description" type="text" class="form-control" placeholder="Mô tả" >${param.description != null ? param.description : staff.description}</textarea>
                         </div>
                     </div><!--end col-->
                     <div class="col-md-12">
@@ -152,7 +152,7 @@
                             </ul>
                         </c:if>
                     </div>
-
+                  </div>
 
             </form><!--end form-->
         </div>

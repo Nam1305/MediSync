@@ -49,7 +49,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label">Mô tả </label>
-                            <input name="content" id="content" type="text" class="form-control" placeholder="Mô tả" value ="${service.content}">
+                            <textarea name="content" id="content" type="text" class="form-control" placeholder="Mô tả" >${service.content}</textarea>
                         </div>
                     </div><!--end col-->
                     <div class="col-md-6">
@@ -67,7 +67,7 @@
                             </select>
                         </div>
                     </div><!--end col-->
-                    
+
                     <div class="col-sm-12">
                         <div class="mb-3">
                             <input type="submit" id="submit" name="update" class="btn btn-primary" value="Save Changes">
@@ -83,6 +83,7 @@
                             <div style="color: green">${success}</div>
                         </c:if>
                     </div>
+                </div>
             </form><!--end form-->
         </div>
     </body>

@@ -30,7 +30,7 @@ public class DoctorDAO extends DBContext {
     // list ra danh sách tất cả nhân viên trừ admin
     public List<Staff> getAllStaff(Integer roleId, String status, String searchQuery, int page, int pageSize, String sort) {
         List<Staff> listDoctor = new ArrayList<>();
-        String sql = "SELECT staffId, name , email , avatar , phone , password , dateOfBirth, position, gender, status, description, roleId, departmentId FROM Staff WHERE roleId != 1"; // Loại bỏ roleId = 1
+        String sql = "SELECT staffId, name , email , avatar , phone , password , dateOfBirth, position, gender, status, description, roleId, departmentId, certificate FROM Staff WHERE roleId != 1"; // Loại bỏ roleId = 1
 
         // Nếu roleId khác null, thêm điều kiện lọc
         if (roleId != null) {
@@ -83,7 +83,7 @@ public class DoctorDAO extends DBContext {
                 doctor.setDescription(rs.getString(11));
                 doctor.setRole(roleDao.getRoleById(rs.getInt(12)));
                 doctor.setDepartment(departDao.getDepartmentById(rs.getInt(13)));
-
+                doctor.setCertificate(rs.getString(14));
                 listDoctor.add(doctor);
             }
         } catch (SQLException ex) {

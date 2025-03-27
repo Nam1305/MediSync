@@ -68,8 +68,8 @@
 
                                 <select name="status" id="statusFilter" class="form-select">
                                     <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả trạng thái</option>
-                                    <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
-                                    <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
+                                    <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Hoạt động</option>
+                                    <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Ngừng hoạt động</option>
                                     </select>
 
                                     <button type="submit" class="btn btn-primary form-control">Lọc</button>
@@ -102,7 +102,7 @@
                                                 <tr>
                                                     <td class="p-3">${department.departmentId}</td>
                                                     <td class="p-3">${department.departmentName}</td>
-                                                    <td class="p-3">${department.status}</td>
+                                                    <td class="p-3">${department.status == "Active" ? "Hoạt động" : "Ngưng hoạt động"}</td>
                                                     <td class=" p-3">
                                                         <!-- Action Buttons -->
                                                         <a href="ViewDepartmentDetail?id=${department.departmentId}" class="btn btn-icon btn-pills btn-soft-primary" >
@@ -172,53 +172,7 @@
                                                     </div>
                                                     <!-- page-wrapper -->
 
-                                                    <!-- Offcanvas Start -->
-                                                    <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                                                        <div class="offcanvas-header p-4 border-bottom">
-                                                            <h5 id="offcanvasRightLabel" class="mb-0">
-                                                                <img src="assets/images/logo-dark.png" height="24" class="light-version" alt="">
-                                                                <img src="assets/images/logo-light.png" height="24" class="dark-version" alt="">
-                                                            </h5>
-                                                            <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
-                                                        </div>
-                                                        <div class="offcanvas-body p-4 px-md-5">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <!-- Style switcher -->
-                                                                    <div id="style-switcher">
-                                                                        <div>
-                                                                            <ul class="text-center list-unstyled mb-0">
-                                                                                <li class="d-grid"><a href="javascript:void(0)" class="rtl-version t-rtl-light" onclick="setTheme('style-rtl')"><img src="assets/images/layouts/light-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                                                                <li class="d-grid"><a href="javascript:void(0)" class="ltr-version t-ltr-light" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                                                                <li class="d-grid"><a href="javascript:void(0)" class="dark-rtl-version t-rtl-dark" onclick="setTheme('style-dark-rtl')"><img src="assets/images/layouts/dark-dash-rtl.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">RTL Version</span></a></li>
-                                                                                <li class="d-grid"><a href="javascript:void(0)" class="dark-ltr-version t-ltr-dark" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">LTR Version</span></a></li>
-                                                                                <li class="d-grid"><a href="javascript:void(0)" class="dark-version t-dark mt-4" onclick="setTheme('style-dark')"><img src="assets/images/layouts/dark-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Dark Version</span></a></li>
-                                                                                <li class="d-grid"><a href="javascript:void(0)" class="light-version t-light mt-4" onclick="setTheme('style')"><img src="assets/images/layouts/light-dash.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Light Version</span></a></li>
-                                                                                <li class="d-grid"><a href="landing/index.html" target="_blank" class="mt-4"><img src="assets/images/layouts/landing-light.png" class="img-fluid rounded-md shadow-md d-block" alt=""><span class="text-muted mt-2 d-block">Landing Demos</span></a></li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- end Style switcher -->
-                                                                </div><!--end col-->
-                                                            </div><!--end row-->
-                                                        </div>
-
-                                                        <div class="offcanvas-footer p-4 border-top text-center">
-                                                            <ul class="list-unstyled social-icon mb-0">
-                                                                <li class="list-inline-item mb-0"><a href="https://1.envato.market/doctris-template" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
-                                                                <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
-                                                                <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
-                                                                <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
-                                                                <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
-                                                                <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
-                                                                <li class="list-inline-item mb-0"><a href="index.html" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
-                                                            </ul><!--end icon-->
-                                                        </div>
-                                                    </div>
-                                                    <!-- Offcanvas End -->
-
-                                                    <!-- Modal end -->
-
+                                                  
                                                     <!-- javascript -->
                                                     <script src="assets/js/bootstrap.bundle.min.js"></script>
                                                     <!-- simplebar -->

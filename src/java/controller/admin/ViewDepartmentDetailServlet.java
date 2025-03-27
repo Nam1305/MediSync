@@ -88,7 +88,7 @@ public class ViewDepartmentDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // không sử dụng đến
+        doGet(request, response);
     }
 
     /**
