@@ -155,12 +155,12 @@
                             </li>
                             <li>
                                 <a href="schedule-management">
-                                    <i class="uil uil-calendar-alt me-2"></i> Xếp lịch làm việc cho bác sỹ/chuyên gia
+                                    <i class="uil uil-calendar-alt me-2"></i> Xếp lịch làm việc
                                 </a>
                             </li>
                             <li>
                                 <a href="confirmappointment">
-                                    <i class="uil uil-check-circle me-2"></i> Xác nhận lịch hẹn bệnh nhân
+                                    <i class="uil uil-check-circle me-2"></i> Xác nhận lịch hẹn
                                 </a>
                             </li>
                             <li>
