@@ -9,6 +9,7 @@ import java.util.List;
 import model.Schedule;
 import java.sql.*;
 import model.ShiftRegistration;
+import model.StaffSchedule;
 import model.TimeSlot;
 
 /**
@@ -98,10 +99,10 @@ public class ScheduleDAO extends DBContext {
         String sql = "SELECT COUNT(*) FROM DoctorShiftRegistration "
                 + "WHERE staffId = ? AND shift = ? "
                 + "AND ("
-                + "    (? BETWEEN startDate AND endDate) OR " 
                 + "    (? BETWEEN startDate AND endDate) OR "
-                + "    (startDate BETWEEN ? AND ?) OR " 
-                + "    (endDate BETWEEN ? AND ?) " 
+                + "    (? BETWEEN startDate AND endDate) OR "
+                + "    (startDate BETWEEN ? AND ?) OR "
+                + "    (endDate BETWEEN ? AND ?) "
                 + ")";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -440,5 +441,102 @@ public class ScheduleDAO extends DBContext {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public List<StaffSchedule> getStaffsWithSchedule(Date currentDate, String searchName, int page, int pageSize) {
+        List<StaffSchedule> staffSchedules = new ArrayList<>();
+        String sql = "WITH StaffScheduleDetails AS ( "
+                + "    SELECT s.staffId, s.name, "
+                + "           d.departmentName, "
+                + "           (SELECT MIN(sc.date) FROM Schedule sc "
+                + "            WHERE sc.staffId = s.staffId AND sc.date > GETDATE()) AS startDate, "
+                + "           MAX(sc.date) AS endDate, "
+                + "           COUNT(sc.scheduleId) AS totalShifts, "
+                + "           (SELECT TOP 1 shift FROM Schedule scs "
+                + "            WHERE scs.staffId = s.staffId AND scs.date = MAX(sc.date)) AS latestShift, "
+                + "           ROW_NUMBER() OVER (PARTITION BY s.staffId ORDER BY MAX(sc.date) DESC) AS rn "
+                + "    FROM Staff s "
+                + "    LEFT JOIN Schedule sc ON s.staffId = sc.staffId "
+                + "    LEFT JOIN Department d ON s.departmentId = d.departmentId "
+                + "    WHERE s.roleId IN (2, 3) ";
+
+        // Add name search condition if provided
+        if (searchName != null && !searchName.trim().isEmpty()) {
+            sql += " AND s.name LIKE ? ";
+        }
+
+        sql += "    GROUP BY s.staffId, s.name, d.departmentName "
+                + ") "
+                + "SELECT staffId, name, departmentName, startDate, endDate, totalShifts, latestShift AS shiftList "
+                + "FROM StaffScheduleDetails "
+                + "WHERE rn = 1 "
+                + "ORDER BY name "
+                + "OFFSET (? - 1) * ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int paramIndex = 1;
+
+            // Set search parameters
+            if (searchName != null && !searchName.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + searchName + "%");
+            }
+
+            // Set pagination parameters
+            ps.setInt(paramIndex++, page);
+            ps.setInt(paramIndex++, pageSize);
+            ps.setInt(paramIndex++, pageSize);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    StaffSchedule staffSchedule = new StaffSchedule(
+                            rs.getInt("staffId"),
+                            rs.getString("name"),
+                            rs.getString("departmentName"),
+                            rs.getDate("startDate"),
+                            rs.getDate("endDate"),
+                            rs.getInt("totalShifts"),
+                            rs.getString("shiftList")
+                    );
+
+                    staffSchedules.add(staffSchedule);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return staffSchedules;
+    }
+
+// Corresponding method to count total records
+    public int countStaffsWithSchedule(Date currentDate, String searchName) {
+        String sql = "SELECT COUNT(DISTINCT s.staffId) "
+                + "FROM Staff s "
+                + "LEFT JOIN Schedule sc ON s.staffId = sc.staffId "
+                + "WHERE s.roleId IN (2, 3) ";
+
+        // Add name search condition if provided
+        if (searchName != null && !searchName.trim().isEmpty()) {
+            sql += " AND s.name LIKE ? ";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int paramIndex = 1;
+
+            // Set search parameters
+            if (searchName != null && !searchName.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + searchName + "%");
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 }
