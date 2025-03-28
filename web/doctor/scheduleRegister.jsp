@@ -264,8 +264,54 @@
                 if (checkboxes.length === 0) {
                     event.preventDefault();
                     alert("Vui lòng chọn ít nhất một ca làm việc!");
+                    return;
+                }
+
+                let fromDateInput = document.getElementById("fromDate");
+                let toDateInput = document.getElementById("toDate");
+
+                let today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                if (fromDateInput && fromDateInput.value) {
+                    let fromDate = new Date(fromDateInput.value);
+                    if (fromDate < today) {
+                        event.preventDefault();
+                        alert("Ngày bắt đầu không được nhỏ hơn ngày hôm nay!");
+                        return;
+                    }
+                    if (fromDate.getFullYear() >= 10000) {
+                        event.preventDefault();
+                        alert("Ngày bắt đầu không được vượt quá năm 9999!");
+                        return;
+                    }
+                }
+
+                if (toDateInput && toDateInput.value) {
+                    let toDate = new Date(toDateInput.value);
+                    if (toDate < today) {
+                        event.preventDefault();
+                        alert("Ngày kết thúc không được nhỏ hơn ngày hôm nay!");
+                        return;
+                    }
+                    if (toDate.getFullYear() >= 10000) {
+                        event.preventDefault();
+                        alert("Ngày kết thúc không được vượt quá năm 9999!");
+                        return;
+                    }
+                }
+
+                if (fromDateInput.value && toDateInput.value) {
+                    let fromDate = new Date(fromDateInput.value);
+                    let toDate = new Date(toDateInput.value);
+                    if (toDate < fromDate) {
+                        event.preventDefault();
+                        alert("Ngày kết thúc không được nhỏ hơn ngày bắt đầu!");
+                        return;
+                    }
                 }
             });
+
 
             document.querySelectorAll(".shift-box").forEach(box => {
                 box.addEventListener("click", function () {
