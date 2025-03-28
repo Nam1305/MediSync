@@ -9,10 +9,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>MediSyns System - Đổi mật khẩu mới</title>
+    <title>Đổi mật khẩu mới</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Các thẻ meta giữ nguyên như template -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+    <link rel="shortcut icon" href="assets/images/logo-icon.png">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
@@ -39,7 +39,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-8">
-                    <img src="assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
+                    <img src="assets/images/logo-light.png" height="24" class="mx-auto d-block" alt="">
                     <div class="card login-page bg-white shadow mt-4 rounded border-0">
                         <div class="card-body">
                             <h4 class="text-center">Đặt mật khẩu mới</h4>
@@ -60,7 +60,7 @@
                                         <div class="mb-3">
                                             <label class="form-label">Mật khẩu mới <span class="text-danger">*</span></label>
                                             <input type="password" class="form-control" id="newPassword" 
-                                                   name="newPassword" placeholder="Enter new password" required="">
+                                                   name="newPassword" placeholder="Nhập mật khẩu mới" required="">
                                         </div>
                                     </div>
 
@@ -68,7 +68,7 @@
                                         <div class="mb-3">
                                             <label class="form-label">Xác nhận mật khẩu mới <span class="text-danger">*</span></label>
                                             <input type="password" class="form-control" id="confirmPassword" 
-                                                   name="confirmPassword" placeholder="Confirm password" required="">
+                                                   name="confirmPassword" placeholder="Xác nhận mật khẩu mới" required="">
                                         </div>
                                     </div>
                                     

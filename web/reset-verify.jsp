@@ -9,10 +9,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>MediSyns System - Verify Code</title>
+    <title>Nhập mã xác nhận</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Các thẻ meta giữ nguyên như template -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico.png">
+    <link rel="shortcut icon" href="assets/images/logo-icon.png">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
@@ -46,10 +46,10 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-8">
-                    <img src="assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
+                    <img src="assets/images/logo-light.png" height="24" class="mx-auto d-block" alt="">
                     <div class="card login-page bg-white shadow mt-4 rounded border-0">
                         <div class="card-body">
-                            <h4 class="text-center">Verify Reset Code</h4>
+                            <h4 class="text-center">Mã xác nhận</h4>
                             
                             <!-- Hiển thị thông báo lỗi nếu có -->
                             <% if(request.getAttribute("error") != null) { %>
@@ -59,7 +59,7 @@
                             <% } %>
                             
                             <div class="alert alert-info" role="alert">
-                                A verification code has been sent to your email.
+                                Một mã xác nhận đã được gửi đến email của bạn
                             </div>
 
                             <form action="reset-password" method="get" class="login-form mt-4">
@@ -69,22 +69,22 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Verification Code <span class="text-danger">*</span></label>
+                                            <label class="form-label">Mã xác nhận <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control code-input" maxlength="6" 
-                                                   name="code" required="" placeholder="Enter code">
+                                                   name="code" required="" placeholder="Nhập mã">
                                         </div>
                                     </div>
                                     
                                     <div class="col-lg-12">
                                         <div class="d-grid">
-                                            <button class="btn btn-primary">Verify Code</button>
+                                            <button class="btn btn-primary">Xác nhận</button>
                                         </div>
                                     </div>
 
                                     <div class="mx-auto">
                                         <p class="mb-0 mt-3">
-                                            <small class="text-dark me-2">Want to try again?</small>
-                                            <a href="reset-password" class="text-dark h6 mb-0">Back</a>
+                                            <small class="text-dark me-2">Thử lại?</small>
+                                            <a href="reset-password" class="text-dark h6 mb-0">Quay lại</a>
                                         </p>
                                     </div>
                                 </div>
