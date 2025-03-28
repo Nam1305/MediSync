@@ -9,9 +9,14 @@
         <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <title>Thêm lịch làm việc</title>
         <!-- CSS -->
+        <link href="assets/css/style.min.css" rel="stylesheet" />
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet" />
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="assets/css/fullcalendar.min.css" rel="stylesheet" type="text/css" />
         <!-- jQuery và jQuery UI -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>

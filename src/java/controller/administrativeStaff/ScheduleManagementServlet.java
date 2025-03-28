@@ -335,79 +335,27 @@ public class ScheduleManagementServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Get list of staffs who meet the eligibility criteria for scheduling
-     */
     private List<Staff> getEligibleStaffs(StaffDAO staffDAO, ScheduleDAO scheduleDAO) {
         List<Staff> eligibleStaffs = new ArrayList<>();
 
-        // Lấy tất cả nhân viên là bác sĩ hoặc y tá (role 2 và 3)
+        // Get all medical staff (doctors and nurses)
         List<Staff> medicalStaffs = staffDAO.getStaffsByNameAndRoles("", new int[]{2, 3});
 
-        // Ngày hiện tại
+        // Current date
         Date currentDate = new Date(System.currentTimeMillis());
 
-        // Kiểm tra từng nhân viên
+        // Check each staff member
         for (Staff staff : medicalStaffs) {
-            boolean isEligible = true;
-
-            // Lấy danh sách đăng ký ca làm việc của nhân viên
             List<ShiftRegistration> registrations = scheduleDAO.ShiftRegistrationByStaffId(staff.getStaffId(), 1, 10);
+            List<Schedule> existingSchedules = scheduleDAO.getScheduleByStaffId(staff.getStaffId());
 
-            // Nếu nhân viên chưa đăng ký ca nào, cho phép hiển thị
-            if (registrations.isEmpty()) {
-                eligibleStaffs.add(staff);
-                continue;
-            }
+            if (!registrations.isEmpty()) {
+                boolean hasSchedulablePeriod = checkSchedulablePeriods(registrations, existingSchedules);
 
-            // Lấy lịch làm việc đã được xếp của nhân viên
-            List<Schedule> schedules = scheduleDAO.getScheduleByStaffId(staff.getStaffId());
-
-            // Nếu nhân viên chưa được xếp ca làm việc nào, cho phép hiển thị
-            if (schedules.isEmpty()) {
-                eligibleStaffs.add(staff);
-                continue;
-            }
-
-            // Tìm ngày cuối cùng trong lịch làm việc hiện tại
-            Date lastScheduledDate = null;
-            for (Schedule schedule : schedules) {
-                if (lastScheduledDate == null || schedule.getDate().after(lastScheduledDate)) {
-                    lastScheduledDate = schedule.getDate();
+                if (hasSchedulablePeriod) {
+                    eligibleStaffs.add(staff);
                 }
-            }
-
-            // Nếu ngày hiện tại sau ngày cuối cùng trong lịch, kiểm tra điều kiện về ngày đăng ký
-            if (lastScheduledDate != null && currentDate.after(lastScheduledDate)) {
-                // Tìm ngày đăng ký ca làm việc mới nhất
-                Date latestRegistrationDate = null;
-                for (ShiftRegistration registration : registrations) {
-                    if (latestRegistrationDate == null || registration.getRegisDate().after(latestRegistrationDate)) {
-                        latestRegistrationDate = registration.getRegisDate();
-                    }
-                }
-
-                // Tìm ngày đầu tiên trong lịch làm việc hiện tại
-                Date firstScheduledDate = null;
-                for (Schedule schedule : schedules) {
-                    if (firstScheduledDate == null || schedule.getDate().before(firstScheduledDate)) {
-                        firstScheduledDate = schedule.getDate();
-                    }
-                }
-
-                // Nếu ngày đăng ký ca mới nhất diễn ra trước ngày đầu tiên của lịch làm việc,
-                // không hiển thị nhân viên
-                if (latestRegistrationDate != null && firstScheduledDate != null
-                        && latestRegistrationDate.before(firstScheduledDate)) {
-                    isEligible = false;
-                }
-            } else if (lastScheduledDate != null && (currentDate.before(lastScheduledDate)
-                    || currentDate.equals(lastScheduledDate))) {
-                // Nếu ngày hiện tại đang trong lịch của ngày xếp ca trước, không hiển thị nhân viên
-                isEligible = false;
-            }
-
-            if (isEligible) {
+            } else {
                 eligibleStaffs.add(staff);
             }
         }
@@ -415,6 +363,60 @@ public class ScheduleManagementServlet extends HttpServlet {
         return eligibleStaffs;
     }
 
+    private boolean checkSchedulablePeriods(List<ShiftRegistration> registrations, List<Schedule> existingSchedules) {
+        for (ShiftRegistration registration : registrations) {
+            if (!"Approved".equals(registration.getStatus())) {
+                continue;
+            }
+
+            if (isRegistrationSchedulable(registration, existingSchedules)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isRegistrationSchedulable(ShiftRegistration registration, List<Schedule> existingSchedules) {
+        Date startDate = registration.getStartDate();
+        Date endDate = registration.getEndDate();
+
+        // If no start or end date, consider not schedulable
+        if (startDate == null || endDate == null) {
+            return false;
+        }
+
+        // Iterate through date range to check for conflicts
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.setTime(endDate);
+
+        while (!calendar.after(endCalendar)) {
+            Date currentDate = new Date(calendar.getTimeInMillis());
+
+            // Skip weekends
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+                    || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+                continue;
+            }
+
+            // Check if this date conflicts with any existing schedule
+            boolean hasConflict = existingSchedules.stream()
+                    .anyMatch(schedule
+                            -> schedule.getDate().equals(currentDate)
+                    && schedule.getShift() == registration.getShift());
+
+            // If no conflict found, this registration is schedulable
+            if (!hasConflict) {
+                return true;
+            }
+
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        return false;
+    }
 
     private List<ShiftRegistration> getPendingRegistrations(ScheduleDAO scheduleDAO, int staffId) {
         List<ShiftRegistration> allRegistrations = scheduleDAO.ShiftRegistrationByStaffId(staffId, 1, 100);
