@@ -169,8 +169,15 @@ public class AdminDashBoardServlet extends HttpServlet {
 
         // Nếu có lỗi, chuyển về trang JSP và hiển thị lỗi
         if (!errors.isEmpty()) {
+            request.setAttribute("topStaffList", topStaffList);
+            request.setAttribute("topServices", topServices);
+            request.setAttribute("totalService", totalService);
+            request.setAttribute("totalAppointments", totalAppointments);
+            request.setAttribute("staffByRole", staffByRole);
+            request.setAttribute("totalRevenue", totalRevenue);
+            request.setAttribute("customerCount", customerCount);
             request.setAttribute("errors", errors);
-             request.getRequestDispatcher("admin/adminDashBoard.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/adminDashBoard.jsp").forward(request, response);
             return;
         }
 
@@ -178,7 +185,6 @@ public class AdminDashBoardServlet extends HttpServlet {
         if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
             endDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // Không thêm điều kiện endDate nếu chỉ chọn startDate
         }
-
 
         // Thống kê khách hàng & doanh thu theo khoảng thời gian hoặc theo ngày/tháng/năm
         Map<String, Integer> customerStats = customerDao.getCustomerStats(year, month, day, startDate, endDate);
