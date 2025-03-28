@@ -125,7 +125,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <button type="button" class="btn btn-success w-100" id="btnAddService">Lưu danh sách dịch vụ</button>
+                                            <button type="button" class="btn btn-success w-100" id="btnAddService">Thêm dịch vụ</button>
                                         </div>
                                     </div>
                                 </div>

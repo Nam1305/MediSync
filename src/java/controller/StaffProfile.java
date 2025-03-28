@@ -109,9 +109,20 @@ public class StaffProfile extends HttpServlet {
                 st.setPhone(request.getParameter("phone").trim());
                 st.setDateOfBirth(Date.valueOf(request.getParameter("dob")));
                 st.setGender(request.getParameter("gender"));
-                st.setDescription(request.getParameter("des").trim());
-                int depid = Integer.parseInt(request.getParameter("depart"));
-                st.setDepartment(depart.getDepartmentById(depid));
+                if (request.getParameter("des") != null) {
+                    st.setDescription(request.getParameter("des").trim());
+                } else {
+                    st.setDescription("");
+
+                }
+                if (request.getParameter("depart") != null) {
+                    int depid = Integer.parseInt(request.getParameter("depart"));
+                    st.setDepartment(depart.getDepartmentById(depid));
+                } else {
+                    st.setDepartment(depart.getDepartmentById(5));
+
+                }
+
                 std.updateProfile(st);
                 request.setAttribute("listd", listd);
 
