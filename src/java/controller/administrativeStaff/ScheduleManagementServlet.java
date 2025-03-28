@@ -217,26 +217,61 @@ public class ScheduleManagementServlet extends HttpServlet {
 
         List<Date> workDays = generateWorkDays(startDate, endDate);
         List<Schedule> createdSchedules = new ArrayList<>();
+        List<Date> conflictDates = new ArrayList<>(); // Danh sách các ngày bị xung đột
 
         // Xác định thời gian bắt đầu và kết thúc ca làm việc dựa vào shift
         Time startTime = getStartTimeByShift(registration.getShift());
         Time endTime = getEndTimeByShift(registration.getShift());
+        int shift = registration.getShift(); // Lấy ca làm việc từ registration
 
         for (Date workDate : workDays) {
-            // Kiểm tra xem đã có lịch làm việc cho nhân viên vào ngày này chưa
+            // Lấy danh sách lịch làm việc hiện có cho nhân viên vào ngày này
             List<Schedule> existingSchedules = scheduleDAO.getSchedulesByDoctor(staffId, workDate);
-            if (existingSchedules.isEmpty()) {
-                // Tạo lịch làm việc mới
-                Schedule schedule = new Schedule(0, startTime, endTime, registration.getShift(),
-                        workDate, staffId);
-                boolean insertSuccess = scheduleDAO.insertSchedule(schedule);
-                if (insertSuccess) {
-                    createdSchedules.add(schedule);
+
+            // Kiểm tra trùng lặp ca
+            boolean hasConflict = existingSchedules.stream()
+                    .anyMatch(existing -> existing.getShift() == shift);
+
+            if (hasConflict) {
+                conflictDates.add(workDate); // Ghi nhận ngày bị trùng ca
+            } else {
+                // Kiểm tra trùng lặp thời gian nếu không trùng ca
+                boolean hasOverlap = false;
+                for (Schedule existing : existingSchedules) {
+                    Time existingStart = existing.getStartTime();
+                    Time existingEnd = existing.getEndTime();
+                    if (startTime.before(existingEnd) && endTime.after(existingStart)) {
+                        hasOverlap = true;
+                        break;
+                    }
+                }
+
+                // Nếu không có trùng lặp thời gian, tạo lịch làm việc mới
+                if (!hasOverlap) {
+                    Schedule schedule = new Schedule(0, startTime, endTime, shift, workDate, staffId);
+                    boolean insertSuccess = scheduleDAO.insertSchedule(schedule);
+                    if (insertSuccess) {
+                        createdSchedules.add(schedule);
+                    }
+                } else {
+                    conflictDates.add(workDate); // Ghi nhận ngày bị trùng thời gian
                 }
             }
         }
 
-        request.setAttribute("message", "Đã tạo " + createdSchedules.size() + " lịch làm việc mới");
+        // Xử lý thông báo kết quả
+        if (!conflictDates.isEmpty()) {
+            // Nếu có ngày bị xung đột, gửi thông báo lỗi
+            String errorMessage = "Không thể tạo lịch do trùng lặp ca hoặc thời gian trong các ngày: ";
+            SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy");
+            for (Date conflictDate : conflictDates) {
+                errorMessage += displayFormat.format(conflictDate) + ", ";
+            }
+            errorMessage = errorMessage.substring(0, errorMessage.length() - 2); // Xóa dấu phẩy và khoảng trắng cuối
+            request.setAttribute("error", errorMessage);
+        } else {
+            request.setAttribute("message", "Đã tạo " + createdSchedules.size() + " lịch làm việc mới");
+        }
     }
 
     /**
