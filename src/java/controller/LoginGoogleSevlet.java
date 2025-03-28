@@ -15,6 +15,7 @@ import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.HttpResponseException;
 import java.nio.charset.StandardCharsets;
+import util.BCrypt;
 import util.Constant;
 
 public class LoginGoogleSevlet extends HttpServlet {
@@ -49,6 +50,7 @@ public class LoginGoogleSevlet extends HttpServlet {
             customer.setName(user.getName());
             customer.setEmail(user.getEmail());
             customer.setAvatar(user.getPicture());
+            customer.setPassword(BCrypt.hashpw(code, BCrypt.gensalt()));
             customer.setStatus("Active");
 
             // Kiểm tra nếu tài khoản đã tồn tại trong CSDL

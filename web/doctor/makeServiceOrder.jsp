@@ -134,7 +134,7 @@
                                 <c:if test="${app.status != 'paid' and app.status != 'completed'}">
                                     <div class="text-end">
                                         <input type="hidden" name="appointmentId" value="${app.appointmentId}">
-                                        <button type="submit" class="btn btn-success">Lưu danh sách hóa đơn</button>
+                                        <button type="submit" class="btn btn-success">Lưu danh sách dịch vụ</button>
                                     </div>
                                 </c:if>
                             </form>
