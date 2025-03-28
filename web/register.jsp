@@ -38,7 +38,7 @@
 
     <body>
 
-         <div id="preloader">
+        <div id="preloader">
             <div id="status">
                 <div class="spinner">
                     <div class="double-bounce1"></div>
@@ -110,12 +110,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12">
-                                            <div class="form-check">
-                                                <input class="form-check-input align-middle" type="checkbox" value="" id="accept-tnc-check" required>
-                                                <label class="form-check-label" for="accept-tnc-check">Tôi chấp nhận <a href="#" class="text-success">Điều khoản và điều kiện</a></label>
-                                            </div>
-                                        </div>
+
 
                                         <div class="col-md-12">
                                             <div style="display: flex; align-items: center; color: red;">${error}</div>
@@ -137,15 +132,17 @@
             </div> <!--end container-->
         </section><!--end section-->
         <!-- Hero End -->
-        <footer class="footer bg-dark footer-bar">
-            <div class="container">
-                <div class="row text-center">
-                    <div class="col-lg-6 col-md-6">
-                        <p class="mb-0 text-light">© 2025 MediSynC. Code by Duc.</p>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <footer class="bg-white shadow py-3">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <div class="text-sm-start text-center">
+                            <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © MediSynC. Nhóm 3 <i class="mdi mdi-heart text-danger"></i>  <a href="index.html" target="_blank" class="text-reset">SE1885-NET</a>.</p>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </footer><!--end footer-->
         <script>
             document.getElementById('registration-form').addEventListener('submit', function (event) {
                 // Lấy tất cả các input
@@ -153,15 +150,14 @@
                 const email = document.querySelector("input[name='email']").value.trim();
                 const password = document.querySelector("input[name='password']").value;
                 const confirmPassword = document.querySelector("input[name='confirm']").value;
-                const checkbox = document.getElementById('accept-tnc-check');
                 const errorMessage = document.getElementById('error-message');
 
                 let error = "";
 
 
                 // Kiểm tra số điện thoại hợp lệ (10-11 số, bắt đầu bằng 0)
-                if (!/^(0\d{9,10})$/.test(phone)) {
-                    error = "Số điện thoại không hợp lệ! Số điện thoại phải có 10-11 chữ số và bắt đầu bằng 0.";
+                if (!/^(0\d{9})$/.test(phone)) {
+                    error = "Số điện thoại không hợp lệ! Số điện thoại phải có 10 chữ số và bắt đầu bằng 0.";
                 }
 
                 // Kiểm tra email hợp lệ
@@ -173,10 +169,6 @@
                 // Kiểm tra mật khẩu xác nhận có khớp không
                 if (!error && password !== confirmPassword) {
                     error = "Mật khẩu xác nhận không khớp!";
-                }
-                // Kiểm tra checkbox điều khoản đã được chọn chưa
-                if (!error && !checkbox.checked) {
-                    error = "Bạn phải chấp nhận Điều khoản và điều kiện để đăng ký.";
                 }
 
                 // Nếu có lỗi, hiển thị thông báo và ngăn submit form

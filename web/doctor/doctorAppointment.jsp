@@ -83,8 +83,8 @@
                                         <label class="form-label fw-bold">Trạng thái</label>
                                         <select name="status" class="form-select">
                                             <option value="">Tất cả</option>
-                                            <option value="confirmed" ${status == 'confirmed' ? 'selected' : ''}>Chờ khám</option>
-                                            <option value="waitpay" ${status == 'waitpay' || status == 'paid' ? 'selected' : ''}>Đã khám</option>
+                                            <option value="confirmed" ${status == 'confirmed' || status == 'paid' ? 'selected' : ''}>Chờ khám</option>
+                                            <option value="waitpay" ${status == 'completed' ? 'selected' : ''}>Đã khám</option>
                                             <option value="absent" ${status == 'absent' ? 'selected' : ''}>Vắng mặt</option>
                                         </select>
                                     </div>
@@ -197,10 +197,10 @@
                                                 </td>
                                                 <td class="p-3">
                                                     <c:choose>
-                                                        <c:when test="${appointment.status == 'pending' or appointment.status == 'confirmed' or appointment.status == 'cancelled'}">
+                                                        <c:when test="${appointment.status == 'confirmed' or appointment.status == 'paid'}">
                                                             <span class="badge bg-warning">Chờ khám</span>
                                                         </c:when>
-                                                        <c:when test="${appointment.status == 'waitpay' or appointment.status == 'paid'}">
+                                                        <c:when test="${appointment.status == 'completed'}">
                                                             <span class="badge bg-success">Đã khám</span>
                                                         </c:when>
                                                         <c:when test="${appointment.status == 'absent'}">
@@ -209,22 +209,24 @@
                                                     </c:choose>
                                                 </td>
                                                 <td class="text-end p-3">
-                                                    <a href="makeorder?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-primary">
+                                                    <a href="makeorder?appointmentId=${appointment.appointmentId}" 
+                                                       class="btn btn-icon btn-pills btn-soft-primary" 
+                                                       onclick="return checkAppointmentDateTime('${appointment.date}', '${appointment.start}', ${appointment.appointmentId})">
                                                         <i class="uil uil-shopping-cart"></i>
                                                     </a>
                                                     <a href="doctorappdetail?appointmentId=${appointment.appointmentId}" class="btn btn-icon btn-pills btn-soft-warning">
                                                         <i class="uil uil-eye"></i>
                                                     </a>
-                                                    <!-- Link chuyển trạng thái: Chờ thanh toán -->
-                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=waitpay&page=${currentPage}&search=${search}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&pageSize=${pageSize}&sort=${sort}"
+                                                    <!-- Link chuyển trạng thái: Hoàn thành -->
+                                                    <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=completed&page=${currentPage}&search=${search}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&pageSize=${pageSize}&sort=${sort}"
                                                        class="btn btn-icon btn-pills btn-soft-success"
-                                                       onclick="return confirm('Bạn có chắc xác nhận hoàn thành lịch hẹn ${appointment.appointmentId} ?');">
+                                                       onclick="return checkAppointmentDateTime('${appointment.date}', '${appointment.start}', ${appointment.appointmentId}, 'Bạn có chắc xác nhận hoàn thành lịch hẹn ${appointment.appointmentId} ?')">
                                                         <i class="uil uil-check-circle"></i>
                                                     </a>
                                                     <!-- Link chuyển trạng thái: Vắng mặt -->
                                                     <a href="doctorappointment?appointmentId=${appointment.appointmentId}&newStatus=absent&page=${currentPage}&search=${search}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&pageSize=${pageSize}&sort=${sort}"
                                                        class="btn btn-icon btn-pills btn-soft-danger"
-                                                       onclick="return confirm('Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Vắng mặt?');">
+                                                       onclick="return checkAppointmentDateTime('${appointment.date}', '${appointment.start}', ${appointment.appointmentId}, 'Bạn có chắc muốn chuyển trạng thái của lịch hẹn ${appointment.appointmentId} sang Vắng mặt?')">
                                                         <i class="uil uil-times-circle"></i>
                                                     </a>
 
@@ -288,10 +290,22 @@
                 // Nếu cả hai đều có giá trị và fromDate lớn hơn toDate
                 if (fromDateVal && toDateVal && fromDateVal > toDateVal) {
                     alert("Giá trị \"Từ ngày\" phải nhỏ hơn hoặc bằng \"Đến ngày\".");
-                    e.preventDefault(); // Ngăn không cho form submit
+                    e.preventDefault();
                 }
             });
+            function checkAppointmentDateTime(appointmentDate, appointmentStartTime, appointmentId) {
+                const now = new Date();
 
+                const dateTimeString = appointmentDate + "T" + appointmentStartTime;
+                const apptDateTime = new Date(dateTimeString);
+
+                // So sánh thời gian
+                if (now < apptDateTime) {
+                    alert("Chưa đến lịch hẹn, không thể thêm dịch vụ (Ngày hẹn: " + appointmentDate + ", " + appointmentStartTime + ")");
+                    return false;
+                }
+                return true;
+            }
         </script>
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>

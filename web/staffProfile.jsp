@@ -343,7 +343,7 @@
                 const email = document.getElementById('email').value.trim();
                 const phone = document.getElementById('phone').value.trim();
                 const dob = document.getElementById('dob').value;
-                const phonePattern = /^(0\d{9,10})$/;
+                const phonePattern = /^(0\d{9})$/;
                 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                 let errorMessages = [];
                 let errorMessageDiv = document.getElementById('error-message');
@@ -355,7 +355,7 @@
                 }
 
                 if (!phonePattern.test(phone)) {
-                    errorMessages.push("Số điện thoại không hợp lệ! Phải có 10-11 chữ số và bắt đầu bằng 0.");
+                    errorMessages.push("Số điện thoại không hợp lệ! Phải có 10 chữ số và bắt đầu bằng 0.");
                 }
 
                 // Kiểm tra email hợp lệ

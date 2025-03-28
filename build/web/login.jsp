@@ -15,8 +15,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
         <link href="assets/css/style.min.css" rel="stylesheet" />
-                 <link rel="shortcut icon" href="assets/images/logo-icon.png">
-
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
+        <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
     </head>
 
     <body>
@@ -33,14 +35,14 @@
         <!-- Navbar STart -->
         <jsp:include page="layout/header.jsp" /><!--end header-->
         <!-- Navbar End -->
-        
-        
-        
+
+
+
         <section class="bg-home d-flex bg-light align-items-center" style="background: url('assets/images/bg/bg-lines-one.png') center;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-8">
-                         <img src="assets/images/logo-light.png" height="24" class="mx-auto d-block" alt="">
+                        <img src="assets/images/logo-light.png" height="24" class="mx-auto d-block" alt="">
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Đăng nhập</h4>
@@ -112,15 +114,17 @@
         </div> <!--end container-->
     </section>
 
-    <footer class="footer bg-dark footer-bar">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-lg-6 col-md-6">
-                    <p class="mb-0 text-light">© 2025 MediSynC. Code by Duc.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <footer class="bg-white shadow py-3">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="text-sm-start text-center">
+                        <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © MediSynC. Nhóm 3 <i class="mdi mdi-heart text-danger"></i>  <a href="index.html" target="_blank" class="text-reset">SE1885-NET</a>.</p>
+                    </div>
+                </div><!--end col-->
+            </div><!--end row-->
+        </div><!--end container-->
+    </footer><!--end footer-->
 
     <script>
         function togglePassword() {

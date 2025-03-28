@@ -98,8 +98,8 @@
                                         <th>Trạng thái:</th>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${invoices[0].appointment.status == 'paid'}">Đã thanh toán</c:when>
-                                                <c:when test="${invoices[0].appointment.status == 'waitpay' || invoices[0].appointment.status == 'confirmed'}">Chưa thanh toán</c:when>
+                                                <c:when test="${invoices[0].appointment.status == 'paid' || invoices[0].appointment.status == 'completed'}">Đã thanh toán</c:when>
+                                                <c:when test="${invoices[0].appointment.status == 'confirmed'}">Chưa thanh toán</c:when>
                                                 <c:when test="${invoices[0].appointment.status == 'pending'}">Chờ xác nhận</c:when>
                                                 <c:otherwise>Không xác định</c:otherwise>
                                             </c:choose>
@@ -146,7 +146,7 @@
                         </div>
 
                         <!-- Nút Thanh toán -->
-                        <c:if test="${customer != null and invoices[0].appointment.status != 'paid'}">
+                        <c:if test="${customer != null and invoices[0].appointment.status != 'paid' and invoices[0].appointment.status != 'completed'}">
                             <div class="text-end mt-4 d-print-none">
                                 <form action="vnpay_payment" method="post">
                                     <input type="hidden" name="amount" value="${totalPrice}">

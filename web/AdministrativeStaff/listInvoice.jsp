@@ -174,8 +174,8 @@
                                                         <fmt:formatNumber value="${o.total}" type="currency" currencySymbol="VNĐ"/>
                                                     </td>
                                                     <td class="text-center p-3">
-                                                        <div class="badge ${o.status == 'paid' ? 'bg-soft-success' : 'bg-soft-danger'} rounded px-3 py-1">
-                                                            ${o.status == 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán'}
+                                                        <div class="badge ${o.status == 'paid' || o.status == 'completed' ? 'bg-soft-success' : 'bg-soft-danger'} rounded px-3 py-1">
+                                                            ${o.status == 'paid'|| o.status == 'completed' ? 'Đã thanh toán' : 'Chưa thanh toán'}
                                                         </div>
                                                     </td>
                                                     <td class="text-center p-3">

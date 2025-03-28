@@ -83,7 +83,7 @@
                                                 <form id="avatarUploadForm" action="customer-profile" method="post" enctype="multipart/form-data">
                                                     <input type="hidden" name="action" value="uploadAvatar">
                                                     <input type="file" name="profileImage" id="profileImage" style="display: none;" accept="image/jpeg, image/png">
-                                                    <button type="button" id="uploadButton" class="btn btn-primary" onclick="document.getElementById('profileImage').click();">Upload</button>
+                                                    <button type="button" id="uploadButton" class="btn btn-primary" onclick="document.getElementById('profileImage').click();">Tải lên</button>
                                                     <a href="customer-profile?action=removeAvatar" class="btn btn-soft-primary ms-2" 
                                                        onclick="return confirm('Bạn có chắc chắn muốn xóa ảnh đại diện không?')" 
                                                        ${empty customer.avatar ? 'disabled' : ''}>Xóa</a>
