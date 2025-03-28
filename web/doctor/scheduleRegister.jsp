@@ -196,6 +196,9 @@
                                                     <c:when test="${schedule.status eq 'Pending'}">
                                                         <span class="badge bg-warning">Chờ duyệt</span>
                                                     </c:when>
+                                                    <c:when test="${schedule.status eq 'Scheduled'}">
+                                                        <span class="badge bg-primary">Đã xếp lịch</span>
+                                                    </c:when>
                                                     <c:otherwise>
                                                         <span class="badge bg-danger">Từ chối</span>
                                                     </c:otherwise>

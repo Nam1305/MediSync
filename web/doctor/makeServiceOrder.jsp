@@ -125,7 +125,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <button type="button" class="btn btn-success w-100" id="btnAddService">Thêm dịch vụ</button>
+                                            <button type="button" class="btn btn-success w-100" id="btnAddService">Lưu danh sách dịch vụ</button>
                                         </div>
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@
                                 <c:if test="${app.status != 'paid' and app.status != 'completed'}">
                                     <div class="text-end">
                                         <input type="hidden" name="appointmentId" value="${app.appointmentId}">
-                                        <button type="submit" class="btn btn-success">Lưu hóa đơn</button>
+                                        <button type="submit" class="btn btn-success">Lưu danh sách hóa đơn</button>
                                     </div>
                                 </c:if>
                             </form>

@@ -19,7 +19,7 @@
         <link href="assets/css/fullcalendar.min.css" rel="stylesheet" type="text/css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-        
+
         <style>
             .filter-row {
                 display: flex;
@@ -60,6 +60,13 @@
                 border-radius: 4px;
                 font-weight: bold;
             }
+            .status-scheduled {
+                background-color: #cfe2ff;
+                color: #084298;
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-weight: bold;
+            }
         </style>
     </head>
     <body>
@@ -92,7 +99,7 @@
                                 </ul>
                             </nav>
                         </div>
-                        
+
                         <!-- Thông báo -->
                         <c:if test="${not empty message}">
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -106,7 +113,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         </c:if>
-                        
+
                         <!-- Bộ lọc -->
                         <div class="card shadow p-4 mb-4">
                             <h5 class="mb-3">Bộ lọc</h5>
@@ -143,7 +150,7 @@
                                 </div>
                             </form>
                         </div>
-                        
+
                         <!-- Bảng dữ liệu -->
                         <div class="card shadow rounded border-0 p-4">
                             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -195,6 +202,9 @@
                                                         <c:when test="${registration.status eq 'Rejected'}">
                                                             <span class="status-rejected">Từ chối</span>
                                                         </c:when>
+                                                        <c:when test="${registration.status eq 'Scheduled'}">
+                                                            <span class="status-scheduled">Đã lên lịch</span>
+                                                        </c:when>
                                                         <c:otherwise>
                                                             <span class="status-pending">Chờ duyệt</span>
                                                         </c:otherwise>
@@ -234,14 +244,14 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             <!-- Không có dữ liệu -->
                             <c:if test="${empty registrations}">
                                 <div class="text-center p-3">
                                     <p>Không tìm thấy dữ liệu phù hợp</p>
                                 </div>
                             </c:if>
-                            
+
                             <!-- Phân trang -->
                             <div class="mt-4 d-flex justify-content-center">
                                 <ul class="pagination mb-0">
@@ -252,7 +262,7 @@
                                             </a>
                                         </li>
                                     </c:if>
-                                    
+
                                     <c:forEach begin="1" end="${totalPages}" var="i">
                                         <li class="page-item ${currentPage == i ? 'active' : ''}">
                                             <a class="page-link" href="shift-approval?page=${i}&pageSize=${pageSize}&staffName=${staffName}&fromDate=${fromDate}&toDate=${toDate}">
@@ -260,7 +270,7 @@
                                             </a>
                                         </li>
                                     </c:forEach>
-                                    
+
                                     <c:if test="${currentPage < totalPages}">
                                         <li class="page-item">
                                             <a class="page-link" href="shift-approval?page=${currentPage+1}&pageSize=${pageSize}&staffName=${staffName}&fromDate=${fromDate}&toDate=${toDate}">
@@ -280,14 +290,15 @@
             <!--End page-content" -->
         </div>
         <!-- page-wrapper -->
-        
+
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/app.js"></script>
-        
+
         <script>
             function convertDateFormat(dateStr) {
-                if (!dateStr) return '';
+                if (!dateStr)
+                    return '';
                 var parts = dateStr.split('/');
                 if (parts.length === 3) {
                     return parts[2] + '-' + parts[1] + '-' + parts[0];
@@ -295,16 +306,16 @@
                 return dateStr; // Trả về nguyên gốc nếu định dạng không đúng
             }
 
-            document.querySelector('form').addEventListener('submit', function(e) {
+            document.querySelector('form').addEventListener('submit', function (e) {
                 var fromDateInput = document.getElementById('fromDate');
                 var toDateInput = document.getElementById('toDate');
-                
+
                 fromDateInput.value = convertDateFormat(fromDateInput.value);
                 toDateInput.value = convertDateFormat(toDateInput.value);
             });
 
             // Validate date inputs (optional)
-            document.getElementById('fromDate').addEventListener('change', function() {
+            document.getElementById('fromDate').addEventListener('change', function () {
                 var toDateInput = document.getElementById('toDate');
                 var fromDateValue = convertDateFormat(this.value);
                 if (toDateInput.value && fromDateValue > convertDateFormat(toDateInput.value)) {
@@ -313,7 +324,7 @@
             });
 
             // Auto-close alerts after 5 seconds
-            setTimeout(function() {
+            setTimeout(function () {
                 $('.alert').alert('close');
             }, 5000);
         </script>
