@@ -205,13 +205,17 @@
                                                 </c:choose>
                                             </td>
                                             <td>
-                                                <form action="registershift" method="GET" onsubmit="return confirm('Bạn có chắc muốn xóa đăng ký này?');">
-                                                    <input type="hidden" name="action" value="delete" />
-                                                    <input type="hidden" name="registrationId" value="${schedule.registrationId}" />
-                                                    <input type="hidden" name="page" value="${currentPage}" />
-                                                    <input type="hidden" name="pageSize" value="${pageSize}" />
-                                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                                                </form>
+                                                <c:if test="${schedule.status eq 'Pending'}">
+
+                                                    <form action="registershift" method="GET" onsubmit="return confirm('Bạn có chắc muốn xóa đăng ký này?');">
+                                                        <input type="hidden" name="action" value="delete" />
+                                                        <input type="hidden" name="registrationId" value="${schedule.registrationId}" />
+                                                        <input type="hidden" name="page" value="${currentPage}" />
+                                                        <input type="hidden" name="pageSize" value="${pageSize}" />
+                                                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                                    </form>
+                                                </c:if>
+
                                             </td>
                                         </tr>
                                     </c:forEach>
