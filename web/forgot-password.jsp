@@ -10,17 +10,15 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>MediSyns System</title>
+        <title>Quên mật khẩu</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="assets/images/logo-icon.png">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
         <meta name="author" content="Shreethemes" />
         <meta name="email" content="support@shreethemes.in" />
         <meta name="website" content="https://shreethemes.in" />
         <meta name="Version" content="v1.2.0" />
-        <!-- favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
-        <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->
         <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
@@ -52,7 +50,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-8">
-                        <img src="assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
+                        <img src="assets/images/logo-light.png" height="24" class="mx-auto d-block" alt="">
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Khôi phục mật khẩu</h4>  
@@ -63,7 +61,7 @@
                                             <p class="text-muted">Xin hãy nhập email của bạn. Bạn sẽ nhận được link tạo mật khẩu mới qua email.</p>
                                             <div class="mb-3">
                                                 <label class="form-label">Địa chỉ email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" placeholder="Enter Your Email Address" 
+                                                <input type="email" class="form-control" placeholder="Nhập địa chỉ email" 
                                                        name="email" required="">
                                                 <!-- Thêm thông báo lỗi -->
                                                 <% if(request.getAttribute("error") != null) { %>
@@ -80,8 +78,8 @@
                                         </div>
                                         <div class="mx-auto">
                                             <p class="mb-0 mt-3">
-                                                <small class="text-dark me-2">Remember your password ?</small>
-                                                <a href="login" class="text-dark h6 mb-0">Sign in</a>
+                                                <small class="text-dark me-2">Nhớ mật khẩu ?</small>
+                                                <a href="login" class="text-dark h6 mb-0">Đăng nhập</a>
                                             </p>
                                         </div>
                                     </div>
