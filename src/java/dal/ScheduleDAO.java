@@ -445,43 +445,29 @@ public class ScheduleDAO extends DBContext {
 
     public List<StaffSchedule> getStaffsWithSchedule(Date currentDate, String searchName, int page, int pageSize) {
         List<StaffSchedule> staffSchedules = new ArrayList<>();
-        String sql = "WITH StaffScheduleDetails AS ( "
-                + "    SELECT s.staffId, s.name, "
-                + "           d.departmentName, "
-                + "           (SELECT MIN(sc.date) FROM Schedule sc "
-                + "            WHERE sc.staffId = s.staffId AND sc.date > GETDATE()) AS startDate, "
-                + "           MAX(sc.date) AS endDate, "
-                + "           COUNT(sc.scheduleId) AS totalShifts, "
-                + "           (SELECT TOP 1 shift FROM Schedule scs "
-                + "            WHERE scs.staffId = s.staffId AND scs.date = MAX(sc.date)) AS latestShift, "
-                + "           ROW_NUMBER() OVER (PARTITION BY s.staffId ORDER BY MAX(sc.date) DESC) AS rn "
-                + "    FROM Staff s "
-                + "    LEFT JOIN Schedule sc ON s.staffId = sc.staffId "
-                + "    LEFT JOIN Department d ON s.departmentId = d.departmentId "
-                + "    WHERE s.roleId IN (2, 3) ";
+        String sql = "SELECT s.staffId, s.name, d.departmentName, "
+                + "ds.startDate, ds.endDate, ds.shift "
+                + "FROM Staff s "
+                + "LEFT JOIN DoctorShiftRegistration ds ON s.staffId = ds.staffId AND ds.status = 'Scheduled' "
+                + "LEFT JOIN Department d ON s.departmentId = d.departmentId "
+                + "WHERE s.roleId IN (2, 3) ";
 
-        // Add name search condition if provided
+        // Thêm điều kiện tìm kiếm theo tên nếu có
         if (searchName != null && !searchName.trim().isEmpty()) {
             sql += " AND s.name LIKE ? ";
         }
 
-        sql += "    GROUP BY s.staffId, s.name, d.departmentName "
-                + ") "
-                + "SELECT staffId, name, departmentName, startDate, endDate, totalShifts, latestShift AS shiftList "
-                + "FROM StaffScheduleDetails "
-                + "WHERE rn = 1 "
-                + "ORDER BY name "
+        // Thêm phân trang
+        sql += " ORDER BY s.name, ds.startDate "
                 + "OFFSET (? - 1) * ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int paramIndex = 1;
 
-            // Set search parameters
             if (searchName != null && !searchName.trim().isEmpty()) {
                 ps.setString(paramIndex++, "%" + searchName + "%");
             }
 
-            // Set pagination parameters
             ps.setInt(paramIndex++, page);
             ps.setInt(paramIndex++, pageSize);
             ps.setInt(paramIndex++, pageSize);
@@ -494,10 +480,8 @@ public class ScheduleDAO extends DBContext {
                             rs.getString("departmentName"),
                             rs.getDate("startDate"),
                             rs.getDate("endDate"),
-                            rs.getInt("totalShifts"),
-                            rs.getString("shiftList")
+                            rs.getInt("shift")
                     );
-
                     staffSchedules.add(staffSchedule);
                 }
             }
@@ -510,12 +494,11 @@ public class ScheduleDAO extends DBContext {
 
 // Corresponding method to count total records
     public int countStaffsWithSchedule(Date currentDate, String searchName) {
-        String sql = "SELECT COUNT(DISTINCT s.staffId) "
+        String sql = "SELECT COUNT(*) "
                 + "FROM Staff s "
-                + "LEFT JOIN Schedule sc ON s.staffId = sc.staffId "
+                + "LEFT JOIN DoctorShiftRegistration ds ON s.staffId = ds.staffId AND ds.status = 'Scheduled' "
                 + "WHERE s.roleId IN (2, 3) ";
 
-        // Add name search condition if provided
         if (searchName != null && !searchName.trim().isEmpty()) {
             sql += " AND s.name LIKE ? ";
         }
@@ -523,7 +506,6 @@ public class ScheduleDAO extends DBContext {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int paramIndex = 1;
 
-            // Set search parameters
             if (searchName != null && !searchName.trim().isEmpty()) {
                 ps.setString(paramIndex++, "%" + searchName + "%");
             }

@@ -143,7 +143,7 @@
                                             <td>${ss.departmentName}</td>
                                             <td><fmt:formatDate value="${ss.startDate}" pattern="dd/MM/yyyy" /></td>
                                             <td><fmt:formatDate value="${ss.endDate}" pattern="dd/MM/yyyy" /></td>
-                                            <td>${ss.shiftList}</td> <!-- Hiển thị số ca -->
+                                            <td>${ss.shift}</td> <!-- Hiển thị số ca -->
                                         </tr>
                                     </c:forEach>
                                     <c:if test="${empty staffSchedules}">

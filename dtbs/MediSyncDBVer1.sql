@@ -707,8 +707,8 @@ INSERT INTO Comment (content, [date], blogId, customerId) VALUES
 INSERT INTO Appointment ([date], startTime, endTime, status, staffId, customerId)
 VALUES
 -- StaffID = 1 (đầy đủ các ngày từ 13 đến 31/03, bắt buộc có ngày 30/03)
-('2025-03-13', '08:00:00', '08:30:00', 'completed',   1, 1),
-('2025-03-15', '08:30:00', '09:00:00', 'completed', 1, 2),
+('2025-03-13', '08:00:00', '08:30:00', 'pending',   1, 1),
+('2025-03-15', '08:30:00', '09:00:00', 'pending', 1, 2),
 ('2025-03-17', '09:00:00', '09:30:00', 'completed',      1, 3),
 
 

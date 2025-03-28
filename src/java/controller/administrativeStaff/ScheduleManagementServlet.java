@@ -52,27 +52,22 @@ public class ScheduleManagementServlet extends HttpServlet {
         handleSelectedStaff(request, scheduleDAO);
 
         // Lấy danh sách nhân viên có lịch từ hôm nay trở đi với phân trang và tìm kiếm
-        String pageParam = request.getParameter("page");
-        String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
-        int page = 1;
-        if (pageParam != null) {
-            try {
-                page = Integer.parseInt(pageParam);
-            } catch (NumberFormatException e) {
-                page = 1;
-            }
-        }
-        int pageSize = 10;
+        int page = 1; // Trang mặc định
+        int pageSize = 10; // Số bản ghi mỗi trang
+        String searchName = request.getParameter("searchName");
         Date today = new Date(System.currentTimeMillis());
+
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+
         List<StaffSchedule> staffSchedules = scheduleDAO.getStaffsWithSchedule(today, searchName, page, pageSize);
         int totalRecords = scheduleDAO.countStaffsWithSchedule(today, searchName);
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 
-        // Chuyển dữ liệu đến JSP
         request.setAttribute("staffSchedules", staffSchedules);
-        request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
-        request.setAttribute("searchName", searchName);
+        request.setAttribute("currentPage", page);
 
         // Forward đến trang JSP
         request.getRequestDispatcher("AdministrativeStaff/scheduleManagement.jsp").forward(request, response);
@@ -126,40 +121,40 @@ public class ScheduleManagementServlet extends HttpServlet {
                     || shiftRegistrationIdParam == null || shiftRegistrationIdParam.isEmpty()
                     || startDateParam == null || startDateParam.isEmpty()
                     || endDateParam == null || endDateParam.isEmpty()) {
-                //request.setAttribute("error", "Thiếu thông tin cần thiết để tạo lịch làm việc");
                 return;
             }
 
-            try {
-                int staffId = Integer.parseInt(staffIdParam);
-                int shiftRegistrationId = Integer.parseInt(shiftRegistrationIdParam);
+            int staffId = Integer.parseInt(staffIdParam);
+            int shiftRegistrationId = Integer.parseInt(shiftRegistrationIdParam);
 
-                // Chuyển đổi từ dd/MM/yyyy về yyyy-MM-dd
-                SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-                Date startDate = Date.valueOf(sqlFormat.format(inputFormat.parse(startDateParam)));
-                Date endDate = Date.valueOf(sqlFormat.format(inputFormat.parse(endDateParam)));
+            Date startDate = Date.valueOf(sqlFormat.format(inputFormat.parse(startDateParam)));
+            Date endDate = Date.valueOf(sqlFormat.format(inputFormat.parse(endDateParam)));
 
-                ShiftRegistration registration = scheduleDAO.getShiftRegistrationById(shiftRegistrationId);
+            ShiftRegistration registration = scheduleDAO.getShiftRegistrationById(shiftRegistrationId);
 
-                if (registration != null) {
-                    createSchedulesForRegistration(request, scheduleDAO, staffId, registration, startDate, endDate);
+            if (registration != null) {
+                createSchedulesForRegistration(request, scheduleDAO, staffId, registration, startDate, endDate);
 
-                    Staff staff = staffDAO.getStaffById(staffId);
-                    if (staff != null) {
-                        sendScheduleNotification(staff, registration.getShift(), startDate, endDate);
-                    }
-                } else {
-                    request.setAttribute("error", "Không tìm thấy thông tin đăng ký ca làm việc");
+                // Cập nhật trạng thái ca đăng ký sang "Scheduled"
+                registration.setStatus("Scheduled");
+                scheduleDAO.updateShiftRegistration(registration);
+
+                Staff staff = staffDAO.getStaffById(staffId);
+                if (staff != null) {
+                    sendScheduleNotification(staff, registration.getShift(), startDate, endDate);
                 }
-            } catch (NumberFormatException e) {
-                request.setAttribute("error", "Định dạng dữ liệu không hợp lệ: " + e.getMessage());
-            } catch (java.text.ParseException e) {
-                request.setAttribute("error", "Định dạng ngày tháng không hợp lệ: " + e.getMessage());
-            } catch (IllegalArgumentException e) {
-                request.setAttribute("error", "Ngày tháng không hợp lệ: " + e.getMessage());
+            } else {
+                request.setAttribute("error", "Không tìm thấy thông tin đăng ký ca làm việc");
             }
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "Định dạng dữ liệu không hợp lệ: " + e.getMessage());
+        } catch (java.text.ParseException e) {
+            request.setAttribute("error", "Định dạng ngày tháng không hợp lệ: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            request.setAttribute("error", "Ngày tháng không hợp lệ: " + e.getMessage());
         } catch (Exception e) {
             request.setAttribute("error", "Lỗi khi tạo lịch làm việc: " + e.getMessage());
             e.printStackTrace();
