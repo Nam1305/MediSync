@@ -131,7 +131,7 @@
                                 </div>
 
                                 <!-- Nút Lưu hóa đơn (ẩn nếu app.status = 'paid') -->
-                                <c:if test="${app.status != 'paid'}">
+                                <c:if test="${app.status != 'paid' and app.status != 'completed'}">
                                     <div class="text-end">
                                         <input type="hidden" name="appointmentId" value="${app.appointmentId}">
                                         <button type="submit" class="btn btn-success">Lưu hóa đơn</button>
