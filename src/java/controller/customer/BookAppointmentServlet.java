@@ -4,6 +4,7 @@
  */
 package controller.customer;
 
+import dal.AppointmentDAO;
 import dal.ScheduleDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -27,6 +28,7 @@ public class BookAppointmentServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         ScheduleDAO scheduleDAO = new ScheduleDAO();
+        AppointmentDAO appointmentDao = new AppointmentDAO();
         //lấy doctorId
         int doctorId = Integer.parseInt(request.getParameter("doctorId"));
         //lấy customerId
@@ -39,7 +41,12 @@ public class BookAppointmentServlet extends HttpServlet {
         Time endTime = Time.valueOf(request.getParameter("endTime"));
         //lấy date
         String dateStr = request.getParameter("date");
-        Date date= Date.valueOf(dateStr);//ép kiểu
+        Date date = Date.valueOf(dateStr);//ép kiểu
+        // Kiểm tra trùng lịch
+        if (appointmentDao.isCustomerDoubleBooking(customerId, date, doctorId, startTime) == true) {
+            response.sendRedirect("doctorDetail?doctorId=" + doctorId + "&date=" + date + "&message=conflict");
+            return;
+        }
         boolean success = scheduleDAO.bookAppointment(doctorId, customerId, startTime, endTime, date);
         if (success) {
             response.sendRedirect("doctorDetail?doctorId=" + doctorId + "&date=" + date + "&message=success");

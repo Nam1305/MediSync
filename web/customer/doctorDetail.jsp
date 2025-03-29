@@ -287,6 +287,11 @@
                     ❌ Đặt lịch hẹn thất bại! Vui lòng thử lại.
                 </div>
             </c:if>
+            <c:if test="${param.message == 'conflict'}">
+                <div id="error-alert" class="alert alert-danger text-center fw-bold p-4" role="alert" style="font-size: 24px; position: relative; top: 10px;">
+                    ❌ Bạn đã đặt 1 lịch hẹn trùng, với ca khám đã xác nhận, vui lòng đặt lịch khác!
+                </div>
+            </c:if>
             <div class="card mt-4 p-4">
                 <h4 class="text-primary">Thông tin bác sĩ:</h4>
                 <div class="doctor-info mb-3">

@@ -14,6 +14,7 @@ import model.Department;
 import model.Prescription;
 import model.Role;
 import model.TreatmentPlan;
+import java.sql.*;
 
 public class AppointmentDAO extends DBContext {
 
@@ -888,6 +889,31 @@ public class AppointmentDAO extends DBContext {
         }
     }
 
+    public boolean isCustomerDoubleBooking(int customerId, Date date, int doctorId, Time startTime) {
+        String sql = "SELECT COUNT(*) FROM Appointment "
+                + "WHERE customerId = ? "
+                + "AND CAST(date AS DATE) = ? "
+                + "AND staffId <> ? "
+                + "AND status = 'confirmed' "
+                + "AND CONVERT(VARCHAR, startTime, 108) = CONVERT(VARCHAR, ?, 108)"; // Chỉ lấy phần giờ:phút:giây
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, customerId);
+            ps.setDate(2, date);
+            ps.setInt(3, doctorId);
+            ps.setTime(4, startTime);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // Nếu có ít nhất 1 lịch trùng, trả về true
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 //    public static void main(String[] args) throws SQLException {
 //        AppointmentDAO a = new AppointmentDAO();
 ////        List<Appointment> l = a.getInvoiceByPage(1, null, null, null, null, null, null, 1, 10, null, null);
@@ -899,7 +925,10 @@ public class AppointmentDAO extends DBContext {
 //    }
     public static void main(String[] args) {
         AppointmentDAO appointmentDAO = new AppointmentDAO();
-
-        System.out.println(appointmentDAO.getTotalAppointments());
+        Date date = Date.valueOf("2025-04-14");
+        Time startTime = Time.valueOf("11:30:00");
+//        System.out.println(appointmentDAO.getTotalAppointments());
+        boolean x = appointmentDAO.isCustomerDoubleBooking(11, date, 3, startTime);
+        System.out.println(x);
     }
 }

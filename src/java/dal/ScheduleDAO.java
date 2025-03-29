@@ -97,14 +97,13 @@ public class ScheduleDAO extends DBContext {
 
     public boolean checkShiftConflict(int staffId, int shiftId, Date fromDate, Date toDate) {
         String sql = "SELECT COUNT(*) FROM DoctorShiftRegistration "
-                + "WHERE staffId = ? AND shift = ? "
+                + "WHERE staffId = ? AND shift = ? AND status != 'Rejected' "
                 + "AND ("
                 + "    (? BETWEEN startDate AND endDate) OR "
                 + "    (? BETWEEN startDate AND endDate) OR "
                 + "    (startDate BETWEEN ? AND ?) OR "
                 + "    (endDate BETWEEN ? AND ?) "
                 + ")";
-
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, staffId);
             ps.setInt(2, shiftId);
@@ -123,7 +122,6 @@ public class ScheduleDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
@@ -177,7 +175,7 @@ public class ScheduleDAO extends DBContext {
         List<Schedule> schedules = getSchedulesByDoctor(staffId, date);
 
         // Truy vấn danh sách các lịch hẹn đã đặt
-        String sql = "SELECT startTime FROM Appointment WHERE staffId = ? AND date = ?";
+        String sql = "SELECT startTime FROM Appointment WHERE staffId = ? AND date = ? AND status != 'cancelled'";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, staffId);
