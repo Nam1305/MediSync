@@ -72,8 +72,8 @@ public class SendEmail {
     }
 
     public boolean sendMailVerify(String toEmail, String code) {
-        String subject = "Xác minh địa chỉ email";
-        String content = "Bạn đã đăng ký thành công. Vui lòng xác minh tài khoản của bạn bằng mã sau: " + code;
+        String subject = "Xác nhận OTP";
+        String content = "Vui lòng xác minh tài khoản của bạn bằng OTP sau: " + code +" để hoàn thành quá trình đăng kí tài khoản. OTP sau sẽ có hiệu lực trong 5 phút.";
         return sendEmail(toEmail, subject, content);
     }
 
