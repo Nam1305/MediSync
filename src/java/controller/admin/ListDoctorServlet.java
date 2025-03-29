@@ -90,23 +90,23 @@ public class ListDoctorServlet extends HttpServlet {
             searchQueryNormalized = normalizationSearchQuery(searchQuery);
         }
 
-        String roleIdParam = request.getParameter("roleId"); // Lấy roleId từ request
-        Integer roleId = null;
+        String roleIdParam = request.getParameter("roleId1"); // Lấy roleId từ request
+        Integer roleId1 = null;
         String status = request.getParameter("status");
         String sort = request.getParameter("sort");
         if (roleIdParam != null && !roleIdParam.isEmpty()) {
-            roleId = Integer.parseInt(roleIdParam); // Chuyển về Integer nếu có roleId
+            roleId1 = Integer.parseInt(roleIdParam); // Chuyển về Integer nếu có roleId
         }
-        List<Staff> listDoctor = doctors.getAllStaff(roleId, status, searchQueryNormalized, page, pageSize,sort);
+        List<Staff> listDoctor = doctors.getAllStaff(roleId1, status, searchQueryNormalized, page, pageSize,sort);
         // đóng gói listDoctor và request và truyền sang trang jsp để hiện thị dữ liệu 
-        int totalDoctors = doctors.getTotalStaffCount(roleId, status, searchQueryNormalized);
+        int totalDoctors = doctors.getTotalStaffCount(roleId1, status, searchQueryNormalized);
         int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
         request.setAttribute("listDoctor", listDoctor);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("status", status);
-        request.setAttribute("roleId", roleId);
+        request.setAttribute("roleId1", roleId1);
         request.setAttribute("sort", sort);
         request.setAttribute("s", searchQueryNormalized);
         request.getRequestDispatcher("admin/listDoctor.jsp").forward(request, response);

@@ -8,6 +8,9 @@ import model.Position;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import model.PositionHistory;
 /**
  *
  * @author Acer
@@ -43,4 +46,31 @@ public class PositionDAO extends DBContext {
         ex.printStackTrace();
     }
 }
+     
+    public List<PositionHistory> getPositionHistoryByStaffId(int staffId) {
+        List<PositionHistory> positionHistories = new ArrayList<>();
+        String sql = "SELECT positionId, staffId, position, date "
+                + "FROM HistoryPosition "
+                + "WHERE staffId = ? ";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, staffId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                PositionHistory history = new PositionHistory(
+                        rs.getInt("positionId"),
+                        rs.getInt("staffId"),
+                        rs.getString("position"),
+                        rs.getDate("date")
+                );
+                positionHistories.add(history);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return positionHistories;
+    }
 }

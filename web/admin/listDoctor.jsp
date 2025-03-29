@@ -1,6 +1,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,11 +66,11 @@
                                     </div>
 
                                     <div class="col-auto">
-                                        <select name="roleId" id="roleFilter" class="form-select">
+                                        <select name="roleId1" id="roleFilter" class="form-select">
                                             <option value="">Tất cả</option>
-                                            <option value="2" <c:if test="${roleId == '2'}">selected</c:if>>Bác sĩ</option>
-                                        <option value="3" <c:if test="${roleId == '3'}">selected</c:if>>Chuyên gia</option>
-                                        <option value="4" <c:if test="${roleId == '4'}">selected</c:if>>Lễ tân</option>
+                                            <option value="2" <c:if test="${roleId1 == '2'}">selected</c:if>>Bác sĩ</option>
+                                        <option value="3" <c:if test="${roleId1 == '3'}">selected</c:if>>Chuyên gia</option>
+                                        <option value="4" <c:if test="${roleId1 == '4'}">selected</c:if>>Lễ tân</option>
                                         </select>
                                     </div>
 
@@ -140,7 +142,7 @@
                                                     <td class="p-3">${doctors.position}</td>
 
                                                     <td class="p-3">${doctors.phone}</td>
-                                                    <td class="p-3">${doctors.dateOfBirth}</td>
+                                                    <td class="p-3"><fmt:formatDate value="${staff.dateOfBirth}" pattern="dd/MM/yyyy"/></td>
                                                     <td class="p-3">${doctors.email}</td>
                                                     <td class="p-3">
                                                         ${doctors.status == "Active" ? "Hoạt động" : "Ngưng hoạt động"}
@@ -180,23 +182,23 @@
                             <!-- PAGINATION START -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-end">
-                                    
+
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDoctor?page=${currentPage - 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}&s=${s}">Trước</a>
+                                                <a class="page-link" href="ListDoctor?page=${currentPage - 1}&pageSize=${pageSize}&roleId1=${roleId1}&status=${status}&sort=${sort}&s=${s}">Trước</a>
                                             </li>
                                         </c:if>
 
                                         <c:forEach var="i" begin="1" end="${totalPages}">
                                             <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="ListDoctor?page=${i}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}&s=${s}">${i}</a>
+                                                <a class="page-link" href="ListDoctor?page=${i}&pageSize=${pageSize}&roleId1=${roleId1}&status=${status}&sort=${sort}&s=${s}">${i}</a>
                                             </li>
                                         </c:forEach>
 
                                         <c:if test="${currentPage < totalPages}">
                                             <li class="page-item">
-                                                <a class="page-link" href="ListDoctor?page=${currentPage + 1}&pageSize=${pageSize}&roleId=${roleId}&status=${status}&sort=${sort}&s=${s}">Sau</a>
+                                                <a class="page-link" href="ListDoctor?page=${currentPage + 1}&pageSize=${pageSize}&roleId1=${roleId1}&status=${status}&sort=${sort}&s=${s}">Sau</a>
                                             </li>
                                         </c:if>
                                     </ul>
@@ -216,7 +218,7 @@
         </div>
         <!-- page-wrapper -->
 
-        
+
         <!-- javascript -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->
@@ -226,9 +228,9 @@
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
         <script>
-                                        function resetFilters() {
-                                            window.location.href = './ListDoctor?search=&status=&roleId=&pageSize=5';
-                                        }
+                                                                function resetFilters() {
+                                                                    window.location.href = './ListDoctor?search=&status=&roleId=&pageSize=5';
+                                                                }
 
         </script>
         <script>
