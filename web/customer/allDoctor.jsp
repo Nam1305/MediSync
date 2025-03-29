@@ -12,7 +12,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Doctris - Doctor Appointment Booking System</title>
+        <title>Danh sách bác sĩ</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -30,6 +30,17 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+
+        <style>
+            .section-title {
+                margin-bottom: -175px; /* Giảm khoảng cách dưới của phần tiêu đề */
+            }
+
+            .section {
+                padding-top: 20px; /* Giảm khoảng cách phía trên của phần danh sách bác sĩ */
+            }
+        </style>
+
 
     </head>
 
@@ -53,14 +64,14 @@
                                 <form action="allDoctors" method="GET" class="mb-4">
                                     <div class="row g-3">
                                         <!-- Tìm kiếm theo tên -->
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <input type="text" name="name" class="form-control" placeholder="Tìm kiếm theo tên" value="${name}">
                                         </div>
 
                                         <!-- Lọc theo khoa -->
                                         <div class="col-md-3">
                                             <select name="departmentId" class="form-control">
-                                                <option value="">-- Chọn khoa --</option>
+                                                <option value="">Chọn khoa</option>
                                                 <c:forEach var="dept" items="${departments}">
                                                     <option value="${dept.departmentId}" ${departmentId == dept.departmentId ? 'selected' : ''}>${dept.departmentName}</option>
                                                 </c:forEach>
@@ -70,14 +81,23 @@
                                         <!-- Lọc theo giới tính -->
                                         <div class="col-md-3">
                                             <select name="gender" class="form-control">
-                                                <option value="">-- Chọn giới tính --</option>
+                                                <option value="">Chọn giới tính</option>
                                                 <option value="M" ${gender == 'M' ? 'selected' : ''}>Nam</option>
                                                 <option value="F" ${gender == 'F' ? 'selected' : ''}>Nữ</option>
                                             </select>
                                         </div>
 
-                                        <!-- Lọc theo số lượng bác sĩ -->
+                                        <!-- Lọc theo vai trò -->
                                         <div class="col-md-2">
+                                            <select name="roleId" class="form-control">
+                                                <option value="">Vai trò</option>
+                                                <option value="2" ${roleId == '2' ? 'selected' : ''}>Bác sĩ</option>
+                                                <option value="3" ${roleId == '3' ? 'selected' : ''}>Chuyên gia</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Lọc theo số lượng bác sĩ -->
+                                        <div class="col-md-1">
                                             <input type="number" name="pageSize" class="form-control" placeholder="Số lượng bác sĩ" value="${pageSize}">
                                         </div>
 
@@ -125,6 +145,8 @@
                                             <div class="card-body">
                                                 <a href="#" class="title text-dark h5 d-block mb-0">${doctor.name}</a>
                                                 <small class="text-muted speciality">${doctor.getDepartment().getDepartmentName()}</small>
+                                                <br>
+                                                <small class="text-muted speciality">Vai trò: ${doctor.getRole().getRole()}</small>
                                                 <div class="d-flex justify-content-between align-items-center mt-2">
                                                 </div>
                                             </div>
@@ -139,7 +161,7 @@
                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                         <c:if test="${currentPage > 1}">
                             <li class="page-item">
-                                <a class="page-link" href="allDoctors?name=${name}&departmentId=${departmentId}&gender=${gender}&pageSize=${pageSize}&page=${currentPage - 1}" aria-label="Previous">
+                                <a class="page-link" href="allDoctors?name=${name}&departmentId=${departmentId}&gender=${gender}&roleId=${roleId}&pageSize=${pageSize}&page=${currentPage - 1}" aria-label="Previous">
                                     Trước
                                 </a>
                             </li>
@@ -147,13 +169,13 @@
 
                         <c:forEach var="i" begin="1" end="${totalPages}" step="1">
                             <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                <a class="page-link" href="allDoctors?name=${name}&departmentId=${departmentId}&gender=${gender}&pageSize=${pageSize}&page=${i}">${i}</a>
+                                <a class="page-link" href="allDoctors?name=${name}&departmentId=${departmentId}&gender=${gender}&roleId=${roleId}&pageSize=${pageSize}&page=${i}">${i}</a>
                             </li>
                         </c:forEach>
 
                         <c:if test="${currentPage < totalPages}">
                             <li class="page-item">
-                                <a class="page-link" href="allDoctors?name=${name}&departmentId=${departmentId}&gender=${gender}&pageSize=${pageSize}&page=${currentPage + 1}" aria-label="Next">
+                                <a class="page-link" href="allDoctors?name=${name}&departmentId=${departmentId}&gender=${gender}&roleId=${roleId}&pageSize=${pageSize}&page=${currentPage + 1}" aria-label="Next">
                                     Sau
                                 </a>
                             </li>

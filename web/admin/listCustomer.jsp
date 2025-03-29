@@ -1,12 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
         <meta charset="utf-8" />
-        <title>Doctris - Doctor Appointment Booking System</title>
+        <title>Danh sách khách hàng</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
         <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
@@ -74,8 +75,8 @@
                                     <!-- Dropdown menu để chọn trạng thái -->
                                     <select class="form-select me-2" name="status">
                                         <option value="" <c:if test="${empty status}">selected</c:if>>Tất cả trạng thái</option>
-                                        <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Active</option>
-                                        <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Inactive</option>
+                                        <option value="Active" <c:if test="${status == 'Active'}">selected</c:if>>Hoạt động</option>
+                                        <option value="Inactive" <c:if test="${status == 'Inactive'}">selected</c:if>>Không hoạt động</option>
                                         </select>
 
                                         <!-- Dropdown menu để chọn giới tính -->
@@ -136,9 +137,18 @@
                                                         </c:choose>
                                                     </td>
                                                     <td class="p-3">${customers.phone}</td>
-                                                    <td class="p-3">${customers.dateOfBirth}</td>
+                                                    <td class="p-3">
+                                                        <fmt:formatDate value="${customers.dateOfBirth}" pattern="dd-MM-yyyy" />
+                                                    </td>
                                                     <td class="p-3">${customers.email}</td>
-                                                    <td class="p-3"><span class="badge bg-soft-success">${customers.status}</span></td>
+                                                    <td class="p-3">
+                                                        <span class="badge ${customers.status == 'Active' ? 'bg-soft-success' : 'bg-soft-danger'}">
+                                                            <c:choose>
+                                                                <c:when test="${customers.status == 'Active'}">Hoạt động</c:when>
+                                                                <c:otherwise>Không hoạt động</c:otherwise>
+                                                            </c:choose>
+                                                        </span>
+                                                    </td>
                                                     <!--                                                    <td class="p-3"></td>-->
                                                     <td class="text-end p-3">
                                                         <a href="viewCustomerDetail?id=${customers.customerId}" class="btn btn-icon btn-pills btn-soft-primary">
@@ -164,7 +174,6 @@
                             <!-- PAGINATION START -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing 1 - 10 out of ${requestScope.totalCustomers}</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">

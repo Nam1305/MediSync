@@ -40,18 +40,18 @@
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="gender" id="male" value="M" ${customer.gender == 'M' ? 'checked' : ''} >
-                                    <label class="form-check-label" for="male">Male</label>
+                                    <label class="form-check-label" for="male">Nam</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="gender" id="female" value="F" value="F" ${customer.gender == 'F' ? 'checked' : ''} >
-                                    <label class="form-check-label" for="female">Female</label>
+                                    <label class="form-check-label" for="female">Nữ</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Your Email</label>
+                            <label class="form-label">Email</label>
                             <input name="email" id="email" type="email" class="form-control" placeholder="Your email :" value="${customer.email}" required>
                         </div>
                     </div>

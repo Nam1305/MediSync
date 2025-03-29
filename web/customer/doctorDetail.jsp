@@ -288,7 +288,7 @@
                 </div>
             </c:if>
             <div class="card mt-4 p-4">
-                <h4 class="text-primary">Thông tin bác sĩ phụ trách</h4>
+                <h4 class="text-primary">Thông tin bác sĩ:</h4>
                 <div class="doctor-info mb-3">
                     <img src="${doctor.avatar}" alt="Avatar của bác sĩ" class="rounded-circle shadow-md avatar avatar-md-md">
                     <h5>${doctor.name}</h5>

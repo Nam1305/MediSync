@@ -456,9 +456,10 @@ public class DoctorDAO extends DBContext {
         }
         return 0; // Trả về 0 nếu có lỗi
     }
+
     public Map<String, Object> getPatientDetail(int customerId, int doctorId) {
-    Map<String, Object> patientDetail = new HashMap<>();
-    String sql = """
+        Map<String, Object> patientDetail = new HashMap<>();
+        String sql = """
         SELECT 
             c.customerId, 
             c.name, 
@@ -487,74 +488,74 @@ public class DoctorDAO extends DBContext {
         ORDER BY a.date DESC, a.startTime DESC
     """;
 
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, doctorId);
-        ps.setInt(2, customerId);
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                patientDetail.put("customerId", rs.getInt("customerId"));
-                patientDetail.put("name", rs.getString("name"));
-                patientDetail.put("phone", rs.getString("phone"));
-                patientDetail.put("email", rs.getString("email"));
-                patientDetail.put("gender", rs.getString("gender"));
-                patientDetail.put("dateOfBirth", rs.getDate("dateOfBirth"));
-                patientDetail.put("bloodType", rs.getString("bloodType"));
-                patientDetail.put("prescriptionId", rs.getInt("prescriptionId"));
-                patientDetail.put("medicineName", rs.getString("medicineName"));
-                patientDetail.put("totalQuantity", rs.getString("totalQuantity"));
-                patientDetail.put("dosage", rs.getString("dosage"));
-                patientDetail.put("note", rs.getString("note"));
-                patientDetail.put("treatmentId", rs.getInt("treatmentId"));
-                patientDetail.put("symptoms", rs.getString("symptoms"));
-                patientDetail.put("diagnosis", rs.getString("diagnosis"));
-                patientDetail.put("testResults", rs.getString("testResults"));
-                patientDetail.put("treatmentPlan", rs.getString("treatmentPlan"));
-                patientDetail.put("followUp", rs.getString("followUp"));
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, doctorId);
+            ps.setInt(2, customerId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    patientDetail.put("customerId", rs.getInt("customerId"));
+                    patientDetail.put("name", rs.getString("name"));
+                    patientDetail.put("phone", rs.getString("phone"));
+                    patientDetail.put("email", rs.getString("email"));
+                    patientDetail.put("gender", rs.getString("gender"));
+                    patientDetail.put("dateOfBirth", rs.getDate("dateOfBirth"));
+                    patientDetail.put("bloodType", rs.getString("bloodType"));
+                    patientDetail.put("prescriptionId", rs.getInt("prescriptionId"));
+                    patientDetail.put("medicineName", rs.getString("medicineName"));
+                    patientDetail.put("totalQuantity", rs.getString("totalQuantity"));
+                    patientDetail.put("dosage", rs.getString("dosage"));
+                    patientDetail.put("note", rs.getString("note"));
+                    patientDetail.put("treatmentId", rs.getInt("treatmentId"));
+                    patientDetail.put("symptoms", rs.getString("symptoms"));
+                    patientDetail.put("diagnosis", rs.getString("diagnosis"));
+                    patientDetail.put("testResults", rs.getString("testResults"));
+                    patientDetail.put("treatmentPlan", rs.getString("treatmentPlan"));
+                    patientDetail.put("followUp", rs.getString("followUp"));
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return patientDetail;
     }
-    return patientDetail;
-}
-public Staff getStaffByName(String name) {
-    Staff staff = null;
-    String sql = "SELECT * FROM Staff WHERE name LIKE ?"; // Sử dụng LIKE để tìm gần đúng
 
-    try (
-         PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setString(1, "%" + name + "%"); // Tìm kiếm theo tên gần đúng
+    public Staff getStaffByName(String name) {
+        Staff staff = null;
+        String sql = "SELECT * FROM Staff WHERE name LIKE ?"; // Sử dụng LIKE để tìm gần đúng
 
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                staff = new Staff();
-                int staffId = rs.getInt("staffId");
-                staff.setStaffId(staffId);
-                staff.setName(rs.getString("name"));
-                staff.setEmail(rs.getString("email"));
-                staff.setAvatar(rs.getString("avatar"));
-                staff.setPhone(rs.getString("phone"));
-                staff.setPassword(rs.getString("password"));
-                staff.setDateOfBirth(rs.getDate("dateOfBirth"));
-                staff.setPosition(positionDao.getPositionByStaffId(staffId));
-                staff.setGender(rs.getString("gender"));
-                staff.setStatus(rs.getString("status"));
-                staff.setDescription(rs.getString("description"));
-                staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
-                staff.setDepartment(departDao.getDepartmentById(rs.getInt("departmentId")));
+        try (
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + name + "%"); // Tìm kiếm theo tên gần đúng
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    staff = new Staff();
+                    int staffId = rs.getInt("staffId");
+                    staff.setStaffId(staffId);
+                    staff.setName(rs.getString("name"));
+                    staff.setEmail(rs.getString("email"));
+                    staff.setAvatar(rs.getString("avatar"));
+                    staff.setPhone(rs.getString("phone"));
+                    staff.setPassword(rs.getString("password"));
+                    staff.setDateOfBirth(rs.getDate("dateOfBirth"));
+                    staff.setPosition(positionDao.getPositionByStaffId(staffId));
+                    staff.setGender(rs.getString("gender"));
+                    staff.setStatus(rs.getString("status"));
+                    staff.setDescription(rs.getString("description"));
+                    staff.setRole(roleDao.getRoleById(rs.getInt("roleId")));
+                    staff.setDepartment(departDao.getDepartmentById(rs.getInt("departmentId")));
+                }
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+        return staff;
     }
-    return staff;
-}
-
 
     public static void main(String[] args) {
         DoctorDAO doctor = new DoctorDAO();
         System.out.println(doctor.getTopRatedDoctors());
-        
+
     }
     //Them boi Nguyen Dinh Chinh 1-2-25
 
@@ -648,14 +649,18 @@ public Staff getStaffByName(String name) {
         return allDoctors;
     }
 
-    public List<Staff> getDoctorsByFilters(String name, int departmentId, String gender, int page, int pageSize) throws SQLException {
+    public List<Staff> getDoctorsByFilters(String name, int departmentId, String gender, int roleId, int page, int pageSize) throws SQLException {
         List<Staff> doctors = new ArrayList<>();
         String sql = "SELECT staffId, name, email, avatar, phone, "
                 + "password, dateOfBirth, position, gender, "
                 + "status, description, roleId, departmentId,certificate "
                 + "FROM Staff "
-                + "WHERE (roleId = 2 OR roleId = 3) AND status = 'Active'";
-
+                + "WHERE status = 'Active'";
+        if (roleId == 2 || roleId == 3) {
+            sql += " AND roleId = ?";
+        } else {
+            sql += " AND (roleId = 2 OR roleId = 3)"; // Nếu không lọc, mặc định lấy cả bác sĩ và chuyên gia
+        }
         if (name != null && !name.trim().isEmpty()) {
             sql += " AND name LIKE ?";
         }
@@ -671,6 +676,9 @@ public Staff getStaffByName(String name) {
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
+            if (roleId == 2 || roleId == 3) {
+                ps.setInt(index++, roleId);
+            }
             if (name != null && !name.trim().isEmpty()) {
                 ps.setString(index++, "%" + name + "%");
             }
@@ -695,44 +703,53 @@ public Staff getStaffByName(String name) {
         return doctors;
     }
 
-    public int getTotalDoctorsByFilters(String name, int departmentId, String gender) {
-        String sql = "SELECT COUNT(*) FROM Staff WHERE (roleId = 2 OR roleId = 3) "
-                + "AND status = 'Active'";
+    public int getTotalDoctorsByFilters(String name, int departmentId, String gender, int roleId) {
+    String sql = "SELECT COUNT(*) FROM Staff WHERE status = 'Active'";
 
-        // Thêm điều kiện nếu có bộ lọc
+    // Lọc theo roleId nếu được chọn
+    if (roleId == 2 || roleId == 3) {
+        sql += " AND roleId = ?";
+    } else {
+        sql += " AND (roleId = 2 OR roleId = 3)"; // Nếu không chọn role, mặc định lấy cả bác sĩ và chuyên gia
+    }
+    
+    if (name != null && !name.trim().isEmpty()) {
+        sql += " AND name LIKE ?";
+    }
+    if (departmentId > 0) {
+        sql += " AND departmentId = ?";
+    }
+    if (gender != null && !gender.trim().isEmpty()) {
+        sql += " AND gender = ?";
+    }
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        int paramIndex = 1;
+
+        if (roleId == 2 || roleId == 3) {
+            ps.setInt(paramIndex++, roleId);
+        }
         if (name != null && !name.trim().isEmpty()) {
-            sql += " AND name LIKE ?";
+            ps.setString(paramIndex++, "%" + name + "%");
         }
         if (departmentId > 0) {
-            sql += " AND departmentId = ?";
+            ps.setInt(paramIndex++, departmentId);
         }
         if (gender != null && !gender.trim().isEmpty()) {
-            sql += " AND gender = ?";
+            ps.setString(paramIndex++, gender);
         }
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            int paramIndex = 1;
-
-            if (name != null && !name.trim().isEmpty()) {
-                ps.setString(paramIndex++, "%" + name + "%");
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1); // Lấy số lượng bác sĩ từ COUNT(*)
             }
-            if (departmentId > 0) {
-                ps.setInt(paramIndex++, departmentId);
-            }
-            if (gender != null && !gender.trim().isEmpty()) {
-                ps.setString(paramIndex++, gender);
-            }
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1); // Lấy số lượng bác sĩ từ COUNT(*)
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
-        return 0;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+    return 0;
+}
+
 
 //    public static void main(String[] args) {
 //        DoctorDAO d = new DoctorDAO();

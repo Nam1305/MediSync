@@ -54,7 +54,7 @@ public class ListAppointmentServlet extends HttpServlet {
 
         // Mặc định nếu không có giá trị
         int currentPage = 1;
-        int pageSize = 2; // Số appointment mỗi trang mặc định
+        int pageSize = 3; // Số appointment mỗi trang mặc định
 
         try {
             if (pageParam != null && !pageParam.trim().isEmpty()) {
@@ -68,7 +68,7 @@ public class ListAppointmentServlet extends HttpServlet {
             }
         } catch (NumberFormatException e) {
             currentPage = 1;
-            pageSize = 2;
+            pageSize = 3;
         }
 
         // Tính tổng số lịch hẹn để phân trang

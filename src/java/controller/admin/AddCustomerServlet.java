@@ -122,7 +122,7 @@ public class AddCustomerServlet extends HttpServlet {
             request.setAttribute("email", email);
             request.setAttribute("phoneNumber", phoneNumber);
             request.setAttribute("dateOfBirth", dateOfBirthString);
-            request.setAttribute("adress", address);
+            request.setAttribute("address", address);
             request.getRequestDispatcher("admin/addCustomer.jsp").forward(request, response);
             return;
         }

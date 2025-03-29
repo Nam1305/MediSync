@@ -50,9 +50,15 @@ public class GetAllDoctorServlet extends HttpServlet {
         String gender = request.getParameter("gender");
         String pageParam = request.getParameter("page");
         String pageSizeParam = request.getParameter("pageSize");
+        String roleIdStr = request.getParameter("roleId");
 
         int currentPage = 1;
         int pageSize = 4; // Số appointment mỗi trang mặc định
+        //ép kiểu roleId
+        int roleId = -1;
+        if(roleIdStr != null &&!roleIdStr.trim().isEmpty()){
+            roleId = Integer.parseInt(roleIdStr);
+        }
         //Normalize tên bác sĩ được search
         if (name == null || name.trim().isEmpty()) {
             name = ""; // Gán chuỗi rỗng nếu `search` null
@@ -82,11 +88,11 @@ public class GetAllDoctorServlet extends HttpServlet {
 
         try {
             // Tính tổng số bác sĩ (phục vụ phân trang)
-            int totalDoctors = doctorDao.getTotalDoctorsByFilters(nameNormalized, departmentId, gender);
+            int totalDoctors = doctorDao.getTotalDoctorsByFilters(nameNormalized, departmentId, gender, roleId);
             int totalPages = (int) Math.ceil((double) totalDoctors / pageSize);
 
             // Lấy danh sách bác sĩ theo bộ lọc
-            List<Staff> allDoctors = doctorDao.getDoctorsByFilters(nameNormalized, departmentId, gender, currentPage, pageSize);
+            List<Staff> allDoctors = doctorDao.getDoctorsByFilters(nameNormalized, departmentId, gender, roleId,currentPage, pageSize);
             //Lấy danh sách tất cả department
             List<Department> allActiveDepartment = departmentDao.getActiveDepartmentForCustomer();
             // Kiểm tra danh sách có dữ liệu không
@@ -105,6 +111,7 @@ public class GetAllDoctorServlet extends HttpServlet {
             request.setAttribute("departmentId", departmentIdStr); // Giữ nguyên dạng String để JSP sử dụng
             request.setAttribute("gender", gender);
             request.setAttribute("pageSize", pageSize);
+            request.setAttribute("roleId", roleId);
             request.getRequestDispatcher("customer/allDoctor.jsp").forward(request, response);
 
         } catch (SQLException e) {

@@ -326,12 +326,12 @@
                                                 </c:choose>
 
                                                 <!-- Hủy lịch hẹn -->
-                                                <c:if test="${appointment.status != 'confirmed' && appointment.status != 'waitpay' && appointment.status != 'paid'}">
+                                                <c:if test="${appointment.status != 'confirmed' && appointment.status != 'waitpay' && appointment.status != 'paid' && appointment.status != 'completed'}">
                                                     <!-- Hủy lịch hẹn -->
                                                     <a href="cancelAppointment?appointmentId=${appointment.appointmentId}"
                                                        class="btn btn-icon btn-pills btn-soft-danger"
                                                        onclick="return confirm('Bạn có chắc muốn hủy lịch hẹn ngày: ${appointment.date} không?');">
-                                                        <i class="uil uil-check-circle"></i>
+                                                        <i class="uil uil-times-circle"></i>
                                                     </a>
                                                 </c:if>
 
@@ -350,7 +350,6 @@
                             <!-- PAGINATION START -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-between">
-                                    <span class="text-muted me-3">Showing 1 - 5 out of ${requestScope.totalAppointment}</span>
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <!--                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>-->
                                         <c:if test="${currentPage > 1}">
