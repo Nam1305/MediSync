@@ -2,6 +2,7 @@ package controller.admin;
 
 import dal.DoctorDAO;
 import dal.FeedbackDAO;
+import dal.PositionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Feedback;
+import model.PositionHistory;
 import model.Staff;
 
 /**
@@ -63,7 +65,11 @@ public class ViewStaffDetailServlet extends HttpServlet {
             int staffId = Integer.parseInt(staffIdStr);
             DoctorDAO doctorDAO = new DoctorDAO();
             FeedbackDAO feedbackDAO = new FeedbackDAO();
+            PositionDAO positionDAO = new PositionDAO();
             Staff currentstaff = doctorDAO.getStaffById(staffId);
+
+            // Get position history 
+            List<PositionHistory> positionHistories = positionDAO.getPositionHistoryByStaffId(staffId);
 
             // Get feedback related data
             String starParam = request.getParameter("star");
@@ -102,6 +108,7 @@ public class ViewStaffDetailServlet extends HttpServlet {
             if (currentstaff != null) {
                 request.setAttribute("staff", currentstaff);
                 request.setAttribute("rating", ratting);
+                request.setAttribute("positionHistories", positionHistories);
                 // Set feedback attributes
                 request.setAttribute("feedbacks", feedbacks);
                 request.setAttribute("ratingStats", ratingStats);

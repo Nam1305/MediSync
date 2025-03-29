@@ -77,6 +77,45 @@
             .feedback-section {
                 margin-top: 30px;
             }
+            /* Thêm padding-top cho main content để tránh bị navbar che mất */
+            main.page-content {
+                padding-top: 80px; /* Điều chỉnh giá trị này tùy theo chiều cao của navbar */
+            }
+            /* Thêm margin-top cho container đầu tiên để tạo khoảng cách */
+            .staff-detail-container {
+                margin-top: 2rem;
+            }
+            /* Điều chỉnh lại phần tiêu đề */
+            .page-title {
+                margin-bottom: 1.5rem;
+            }
+            /* Thêm margin-bottom cho footer */
+            .pagination {
+                margin-bottom: 2rem;
+                display: flex;
+                justify-content: center;
+                margin-top: 1.5rem;
+            }
+            .pagination a {
+                color: #28a745;
+                padding: 8px 16px;
+                text-decoration: none;
+                border: 1px solid #ddd;
+                margin: 0 4px;
+            }
+            .pagination a.active {
+                background-color: #28a745;
+                color: white;
+                border: 1px solid #28a745;
+            }
+            .pagination a:hover:not(.active) {
+                background-color: #f1f1f1;
+            }
+            /* Thêm button style */
+            .btn-back {
+                margin-top: 1.5rem;
+                margin-bottom: 2rem;
+            }
         </style>
     </head>
     <body>
@@ -89,8 +128,8 @@
             <main class="page-content bg-light">
                 <jsp:include page="../layout/header.jsp" />
 
-                <div class="container mt-5">
-                    <h2 class="text-center">Thông tin chi tiết nhân viên</h2>
+                <div class="container staff-detail-container">
+                    <h2 class="text-center page-title">Thông tin chi tiết nhân viên</h2>
                     <div class="card mt-4 p-4">
                         <div class="d-flex align-items-center">
                             <img id="profileAvatar" src="${staff.avatar}" class="avatar avatar-small rounded-pill" alt="">
@@ -113,12 +152,45 @@
                             </div>
                             <div class="col-md-6">
                                 <p><strong>Số điện thoại:</strong> <span id="profilePhone" class="text-muted">${staff.phone}</span></p>
-                                <p><strong>Ngày sinh:</strong> <span id="profileDob" class="text-muted">${staff.dateOfBirth}</span></p>
-                                <p><strong>Rating</strong> <span id="profileRating" class="text-muted">${rating}</span></p>
+                                <p><strong>Ngày sinh:</strong> <span id="profileDob" class="text-muted"> <fmt:formatDate value="${staff.dateOfBirth}" pattern="dd/MM/yyyy"/></span></p>
+                                <p><strong>Rating:</strong> <span id="profileRating" class="text-muted">${rating}</span></p>
                             </div>
                         </div>
                         <p><strong>Mô tả:</strong> <span id="profileDescription" class="text-muted">${staff.description}</span></p>
                     </div>
+
+                    <div class="card mt-4 p-4 position-history-section">
+                        <h3 class="mb-4">Lịch Sử Thăng Tiến</h3>
+
+                        <c:choose>
+                            <c:when test="${not empty positionHistories}">
+                                <table class="table position-history-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Vị Trí</th>
+                                            <th>Ngày Bắt Đầu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${positionHistories}" var="history">
+                                            <tr>
+                                                <td>${history.position}</td>
+                                                <td>
+                                                    <fmt:formatDate value="${history.date}" pattern="dd/MM/yyyy"/>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="alert alert-info text-center">
+                                    Không có thông tin lịch sử thăng tiến cho nhân viên này.
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+
 
                     <div class="card mt-4 p-4 feedback-section">
                         <h3 class="mb-4">Đánh giá từ khách hàng</h3>
@@ -221,7 +293,7 @@
                         </div>
                     </c:if>      
 
-                    <a href="ListDoctor" class="btn btn-secondary">Back to Staff List</a>
+                    <a href="ListDoctor" class="btn btn-secondary btn-back">Quay về Danh sách nhân viên</a>
                 </div>
 
                 <jsp:include page="../layout/footer.jsp" />

@@ -1,6 +1,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -140,7 +142,7 @@
                                                     <td class="p-3">${doctors.position}</td>
 
                                                     <td class="p-3">${doctors.phone}</td>
-                                                    <td class="p-3">${doctors.dateOfBirth}</td>
+                                                    <td class="p-3"><fmt:formatDate value="${staff.dateOfBirth}" pattern="dd/MM/yyyy"/></td>
                                                     <td class="p-3">${doctors.email}</td>
                                                     <td class="p-3">
                                                         ${doctors.status == "Active" ? "Hoạt động" : "Ngưng hoạt động"}
@@ -180,7 +182,7 @@
                             <!-- PAGINATION START -->
                             <div class="col-12 mt-4">
                                 <div class="d-md-flex align-items-center text-center justify-content-end">
-                                    
+
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                         <c:if test="${currentPage > 1}">
                                             <li class="page-item">
@@ -216,7 +218,7 @@
         </div>
         <!-- page-wrapper -->
 
-        
+
         <!-- javascript -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->
@@ -226,9 +228,9 @@
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
         <script>
-                                        function resetFilters() {
-                                            window.location.href = './ListDoctor?search=&status=&roleId=&pageSize=5';
-                                        }
+                                                                function resetFilters() {
+                                                                    window.location.href = './ListDoctor?search=&status=&roleId=&pageSize=5';
+                                                                }
 
         </script>
         <script>
