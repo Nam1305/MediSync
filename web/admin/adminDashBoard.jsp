@@ -177,7 +177,7 @@
                                             </div>
                                             <div>
                                                 <h5 class="mb-0">${totalAppointments}</h5>
-                                                <p class="text-muted mb-0">Appointment</p>
+                                                <p class="text-muted mb-0">Cuộc hẹn</p>
                                             </div>
                                         </div>
 
@@ -187,7 +187,7 @@
                                             </div>
                                             <div>
                                                 <h5 class="mb-0">${totalService}</h5>
-                                                <p class="text-muted mb-0">Service</p>
+                                                <p class="text-muted mb-0">Dịch vụ</p>
                                             </div>
                                         </div>
 
